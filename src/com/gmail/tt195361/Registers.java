@@ -1,3 +1,4 @@
+package com.gmail.tt195361;
 public class Registers {
 
 	private final int GR_REGISTER_COUNT = 8;

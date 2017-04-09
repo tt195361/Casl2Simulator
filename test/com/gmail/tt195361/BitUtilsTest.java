@@ -1,5 +1,6 @@
-import static org.junit.Assert.*;
+package com.gmail.tt195361;
 
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class BitUtilsTest {

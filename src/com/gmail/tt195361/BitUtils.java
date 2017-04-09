@@ -1,3 +1,4 @@
+package com.gmail.tt195361;
 
 public class BitUtils {
 	public static int getBits(int value, int fromBit, int toBit) {

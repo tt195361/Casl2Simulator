@@ -1,3 +1,4 @@
+package com.gmail.tt195361;
 public class Memory {
 
 	private final int Size = 0x10000;
