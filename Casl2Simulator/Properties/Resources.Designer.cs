@@ -61,11 +61,29 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} の値 {1} が {2} の値 {3} より小さいです。{0} の値は {2} の値より大きいか、等しくなければなりません。.
+        /// </summary>
+        internal static string MSG_ArgGreaterEqual {
+            get {
+                return ResourceManager.GetString("MSG_ArgGreaterEqual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} の値 {1} が範囲外です。{0} の値は、&quot;{2} &lt;= {0} &lt;= {3}&quot; の範囲でなければなりません。.
         /// </summary>
         internal static string MSG_ArgRangeError {
             get {
                 return ResourceManager.GetString("MSG_ArgRangeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to オペコード 0x{0:x02} は未定義です。.
+        /// </summary>
+        internal static string MSG_UndefinedOpcode {
+            get {
+                return ResourceManager.GetString("MSG_UndefinedOpcode", resourceCulture);
             }
         }
     }

@@ -35,5 +35,31 @@ namespace Tt195361.Casl2SimulatorTest.Utils
                 Assert.IsFalse(success, message);
             }
         }
+
+        /// <summary>
+        /// CheckGreaterEqual メソッドの単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void CheckGreaterEqual()
+        {
+            CheckCheckGreaterEqual(7, 6, true, "7 > 6 => 成功");
+            CheckCheckGreaterEqual(6, 6, true, "6 == 6 => 成功");
+            CheckCheckGreaterEqual(5, 6, false, "5 < 6 => 失敗");
+        }
+
+        private void CheckCheckGreaterEqual(
+            Int32 greaterValue, Int32 lesserValue, Boolean success, String message)
+        {
+            try
+            {
+                ArgChecker.CheckGreaterEqual(
+                    greaterValue, lesserValue, nameof(greaterValue), nameof(lesserValue));
+                Assert.IsTrue(success, message);
+            }
+            catch (Casl2SimulatorException)
+            {
+                Assert.IsFalse(success, message);
+            }
+        }
     }
 }

@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="MSG_ArgGreaterEqual" xml:space="preserve">
+    <value>{0} の値 {1} が {2} の値 {3} より小さいです。{0} の値は {2} の値より大きいか、等しくなければなりません。</value>
+  </data>
   <data name="MSG_ArgRangeError" xml:space="preserve">
     <value>{0} の値 {1} が範囲外です。{0} の値は、"{2} &lt;= {0} &lt;= {3}" の範囲でなければなりません。</value>
+  </data>
+  <data name="MSG_UndefinedOpcode" xml:space="preserve">
+    <value>オペコード 0x{0:x02} は未定義です。</value>
   </data>
 </root>
