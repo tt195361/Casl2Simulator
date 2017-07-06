@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Tt195361.Casl2Simulator.Properties;
 
 namespace Tt195361.Casl2Simulator.Comet2
 {
@@ -10,47 +8,33 @@ namespace Tt195361.Casl2Simulator.Comet2
     internal class Instruction
     {
         #region Static Fields
-        /// <summary>
-        /// ロード命令を取得します。
-        /// </summary>
-        internal static readonly Instruction Load = new Instruction("LD");
-
-        /// <summary>
-        /// オペコードがキー、命令が値のディクショナリです。
-        /// </summary>
-        private static readonly
-        Dictionary<UInt16, Instruction> m_instructionDictionary = new Dictionary<UInt16, Instruction>
-        {
-            { 0x10, Load },
-        };
+        internal static readonly Instruction LoadEaContents =
+            new Instruction("LD r,adr,x", Executor.LoadEaContents);
         #endregion
 
-        /// <summary>
-        /// 指定の語の中のオペコードを解読し、その値が表わす命令を取得します。
-        /// </summary>
-        /// <param name="word">命令を表わす値を格納した語です。</param>
-        /// <returns>指定の語の中のオペコードが表わす命令を返します。</returns>
-        internal static Instruction Decode(Word word)
-        {
-            UInt16 opcode = word.GetBits(15, 8);
-
-            if (!m_instructionDictionary.ContainsKey(opcode))
-            {
-                String message = String.Format(Resources.MSG_UndefinedOpcode, opcode);
-                throw new Casl2SimulatorException(message);
-            }
-
-            return m_instructionDictionary[opcode];
-        }
-
         #region Instance Fields
-        private readonly String m_mnemonic;
+        private readonly String m_str;
+        private readonly Executor.ExecuteAction m_executeAction;
         #endregion
 
         // このクラスのインスタンスは、クラス外から作成できません。
-        private Instruction(String mnemonic)
+        private Instruction(String str, Executor.ExecuteAction executeAction)
         {
-            m_mnemonic = mnemonic;
+            m_str = str;
+            m_executeAction = executeAction;
+        }
+
+        /// <summary>
+        /// 命令を実行します。
+        /// </summary>
+        /// <param name="rR1Field">命令語の中の r/r1 フィールドの値です。</param>
+        /// <param name="xR2Field">命令語の中の x/r2 フィールドの値です。</param>
+        /// <param name="registerSet">COMET II の一そろいのレジスタです。</param>
+        /// <param name="memory">COMET II の主記憶です。</param>
+        internal void Execute(UInt16 rR1Field, UInt16 xR2Field, RegisterSet registerSet, Memory memory)
+        {
+            // それぞれの命令に応じた処理を実行します。
+            m_executeAction(rR1Field, xR2Field, registerSet, memory);
         }
 
         /// <summary>
@@ -59,7 +43,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <returns>この命令を表わす文字列を返します。</returns>
         public override String ToString()
         {
-            return m_mnemonic;
+            return m_str;
         }
     }
 }

@@ -7,15 +7,34 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// </summary>
     internal class Register
     {
+        internal static Register MakeGR(Int32 number)
+        {
+            String name = "GR" + number;
+            return new Register(name);
+        }
+
+        internal static Register MakePR()
+        {
+            return new Register("PR");
+        }
+
+        internal static Register MakeSP()
+        {
+            return new Register("SP");
+        }
+
         #region Fields
+        private readonly String m_name;
         private Word m_value;
         #endregion
 
         /// <summary>
         /// <see cref="Register"/> のインスタンスを初期化します。
         /// </summary>
-        internal Register()
+        private Register(String name)
         {
+            m_name = name;
+
             Reset();
         }
 
@@ -33,7 +52,16 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// </summary>
         internal void Reset()
         {
-            Value = new Word(0);
+            SetValue(0);
+        }
+
+        /// <summary>
+        /// レジスタに指定の値を設定します。
+        /// </summary>
+        /// <param name="ui16Val">レジスタに設定する <see cref="UInt16"/> 型の値です。</param>
+        internal void SetValue(UInt16 ui16Val)
+        {
+            Value = new Word(ui16Val);
         }
 
         /// <summary>
@@ -43,7 +71,8 @@ namespace Tt195361.Casl2Simulator.Comet2
         public override String ToString()
         {
             UInt16 ui16Val = m_value.GetAsUnsigned();
-            return "0x" + ui16Val.ToString("x04");
+            String str = String.Format("{0}: {1}", m_name, ui16Val);
+            return str;
         }
     }
 }

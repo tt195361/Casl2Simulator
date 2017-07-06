@@ -155,5 +155,23 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             UInt16 actual = target.GetBits(fromUpperBit, toLowerBit);
             Assert.AreEqual(expected, actual, message);
         }
+
+        /// <summary>
+        /// AddAsUnsigned メソッドの単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void AddAsUnsigned()
+        {
+            CheckAddAsUnsigned(0x7fff, 1, 0x8000, "0x7fff + 1 => 0x8000: 符号なしで足し算している");
+            CheckAddAsUnsigned(0xffff, 1, 0x0000, "0xffff + 1 => 0x0000: オーバーフローの場合");
+        }
+
+        public void CheckAddAsUnsigned(UInt16 addend1, UInt16 addend2, UInt16 expected, String message)
+        {
+            Word word = new Word(addend1);
+            Word result = word.AddAsUnsigned(addend2);
+            UInt16 actual = result.GetAsUnsigned();
+            Assert.AreEqual(expected, actual, message);
+        }
     }
 }

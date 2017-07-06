@@ -18,8 +18,8 @@
         internal RegisterSet()
         {
             m_generalRegisters = new GeneralRegisters();
-            m_stackPointer = new Register();
-            m_programRegister = new Register();
+            m_stackPointer = Register.MakeSP();
+            m_programRegister = Register.MakePR();
             m_flagRegister = new FlagRegister();
 
             Reset();

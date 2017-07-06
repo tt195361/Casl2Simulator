@@ -81,6 +81,19 @@ namespace Tt195361.Casl2Simulator.Comet2
         }
 
         /// <summary>
+        /// 語に格納された値を、符号なし 16 ビットとして、指定の値と加えます。
+        /// </summary>
+        /// <param name="ui16Val">加える値です。</param>
+        /// <returns>
+        /// 加えた結果の値を格納する、新しく作成した <see cref="Word"/> のインスタンスを返します。
+        /// </returns>
+        internal Word AddAsUnsigned(UInt16 ui16Val)
+        {
+            UInt16 result = (UInt16)(GetAsUnsigned() + ui16Val);
+            return new Word(result);
+        }
+
+        /// <summary>
         /// この語を表わす文字列を作成します。
         /// </summary>
         /// <returns>この語を表わす文字列を返します。</returns>

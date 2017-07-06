@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Comet2
     {
         #region Fields
         // GR (汎用レジスタ、General Register) は、GR0 ~ GR7 の 8 個。
-        private const Int32 Count = 8;
+        internal const Int32 Count = 8;
 
         private readonly Register[] m_grArray;
         #endregion
@@ -21,7 +21,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal GeneralRegisters()
         {
             m_grArray = new Register[Count];
-            m_grArray.ForEach((index, gr) => m_grArray[index] = new Register());
+            m_grArray.ForEach((index, gr) => m_grArray[index] = Register.MakeGR(index));
         }
 
         /// <summary>
