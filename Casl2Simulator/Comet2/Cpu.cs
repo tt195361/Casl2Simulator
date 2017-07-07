@@ -40,26 +40,13 @@ namespace Tt195361.Casl2Simulator.Comet2
 
             // PR レジスタが指すアドレスから命令語をフェッチし、デコードします。
             Word firstWord = Fetcher.Fetch(m_registerSet.PR, memory);
-            Instruction instruction = Decoder.Decode(firstWord);
+            UInt16 opcode = firstWord.GetBits(15, 8);
+            Instruction instruction = Decoder.Decode(opcode);
 
             // 命令語から r/r1 フィールドと x/r2 フィールドを取得し、命令を実行します。
-            UInt16 rR1Field = GetRR1Field(firstWord);
-            UInt16 xR2Field = GetXR2Field(firstWord);
-            instruction.Execute(rR1Field, xR2Field, m_registerSet, memory);
-        }
-
-        private UInt16 GetRR1Field(Word firstWord)
-        {
             UInt16 rR1Field = firstWord.GetBits(7, 4);
-            ArgChecker.CheckRange(rR1Field, 0, GeneralRegisters.Count - 1, "r/r1");
-            return rR1Field;
-        }
-
-        private UInt16 GetXR2Field(Word firstWord)
-        {
             UInt16 xR2Field = firstWord.GetBits(3, 0);
-            ArgChecker.CheckRange(xR2Field, 0, GeneralRegisters.Count - 1, "x/r2");
-            return xR2Field;
+            instruction.Execute(rR1Field, xR2Field, m_registerSet, memory);
         }
     }
 }

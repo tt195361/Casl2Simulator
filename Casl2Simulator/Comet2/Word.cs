@@ -81,6 +81,25 @@ namespace Tt195361.Casl2Simulator.Comet2
         }
 
         /// <summary>
+        /// 語に格納する値の符号が負かどうかを返します。
+        /// 語に格納する値のビット 15 が 1 ならば、符号は負とします。
+        /// </summary>
+        /// <returns>符号が負ならば true、それ以外ならば false を返します。</returns>
+        internal Boolean IsMinus()
+        {
+            return (m_ui16Val & 0x8000) != 0;
+        }
+
+        /// <summary>
+        /// 語に格納する値が零かどうかを返します。
+        /// </summary>
+        /// <returns>値が零ならば true、それ以外ならば false を返します。</returns>
+        internal Boolean IsZero()
+        {
+            return m_ui16Val == 0;
+        }
+
+        /// <summary>
         /// 語に格納された値を、符号なし 16 ビットとして、指定の値と加えます。
         /// </summary>
         /// <param name="ui16Val">加える値です。</param>

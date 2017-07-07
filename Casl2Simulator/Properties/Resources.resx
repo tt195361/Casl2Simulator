@@ -124,6 +124,6 @@
     <value>{0} の値 {1} が範囲外です。{0} の値は、"{2} &lt;= {0} &lt;= {3}" の範囲でなければなりません。</value>
   </data>
   <data name="MSG_UndefinedOpcode" xml:space="preserve">
-    <value>オペコード 0x{0:x02} は未定義です。</value>
+    <value>命令コード 0x{0:x02} は未定義です。</value>
   </data>
 </root>

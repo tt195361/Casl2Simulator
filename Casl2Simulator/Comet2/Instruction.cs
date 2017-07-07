@@ -7,21 +7,28 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// </summary>
     internal class Instruction
     {
-        #region Static Fields
-        internal static readonly Instruction LoadEaContents =
-            new Instruction("LD r,adr,x", Executor.LoadEaContents);
-        #endregion
+        /// ロード "LD r,adr,x" 命令
+        internal static readonly Instruction LoadEaContents = new Instruction(
+            "LD r,adr,x", Operator.Load, RegisterHandler.Register, OperandHandler.EaContents);
 
-        #region Instance Fields
+        /// 算術加算 "ADDA r,adr,x" 命令
+        internal static readonly Instruction AddArithmeticEaContents = new Instruction(
+            "ADDA r,adr,x", Operator.AddArithmetic, RegisterHandler.Register, OperandHandler.EaContents);
+
+        #region Fields
         private readonly String m_str;
-        private readonly Executor.ExecuteAction m_executeAction;
+        private readonly Operator m_operator;
+        private readonly RegisterHandler m_registerHandler;
+        private readonly OperandHandler m_operandHandler;
         #endregion
 
-        // このクラスのインスタンスは、クラス外から作成できません。
-        private Instruction(String str, Executor.ExecuteAction executeAction)
+        // このクラスのインスタンスは、このクラス内からのみ作成できます。
+        private Instruction(String str, Operator op, RegisterHandler regHandler, OperandHandler oprHandler)
         {
             m_str = str;
-            m_executeAction = executeAction;
+            m_operator = op;
+            m_registerHandler = regHandler;
+            m_operandHandler = oprHandler;
         }
 
         /// <summary>
@@ -33,8 +40,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <param name="memory">COMET II の主記憶です。</param>
         internal void Execute(UInt16 rR1Field, UInt16 xR2Field, RegisterSet registerSet, Memory memory)
         {
-            // それぞれの命令に応じた処理を実行します。
-            m_executeAction(rR1Field, xR2Field, registerSet, memory);
+            Register r = m_registerHandler.GetRegister(rR1Field, registerSet);
+            Word operand = m_operandHandler.GetOperand(xR2Field, registerSet, memory);
+            m_operator.Operate(r, operand, registerSet);
         }
 
         /// <summary>

@@ -53,12 +53,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Comet2\AluTest.cs" />
     <Compile Include="Comet2\DecoderTest.cs" />
     <Compile Include="Comet2\FetcherTest.cs" />
     <Compile Include="Comet2\GeneralRegistersTest.cs" />
     <Compile Include="Comet2\InstructionTest.cs" />
     <Compile Include="Comet2\MemoryTest.cs" />
     <Compile Include="Comet2\OperandHandlerTest.cs" />
+    <Compile Include="Comet2\OperatorTest.cs" />
+    <Compile Include="Comet2\RegisterHandlerTest.cs" />
     <Compile Include="Comet2\RegisterTest.cs" />
     <Compile Include="Comet2\WordTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

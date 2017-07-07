@@ -26,45 +26,58 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// LoadEaContents 命令実行の単体テストです。
+        /// LoadEaContents 命令のテストです。
         /// </summary>
         [TestMethod]
-        public void ExecuteLoadEaContents()
+        public void LoadEaContents()
+        {
+            CheckEaContents(
+                Instruction.LoadEaContents, 0, 1357, 1357,
+                "実効アドレスの内容がレジスタに設定される");
+        }
+
+        /// <summary>
+        /// AddArithmeticEaContents 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void AddArithmeticEaContents()
+        {
+            CheckEaContents(
+                Instruction.AddArithmeticEaContents, 1234, 2345, 3579,
+                "実効アドレスの内容がレジスタに算術加算される");
+        }
+
+        private void CheckEaContents(
+            Instruction instruction, UInt16 regValue, UInt16 oprValue, UInt16 expected, String message)
         {
             const UInt16 R = 3;
             const UInt16 X = 4;
             const UInt16 Adr = 1234;
             const UInt16 Offset = 2345;
             const UInt16 EffectiveAddress = Adr + Offset;
-            const UInt16 EaContents = 0xa5a5;
 
             // 命令語の次のアドレスに adr, 実効アドレスの内容、GR4 にオフセットの値を書き込みます。
             m_memory.Write(NextAddress, Adr);
-            m_memory.Write(EffectiveAddress, EaContents);
-            m_registerSet.GR[4].SetValue(Offset);
+            m_memory.Write(EffectiveAddress, oprValue);
+            m_registerSet.GR[X].SetValue(Offset);
 
-            // テスト対象の命令を実行します。
-            ExecuteInstruction(Instruction.LoadEaContents, R, X);
+            // レジスタと PR に値を設定し、命令を実行します。
+            m_registerSet.GR[R].SetValue(regValue);
+            m_registerSet.PR.SetValue(NextAddress);
+            instruction.Execute(R, X, m_registerSet, m_memory);
 
             // 実行結果をチェックします。
-            UInt16 expected = EaContents;
-            UInt16 actual = m_registerSet.GR[3].Value.GetAsUnsigned();
-            Assert.AreEqual(expected, actual, "GR3 に有効アドレスの内容が設定される");
+            UInt16 actual = m_registerSet.GR[R].Value.GetAsUnsigned();
+            Assert.AreEqual(expected, actual, message);
         }
-
-        private void ExecuteInstruction(Instruction instruction, UInt16 rR1Field, UInt16 xR2Field)
-        {
-            m_registerSet.PR.SetValue(NextAddress);
-            instruction.Execute(rR1Field, xR2Field, m_registerSet, m_memory);
-        }
-
-        /// <summary>
+            /// <summary>
         /// ToString メソッドの単体テストです。
         /// </summary>
         [TestMethod]
         public void TestToString()
         {
             CheckToString(Instruction.LoadEaContents, "LD r,adr,x", "LoadEaContents");
+            CheckToString(Instruction.AddArithmeticEaContents, "ADDA r,adr,x", "AddArithmetic");
         }
 
         private void CheckToString(Instruction instruction, String expected, String message)

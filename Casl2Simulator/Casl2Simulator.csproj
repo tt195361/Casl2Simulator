@@ -62,16 +62,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Casl2SimulatorException.cs" />
+    <Compile Include="Comet2\Alu.cs" />
     <Compile Include="Comet2\OperationSystem.cs" />
     <Compile Include="Comet2\Decoder.cs" />
-    <Compile Include="Comet2\Executor.cs" />
     <Compile Include="Comet2\Fetcher.cs" />
     <Compile Include="Comet2\OperandHandler.cs" />
     <Compile Include="Comet2\FlagRegister.cs" />
     <Compile Include="Comet2\GeneralRegisters.cs" />
     <Compile Include="Comet2\Cpu.cs" />
     <Compile Include="Comet2\Instruction.cs" />
+    <Compile Include="Comet2\Operator.cs" />
     <Compile Include="Comet2\Register.cs" />
+    <Compile Include="Comet2\RegisterHandler.cs" />
     <Compile Include="Comet2\RegisterSet.cs" />
     <Compile Include="Utils\ArgChecker.cs" />
     <Compile Include="Utils\EnumerableUtils.cs" />

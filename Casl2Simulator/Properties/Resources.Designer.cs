@@ -79,7 +79,7 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to オペコード 0x{0:x02} は未定義です。.
+        ///   Looks up a localized string similar to 命令コード 0x{0:x02} は未定義です。.
         /// </summary>
         internal static string MSG_UndefinedOpcode {
             get {

@@ -173,5 +173,43 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             UInt16 actual = result.GetAsUnsigned();
             Assert.AreEqual(expected, actual, message);
         }
+
+        /// <summary>
+        /// IsMinus メソッドの単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void IsMinus()
+        {
+            CheckIsMinus(-1, true, "-1 => true");
+            CheckIsMinus(-32768, true, "-32768 => true");
+            CheckIsMinus(0, false, "0 => false");
+            CheckIsMinus(32767, false, "32767 => false");
+        }
+
+        private void CheckIsMinus(Int16 i16Val, Boolean expected, String message)
+        {
+            Word word = new Word(i16Val);
+            Boolean actual = word.IsMinus();
+            Assert.AreEqual(expected, actual, message);
+        }
+
+        /// <summary>
+        /// IsZero メソッドの単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void IsZero()
+        {
+            CheckIsZero(-1, false, "-1 => false");
+            CheckIsZero(-32768, false, "-32768 => false");
+            CheckIsZero(0, true, "0 => true");
+            CheckIsZero(32767, false, "32767 => false");
+        }
+
+        private void CheckIsZero(Int16 i16Val, Boolean expected, String message)
+        {
+            Word word = new Word(i16Val);
+            Boolean actual = word.IsZero();
+            Assert.AreEqual(expected, actual, message);
+        }
     }
 }

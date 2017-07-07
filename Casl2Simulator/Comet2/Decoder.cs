@@ -17,18 +17,17 @@ namespace Tt195361.Casl2Simulator.Comet2
         Dictionary<UInt16, Instruction> m_instructionDictionary = new Dictionary<UInt16, Instruction>
         {
             { 0x10, Instruction.LoadEaContents },
+            { 0x20, Instruction.AddArithmeticEaContents },
         };
         #endregion
 
         /// <summary>
-        /// 指定の語の中のオペコードを解読し、その値が表わす命令を取得します。
+        /// 指定の命令コードを解読し、その値が表わす命令を取得します。
         /// </summary>
-        /// <param name="word">命令を表わす値を格納した語です。</param>
-        /// <returns>指定の語の中のオペコードが表わす命令を返します。</returns>
-        internal static Instruction Decode(Word word)
+        /// <param name="opcode">命令を表わす命令コードです。</param>
+        /// <returns>指定の命令コードが表わす命令を返します。</returns>
+        internal static Instruction Decode(UInt16 opcode)
         {
-            UInt16 opcode = word.GetBits(15, 8);
-
             if (!m_instructionDictionary.ContainsKey(opcode))
             {
                 String message = String.Format(Resources.MSG_UndefinedOpcode, opcode);

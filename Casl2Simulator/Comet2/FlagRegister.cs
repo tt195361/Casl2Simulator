@@ -55,5 +55,18 @@ namespace Tt195361.Casl2Simulator.Comet2
             m_signFlag = false;
             m_zeroFlag = false;
         }
+
+        /// <summary>
+        /// それぞれのフラグの値を設定します。オーバーフローフラグは指定の値を、
+        /// サインフラグとゼロフラグは指定のレジスタの値から設定します。
+        /// </summary>
+        /// <param name="r">サインフラグとゼロフラグの値の設定に使用するレジスタです。</param>
+        /// <param name="overflowFlag">オーバーフローフラグに設定する値です。</param>
+        internal void SetFlags(Register r, Boolean overflowFlag)
+        {
+            m_overflowFlag = overflowFlag;
+            m_signFlag = r.Value.IsMinus();
+            m_zeroFlag = r.Value.IsZero();
+        }
     }
 }

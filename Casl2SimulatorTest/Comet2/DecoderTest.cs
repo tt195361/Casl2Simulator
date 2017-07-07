@@ -17,16 +17,16 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         [TestMethod]
         public void Decode()
         {
-            CheckDecode(0x1000, Instruction.LoadEaContents, "0x1000 => LD r,adr,x");
-            CheckDecode(0xe000, null, "0xe000 => 未定義");
+            CheckDecode(0x10, Instruction.LoadEaContents, "0x1000 => LD r,adr,x");
+            CheckDecode(0x20, Instruction.AddArithmeticEaContents, "0x2000 => ADDA r,adr,x");
+            CheckDecode(0xe0, null, "0xe000 => 未定義");
         }
 
-        private void CheckDecode(UInt16 ui16Val, Instruction expected, String message)
+        private void CheckDecode(UInt16 opcode, Instruction expected, String message)
         {
             try
             {
-                Word word = new Word(ui16Val);
-                Instruction actual = Decoder.Decode(word);
+                Instruction actual = Decoder.Decode(opcode);
                 Assert.IsNotNull(expected, message);
                 Assert.AreSame(expected, actual, message);
             }
