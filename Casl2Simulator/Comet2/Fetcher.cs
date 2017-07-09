@@ -18,7 +18,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         {
             Int32 address = pr.Value.GetAsUnsigned();
             Word word = memory.Read(address);
-            pr.Value = pr.Value.AddAsUnsigned(1);
+            pr.Increment();
             return word;
         }
     }

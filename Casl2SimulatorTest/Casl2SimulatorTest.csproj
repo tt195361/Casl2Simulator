@@ -69,6 +69,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Utils\ArgCheckerTest.cs" />
+    <Compile Include="Utils\NumberUtilsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Casl2Simulator\Casl2Simulator.csproj">

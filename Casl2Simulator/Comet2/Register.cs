@@ -65,6 +65,14 @@ namespace Tt195361.Casl2Simulator.Comet2
         }
 
         /// <summary>
+        /// レジスタの値に 1 を加えます。
+        /// </summary>
+        internal void Increment()
+        {
+            Value = Alu.AddLogical(Value, Word.One);
+        }
+
+        /// <summary>
         /// このレジスタを表わす文字列を作成します。
         /// </summary>
         /// <returns>このレジスタを表わす文字列を返します。</returns>

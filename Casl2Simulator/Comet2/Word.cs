@@ -9,6 +9,10 @@ namespace Tt195361.Casl2Simulator.Comet2
     internal struct Word
     {
         #region Fields
+        // 値が 0 と 1 の語。
+        internal static readonly Word Zero = new Word(0);
+        internal static readonly Word One = new Word(1);
+
         // 最上位ビット (Most Significant Bit, MSB) と最下位ビット (Least Significant Bit, LSB) 
         private const Int32 MSB = 15;
         private const Int32 LSB = 0;
@@ -22,7 +26,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// </summary>
         /// <param name="i16Val">作成する語に格納する符号付き 16 ビットの値です。</param>
         internal Word(Int16 i16Val)
-            : this((UInt16)i16Val)
+            : this(NumberUtils.ToUInt16(i16Val))
         {
             //
         }
@@ -51,7 +55,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <returns>符号あり 16 ビットの値を返します。</returns>
         internal Int16 GetAsSigned()
         {
-            return (Int16)m_ui16Val;
+            return NumberUtils.ToInt16(m_ui16Val);
         }
 
         /// <summary>
@@ -69,7 +73,7 @@ namespace Tt195361.Casl2Simulator.Comet2
 
             UInt16 mask = MakeMask(fromUpperBit, toLowerBit);
             Int32 bits = ((m_ui16Val & mask) >> toLowerBit);
-            return (UInt16)bits;
+            return NumberUtils.ToUInt16(bits);
         }
 
         private UInt16 MakeMask(Int32 fromUpperBit, Int32 toLowerBit)
@@ -77,7 +81,7 @@ namespace Tt195361.Casl2Simulator.Comet2
             Int32 bitCount = fromUpperBit - toLowerBit + 1;
             Int32 maskBits = (1 << bitCount) - 1;
             Int32 shiftedMaskBits = maskBits << toLowerBit;
-            return (UInt16)shiftedMaskBits;
+            return NumberUtils.ToUInt16(shiftedMaskBits);
         }
 
         /// <summary>
@@ -97,19 +101,6 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal Boolean IsZero()
         {
             return m_ui16Val == 0;
-        }
-
-        /// <summary>
-        /// 語に格納された値を、符号なし 16 ビットとして、指定の値と加えます。
-        /// </summary>
-        /// <param name="ui16Val">加える値です。</param>
-        /// <returns>
-        /// 加えた結果の値を格納する、新しく作成した <see cref="Word"/> のインスタンスを返します。
-        /// </returns>
-        internal Word AddAsUnsigned(UInt16 ui16Val)
-        {
-            UInt16 result = (UInt16)(GetAsUnsigned() + ui16Val);
-            return new Word(result);
         }
 
         /// <summary>

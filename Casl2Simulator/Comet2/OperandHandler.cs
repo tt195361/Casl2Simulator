@@ -31,23 +31,23 @@ namespace Tt195361.Casl2Simulator.Comet2
             Word adr = Fetcher.Fetch(registerSet.PR, memory);
 
             // x/r2 フィールドの値よりオフセット x の値を取得し、実効アドレス adr +L x を計算します。
-            UInt16 x = GetAddressOffset(xR2Field, registerSet);
-            Word effectiveAddress = adr.AddAsUnsigned(x);
+            Word x = GetAddressOffset(xR2Field, registerSet);
+            Word effectiveAddress = Alu.AddLogical(adr, x);
             return effectiveAddress;
         }
 
-        private static UInt16 GetAddressOffset(UInt16 xR2Field, RegisterSet registerSet)
+        private static Word GetAddressOffset(UInt16 xR2Field, RegisterSet registerSet)
         {
             ArgChecker.CheckRange(xR2Field, 0, GeneralRegisters.Count - 1, "x/r2");
 
             if (xR2Field == 0)
             {
-                return 0;
+                return Word.Zero;
             }
             else
             {
                 Register x = registerSet.GR[xR2Field];
-                return x.Value.GetAsUnsigned();
+                return x.Value;
             }
         }
         #endregion
