@@ -68,7 +68,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <param name="xR2Field">命令語の中の x/r2 フィールドの値です。</param>
         /// <param name="registerSet">COMET II の一そろいのレジスタです。</param>
         /// <param name="memory">COMET II の主記憶です。</param>
-        /// <returns>命令の演算対象の値を返します。</returns>
+        /// <returns>命令の演算対象の値を格納する語を返します。</returns>
         internal Word GetOperand(UInt16 xR2Field, RegisterSet registerSet, Memory memory)
         {
             Word word = m_getOperandAction(xR2Field, registerSet, memory);

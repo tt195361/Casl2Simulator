@@ -10,6 +10,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// ロード "LD r,adr,x" 命令
         internal static readonly Instruction LoadEaContents = new Instruction(
             "LD r,adr,x", Operator.Load, RegisterHandler.Register, OperandHandler.EaContents);
+        /// ストア "ST r,adr,x" 命令
+        internal static readonly Instruction Store = new Instruction(
+            "ST r,adr,x", Operator.Store, RegisterHandler.Register, OperandHandler.EffectiveAddress);
 
         /// 算術加算 "ADDA r,adr,x" 命令
         internal static readonly Instruction AddArithmeticEaContents = new Instruction(
@@ -42,7 +45,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         {
             Register r = m_registerHandler.GetRegister(rR1Field, registerSet);
             Word operand = m_operandHandler.GetOperand(xR2Field, registerSet, memory);
-            m_operator.Operate(r, operand, registerSet);
+            m_operator.Operate(r, operand, registerSet, memory);
         }
 
         /// <summary>

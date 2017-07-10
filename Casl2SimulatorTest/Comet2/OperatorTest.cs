@@ -12,6 +12,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
     {
         #region Fields
         private RegisterSet m_registerSet;
+        private Memory m_memory;
         private Register m_gr;
         private FlagRegister m_fr;
         #endregion
@@ -20,6 +21,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         public void TestInitialize()
         {
             m_registerSet = new RegisterSet();
+            m_memory = new Memory();
             m_gr = m_registerSet.GR[1];
             m_fr = m_registerSet.FR;
         }
@@ -41,6 +43,17 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
             CheckZeroFlag(target, 0, 1, false, "0 以外をロード => ZF は false");
             CheckZeroFlag(target, 0, 0, true, "0 をロード => ZF は true");
+        }
+
+        /// <summary>
+        /// Store の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void Store()
+        {
+            Operator target = Operator.Store;
+
+            CheckMemoryResult(target, 1234, 56789, 1234, "レジスタの値がオペランドで指定のアドレスに書き込まれる");
         }
 
         /// <summary>
@@ -68,6 +81,15 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         {
             Operate(op, regValue, oprValue);
             UInt16 actual = m_gr.Value.GetAsUnsigned();
+            Assert.AreEqual(expected, actual, message);
+        }
+
+        private void CheckMemoryResult(
+            Operator op, UInt16 regValue, UInt16 oprValue, UInt16 expected, String message)
+        {
+            Operate(op, regValue, oprValue);
+            Word word = m_memory.Read(oprValue);
+            UInt16 actual = word.GetAsUnsigned();
             Assert.AreEqual(expected, actual, message);
         }
 
@@ -99,7 +121,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         {
             m_gr.Value = new Word(regValue);
             Word operand = new Word(oprValue);
-            op.Operate(m_gr, operand, m_registerSet);
+            op.Operate(m_gr, operand, m_registerSet, m_memory);
         }
     }
 }

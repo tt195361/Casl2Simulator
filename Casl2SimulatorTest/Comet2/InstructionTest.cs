@@ -16,6 +16,11 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         // 命令語の次のアドレス。
         private const UInt16 NextAddress = 100;
+        private const UInt16 R = 3;
+        private const UInt16 X = 4;
+        private const UInt16 Adr = 12345;
+        private const UInt16 Offset = 23456;
+        private const UInt16 EffectiveAddress = Adr + Offset;
         #endregion
 
         [TestInitialize]
@@ -37,6 +42,17 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
+        /// Store 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void Store()
+        {
+            CheckMemoryContents(
+                Instruction.Store, 34, 0, EffectiveAddress, 34,
+                "レジスタの内容が実効アドレスに書き込まれる");
+        }
+
+        /// <summary>
         /// AddArithmeticEaContents 命令のテストです。
         /// </summary>
         [TestMethod]
@@ -48,35 +64,44 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         private void CheckEaContents(
-            Instruction instruction, UInt16 regValue, UInt16 oprValue, UInt16 expected, String message)
+            Instruction instruction, UInt16 regValue, UInt16 eaContents, UInt16 expected, String message)
         {
-            const UInt16 R = 3;
-            const UInt16 X = 4;
-            const UInt16 Adr = 1234;
-            const UInt16 Offset = 2345;
-            const UInt16 EffectiveAddress = Adr + Offset;
+            ExecuteInstruction(instruction, regValue, eaContents);
+            UInt16 actual = m_registerSet.GR[R].Value.GetAsUnsigned();
+            Assert.AreEqual(expected, actual, message);
+        }
 
-            // 命令語の次のアドレスに adr, 実効アドレスの内容、GR4 にオフセットの値を書き込みます。
+        private void CheckMemoryContents(
+            Instruction instruction, UInt16 regValue, UInt16 eaContents, Int32 address,
+            UInt16 expected, String message)
+        {
+            ExecuteInstruction(instruction, regValue, eaContents);
+            Word word = m_memory.Read(address);
+            UInt16 actual = word.GetAsUnsigned();
+            Assert.AreEqual(expected, actual, message);
+        }
+
+        private void ExecuteInstruction(Instruction instruction, UInt16 regValue, UInt16 eaContents)
+        {
+            // 命令語の次のアドレスに adr, 実効アドレスの内容、GRx にオフセットの値を書き込みます。
             m_memory.Write(NextAddress, Adr);
-            m_memory.Write(EffectiveAddress, oprValue);
+            m_memory.Write(EffectiveAddress, eaContents);
             m_registerSet.GR[X].SetValue(Offset);
 
             // レジスタと PR に値を設定し、命令を実行します。
             m_registerSet.GR[R].SetValue(regValue);
             m_registerSet.PR.SetValue(NextAddress);
             instruction.Execute(R, X, m_registerSet, m_memory);
-
-            // 実行結果をチェックします。
-            UInt16 actual = m_registerSet.GR[R].Value.GetAsUnsigned();
-            Assert.AreEqual(expected, actual, message);
         }
-            /// <summary>
+
+        /// <summary>
         /// ToString メソッドの単体テストです。
         /// </summary>
         [TestMethod]
         public void TestToString()
         {
             CheckToString(Instruction.LoadEaContents, "LD r,adr,x", "LoadEaContents");
+            CheckToString(Instruction.Store, "ST r,adr,x", "Store");
             CheckToString(Instruction.AddArithmeticEaContents, "ADDA r,adr,x", "AddArithmetic");
         }
 

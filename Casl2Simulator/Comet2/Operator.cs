@@ -7,15 +7,17 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// </summary>
     internal class Operator
     {
-        private delegate void OperateAction(Register r, Word operand, RegisterSet registerSet);
+        private delegate void OperateAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory);
 
         #region Load
         /// <summary>
-        /// r &lt;- オペランド, 〇*1: 設定されることを示す。ただし、OF には 0 が設定される。
+        /// r &lt;- オペランド, 〇*1: 設定される。ただし、OF には 0 が設定される。
         /// </summary>
         internal static readonly Operator Load = new Operator(LoadAction);
 
-        private static void LoadAction(Register r, Word operand, RegisterSet registerSet)
+        private static void LoadAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
         {
             r.Value = operand;
             const Boolean OverflowFlag = false;
@@ -23,13 +25,28 @@ namespace Tt195361.Casl2Simulator.Comet2
         }
         #endregion
 
+        #region Store
+        /// <summary>
+        /// 実効アドレス &lt;- (r), -- 実効前の値が保持される。
+        /// </summary>
+        internal static readonly Operator Store = new Operator(StoreAction);
+
+        private static void StoreAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            UInt16 effectiveAddress = operand.GetAsUnsigned();
+            memory.Write(effectiveAddress, r.Value);
+        }
+        #endregion
+
         #region AddArithmetic
         /// <summary>
-        /// r &lt;- (r) + オペランド, 〇: 設定されることを示す。
+        /// r &lt;- (r) + オペランド, 〇: 設定される。
         /// </summary>
         internal static readonly Operator AddArithmetic = new Operator(AddArithmeticAction);
 
-        private static void AddArithmeticAction(Register r, Word operand, RegisterSet registerSet)
+        private static void AddArithmeticAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
         {
             Boolean overflowFlag;
             r.Value = Alu.AddArithmetic(r.Value, operand, out overflowFlag);
@@ -52,9 +69,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <param name="r">演算に使用するレジスタです。</param>
         /// <param name="operand">演算対象の値を保持する語です。</param>
         /// <param name="registerSet">COMET II の一そろいのレジスタです。</param>
-        internal void Operate(Register r, Word operand, RegisterSet registerSet)
+        internal void Operate(Register r, Word operand, RegisterSet registerSet, Memory memory)
         {
-            m_operateAction(r, operand, registerSet);
+            m_operateAction(r, operand, registerSet, memory);
         }
     }
 }

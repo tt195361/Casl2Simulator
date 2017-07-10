@@ -17,9 +17,10 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         [TestMethod]
         public void Decode()
         {
-            CheckDecode(0x10, Instruction.LoadEaContents, "0x1000 => LD r,adr,x");
-            CheckDecode(0x20, Instruction.AddArithmeticEaContents, "0x2000 => ADDA r,adr,x");
-            CheckDecode(0xe0, null, "0xe000 => 未定義");
+            CheckDecode(0x10, Instruction.LoadEaContents, "0x10 => LD r,adr,x");
+            CheckDecode(0x11, Instruction.Store, "0x11 => ST r,adr,x");
+            CheckDecode(0x20, Instruction.AddArithmeticEaContents, "0x20 => ADDA r,adr,x");
+            CheckDecode(0xe0, null, "0xe0 => 未定義");
         }
 
         private void CheckDecode(UInt16 opcode, Instruction expected, String message)

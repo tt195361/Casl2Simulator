@@ -17,6 +17,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         Dictionary<UInt16, Instruction> m_instructionDictionary = new Dictionary<UInt16, Instruction>
         {
             { 0x10, Instruction.LoadEaContents },
+            { 0x11, Instruction.Store },
             { 0x20, Instruction.AddArithmeticEaContents },
         };
         #endregion
