@@ -18,6 +18,13 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Instruction AddArithmeticEaContents = new Instruction(
             "ADDA r,adr,x", Operator.AddArithmetic, RegisterHandler.Register, OperandHandler.EaContents);
 
+        /// 算術比較 "CPA r,adr,x" 命令
+        internal static readonly Instruction CompareArithmeticEaContents = new Instruction(
+            "CPA r,adr,x", Operator.CompareArithmetic, RegisterHandler.Register, OperandHandler.EaContents);
+        /// 論理比較 "CPL r,adr,x" 命令
+        internal static readonly Instruction CompareLogicalEaContents = new Instruction(
+            "CPL r,adr,x", Operator.CompareLogical, RegisterHandler.Register, OperandHandler.EaContents);
+
         #region Fields
         private readonly String m_str;
         private readonly Operator m_operator;

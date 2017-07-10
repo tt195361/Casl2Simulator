@@ -20,6 +20,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckDecode(0x10, Instruction.LoadEaContents, "0x10 => LD r,adr,x");
             CheckDecode(0x11, Instruction.Store, "0x11 => ST r,adr,x");
             CheckDecode(0x20, Instruction.AddArithmeticEaContents, "0x20 => ADDA r,adr,x");
+            CheckDecode(0x40, Instruction.CompareArithmeticEaContents, "0x40 => CPA r,adr,x");
+            CheckDecode(0x41, Instruction.CompareLogicalEaContents, "0x41 => CPL r,adr,x");
             CheckDecode(0xe0, null, "0xe0 => 未定義");
         }
 

@@ -76,6 +76,44 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckZeroFlag(target, 1, 0xffff, true, "結果が 0 => ZF は true");
         }
 
+        /// <summary>
+        /// CompareArithmetic の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void CompareArithmetic()
+        {
+            Operator target = Operator.CompareArithmetic;
+
+            CheckRegisterResult(target, 11111, 22222, 11111, "レジスタの値は変わらない");
+
+            CheckOverflowFlag(target, 0, 0x1234, false, "OF は常に false");
+
+            CheckSignFlag(target, 0x0001, 0xffff, false, "結果が正の値 (1 > -1) => SF は false");
+            CheckSignFlag(target, 0xffff, 0x0001, true, "結果が負の値 (-1 < 1) => SF は true");
+
+            CheckZeroFlag(target, 0x1111, 0x2222, false, "結果が 0 以外 => ZF は false");
+            CheckZeroFlag(target, 0x1111, 0x1111, true, "結果が 0 => ZF は true");
+        }
+
+        /// <summary>
+        /// CompareLogical の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void CompareLogical()
+        {
+            Operator target = Operator.CompareLogical;
+
+            CheckRegisterResult(target, 33333, 44444, 33333, "レジスタの値は変わらない");
+
+            CheckOverflowFlag(target, 0, 0x1234, false, "OF は常に false");
+
+            CheckSignFlag(target, 0xffff, 0x0001, false, "結果が正の値 (65535 > 1) => SF は false");
+            CheckSignFlag(target, 0x0001, 0xffff, true, "結果が負の値 (1 < 65535) => SF は true");
+
+            CheckZeroFlag(target, 0x1111, 0x2222, false, "結果が 0 以外 => ZF は false");
+            CheckZeroFlag(target, 0x1111, 0x1111, true, "結果が 0 => ZF は true");
+        }
+
         private void CheckRegisterResult(
             Operator op, UInt16 regValue, UInt16 oprValue, UInt16 expected, String message)
         {

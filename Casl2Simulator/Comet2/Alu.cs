@@ -55,5 +55,51 @@ namespace Tt195361.Casl2Simulator.Comet2
             overflow = NumberUtils.CheckUInt16Overflow(i32Val);
             return new Word(ui16Result);
         }
+
+        /// <summary>
+        /// 指定の値を算術比較し、符号と零かどうかを返します。
+        /// </summary>
+        /// <param name="word1">比較する値を格納する第一の語です。</param>
+        /// <param name="word2">比較する値を格納する第二の語です。</param>
+        /// <param name="sign">
+        /// 比較の結果が負かどうかを返します。負になるのは <paramref name="word1"/> の値が
+        /// <paramref name="word2"/> の値より小さい場合です。
+        /// </param>
+        /// <param name="zero">
+        /// 比較の結果が零かどうかを返します。零になるのは <paramref name="word1"/> と
+        /// <paramref name="word2"/> が同じ値の場合です。
+        /// </param>
+        internal static void CompareArithmetic(Word word1, Word word2, out Boolean sign, out Boolean zero)
+        {
+            Int32 i32Val1 = word1.GetAsSigned();
+            Int32 i32Val2 = word2.GetAsSigned();
+            Compare(i32Val1, i32Val2, out sign, out zero);
+        }
+
+        /// <summary>
+        /// 指定の値を論理比較し、符号と零かどうかを返します。
+        /// </summary>
+        /// <param name="word1">比較する値を格納する第一の語です。</param>
+        /// <param name="word2">比較する値を格納する第二の語です。</param>
+        /// <param name="sign">
+        /// 比較の結果が負かどうかを返します。負になるのは <paramref name="word1"/> の値が
+        /// <paramref name="word2"/> の値より小さい場合です。
+        /// </param>
+        /// <param name="zero">
+        /// 比較の結果が零かどうかを返します。零になるのは <paramref name="word1"/> と
+        /// <paramref name="word2"/> が同じ値の場合です。
+        /// </param>
+        internal static void CompareLogical(Word word1, Word word2, out Boolean sign, out Boolean zero)
+        {
+            Int32 i32Val1 = word1.GetAsUnsigned();
+            Int32 i32Val2 = word2.GetAsUnsigned();
+            Compare(i32Val1, i32Val2, out sign, out zero);
+        }
+
+        private static void Compare(Int32 i32Val1, Int32 i32Val2, out Boolean sign, out Boolean zero)
+        {
+            sign = (i32Val1 < i32Val2);
+            zero = (i32Val1 == i32Val2);
+        }
     }
 }

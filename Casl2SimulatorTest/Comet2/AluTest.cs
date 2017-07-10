@@ -58,5 +58,61 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Assert.AreEqual(expectedResult, actualResult, "Result: " + message);
             Assert.AreEqual(expectedOverflow, actualOverflow, "Overflow: " + message);
         }
+
+        /// <summary>
+        /// CompareArithmetic メソッドの単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void CompareArithmetic()
+        {
+            CheckCompareArithmetic(32767, 32766, false, false, "正の数: n1 > n2 => 負でない, 零でない");
+            CheckCompareArithmetic(32767, 32767, false, true, "正の数: n1 == n2 => 負でない, 零");
+            CheckCompareArithmetic(32766, 32767, true, false, "正の数: n1 < n2 => 負, 零でない");
+
+            CheckCompareArithmetic(-32767, -32768, false, false, "負の数: n1 > n2 => 負でない, 零でない");
+            CheckCompareArithmetic(-32768, -32768, false, true, "負の数: n1 == n2 => 負でない, 零");
+            CheckCompareArithmetic(-32768, -32767, true, false, "負の数: n1 < n2 => 負, 零でない");
+        }
+
+        private void CheckCompareArithmetic(
+            Int16 i16Val1, Int16 i16Val2, Boolean expectedSign, Boolean expectedZero, String message)
+        {
+            Word word1 = new Word(i16Val1);
+            Word word2 = new Word(i16Val2);
+            Boolean actualSign;
+            Boolean actualZero;
+            Alu.CompareArithmetic(word1, word2, out actualSign, out actualZero);
+
+            Assert.AreEqual(expectedSign, actualSign, "Sign: " + message);
+            Assert.AreEqual(expectedZero, actualZero, "Zero: " + message);
+        }
+
+        /// <summary>
+        /// CompareLogical メソッドの単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void CompareLogical()
+        {
+            CheckCompareLogical(0x8000, 0x7fff, false, false, "0x8000 付近: n1 > n2 => 負でない, 零でない");
+            CheckCompareLogical(0x8000, 0x8000, false, true, "0x8000 付近: n1 == n2 => 負でない, 零");
+            CheckCompareLogical(0x7fff, 0x8000, true, false, "0x8000 付近: n1 < n2 => 負, 零でない");
+
+            CheckCompareLogical(0xffff, 0xfffe, false, false, "0xffff 付近: n1 > n2 => 負でない, 零でない");
+            CheckCompareLogical(0xffff, 0xffff, false, true, "0xffff 付近: n1 == n2 => 負でない, 零");
+            CheckCompareLogical(0xfffe, 0xffff, true, false, "0xffff 付近: n1 < n2 => 負, 零でない");
+        }
+
+        private void CheckCompareLogical(
+            UInt16 ui16Val1, UInt16 ui16Val2, Boolean expectedSign, Boolean expectedZero, String message)
+        {
+            Word word1 = new Word(ui16Val1);
+            Word word2 = new Word(ui16Val2);
+            Boolean actualSign;
+            Boolean actualZero;
+            Alu.CompareLogical(word1, word2, out actualSign, out actualZero);
+
+            Assert.AreEqual(expectedSign, actualSign, "Sign: " + message);
+            Assert.AreEqual(expectedZero, actualZero, "Zero: " + message);
+        }
     }
 }

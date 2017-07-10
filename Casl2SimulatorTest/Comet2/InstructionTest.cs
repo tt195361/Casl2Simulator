@@ -36,7 +36,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         [TestMethod]
         public void LoadEaContents()
         {
-            CheckEaContents(
+            CheckEaContentsRegister(
                 Instruction.LoadEaContents, 0, 1357, 1357,
                 "実効アドレスの内容がレジスタに設定される");
         }
@@ -47,8 +47,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         [TestMethod]
         public void Store()
         {
-            CheckMemoryContents(
-                Instruction.Store, 34, 0, EffectiveAddress, 34,
+            CheckEaContentsMemory(
+                Instruction.Store, 345, 0, EffectiveAddress, 345,
                 "レジスタの内容が実効アドレスに書き込まれる");
         }
 
@@ -58,12 +58,36 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         [TestMethod]
         public void AddArithmeticEaContents()
         {
-            CheckEaContents(
+            CheckEaContentsRegister(
                 Instruction.AddArithmeticEaContents, 1234, 2345, 3579,
                 "実効アドレスの内容がレジスタに算術加算される");
         }
 
-        private void CheckEaContents(
+        /// <summary>
+        /// CompareArithmeticEaContents 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void CompareArithmeticEaContents()
+        {
+            CheckEaContentsFlags(
+                Instruction.CompareArithmeticEaContents, 0xffff, 0x0001, false, true, false,
+                "実効アドレスの内容とレジスタを算術比較し FR を設定する。" +
+                "-1 (0xffff) < 1 (0x0001) なので、サインフラグが設定され true になる");
+        }
+
+        /// <summary>
+        /// CompareLogicalEaContents 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void CompareLogicalEaContents()
+        {
+            CheckEaContentsFlags(
+                Instruction.CompareLogicalEaContents, 0x0001, 0xffff, false, true, false,
+                "実効アドレスの内容とレジスタを論理比較し FR を設定する。" +
+                "1 (0x0001) < 65535 (0xffff) なので、サインフラグが設定され true になる");
+        }
+
+        private void CheckEaContentsRegister(
             Instruction instruction, UInt16 regValue, UInt16 eaContents, UInt16 expected, String message)
         {
             ExecuteInstruction(instruction, regValue, eaContents);
@@ -71,13 +95,28 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Assert.AreEqual(expected, actual, message);
         }
 
-        private void CheckMemoryContents(
+        private void CheckEaContentsMemory(
             Instruction instruction, UInt16 regValue, UInt16 eaContents, Int32 address,
             UInt16 expected, String message)
         {
             ExecuteInstruction(instruction, regValue, eaContents);
             Word word = m_memory.Read(address);
             UInt16 actual = word.GetAsUnsigned();
+            Assert.AreEqual(expected, actual, message);
+        }
+
+        private void CheckEaContentsFlags(
+            Instruction instruction, UInt16 regValue, UInt16 eaContents,
+            Boolean expectedOverflow, Boolean expectedSign, Boolean expectedZero, String message)
+        {
+            ExecuteInstruction(instruction, regValue, eaContents);
+            CheckFlag(expectedOverflow, m_registerSet.FR.OF, "Overflow: " + message);
+            CheckFlag(expectedSign, m_registerSet.FR.SF, "Sign: " + message);
+            CheckFlag(expectedZero, m_registerSet.FR.ZF, "Zero: " + message);
+        }
+
+        private void CheckFlag(Boolean expected, Boolean actual, String message)
+        {
             Assert.AreEqual(expected, actual, message);
         }
 
@@ -102,7 +141,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         {
             CheckToString(Instruction.LoadEaContents, "LD r,adr,x", "LoadEaContents");
             CheckToString(Instruction.Store, "ST r,adr,x", "Store");
-            CheckToString(Instruction.AddArithmeticEaContents, "ADDA r,adr,x", "AddArithmetic");
+            CheckToString(Instruction.AddArithmeticEaContents, "ADDA r,adr,x", "AddArithmeticEaContents");
+            CheckToString(Instruction.CompareArithmeticEaContents, "CPA r,adr,x", "CompareArithmeticEaContents");
+            CheckToString(Instruction.CompareLogicalEaContents, "CPL r,adr,x", "CompareLogicalEaContents");
         }
 
         private void CheckToString(Instruction instruction, String expected, String message)

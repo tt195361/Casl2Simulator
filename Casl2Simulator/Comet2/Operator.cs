@@ -9,6 +9,8 @@ namespace Tt195361.Casl2Simulator.Comet2
     {
         private delegate void OperateAction(
             Register r, Word operand, RegisterSet registerSet, Memory memory);
+        private delegate void CompareAction(
+            Word word1, Word word2, out Boolean sign, out Boolean zero);
 
         #region Load
         /// <summary>
@@ -51,6 +53,44 @@ namespace Tt195361.Casl2Simulator.Comet2
             Boolean overflowFlag;
             r.Value = Alu.AddArithmetic(r.Value, operand, out overflowFlag);
             registerSet.FR.SetFlags(r, overflowFlag);
+        }
+        #endregion
+
+        #region CompareArithmetic
+        /// <summary>
+        /// r と オペランドを算術比較し FR を設定する, 〇*1: 設定される。ただし、OF には 0 が設定される。
+        /// </summary>
+        internal static readonly Operator CompareArithmetic = new Operator(CompareArithmeticAction);
+
+        private static void CompareArithmeticAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            Compare(Alu.CompareArithmetic, r, operand, registerSet.FR);
+        }
+        #endregion
+
+        #region CompareLogical
+        /// <summary>
+        /// r と オペランドを論理比較し FR を設定する, 〇*1: 設定される。ただし、OF には 0 が設定される。
+        /// </summary>
+        internal static readonly Operator CompareLogical = new Operator(CompareLogicalAction);
+
+        private static void CompareLogicalAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            Compare(Alu.CompareLogical, r, operand, registerSet.FR);
+        }
+        #endregion
+
+        #region Compare
+        private static void Compare(
+            CompareAction cmpAction, Register r, Word operand, FlagRegister fr)
+        {
+            Boolean signFlag;
+            Boolean zeroFlag;
+            cmpAction(r.Value, operand, out signFlag, out zeroFlag);
+            const Boolean OverflowFlag = false;
+            fr.SetFlags(OverflowFlag, signFlag, zeroFlag);
         }
         #endregion
 
