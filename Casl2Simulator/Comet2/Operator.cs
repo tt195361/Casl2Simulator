@@ -109,6 +109,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <param name="r">演算に使用するレジスタです。</param>
         /// <param name="operand">演算対象の値を保持する語です。</param>
         /// <param name="registerSet">COMET II の一そろいのレジスタです。</param>
+        /// <param name="memory">COMET II の主記憶です。</param>
         internal void Operate(Register r, Word operand, RegisterSet registerSet, Memory memory)
         {
             m_operateAction(r, operand, registerSet, memory);

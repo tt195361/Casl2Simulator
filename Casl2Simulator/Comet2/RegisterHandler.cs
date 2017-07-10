@@ -26,7 +26,7 @@ namespace Tt195361.Casl2Simulator.Comet2
 
         #region NoRegister
         /// <summary>
-        /// 戻り値として null を返します。レジスタを使用しない命令に使います。
+        /// 戻り値として <see langword="null"/> を返します。レジスタを使用しない命令に使います。
         /// </summary>
         internal static readonly RegisterHandler NoRegister = new RegisterHandler(GetNoRegister);
 

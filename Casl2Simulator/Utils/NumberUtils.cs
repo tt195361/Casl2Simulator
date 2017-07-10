@@ -69,7 +69,10 @@ namespace Tt195361.Casl2Simulator.Utils
         /// オーバーフローするかどうかをチェックします。
         /// </summary>
         /// <param name="i32Val">チェックする <see cref="Int32"/> 型の値です。</param>
-        /// <returns>オーバーフローが発生する場合は true を、それ以外は false を返します。</returns>
+        /// <returns>
+        /// オーバーフローが発生する場合は <see langword="true"/> を、
+        /// それ以外は <see langword="false"/> を返します。
+        /// </returns>
         internal static Boolean CheckInt16Overflow(Int32 i32Val)
         {
             // オーバーフローチェックあり。
@@ -92,7 +95,10 @@ namespace Tt195361.Casl2Simulator.Utils
         /// オーバーフローするかどうかをチェックします。
         /// </summary>
         /// <param name="i32Val">チェックする <see cref="Int32"/> 型の値です。</param>
-        /// <returns>オーバーフローが発生する場合は true を、それ以外は false を返します。</returns>
+        /// <returns>
+        /// オーバーフローが発生する場合は <see langword="true"/> を、
+        /// それ以外は <see langword="false"/> を返します。
+        /// </returns>
         internal static Boolean CheckUInt16Overflow(Int32 i32Val)
         {
             // オーバーフローチェックあり。
