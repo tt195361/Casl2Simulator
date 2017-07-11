@@ -18,9 +18,16 @@ namespace Tt195361.Casl2Simulator.Comet2
         {
             { 0x10, Instruction.LoadEaContents },
             { 0x11, Instruction.Store },
+
             { 0x20, Instruction.AddArithmeticEaContents },
+
             { 0x40, Instruction.CompareArithmeticEaContents },
             { 0x41, Instruction.CompareLogicalEaContents },
+
+            { 0x50, Instruction.ShiftLeftArithmeticEaContents },
+            { 0x51, Instruction.ShiftRightArithmeticEaContents },
+            { 0x52, Instruction.ShiftLeftLogicalEaContents },
+            { 0x53, Instruction.ShiftRightLogicalEaContents },
         };
         #endregion
 

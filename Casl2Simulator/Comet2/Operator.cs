@@ -54,7 +54,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         }
         #endregion
 
-        #region CompareArithmetic
+        #region Compare
         /// <summary>
         /// r と オペランドを算術比較し FR を設定する, 〇*1: 設定される。ただし、OF には 0 が設定される。
         /// </summary>
@@ -63,11 +63,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         private static void CompareArithmeticAction(
             Register r, Word operand, RegisterSet registerSet, Memory memory)
         {
-            Compare(Alu.CompareArithmetic, r, operand, registerSet.FR);
+            DoCompare(Alu.CompareArithmetic, r, operand, registerSet.FR);
         }
-        #endregion
 
-        #region CompareLogical
         /// <summary>
         /// r と オペランドを論理比較し FR を設定する, 〇*1: 設定される。ただし、OF には 0 が設定される。
         /// </summary>
@@ -76,12 +74,10 @@ namespace Tt195361.Casl2Simulator.Comet2
         private static void CompareLogicalAction(
             Register r, Word operand, RegisterSet registerSet, Memory memory)
         {
-            Compare(Alu.CompareLogical, r, operand, registerSet.FR);
+            DoCompare(Alu.CompareLogical, r, operand, registerSet.FR);
         }
-        #endregion
 
-        #region Compare
-        private static void Compare(
+        private static void DoCompare(
             Alu.CompareMethod compareMethod, Register r, Word operand, FlagRegister fr)
         {
             Boolean signFlag;
@@ -89,6 +85,69 @@ namespace Tt195361.Casl2Simulator.Comet2
             compareMethod(r.Value, operand, out signFlag, out zeroFlag);
             const Boolean OverflowFlag = false;
             fr.SetFlags(OverflowFlag, signFlag, zeroFlag);
+        }
+        #endregion // Compare
+
+        #region Shift
+        /// <summary>
+        /// 符号を除き (r) をオペランドで指定したビット数だけ左にシフトする。シフトの結果、
+        /// 空いたビット位置には 0 が入る。FR を設定する, 〇*2: 設定される。ただし、OF には
+        /// レジスタから最後に送り出されたビットの値が設定される。
+        /// </summary>
+        internal static readonly Operator ShiftLeftArithmetic = new Operator(ShiftLeftArithmeticAction);
+
+        private static void ShiftLeftArithmeticAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            DoShift(Alu.ShiftLeftArithmetic, r, operand, registerSet.FR);
+        }
+
+        /// <summary>
+        /// 符号を除き (r) をオペランドで指定したビット数だけ右にシフトする。シフトの結果、
+        /// 空いたビット位置には符号と同じものが入る。FR を設定する, 〇*2: 設定される。ただし、OF には
+        /// レジスタから最後に送り出されたビットの値が設定される。
+        /// </summary>
+        internal static readonly Operator ShiftRightArithmetic = new Operator(ShiftRightArithmeticAction);
+
+        private static void ShiftRightArithmeticAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            DoShift(Alu.ShiftRightArithmetic, r, operand, registerSet.FR);
+        }
+
+        /// <summary>
+        /// 符号を含み (r) をオペランドで指定したビット数だけ左にシフトする。シフトの結果、
+        /// 空いたビット位置には 0 が入る。FR を設定する, 〇*2: 設定される。ただし、OF には
+        /// レジスタから最後に送り出されたビットの値が設定される。
+        /// </summary>
+        internal static readonly Operator ShiftLeftLogical = new Operator(ShiftLeftLogicalAction);
+
+        private static void ShiftLeftLogicalAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            DoShift(Alu.ShiftLeftLogical, r, operand, registerSet.FR);
+        }
+
+        /// <summary>
+        /// 符号を含み (r) をオペランドで指定したビット数だけ右にシフトする。シフトの結果、
+        /// 空いたビット位置には 0 が入る。FR を設定する, 〇*2: 設定される。ただし、OF には
+        /// レジスタから最後に送り出されたビットの値が設定される。
+        /// </summary>
+        internal static readonly Operator ShiftRightLogical = new Operator(ShiftRightLogicalAction);
+
+        private static void ShiftRightLogicalAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            DoShift(Alu.ShiftRightLogical, r, operand, registerSet.FR);
+        }
+
+        private static void DoShift(
+            Alu.ShiftMethod shiftMethod, Register r, Word operand, FlagRegister fr)
+        {
+            UInt16 lastShiftedOutBit;
+            r.Value = shiftMethod(r.Value, operand, out lastShiftedOutBit);
+            Boolean overflowFlag = (lastShiftedOutBit != 0);
+            fr.SetFlags(r, overflowFlag);
         }
         #endregion
 

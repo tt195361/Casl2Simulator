@@ -87,6 +87,50 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
                 "1 (0x0001) < 65535 (0xffff) なので、サインフラグが設定され true になる");
         }
 
+        /// <summary>
+        /// ShiftLeftArithmeticEaContents 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void ShiftLeftArithmeticEaContents()
+        {
+            CheckEaContentsRegister(
+                Instruction.ShiftLeftArithmeticEaContents, 0xaaaa, 1, 0xd554,
+                "レジスタの内容が実効アドレス回だけ左に算術シフトされる");
+        }
+
+        /// <summary>
+        /// ShiftRightArithmeticEaContents 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void ShiftRightArithmeticEaContents()
+        {
+            CheckEaContentsRegister(
+                Instruction.ShiftRightArithmeticEaContents, 0xaaaa, 1, 0xd555,
+                "レジスタの内容が実効アドレス回だけ右に算術シフトされる");
+        }
+
+        /// <summary>
+        /// ShiftLeftLogicalEaContents 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void ShiftLeftLogicalEaContents()
+        {
+            CheckEaContentsRegister(
+                Instruction.ShiftLeftLogicalEaContents, 0x5555, 1, 0xaaaa,
+                "レジスタの内容が実効アドレス回だけ左に論理シフトされる");
+        }
+
+        /// <summary>
+        /// ShiftRightLogicalEaContents 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void ShiftRightLogicalEaContents()
+        {
+            CheckEaContentsRegister(
+                Instruction.ShiftRightLogicalEaContents, 0xaaaa, 1, 0x5555,
+                "レジスタの内容が実効アドレス回だけ右に論理シフトされる");
+        }
+
         private void CheckEaContentsRegister(
             Instruction instruction, UInt16 regValue, UInt16 eaContents, UInt16 expected, String message)
         {
@@ -141,9 +185,20 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         {
             CheckToString(Instruction.LoadEaContents, "LD r,adr,x", "LoadEaContents");
             CheckToString(Instruction.Store, "ST r,adr,x", "Store");
+
             CheckToString(Instruction.AddArithmeticEaContents, "ADDA r,adr,x", "AddArithmeticEaContents");
+
             CheckToString(Instruction.CompareArithmeticEaContents, "CPA r,adr,x", "CompareArithmeticEaContents");
             CheckToString(Instruction.CompareLogicalEaContents, "CPL r,adr,x", "CompareLogicalEaContents");
+
+            CheckToString(
+                Instruction.ShiftLeftArithmeticEaContents, "SLA r,adr,x", "ShiftLeftArithmeticEaContents");
+            CheckToString(
+                Instruction.ShiftRightArithmeticEaContents, "SRA r,adr,x", "ShiftRightArithmeticEaContents");
+            CheckToString(
+                Instruction.ShiftLeftLogicalEaContents, "SLL r,adr,x", "ShiftLeftLogicalEaContents");
+            CheckToString(
+                Instruction.ShiftRightLogicalEaContents, "SRL r,adr,x", "ShiftRightLogicalEaContents");
         }
 
         private void CheckToString(Instruction instruction, String expected, String message)

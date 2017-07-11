@@ -25,6 +25,19 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Instruction CompareLogicalEaContents = new Instruction(
             "CPL r,adr,x", Operator.CompareLogical, RegisterHandler.Register, OperandHandler.EaContents);
 
+        /// 算術左シフト "SLA r,adr,x" 命令
+        internal static readonly Instruction ShiftLeftArithmeticEaContents = new Instruction(
+            "SLA r,adr,x", Operator.ShiftLeftArithmetic, RegisterHandler.Register, OperandHandler.EaContents);
+        /// 算術右シフト "SRA r,adr,x" 命令
+        internal static readonly Instruction ShiftRightArithmeticEaContents = new Instruction(
+            "SRA r,adr,x", Operator.ShiftRightArithmetic, RegisterHandler.Register, OperandHandler.EaContents);
+        /// 論理左シフト "SLL r,adr,x" 命令
+        internal static readonly Instruction ShiftLeftLogicalEaContents = new Instruction(
+            "SLL r,adr,x", Operator.ShiftLeftLogical, RegisterHandler.Register, OperandHandler.EaContents);
+        /// 論理右シフト "SRL r,adr,x" 命令
+        internal static readonly Instruction ShiftRightLogicalEaContents = new Instruction(
+            "SRL r,adr,x", Operator.ShiftRightLogical, RegisterHandler.Register, OperandHandler.EaContents);
+
         #region Fields
         private readonly String m_str;
         private readonly Operator m_operator;

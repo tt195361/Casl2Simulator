@@ -89,6 +89,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckOverflowFlag(target, 0, 0x1234, false, "OF は常に false");
 
             CheckSignFlag(target, 0x0001, 0xffff, false, "結果が正の値 (1 > -1) => SF は false");
+            CheckSignFlag(target, 0x0001, 0x0001, false, "結果が 0 (1 == 1) => SF は false");
             CheckSignFlag(target, 0xffff, 0x0001, true, "結果が負の値 (-1 < 1) => SF は true");
 
             CheckZeroFlag(target, 0x1111, 0x2222, false, "結果が 0 以外 => ZF は false");
@@ -108,10 +109,91 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckOverflowFlag(target, 0, 0x1234, false, "OF は常に false");
 
             CheckSignFlag(target, 0xffff, 0x0001, false, "結果が正の値 (65535 > 1) => SF は false");
+            CheckSignFlag(target, 0x0001, 0x0001, false, "結果が 0 (1 == 1) => SF は false");
             CheckSignFlag(target, 0x0001, 0xffff, true, "結果が負の値 (1 < 65535) => SF は true");
 
             CheckZeroFlag(target, 0x1111, 0x2222, false, "結果が 0 以外 => ZF は false");
             CheckZeroFlag(target, 0x1111, 0x1111, true, "結果が 0 => ZF は true");
+        }
+
+        /// <summary>
+        /// ShiftLeftArithmetic の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void ShiftLeftArithmetic()
+        {
+            Operator target = Operator.ShiftLeftArithmetic;
+
+            CheckRegisterResult(target, 0xaaaa, 1, 0xd554, "左に 1 回算術シフトされる");
+
+            CheckOverflowFlag(target, 0xfffe, 15, false, "OF は最後に送り出されたビットの値: 0");
+            CheckOverflowFlag(target, 0x0001, 15, true, "OF は最後に送り出されたビットの値: 1");
+
+            CheckSignFlag(target, 0x7fff, 15, false, "結果が正の値か 0 => SF は false");
+            CheckSignFlag(target, 0x8000, 15, true, "結果が負の値 => SF は true");
+
+            CheckZeroFlag(target, 0xffff, 15, false, "結果が 0 以外 => ZF は false");
+            CheckZeroFlag(target, 0x7fff, 15, true, "結果が 0 => ZF は true");
+        }
+
+        /// <summary>
+        /// ShiftRightArithmetic の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void ShiftRightArithmetic()
+        {
+            Operator target = Operator.ShiftRightArithmetic;
+
+            CheckRegisterResult(target, 0xaaaa, 1, 0xd555, "右に 1 回算術シフトされる");
+
+            CheckOverflowFlag(target, 0xfff7, 4, false, "OF は最後に送り出されたビットの値: 0");
+            CheckOverflowFlag(target, 0x0008, 4, true, "OF は最後に送り出されたビットの値: 1");
+
+            CheckSignFlag(target, 0x7fff, 15, false, "結果が正の値か 0 => SF は false");
+            CheckSignFlag(target, 0x8000, 15, true, "結果が負の値 => SF は true");
+
+            CheckZeroFlag(target, 0xffff, 15, false, "結果が 0 以外 => ZF は false");
+            CheckZeroFlag(target, 0x7fff, 15, true, "結果が 0 => ZF は true");
+        }
+
+        /// <summary>
+        /// ShiftLeftLogical の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void ShiftLeftLogical()
+        {
+            Operator target = Operator.ShiftLeftLogical;
+
+            CheckRegisterResult(target, 0xaaaa, 1, 0x5554, "左に 1 回論理シフトされる");
+
+            CheckOverflowFlag(target, 0xfffe, 16, false, "OF は最後に送り出されたビットの値: 0");
+            CheckOverflowFlag(target, 0x0001, 16, true, "OF は最後に送り出されたビットの値: 1");
+
+            CheckSignFlag(target, 0xffff, 16, false, "結果が正の値か 0 => SF は false");
+            CheckSignFlag(target, 0x0001, 15, true, "結果が負の値 => SF は true");
+
+            CheckZeroFlag(target, 0xffff, 15, false, "結果が 0 以外 => ZF は false");
+            CheckZeroFlag(target, 0xffff, 16, true, "結果が 0 => ZF は true");
+        }
+
+        /// <summary>
+        /// ShiftRightLogical の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void ShiftRightLogical()
+        {
+            Operator target = Operator.ShiftRightLogical;
+
+            CheckRegisterResult(target, 0xaaaa, 1, 0x5555, "右に 1 回論理シフトされる");
+
+            CheckOverflowFlag(target, 0x7fff, 16, false, "OF は最後に送り出されたビットの値: 0");
+            CheckOverflowFlag(target, 0x8000, 16, true, "OF は最後に送り出されたビットの値: 1");
+
+            CheckSignFlag(target, 0xffff, 16, false, "結果が正の値か 0 => SF は false");
+            CheckSignFlag(target, 0x8000, 0, true, "結果が負の値 => SF は true");
+
+            CheckZeroFlag(target, 0xffff, 15, false, "結果が 0 以外 => ZF は false");
+            CheckZeroFlag(target, 0xffff, 16, true, "結果が 0 => ZF は true");
         }
 
         private void CheckRegisterResult(
