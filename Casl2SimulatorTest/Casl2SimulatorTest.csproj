@@ -70,6 +70,7 @@
     </Compile>
     <Compile Include="Utils\ArgCheckerTest.cs" />
     <Compile Include="Utils\NumberUtilsTest.cs" />
+    <Compile Include="Utils\UInt16UtilsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Casl2Simulator\Casl2Simulator.csproj">

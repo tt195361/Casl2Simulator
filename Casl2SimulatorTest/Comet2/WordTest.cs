@@ -102,53 +102,19 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// GetBits メソッドの引数をテストします。
+        /// GetBits メソッドの単体テストです。
         /// </summary>
         [TestMethod]
-        public void GetBits_Args()
+        public void GetBits()
         {
-            CheckGetBits_Args(-1, 0, false, "fromUpperBit = -1: 最小値より小さい => 失敗");
-            CheckGetBits_Args(0, 0, true, "fromUpperBit = 0: ちょうど最小値 => 成功");
-            CheckGetBits_Args(15, 0, true, "fromUpperBit = 15: ちょうど最大値 => 成功");
-            CheckGetBits_Args(16, 0, false, "fromUpperBit = 16: 最大値より大きい => 失敗");
-
-            CheckGetBits_Args(15, -1, false, "toLowerBit = -1: 最小値より小さい => 失敗");
-            CheckGetBits_Args(15, 0, true, "toLowerBit = 0: ちょうど最小値 => 成功");
-            CheckGetBits_Args(15, 15, true, "toLowerBit = 15: ちょうど最大値 => 成功");
-            CheckGetBits_Args(15, 16, false, "toLowerBit = 16: 最大値より大きい => 失敗");
-
-            CheckGetBits_Args(8, 7, true, "fromUpperBits > toLowerBit => 成功");
-            CheckGetBits_Args(7, 7, true, "fromUpperBits == toLowerBit => 成功");
-            CheckGetBits_Args(7, 8, false, "fromUpperBits < toLowerBit => 失敗");
+            CheckGetBits(0xfffe, 0, 0, 0, "最下位ビットを取得");
+            CheckGetBits(0x8000, 15, 15, 1, "最上位ビットを取得");
+            CheckGetBits(0xffa5, 7, 0, 0xa5, "下位 8 ビットを取得");
+            CheckGetBits(0xc300, 15, 8, 0xc3, "上位 8 ビットを取得");
+            CheckGetBits(0xa5a5, 15, 0, 0xa5a5, "16 ビットすべて取得");
         }
 
-        private void CheckGetBits_Args(Int32 fromUpperBit, Int32 toLowerBit, Boolean success, String message)
-        {
-            try
-            {
-                UInt16 notUsed = m_word_0000.GetBits(fromUpperBit, toLowerBit);
-                Assert.IsTrue(success, message);
-            }
-            catch (Casl2SimulatorException)
-            {
-                Assert.IsFalse(success, message);
-            }
-        }
-
-        /// <summary>
-        /// GetBits メソッドが返す値をテストします。
-        /// </summary>
-        [TestMethod]
-        public void GetBits_Result()
-        {
-            CheckGetBits_Result(0xfffe, 0, 0, 0, "最下位ビットを取得");
-            CheckGetBits_Result(0x8000, 15, 15, 1, "最上位ビットを取得");
-            CheckGetBits_Result(0xffa5, 7, 0, 0xa5, "下位 8 ビットを取得");
-            CheckGetBits_Result(0xc300, 15, 8, 0xc3, "上位 8 ビットを取得");
-            CheckGetBits_Result(0xa5a5, 15, 0, 0xa5a5, "16 ビットすべて取得");
-        }
-
-        private void CheckGetBits_Result(
+        private void CheckGetBits(
             UInt16 value, Int16 fromUpperBit, Int16 toLowerBit, UInt16 expected, String message)
         {
             Word target = new Word(value);

@@ -9,8 +9,6 @@ namespace Tt195361.Casl2Simulator.Comet2
     {
         private delegate void OperateAction(
             Register r, Word operand, RegisterSet registerSet, Memory memory);
-        private delegate void CompareAction(
-            Word word1, Word word2, out Boolean sign, out Boolean zero);
 
         #region Load
         /// <summary>
@@ -84,11 +82,11 @@ namespace Tt195361.Casl2Simulator.Comet2
 
         #region Compare
         private static void Compare(
-            CompareAction cmpAction, Register r, Word operand, FlagRegister fr)
+            Alu.CompareMethod compareMethod, Register r, Word operand, FlagRegister fr)
         {
             Boolean signFlag;
             Boolean zeroFlag;
-            cmpAction(r.Value, operand, out signFlag, out zeroFlag);
+            compareMethod(r.Value, operand, out signFlag, out zeroFlag);
             const Boolean OverflowFlag = false;
             fr.SetFlags(OverflowFlag, signFlag, zeroFlag);
         }

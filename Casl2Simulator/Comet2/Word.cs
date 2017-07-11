@@ -13,10 +13,6 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Word Zero = new Word(0);
         internal static readonly Word One = new Word(1);
 
-        // 最上位ビット (Most Significant Bit, MSB) と最下位ビット (Least Significant Bit, LSB) 
-        private const Int32 MSB = 15;
-        private const Int32 LSB = 0;
-
         // 1 語は 16 ビット。符号なしで格納します。
         private readonly UInt16 m_ui16Val;
         #endregion
@@ -67,28 +63,16 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <returns>語に格納された値の指定のビット範囲の値を返します。</returns>
         internal UInt16 GetBits(Int32 fromUpperBit, Int32 toLowerBit)
         {
-            ArgChecker.CheckRange(fromUpperBit, LSB, MSB, nameof(fromUpperBit));
-            ArgChecker.CheckRange(toLowerBit, LSB, MSB, nameof(toLowerBit));
-            ArgChecker.CheckGreaterEqual(fromUpperBit, toLowerBit, nameof(fromUpperBit), nameof(toLowerBit));
-
-            UInt16 mask = MakeMask(fromUpperBit, toLowerBit);
-            Int32 bits = ((m_ui16Val & mask) >> toLowerBit);
-            return NumberUtils.ToUInt16(bits);
-        }
-
-        private UInt16 MakeMask(Int32 fromUpperBit, Int32 toLowerBit)
-        {
-            Int32 bitCount = fromUpperBit - toLowerBit + 1;
-            Int32 maskBits = (1 << bitCount) - 1;
-            Int32 shiftedMaskBits = maskBits << toLowerBit;
-            return NumberUtils.ToUInt16(shiftedMaskBits);
+            return UInt16Utils.GetBits(m_ui16Val, fromUpperBit, toLowerBit);
         }
 
         /// <summary>
         /// 語に格納する値の符号が負かどうかを返します。
         /// 語に格納する値のビット 15 が 1 ならば、符号は負とします。
         /// </summary>
-        /// <returns>符号が負ならば true、それ以外ならば false を返します。</returns>
+        /// <returns>
+        /// 符号が負ならば <see langword="true"/> true、それ以外ならば <see langword="false"/> を返します。
+        /// </returns>
         internal Boolean IsMinus()
         {
             return (m_ui16Val & 0x8000) != 0;

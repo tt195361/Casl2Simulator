@@ -114,5 +114,157 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Assert.AreEqual(expectedSign, actualSign, "Sign: " + message);
             Assert.AreEqual(expectedZero, actualZero, "Zero: " + message);
         }
+
+        /// <summary>
+        /// ShiftLeftArithmetic メソッドのシフト結果の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void ShiftLeftArithmetic_Result()
+        {
+            CheckShiftLeftArithmetic_Result(
+                0x0001, 0, 0x0001, "0x0001 << 0 => 0x0001: 0 回シフトは元のまま変わらず");
+            CheckShiftLeftArithmetic_Result(
+                0x0001, 1, 0x0002, "0x0001 << 1 => 0x0002: 1 回シフトするとビット 1 へ 1 ビット移動");
+            CheckShiftLeftArithmetic_Result(
+                0x0001, 14, 0x4000, "0x0001 << 14 => 0x4000: 14 回シフトするとビット 14 へ移動");
+            CheckShiftLeftArithmetic_Result(
+                0x0001, 15, 0x0000, "0x0001 << 15 => 0x0000: ビット 15 は符号ビットで、範囲外に出る");
+
+            CheckShiftLeftArithmetic_Result(
+                0x8001, 1, 0x8002, "0x8001 << 1 => 0x8002: ビット 15 は符号ビットで、そのまま残る");
+            CheckShiftLeftArithmetic_Result(
+                0x8001, 14, 0xc000, "0x8001 << 14 => 0xc000: ビット 15 は符号ビットで、そのまま残る");
+            CheckShiftLeftArithmetic_Result(
+                0x8001, 15, 0x8000, "0x8001 << 15 => 0x8000: ビット 15 は符号ビットで、そのまま残る");
+        }
+
+        private void CheckShiftLeftArithmetic_Result(
+            UInt16 ui16Val, UInt16 count, UInt16 expected, String message)
+        {
+            CheckShiftResult(Alu.ShiftLeftArithmetic, ui16Val, count, expected, message);
+        }
+
+        /// <summary>
+        /// ShiftLeftLogical メソッドのシフト結果の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void ShiftLeftLogical_Result()
+        {
+            CheckShiftLeftLogical_Result(
+                0x0001, 0, 0x0001, "0x0001 << 0 => 0x0001: 0 回シフトは元のまま変わらず");
+            CheckShiftLeftLogical_Result(
+                0x0001, 1, 0x0002, "0x0001 << 1 => 0x0002: 1 回シフトするとビット 1 へ 1 ビット移動");
+            CheckShiftLeftLogical_Result(
+                0x0001, 14, 0x4000, "0x0001 << 14 => 0x4000: 14 回シフトするとビット 14 へ移動");
+            CheckShiftLeftLogical_Result(
+                0x0001, 15, 0x8000, "0x0001 << 15 => 0x8000: 15 回シフトするとビット 15 へ移動");
+            CheckShiftLeftLogical_Result(
+                0x0001, 16, 0x0000, "0x0001 << 16 => 0x0000: 16 回シフトすると範囲外に出る");
+            CheckShiftLeftLogical_Result(
+                0x0001, 65535, 0x0000, "0x0001 << 65535 => 0x0000: 16 回以上は何回シフトしても同じ結果");
+
+            CheckShiftLeftLogical_Result(
+                0x8001, 1, 0x0002, "0x8001 << 1 => 0x0002: ビット 15 もシフトされる");
+        }
+
+        private void CheckShiftLeftLogical_Result(
+            UInt16 ui16Val, UInt16 count, UInt16 expected, String message)
+        {
+            CheckShiftResult(Alu.ShiftLeftLogical, ui16Val, count, expected, message);
+        }
+
+        /// <summary>
+        /// ShiftRightArithmetic メソッドのシフト結果の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void ShiftRightArithmetic_Result()
+        {
+            CheckShiftRightArithmetic_Result(
+                0x4000, 0, 0x4000, "0x4000 >> 0 => 0x4000: 0 回シフトは元のまま変わらず");
+            CheckShiftRightArithmetic_Result(
+                0x4000, 1, 0x2000, "0x4000 >> 1 => 0x2000: 1 回シフトするとビット 13 へ 1 ビット移動");
+            CheckShiftRightArithmetic_Result(
+                0x4000, 14, 0x0001, "0x4000 >> 14 => 0x0001: 14 回シフトするとビット 0 へ移動");
+            CheckShiftRightArithmetic_Result(
+                0x4000, 15, 0x0000, "0x4000 >> 15 => 0x0000: 15 回シフトすると範囲外に出る");
+
+            CheckShiftRightArithmetic_Result(
+                0xc000, 1, 0xe000, "0xc000 >> 1 => 0xe000: ビット 14 は符号ビットがコピーされる");
+            CheckShiftRightArithmetic_Result(
+                0xc000, 14, 0xffff, "0xc000 >> 14 => 0xffff: ビット 14 は符号ビットがコピーされる");
+        }
+
+        private void CheckShiftRightArithmetic_Result(
+            UInt16 ui16Val, UInt16 count, UInt16 expected, String message)
+        {
+            CheckShiftResult(Alu.ShiftRightArithmetic, ui16Val, count, expected, message);
+        }
+
+        /// <summary>
+        /// ShiftRightLogical メソッドのシフト結果の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void ShiftRightLogical_Result()
+        {
+            CheckShiftRightLogical_Result(
+                0x8000, 0, 0x8000, "0x8000 >> 0 => 0x8000: 0 回シフトは元のまま変わらず");
+            CheckShiftRightLogical_Result(
+                0x8000, 1, 0x4000, "0x8000 >> 1 => 0x4000: 1 回シフトするとビット 14 へ 1 ビット移動");
+            CheckShiftRightLogical_Result(
+                0x8000, 14, 0x0002, "0x8000 >> 14 => 0x0002: 14 回シフトするとビット 1 へ移動");
+            CheckShiftRightLogical_Result(
+                0x8000, 15, 0x0001, "0x8000 >> 15 => 0x0001: 15 回シフトするとビット 0 へ移動");
+            CheckShiftRightLogical_Result(
+                0x8000, 16, 0x0000, "0x8000 >> 16 => 0x0000: 16 回シフトすると範囲外に出る");
+        }
+
+        private void CheckShiftRightLogical_Result(
+            UInt16 ui16Val, UInt16 count, UInt16 expected, String message)
+        {
+            CheckShiftResult(Alu.ShiftRightLogical, ui16Val, count, expected, message);
+        }
+
+        private void CheckShiftResult(
+            Alu.ShiftMethod shiftMethod, UInt16 ui16Val, UInt16 count, UInt16 expected, String message)
+        {
+            Word word1 = new Word(ui16Val);
+            Word word2 = new Word(count);
+            UInt16 notUsed;
+            Word resultWord = shiftMethod(word1, word2, out notUsed);
+
+            UInt16 actual = resultWord.GetAsUnsigned();
+            Assert.AreEqual(expected, actual, message);
+        }
+
+        /// <summary>
+        /// Shift メソッドの最後に送り出されたビットの値の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void Shift_LastShiftedOutBit()
+        {
+            CheckShift_LastShiftedOutBit(Alu.ShiftLeftArithmetic, 0xbfff, 1, 0, "SLA はビット 14: 0");
+            CheckShift_LastShiftedOutBit(Alu.ShiftLeftArithmetic, 0x4000, 1, 1, "SLA はビット 14: 1");
+
+            CheckShift_LastShiftedOutBit(Alu.ShiftLeftLogical, 0x7fff, 1, 0, "SLL はビット 15: 0");
+            CheckShift_LastShiftedOutBit(Alu.ShiftLeftLogical, 0x8000, 1, 1, "SLL はビット 15: 1");
+
+            CheckShift_LastShiftedOutBit(Alu.ShiftRightArithmetic, 0xfffe, 1, 0, "SRA はビット 0: 0");
+            CheckShift_LastShiftedOutBit(Alu.ShiftRightArithmetic, 0x0001, 1, 1, "SRA はビット 0: 1");
+
+            CheckShift_LastShiftedOutBit(Alu.ShiftRightLogical, 0xfffe, 1, 0, "SRL はビット 0: 0");
+            CheckShift_LastShiftedOutBit(Alu.ShiftRightLogical, 0x0001, 1, 1, "SRL はビット 0: 1");
+
+            CheckShift_LastShiftedOutBit(Alu.ShiftLeftArithmetic, 0xffff, 0, 0, "0 回シフト => 0");
+        }
+
+        private void CheckShift_LastShiftedOutBit(
+            Alu.ShiftMethod shiftMethod, UInt16 ui16Val, UInt16 count, UInt16 expected, String message)
+        {
+            Word word1 = new Word(ui16Val);
+            Word word2 = new Word(count);
+            UInt16 actual;
+            Word notUsed = shiftMethod(word1, word2, out actual);
+            Assert.AreEqual(expected, actual, message);
+        }
     }
 }
