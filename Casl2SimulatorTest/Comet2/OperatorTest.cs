@@ -15,6 +15,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private Memory m_memory;
         private Register m_gr;
         private FlagRegister m_fr;
+
+        const Boolean DontCareBool = false;
         #endregion
 
         [TestInitialize]
@@ -26,6 +28,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             m_fr = m_registerSet.FR;
         }
 
+        #region Load/Store
         /// <summary>
         /// Load の単体テストです。
         /// </summary>
@@ -55,7 +58,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
             CheckMemoryResult(target, 1234, 56789, 1234, "レジスタの値がオペランドで指定のアドレスに書き込まれる");
         }
+        #endregion // Load/Store
 
+        #region Arithmetic/Logical Operation
         /// <summary>
         /// AddArithmetic の単体テストです。
         /// </summary>
@@ -75,7 +80,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckZeroFlag(target, 2, 0xffff, false, "結果が 0 以外 => ZF は false");
             CheckZeroFlag(target, 1, 0xffff, true, "結果が 0 => ZF は true");
         }
+        #endregion // Arithmetic/Logical Operation
 
+        #region Comparison
         /// <summary>
         /// CompareArithmetic の単体テストです。
         /// </summary>
@@ -115,7 +122,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckZeroFlag(target, 0x1111, 0x2222, false, "結果が 0 以外 => ZF は false");
             CheckZeroFlag(target, 0x1111, 0x1111, true, "結果が 0 => ZF は true");
         }
+        #endregion // Comparison
 
+        #region Shift
         /// <summary>
         /// ShiftLeftArithmetic の単体テストです。
         /// </summary>
@@ -195,6 +204,81 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckZeroFlag(target, 0xffff, 15, false, "結果が 0 以外 => ZF は false");
             CheckZeroFlag(target, 0xffff, 16, true, "結果が 0 => ZF は true");
         }
+        #endregion // Shift
+
+        #region Jump
+        /// <summary>
+        /// JumpOnMinus の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void JumpOnMinus()
+        {
+            Operator target = Operator.JumpOnMinus;
+
+            CheckJump(target, DontCareBool, true, DontCareBool, true, "SF=1 => 分岐する");
+            CheckJump(target, DontCareBool, false, DontCareBool, false, "SF=0 => 分岐しない");
+        }
+
+        /// <summary>
+        /// JumpOnNonZero の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void JumpOnNonZero()
+        {
+            Operator target = Operator.JumpOnNonZero;
+
+            CheckJump(target, DontCareBool, DontCareBool, false, true, "ZF=0 => 分岐する");
+            CheckJump(target, DontCareBool, DontCareBool, true, false, "ZF=1 => 分岐しない");
+        }
+
+        /// <summary>
+        /// JumpOnZero の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void JumpOnZero()
+        {
+            Operator target = Operator.JumpOnZero;
+
+            CheckJump(target, DontCareBool, DontCareBool, true, true, "ZF=1 => 分岐する");
+            CheckJump(target, DontCareBool, DontCareBool, false, false, "ZF=0 => 分岐しない");
+        }
+
+        /// <summary>
+        /// UnconditionalJump の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void UnconditionalJump()
+        {
+            Operator target = Operator.UnconditionalJump;
+
+            CheckJump(target, DontCareBool, DontCareBool, DontCareBool, true, "無条件で分岐する");
+        }
+
+        /// <summary>
+        /// JumpOnPlus の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void JumpOnPlus()
+        {
+            Operator target = Operator.JumpOnPlus;
+
+            CheckJump(target, DontCareBool, false, false, true, "SF=0 かつ ZF=0 => 分岐する");
+            CheckJump(target, DontCareBool, true, false, false, "SF=1 => 分岐しない");
+            CheckJump(target, DontCareBool, false, true, false, "ZF=1 => 分岐しない");
+        }
+
+        /// <summary>
+        /// JumpOnOverflow の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void JumpOnOverflow()
+        {
+            Operator target = Operator.JumpOnOverflow;
+
+            CheckJump(target, true, DontCareBool, DontCareBool, true, "OF=1 => 分岐する");
+            CheckJump(target, false, DontCareBool, DontCareBool, false, "OF=0 => 分岐しない");
+        }
+        #endregion // Jump
 
         private void CheckRegisterResult(
             Operator op, UInt16 regValue, UInt16 oprValue, UInt16 expected, String message)
@@ -234,6 +318,22 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         {
             Operate(op, regValue, oprValue);
             Boolean actual = m_fr.ZF;
+            Assert.AreEqual(expected, actual, message);
+        }
+
+        private void CheckJump(
+            Operator op, Boolean overflowFlag, Boolean signFlag, Boolean zeroFlag, Boolean jump, String message)
+        {
+            const UInt16 PRValue = 0x1111;
+            const UInt16 OperandValue = 0x2222;
+            const UInt16 DontCare = 0;
+
+            m_registerSet.FR.SetFlags(overflowFlag, signFlag, zeroFlag);
+            m_registerSet.PR.SetValue(PRValue);
+            Operate(op, DontCare, OperandValue);
+
+            UInt16 expected = jump ? OperandValue : PRValue;
+            UInt16 actual = m_registerSet.PR.Value.GetAsUnsigned();
             Assert.AreEqual(expected, actual, message);
         }
 

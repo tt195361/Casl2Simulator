@@ -28,6 +28,13 @@ namespace Tt195361.Casl2Simulator.Comet2
             { 0x51, Instruction.ShiftRightArithmeticEaContents },
             { 0x52, Instruction.ShiftLeftLogicalEaContents },
             { 0x53, Instruction.ShiftRightLogicalEaContents },
+
+            { 0x61, Instruction.JumpOnMinus },
+            { 0x62, Instruction.JumpOnNonZero },
+            { 0x63, Instruction.JumpOnZero },
+            { 0x64, Instruction.UnconditionalJump },
+            { 0x65, Instruction.JumpOnPlus },
+            { 0x66, Instruction.JumpOnOverflow },
         };
         #endregion
 

@@ -30,6 +30,13 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckDecode(0x52, Instruction.ShiftLeftLogicalEaContents, "0x52 => SLL r,adr,x");
             CheckDecode(0x53, Instruction.ShiftRightLogicalEaContents, "0x53 => SRL r,adr,x");
 
+            CheckDecode(0x61, Instruction.JumpOnMinus, "0x61 => JMI adr,x");
+            CheckDecode(0x62, Instruction.JumpOnNonZero, "0x62 => JNZ adr,x");
+            CheckDecode(0x63, Instruction.JumpOnZero, "0x63 => JZE adr,x");
+            CheckDecode(0x64, Instruction.UnconditionalJump, "0x64 => JUMP adr,x");
+            CheckDecode(0x65, Instruction.JumpOnPlus, "0x65 => JPL adr,x");
+            CheckDecode(0x66, Instruction.JumpOnOverflow, "0x66 => JOV adr,x");
+
             CheckDecode(0xe0, null, "0xe0 => 未定義");
         }
 

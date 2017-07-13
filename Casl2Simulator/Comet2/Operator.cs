@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         private delegate void OperateAction(
             Register r, Word operand, RegisterSet registerSet, Memory memory);
 
-        #region Load
+        #region Load/Store
         /// <summary>
         /// r &lt;- オペランド, 〇*1: 設定される。ただし、OF には 0 が設定される。
         /// </summary>
@@ -23,9 +23,7 @@ namespace Tt195361.Casl2Simulator.Comet2
             const Boolean OverflowFlag = false;
             registerSet.FR.SetFlags(r, OverflowFlag);
         }
-        #endregion
 
-        #region Store
         /// <summary>
         /// 実効アドレス &lt;- (r), -- 実効前の値が保持される。
         /// </summary>
@@ -37,9 +35,9 @@ namespace Tt195361.Casl2Simulator.Comet2
             UInt16 effectiveAddress = operand.GetAsUnsigned();
             memory.Write(effectiveAddress, r.Value);
         }
-        #endregion
+        #endregion // Load/Store
 
-        #region AddArithmetic
+        #region Arithmetic/Logical Operation
         /// <summary>
         /// r &lt;- (r) + オペランド, 〇: 設定される。
         /// </summary>
@@ -52,9 +50,9 @@ namespace Tt195361.Casl2Simulator.Comet2
             r.Value = Alu.AddArithmetic(r.Value, operand, out overflowFlag);
             registerSet.FR.SetFlags(r, overflowFlag);
         }
-        #endregion
+        #endregion // Arithmetic/Logical Operation
 
-        #region Compare
+        #region Comparison
         /// <summary>
         /// r と オペランドを算術比較し FR を設定する, 〇*1: 設定される。ただし、OF には 0 が設定される。
         /// </summary>
@@ -86,7 +84,7 @@ namespace Tt195361.Casl2Simulator.Comet2
             const Boolean OverflowFlag = false;
             fr.SetFlags(OverflowFlag, signFlag, zeroFlag);
         }
-        #endregion // Compare
+        #endregion // Comparison
 
         #region Shift
         /// <summary>
@@ -150,6 +148,89 @@ namespace Tt195361.Casl2Simulator.Comet2
             fr.SetFlags(r, overflowFlag);
         }
         #endregion
+
+        #region Jump
+        /// <summary>
+        /// SF=1 のとき、オペランドで指定のアドレスに分岐する。
+        /// </summary>
+        internal static readonly Operator JumpOnMinus = new Operator(JumpOnMinusAction);
+
+        private static void JumpOnMinusAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            Boolean condition = registerSet.FR.SF;
+            DoJump(condition, operand, registerSet.PR);
+        }
+
+        /// <summary>
+        /// ZF=0 のとき、オペランドで指定のアドレスに分岐する。
+        /// </summary>
+        internal static readonly Operator JumpOnNonZero = new Operator(JumpOnNonZeroAction);
+
+        private static void JumpOnNonZeroAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            Boolean condition = !registerSet.FR.ZF;
+            DoJump(condition, operand, registerSet.PR);
+        }
+
+        /// <summary>
+        /// ZF=1 のとき、オペランドで指定のアドレスに分岐する。
+        /// </summary>
+        internal static readonly Operator JumpOnZero = new Operator(JumpOnZeroAction);
+
+        private static void JumpOnZeroAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            Boolean condition = registerSet.FR.ZF;
+            DoJump(condition, operand, registerSet.PR);
+        }
+
+        /// <summary>
+        /// 無条件で、オペランドで指定のアドレスに分岐する。
+        /// </summary>
+        internal static readonly Operator UnconditionalJump = new Operator(UnconditionalJumpAction);
+
+        private static void UnconditionalJumpAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            const Boolean Condition = true;
+            DoJump(Condition, operand, registerSet.PR);
+        }
+
+        /// <summary>
+        /// SF=0 かつ ZF=0 のとき、オペランドで指定のアドレスに分岐する。
+        /// </summary>
+        internal static readonly Operator JumpOnPlus = new Operator(JumpOnPlusAction);
+
+        private static void JumpOnPlusAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            FlagRegister fr = registerSet.FR;
+            Boolean condition = (!fr.SF && !fr.ZF);
+            DoJump(condition, operand, registerSet.PR);
+        }
+
+        /// <summary>
+        /// OF=1 のとき、オペランドで指定のアドレスに分岐する。
+        /// </summary>
+        internal static readonly Operator JumpOnOverflow = new Operator(JumpOnOverflowAction);
+
+        private static void JumpOnOverflowAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            Boolean condition = registerSet.FR.OF;
+            DoJump(condition, operand, registerSet.PR);
+        }
+
+        private static void DoJump(Boolean condition, Word operand, Register pr)
+        {
+            if (condition)
+            {
+                pr.Value = operand;
+            }
+        }
+        #endregion // Jump
 
         #region Fields
         private readonly OperateAction m_operateAction;

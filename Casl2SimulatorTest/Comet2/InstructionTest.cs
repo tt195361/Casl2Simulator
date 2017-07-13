@@ -21,6 +21,10 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private const UInt16 Adr = 12345;
         private const UInt16 Offset = 23456;
         private const UInt16 EffectiveAddress = Adr + Offset;
+
+        private const UInt16 NextAddressPlusOne = NextAddress + 1;
+        private const Boolean DontCareBool = false;
+        private const UInt16 DontCareUInt16 = 0;
         #endregion
 
         [TestInitialize]
@@ -30,6 +34,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             m_memory = new Memory();
         }
 
+        #region Load/Store
         /// <summary>
         /// LoadEaContents 命令のテストです。
         /// </summary>
@@ -51,7 +56,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
                 Instruction.Store, 345, 0, EffectiveAddress, 345,
                 "レジスタの内容が実効アドレスに書き込まれる");
         }
+        #endregion // Load/Store
 
+        #region Arithmetic/Logical Operation
         /// <summary>
         /// AddArithmeticEaContents 命令のテストです。
         /// </summary>
@@ -62,7 +69,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
                 Instruction.AddArithmeticEaContents, 1234, 2345, 3579,
                 "実効アドレスの内容がレジスタに算術加算される");
         }
+        #endregion // Arithmetic/Logical Operation
 
+        #region Comparison
         /// <summary>
         /// CompareArithmeticEaContents 命令のテストです。
         /// </summary>
@@ -86,7 +95,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
                 "実効アドレスの内容とレジスタを論理比較し FR を設定する。" +
                 "1 (0x0001) < 65535 (0xffff) なので、サインフラグが設定され true になる");
         }
+        #endregion // Comparison
 
+        #region Shift
         /// <summary>
         /// ShiftLeftArithmeticEaContents 命令のテストです。
         /// </summary>
@@ -130,6 +141,90 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
                 Instruction.ShiftRightLogicalEaContents, 0xaaaa, 1, 0x5555,
                 "レジスタの内容が実効アドレス回だけ右に論理シフトされる");
         }
+        #endregion // Shift
+
+        #region Jump
+        /// <summary>
+        /// JumpOnMinus 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void JumpOnMinus()
+        {
+            CheckJump(
+                Instruction.JumpOnMinus, DontCareBool, true, DontCareBool,
+                true, "JumpOnMinus: SF=1 => 分岐する");
+            CheckJump(
+                Instruction.JumpOnMinus, DontCareBool, false, DontCareBool,
+                false, "JumpOnMinus: SF=0 => 分岐しない");
+        }
+
+        /// <summary>
+        /// JumpOnNonZero 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void JumpOnNonZero()
+        {
+            CheckJump(
+                Instruction.JumpOnNonZero, DontCareBool, DontCareBool, false, 
+                true, "JumpOnNonZero: ZF=0 => 分岐する");
+            CheckJump(
+                Instruction.JumpOnNonZero, DontCareBool, DontCareBool, true, 
+                false, "JumpOnNonZero: ZF=1 => 分岐しない");
+        }
+
+        /// <summary>
+        /// JumpOnZero 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void JumpOnZero()
+        {
+            CheckJump(
+                Instruction.JumpOnZero, DontCareBool, DontCareBool, true,
+                true, "JumpOnZero: ZF=1 => 分岐する");
+            CheckJump(
+                Instruction.JumpOnZero, DontCareBool, DontCareBool, false,
+                false, "JumpOnZero: ZF=0 => 分岐しない");
+        }
+
+        /// <summary>
+        /// UnconditionalJump 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void UnconditionalJump()
+        {
+            CheckJump(
+                Instruction.UnconditionalJump, DontCareBool, DontCareBool, DontCareBool,
+                true, "UnconditionalJump: 無条件で分岐する");
+        }
+
+        /// <summary>
+        /// JumpOnPlus 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void JumpOnPlus()
+        {
+            CheckJump(
+                Instruction.JumpOnPlus, DontCareBool, false, false,
+                true, "JumpOnPlus: SF=0 かつ ZF=0 => 分岐する");
+            CheckJump(
+                Instruction.JumpOnPlus, DontCareBool, true, true,
+                false, "JumpOnPlus: SF=1 あるいは ZF=1 => 分岐しない");
+        }
+
+        /// <summary>
+        /// JumpOnOverflow 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void JumpOnOverflow()
+        {
+            CheckJump(
+                Instruction.JumpOnOverflow, true, DontCareBool, DontCareBool,
+                true, "JumpOnOverflow: OF=1 => 分岐する");
+            CheckJump(
+                Instruction.JumpOnOverflow, false, DontCareBool, DontCareBool,
+                false, "JumpOnOverflow: OF=0 => 分岐しない");
+        }
+        #endregion
 
         private void CheckEaContentsRegister(
             Instruction instruction, UInt16 regValue, UInt16 eaContents, UInt16 expected, String message)
@@ -164,6 +259,18 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Assert.AreEqual(expected, actual, message);
         }
 
+        private void CheckJump(
+            Instruction instruction, Boolean overflowFlag, Boolean signFlag, Boolean zeroFlag,
+            Boolean jump, String message)
+        {
+            m_registerSet.FR.SetFlags(overflowFlag, signFlag, zeroFlag);
+            ExecuteInstruction(instruction, DontCareUInt16, DontCareUInt16);
+
+            UInt16 expected = jump ? EffectiveAddress : NextAddressPlusOne;
+            UInt16 actual = m_registerSet.PR.Value.GetAsUnsigned();
+            Assert.AreEqual(expected, actual, message);
+        }
+
         private void ExecuteInstruction(Instruction instruction, UInt16 regValue, UInt16 eaContents)
         {
             // 命令語の次のアドレスに adr, 実効アドレスの内容、GRx にオフセットの値を書き込みます。
@@ -183,28 +290,31 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         [TestMethod]
         public void TestToString()
         {
-            CheckToString(Instruction.LoadEaContents, "LD r,adr,x", "LoadEaContents");
-            CheckToString(Instruction.Store, "ST r,adr,x", "Store");
+            CheckToString(Instruction.LoadEaContents, "LD r,adr,x");
+            CheckToString(Instruction.Store, "ST r,adr,x");
 
-            CheckToString(Instruction.AddArithmeticEaContents, "ADDA r,adr,x", "AddArithmeticEaContents");
+            CheckToString(Instruction.AddArithmeticEaContents, "ADDA r,adr,x");
 
-            CheckToString(Instruction.CompareArithmeticEaContents, "CPA r,adr,x", "CompareArithmeticEaContents");
-            CheckToString(Instruction.CompareLogicalEaContents, "CPL r,adr,x", "CompareLogicalEaContents");
+            CheckToString(Instruction.CompareArithmeticEaContents, "CPA r,adr,x");
+            CheckToString(Instruction.CompareLogicalEaContents, "CPL r,adr,x");
 
-            CheckToString(
-                Instruction.ShiftLeftArithmeticEaContents, "SLA r,adr,x", "ShiftLeftArithmeticEaContents");
-            CheckToString(
-                Instruction.ShiftRightArithmeticEaContents, "SRA r,adr,x", "ShiftRightArithmeticEaContents");
-            CheckToString(
-                Instruction.ShiftLeftLogicalEaContents, "SLL r,adr,x", "ShiftLeftLogicalEaContents");
-            CheckToString(
-                Instruction.ShiftRightLogicalEaContents, "SRL r,adr,x", "ShiftRightLogicalEaContents");
+            CheckToString(Instruction.ShiftLeftArithmeticEaContents, "SLA r,adr,x");
+            CheckToString(Instruction.ShiftRightArithmeticEaContents, "SRA r,adr,x");
+            CheckToString(Instruction.ShiftLeftLogicalEaContents, "SLL r,adr,x");
+            CheckToString(Instruction.ShiftRightLogicalEaContents, "SRL r,adr,x");
+
+            CheckToString(Instruction.JumpOnMinus, "JMI adr,x");
+            CheckToString(Instruction.JumpOnNonZero, "JNZ adr,x");
+            CheckToString(Instruction.JumpOnZero, "JZE adr,x");
+            CheckToString(Instruction.UnconditionalJump, "JUMP adr,x");
+            CheckToString(Instruction.JumpOnPlus, "JPL adr,x");
+            CheckToString(Instruction.JumpOnOverflow, "JOV adr,x");
         }
 
-        private void CheckToString(Instruction instruction, String expected, String message)
+        private void CheckToString(Instruction instruction, String expected)
         {
             String actual = instruction.ToString();
-            Assert.AreEqual(expected, actual, message);
+            Assert.AreEqual(expected, actual);
         }
     }
 }
