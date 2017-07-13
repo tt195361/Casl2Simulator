@@ -17,6 +17,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         // 命令語の次のアドレス。
         private const Int32 NextAddress = 1;
+
+        private const UInt16 DontCare = 0;
         #endregion
 
         [TestInitialize]
@@ -37,7 +39,6 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             const UInt16 X6 = 6;
             const UInt16 Gr7 = 65536 - Adr;
             const UInt16 X7 = 7;
-            const UInt16 DontCare = 0;
 
             m_memory.Write(NextAddress, Adr);
             m_registerSet.GR[X6].SetValue(Gr6);
@@ -91,6 +92,41 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             const UInt16 Expected = EaContents;
             UInt16 actual = word.GetAsUnsigned();
             Assert.AreEqual(Expected, actual, "実効アドレスの内容を取得する");
+        }
+
+        /// <summary>
+        /// Register の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void Register()
+        {
+            const UInt16 X0 = 0;
+            const UInt16 X7 = 7;
+            const UInt16 GR0Value = 0x0123;
+            const UInt16 GR7Value = 0x789a;
+            m_registerSet.GR[X0].SetValue(GR0Value);
+            m_registerSet.GR[X7].SetValue(GR7Value);
+
+            CheckRegister(X0, true, GR0Value, "x/r2 が 0 => GR0 の値");
+            CheckRegister(X7, true, GR7Value, "x/r2 が 7 => GR7 の値");
+            CheckRegister(8, false, DontCare, "x/r2 が 8 => エラー");
+        }
+
+        public void CheckRegister(UInt16 xR2Field, Boolean success, UInt16 expected, String message)
+        {
+            try
+            {
+                OperandHandler target = OperandHandler.Register;
+                Word r2 = target.GetOperand(xR2Field, m_registerSet, m_memory);
+                Assert.IsTrue(success, message);
+
+                UInt16 actual = r2.GetAsUnsigned();
+                Assert.AreEqual(expected, actual, message);
+            }
+            catch (Casl2SimulatorException)
+            {
+                Assert.IsFalse(success, message);
+            }
         }
     }
 }

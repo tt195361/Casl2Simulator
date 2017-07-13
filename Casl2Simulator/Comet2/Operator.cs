@@ -14,9 +14,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <summary>
         /// r &lt;- オペランド, 〇*1: 設定される。ただし、OF には 0 が設定される。
         /// </summary>
-        internal static readonly Operator Load = new Operator(LoadAction);
+        internal static readonly Operator LoadWithFr = new Operator(LoadWithFrAction);
 
-        private static void LoadAction(
+        private static void LoadWithFrAction(
             Register r, Word operand, RegisterSet registerSet, Memory memory)
         {
             r.Value = operand;
@@ -34,6 +34,17 @@ namespace Tt195361.Casl2Simulator.Comet2
         {
             UInt16 effectiveAddress = operand.GetAsUnsigned();
             memory.Write(effectiveAddress, r.Value);
+        }
+
+        /// <summary>
+        /// r &lt;- オペランド, -- 実効前の値が保持される。
+        /// </summary>
+        internal static readonly Operator LoadWithoutFr = new Operator(LoadWithoutFrAction);
+
+        private static void LoadWithoutFrAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            r.Value = operand;
         }
         #endregion // Load/Store
 

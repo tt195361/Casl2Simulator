@@ -20,6 +20,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private const UInt16 X = 4;
         private const UInt16 Adr = 12345;
         private const UInt16 Offset = 23456;
+        private const UInt16 R2 = Offset;
         private const UInt16 EffectiveAddress = Adr + Offset;
 
         private const UInt16 NextAddressPlusOne = NextAddress + 1;
@@ -42,7 +43,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         public void LoadEaContents()
         {
             CheckEaContentsRegister(
-                Instruction.LoadEaContents, 0, 1357, 1357,
+                Instruction.LoadEaContents, DontCareUInt16, 1357, 1357,
                 "実効アドレスの内容がレジスタに設定される");
         }
 
@@ -53,8 +54,30 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         public void Store()
         {
             CheckEaContentsMemory(
-                Instruction.Store, 345, 0, EffectiveAddress, 345,
+                Instruction.Store, 345, DontCareUInt16, EffectiveAddress, 345,
                 "レジスタの内容が実効アドレスに書き込まれる");
+        }
+
+        /// <summary>
+        /// LoadEffectiveAddress 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void LoadEffectiveAddress()
+        {
+            CheckEaContentsRegister(
+                Instruction.LoadEffectiveAddress, DontCareUInt16, DontCareUInt16, EffectiveAddress,
+                "実効アドレスがレジスタに設定される");
+        }
+
+        /// <summary>
+        /// LoadRegister 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void LoadRegister()
+        {
+            CheckEaContentsRegister(
+                Instruction.LoadRegister, DontCareUInt16, DontCareUInt16, R2,
+                "指定のレジスタの内容がレジスタに設定される");
         }
         #endregion // Load/Store
 
@@ -292,6 +315,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         {
             CheckToString(Instruction.LoadEaContents, "LD r,adr,x");
             CheckToString(Instruction.Store, "ST r,adr,x");
+            CheckToString(Instruction.LoadEffectiveAddress, "LAD r,adr,x");
+            CheckToString(Instruction.LoadRegister, "LD r1,r2");
 
             CheckToString(Instruction.AddArithmeticEaContents, "ADDA r,adr,x");
 

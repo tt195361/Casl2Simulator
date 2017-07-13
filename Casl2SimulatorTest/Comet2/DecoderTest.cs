@@ -19,6 +19,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         {
             CheckDecode(0x10, Instruction.LoadEaContents, "0x10 => LD r,adr,x");
             CheckDecode(0x11, Instruction.Store, "0x11 => ST r,adr,x");
+            CheckDecode(0x12, Instruction.LoadEffectiveAddress, "0x12 => LAD r,adr,x");
+            CheckDecode(0x14, Instruction.LoadRegister, "0x14 => LD r1,r2");
 
             CheckDecode(0x20, Instruction.AddArithmeticEaContents, "0x20 => ADDA r,adr,x");
 

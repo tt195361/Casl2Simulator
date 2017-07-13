@@ -14,6 +14,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private RegisterSet m_registerSet;
         private Memory m_memory;
         private Register m_gr;
+        private Register m_pr;
         private FlagRegister m_fr;
 
         const Boolean DontCareBool = false;
@@ -25,17 +26,18 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             m_registerSet = new RegisterSet();
             m_memory = new Memory();
             m_gr = m_registerSet.GR[1];
+            m_pr = m_registerSet.PR;
             m_fr = m_registerSet.FR;
         }
 
         #region Load/Store
         /// <summary>
-        /// Load の単体テストです。
+        /// LoadWithFr の単体テストです。
         /// </summary>
         [TestMethod]
-        public void Load()
+        public void LoadWithFr()
         {
-            Operator target = Operator.Load;
+            Operator target = Operator.LoadWithFr;
 
             CheckRegisterResult(target, 0, 13579, 13579, "オペランドの値がレジスタに設定される");
 
@@ -57,6 +59,26 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Operator target = Operator.Store;
 
             CheckMemoryResult(target, 1234, 56789, 1234, "レジスタの値がオペランドで指定のアドレスに書き込まれる");
+        }
+
+        /// <summary>
+        /// LoadWithoutFr の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void LoadWithoutFr()
+        {
+            Operator target = Operator.LoadWithoutFr;
+
+            const Boolean OverflowFlagSet = true;
+            const Boolean SignFlagSet = false;
+            const Boolean ZeroFlagSet = true;
+            m_fr.SetFlags(OverflowFlagSet, SignFlagSet, ZeroFlagSet);
+
+            CheckRegisterResult(target, 0, 0x8000, 0x8000, "オペランドの値がレジスタに設定される");
+
+            Assert.AreEqual(OverflowFlagSet, m_fr.OF, "OF の値が保持される");
+            Assert.AreEqual(SignFlagSet, m_fr.SF, "SF の値が保持される");
+            Assert.AreEqual(ZeroFlagSet, m_fr.ZF, "ZF の値が保持される");
         }
         #endregion // Load/Store
 
@@ -328,12 +350,12 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             const UInt16 OperandValue = 0x2222;
             const UInt16 DontCare = 0;
 
-            m_registerSet.FR.SetFlags(overflowFlag, signFlag, zeroFlag);
-            m_registerSet.PR.SetValue(PRValue);
+            m_fr.SetFlags(overflowFlag, signFlag, zeroFlag);
+            m_pr.SetValue(PRValue);
             Operate(op, DontCare, OperandValue);
 
             UInt16 expected = jump ? OperandValue : PRValue;
-            UInt16 actual = m_registerSet.PR.Value.GetAsUnsigned();
+            UInt16 actual = m_pr.Value.GetAsUnsigned();
             Assert.AreEqual(expected, actual, message);
         }
 

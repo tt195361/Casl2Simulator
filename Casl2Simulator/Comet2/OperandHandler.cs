@@ -38,17 +38,31 @@ namespace Tt195361.Casl2Simulator.Comet2
 
         private static Word GetAddressOffset(UInt16 xR2Field, RegisterSet registerSet)
         {
-            ArgChecker.CheckRange(xR2Field, 0, GeneralRegisters.Count - 1, "x/r2");
-
             if (xR2Field == 0)
             {
                 return Word.Zero;
             }
             else
             {
-                Register x = registerSet.GR[xR2Field];
-                return x.Value;
+                return DoGetRegister(xR2Field, registerSet);
             }
+        }
+        #endregion
+
+        #region Register
+        internal static readonly OperandHandler Register = new OperandHandler(GetRegister);
+
+        private static Word GetRegister(UInt16 xR2Field, RegisterSet registerSet, Memory memory)
+        {
+            return DoGetRegister(xR2Field, registerSet);
+        }
+
+        private static Word DoGetRegister(UInt16 xR2Field, RegisterSet registerSet)
+        {
+            ArgChecker.CheckRange(xR2Field, 0, GeneralRegisters.Count - 1, "x/r2");
+
+            Register x = registerSet.GR[xR2Field];
+            return x.Value;
         }
         #endregion
 

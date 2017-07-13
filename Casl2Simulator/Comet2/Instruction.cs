@@ -7,34 +7,40 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// </summary>
     internal class Instruction
     {
-        /// ロード 実効アドレス 命令
+        /// ロード (実効アドレス) 命令
         internal static readonly Instruction LoadEaContents = new Instruction(
-            "LD r,adr,x", Operator.Load, RegisterHandler.Register, OperandHandler.EaContents);
+            "LD r,adr,x", Operator.LoadWithFr, RegisterHandler.Register, OperandHandler.EaContents);
         /// ストア 命令
         internal static readonly Instruction Store = new Instruction(
             "ST r,adr,x", Operator.Store, RegisterHandler.Register, OperandHandler.EffectiveAddress);
+        /// ロード 実効アドレス 命令
+        internal static readonly Instruction LoadEffectiveAddress = new Instruction(
+            "LAD r,adr,x", Operator.LoadWithoutFr, RegisterHandler.Register, OperandHandler.EffectiveAddress);
+        /// ロード レジスタ 命令
+        internal static readonly Instruction LoadRegister = new Instruction(
+            "LD r1,r2", Operator.LoadWithFr, RegisterHandler.Register, OperandHandler.Register);
 
-        /// 算術加算 実効アドレス 命令
+        /// 算術加算 (実効アドレス) 命令
         internal static readonly Instruction AddArithmeticEaContents = new Instruction(
             "ADDA r,adr,x", Operator.AddArithmetic, RegisterHandler.Register, OperandHandler.EaContents);
 
-        /// 算術比較 実効アドレス 命令
+        /// 算術比較 (実効アドレス) 命令
         internal static readonly Instruction CompareArithmeticEaContents = new Instruction(
             "CPA r,adr,x", Operator.CompareArithmetic, RegisterHandler.Register, OperandHandler.EaContents);
-        /// 論理比較 実効アドレス 命令
+        /// 論理比較 (実効アドレス) 命令
         internal static readonly Instruction CompareLogicalEaContents = new Instruction(
             "CPL r,adr,x", Operator.CompareLogical, RegisterHandler.Register, OperandHandler.EaContents);
 
-        /// 算術左シフト 実効アドレス 命令
+        /// 算術左シフト (実効アドレス) 命令
         internal static readonly Instruction ShiftLeftArithmeticEaContents = new Instruction(
             "SLA r,adr,x", Operator.ShiftLeftArithmetic, RegisterHandler.Register, OperandHandler.EaContents);
-        /// 算術右シフト 実効アドレス 命令
+        /// 算術右シフト (実効アドレス) 命令
         internal static readonly Instruction ShiftRightArithmeticEaContents = new Instruction(
             "SRA r,adr,x", Operator.ShiftRightArithmetic, RegisterHandler.Register, OperandHandler.EaContents);
-        /// 論理左シフト 実効アドレス 命令
+        /// 論理左シフト (実効アドレス) 命令
         internal static readonly Instruction ShiftLeftLogicalEaContents = new Instruction(
             "SLL r,adr,x", Operator.ShiftLeftLogical, RegisterHandler.Register, OperandHandler.EaContents);
-        /// 論理右シフト 実効アドレス 命令
+        /// 論理右シフト (実効アドレス) 命令
         internal static readonly Instruction ShiftRightLogicalEaContents = new Instruction(
             "SRL r,adr,x", Operator.ShiftRightLogical, RegisterHandler.Register, OperandHandler.EaContents);
 
