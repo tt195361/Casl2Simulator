@@ -93,14 +93,74 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
             CheckRegisterResult(target, 1111, 2222, 3333, "算術加算の値がレジスタに設定される");
 
-            CheckOverflowFlag(target, 20000, 12767, false, "オーバーフローしない => OF は false");
-            CheckOverflowFlag(target, 20000, 12768, true, "オーバーフローする => OF は true");
+            CheckOverflowFlag(target, 0x7ffe, 0x0001, false, "オーバーフローしない => OF は false");
+            CheckOverflowFlag(target, 0x7fff, 0x0001, true, "オーバーフローする => OF は true");
 
-            CheckSignFlag(target, 0x7000, 0x0fff, false, "結果が正の値 => SF は false");
-            CheckSignFlag(target, 0x8001, 0xffff, true, "結果が負の値 => SF は true");
+            CheckSignFlag(target, 0xffff, 0x0002, false, "結果が正の値か 0 => SF は false");
+            CheckSignFlag(target, 0x0001, 0xfffe, true, "結果が負の値 => SF は true");
 
-            CheckZeroFlag(target, 2, 0xffff, false, "結果が 0 以外 => ZF は false");
-            CheckZeroFlag(target, 1, 0xffff, true, "結果が 0 => ZF は true");
+            CheckZeroFlag(target, 0x0002, 0xffff, false, "結果が 0 以外 => ZF は false");
+            CheckZeroFlag(target, 0x0001, 0xffff, true, "結果が 0 => ZF は true");
+        }
+
+        /// <summary>
+        /// SubtractArithmetic の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void SubtractArithmetic()
+        {
+            Operator target = Operator.SubtractArithmetic;
+
+            CheckRegisterResult(target, 23456, 12345, 11111, "算術減算の値がレジスタに設定される");
+
+            CheckOverflowFlag(target, 0x7ffe, 0xffff, false, "オーバーフローしない => OF は false");
+            CheckOverflowFlag(target, 0x7fff, 0xffff, true, "オーバーフローする => OF は true");
+
+            CheckSignFlag(target, 0xffff, 0xfffe, false, "結果が正の値 => SF は false");
+            CheckSignFlag(target, 0x0001, 0x0002, true, "結果が負の値 => SF は true");
+
+            CheckZeroFlag(target, 0x0002, 0x0001, false, "結果が 0 以外 => ZF は false");
+            CheckZeroFlag(target, 0x0001, 0x0001, true, "結果が 0 => ZF は true");
+        }
+
+        /// <summary>
+        /// AddLogical の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void AddLogical()
+        {
+            Operator target = Operator.AddLogical;
+
+            CheckRegisterResult(target, 0x7fff, 0x8000, 0xffff, "論理加算の値がレジスタに設定される");
+
+            CheckOverflowFlag(target, 0x7fff, 0x8000, false, "オーバーフローしない => OF は false");
+            CheckOverflowFlag(target, 0x7fff, 0x8001, true, "オーバーフローする => OF は true");
+
+            CheckSignFlag(target, 0xfffe, 0x0002, false, "結果が正の値か 0 => SF は false");
+            CheckSignFlag(target, 0xfffe, 0x0001, true, "結果が負の値 => SF は true");
+
+            CheckZeroFlag(target, 0x0002, 0xffff, false, "結果が 0 以外 => ZF は false");
+            CheckZeroFlag(target, 0x0001, 0xffff, true, "結果が 0 => ZF は true");
+        }
+
+        /// <summary>
+        /// SubtractLogical の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void SubtractLogical()
+        {
+            Operator target = Operator.SubtractLogical;
+
+            CheckRegisterResult(target, 0xffff, 0x8000, 0x7fff, "論理減算の値がレジスタに設定される");
+
+            CheckOverflowFlag(target, 0x7fff, 0x7fff, false, "オーバーフローしない => OF は false");
+            CheckOverflowFlag(target, 0x7fff, 0x8000, true, "オーバーフローする => OF は true");
+
+            CheckSignFlag(target, 0x8000, 0x0001, false, "結果が正の値か 0 => SF は false");
+            CheckSignFlag(target, 0x7fff, 0xffff, true, "結果が負の値 => SF は true");
+
+            CheckZeroFlag(target, 0x0002, 0x0001, false, "結果が 0 以外 => ZF は false");
+            CheckZeroFlag(target, 0x0001, 0x0001, true, "結果が 0 => ZF は true");
         }
         #endregion // Arithmetic/Logical Operation
 
@@ -302,6 +362,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
         #endregion // Jump
 
+        #region Check
         private void CheckRegisterResult(
             Operator op, UInt16 regValue, UInt16 oprValue, UInt16 expected, String message)
         {
@@ -365,5 +426,6 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Word operand = new Word(oprValue);
             op.Operate(m_gr, operand, m_registerSet, m_memory);
         }
+        #endregion // Check
     }
 }

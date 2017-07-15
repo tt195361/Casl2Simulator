@@ -28,12 +28,14 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private const UInt16 DontCareUInt16 = 0;
         #endregion
 
+        #region TestInitialize
         [TestInitialize]
         public void TestInitialize()
         {
             m_registerSet = new RegisterSet();
             m_memory = new Memory();
         }
+        #endregion
 
         #region Load/Store
         /// <summary>
@@ -89,8 +91,45 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         public void AddArithmeticEaContents()
         {
             CheckEaContentsRegister(
-                Instruction.AddArithmeticEaContents, 1234, 2345, 3579,
+                Instruction.AddArithmeticEaContents, 32767, 1, 32768,
                 "実効アドレスの内容がレジスタに算術加算される");
+            Assert.IsTrue(m_registerSet.FR.OF, "算術だと -32768..32767 なのでオーバーフローする");
+        }
+
+        /// <summary>
+        /// SubtractArithmeticEaContents 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void SubtractArithmeticEaContents()
+        {
+            CheckEaContentsRegister(
+                Instruction.SubtractArithmeticEaContents, 1, 2, 0xffff,
+                "実効アドレスの内容がレジスタから算術減算される");
+            Assert.IsFalse(m_registerSet.FR.OF, "算術だと -32768..32767 なのでオーバーフローしない");
+        }
+
+        /// <summary>
+        /// AddLogicalEaContents 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void AddLogicalEaContents()
+        {
+            CheckEaContentsRegister(
+                Instruction.AddLogicalEaContents, 32767, 1, 32768,
+                "実効アドレスの内容がレジスタに論理加算される");
+            Assert.IsFalse(m_registerSet.FR.OF, "論理だと 0..65535 なのでオーバーフローしない");
+        }
+
+        /// <summary>
+        /// SubtractLogicalEaContents 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void SubtractLogicalEaContents()
+        {
+            CheckEaContentsRegister(
+                Instruction.SubtractLogicalEaContents, 1, 2, 0xffff,
+                "実効アドレスの内容がレジスタから論理減算される");
+            Assert.IsTrue(m_registerSet.FR.OF, "論理だと 0..65535 なのでオーバーフローする");
         }
         #endregion // Arithmetic/Logical Operation
 
@@ -249,6 +288,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
         #endregion
 
+        #region Check
         private void CheckEaContentsRegister(
             Instruction instruction, UInt16 regValue, UInt16 eaContents, UInt16 expected, String message)
         {
@@ -306,7 +346,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             m_registerSet.PR.SetValue(NextAddress);
             instruction.Execute(R, X, m_registerSet, m_memory);
         }
+        #endregion // Check
 
+        #region ToString
         /// <summary>
         /// ToString メソッドの単体テストです。
         /// </summary>
@@ -319,6 +361,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckToString(Instruction.LoadRegister, "LD r1,r2");
 
             CheckToString(Instruction.AddArithmeticEaContents, "ADDA r,adr,x");
+            CheckToString(Instruction.SubtractArithmeticEaContents, "SUBA r,adr,x");
+            CheckToString(Instruction.AddLogicalEaContents, "ADDL r,adr,x");
+            CheckToString(Instruction.SubtractLogicalEaContents, "SUBL r,adr,x");
 
             CheckToString(Instruction.CompareArithmeticEaContents, "CPA r,adr,x");
             CheckToString(Instruction.CompareLogicalEaContents, "CPL r,adr,x");
@@ -341,5 +386,6 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             String actual = instruction.ToString();
             Assert.AreEqual(expected, actual);
         }
+        #endregion // ToString
     }
 }

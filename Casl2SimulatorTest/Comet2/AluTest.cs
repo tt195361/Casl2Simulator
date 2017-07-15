@@ -10,55 +10,93 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
     [TestClass]
     public class AluTest
     {
+        #region Fields
+        private Alu.OperationMethod m_operationMethodToTest;
+        #endregion
+
+        #region Arithmetic Operation
         /// <summary>
         /// AddArithmetic メソッドの単体テストです。
         /// </summary>
         [TestMethod]
         public void AddArithmetic()
         {
-            CheckAddArithmetic(20000, 12767, 32767, false, "ちょうど最大 => 結果は計算通り, オーバーフローなし");
-            CheckAddArithmetic(20001, 12767, -32768, true, "最大より大きい => 結果は反転、オーバーフローあり");
-            CheckAddArithmetic(-10000, -22768, -32768, false, "ちょうど最小 => 結果は計算通り、オーバーフローなし");
-            CheckAddArithmetic(-10001, -22768, 32767, true, "最小より小さい => 結果は反転、オーバーフローあり");
+            m_operationMethodToTest = Alu.AddArithmetic;
+
+            CheckArithmeticOp(20000, 12767, 32767, false, "ちょうど最大 => 結果は計算通り, オーバーフローなし");
+            CheckArithmeticOp(20001, 12767, -32768, true, "最大より大きい => 結果は反転、オーバーフローあり");
+            CheckArithmeticOp(-10000, -22768, -32768, false, "ちょうど最小 => 結果は計算通り、オーバーフローなし");
+            CheckArithmeticOp(-10001, -22768, 32767, true, "最小より小さい => 結果は反転、オーバーフローあり");
         }
 
-        private void CheckAddArithmetic(
+        /// <summary>
+        /// SubtractArithmetic メソッドの単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void SubtractArithmetic()
+        {
+            m_operationMethodToTest = Alu.SubtractArithmetic;
+
+            CheckArithmeticOp(20000, -12767, 32767, false, "ちょうど最大 => 結果は計算通り, オーバーフローなし");
+            CheckArithmeticOp(20001, -12767, -32768, true, "最大より大きい => 結果は反転、オーバーフローあり");
+            CheckArithmeticOp(-10000, 22768, -32768, false, "ちょうど最小 => 結果は計算通り、オーバーフローなし");
+            CheckArithmeticOp(-10001, 22768, 32767, true, "最小より小さい => 結果は反転、オーバーフローあり");
+        }
+
+        private void CheckArithmeticOp(
             Int16 i16Val1, Int16 i16Val2, Int16 expectedResult, Boolean expectedOverflow, String message)
         {
             Word word1 = new Word(i16Val1);
             Word word2 = new Word(i16Val2);
             Boolean actualOverflow;
-            Word resultWord = Alu.AddArithmetic(word1, word2, out actualOverflow);
+            Word resultWord = m_operationMethodToTest(word1, word2, out actualOverflow);
 
             Int16 actualResult = resultWord.GetAsSigned();
             Assert.AreEqual(expectedResult, actualResult, "Result: " + message);
             Assert.AreEqual(expectedOverflow, actualOverflow, "Overflow: " + message);
         }
+        #endregion // Arithmetic Operation
 
+        #region Logical Operation
         /// <summary>
         /// AddLogical メソッドの単体テストです。
         /// </summary>
         [TestMethod]
         public void AddLogical()
         {
-            CheckAddLogical(0x7fff, 0x0001, 0x8000, false, "足して 0x8000 => 結果は計算通り, オーバーフローなし");
-            CheckAddLogical(0x8000, 0x7fff, 0xffff, false, "ちょうど最大 => 結果は計算通り, オーバーフローなし");
-            CheckAddLogical(0x8000, 0x8000, 0, true, "最大より大きい => 結果は反転, オーバーフローあり");
+            m_operationMethodToTest = Alu.AddLogical;
+
+            CheckLogicalOp(0x7fff, 0x0001, 0x8000, false, "足して 0x8000 => 結果は計算通り, オーバーフローなし");
+            CheckLogicalOp(0x8000, 0x7fff, 0xffff, false, "ちょうど最大 => 結果は計算通り, オーバーフローなし");
+            CheckLogicalOp(0x8000, 0x8000, 0, true, "最大より大きい => 結果は反転, オーバーフローあり");
+        }
+        /// <summary>
+        /// SubtractLogical メソッドの単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void SubtractLogical()
+        {
+            m_operationMethodToTest = Alu.SubtractLogical;
+
+            CheckLogicalOp(0x0001, 0x0001, 0x0000, false, "引いて 0 => 結果は計算通り, オーバーフローなし");
+            CheckLogicalOp(0x0001, 0x0002, 0xffff, true, "引いたらマイナス => 結果は反転, オーバーフローあり");
         }
 
-        private void CheckAddLogical(
+        private void CheckLogicalOp(
             UInt16 ui16Val1, UInt16 ui16Val2, UInt16 expectedResult, Boolean expectedOverflow, String message)
         {
             Word word1 = new Word(ui16Val1);
             Word word2 = new Word(ui16Val2);
             Boolean actualOverflow;
-            Word resultWord = Alu.AddLogical(word1, word2, out actualOverflow);
+            Word resultWord = m_operationMethodToTest(word1, word2, out actualOverflow);
 
             UInt16 actualResult = resultWord.GetAsUnsigned();
             Assert.AreEqual(expectedResult, actualResult, "Result: " + message);
             Assert.AreEqual(expectedOverflow, actualOverflow, "Overflow: " + message);
         }
+        #endregion // Logical Operation
 
+        #region Comparison
         /// <summary>
         /// CompareArithmetic メソッドの単体テストです。
         /// </summary>
@@ -114,7 +152,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Assert.AreEqual(expectedSign, actualSign, "Sign: " + message);
             Assert.AreEqual(expectedZero, actualZero, "Zero: " + message);
         }
+        #endregion // Comparison
 
+        #region Shift
         /// <summary>
         /// ShiftLeftArithmetic メソッドのシフト結果の単体テストです。
         /// </summary>
@@ -266,5 +306,6 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Word notUsed = shiftMethod(word1, word2, out actual);
             Assert.AreEqual(expected, actual, message);
         }
+        #endregion // Shift
     }
 }

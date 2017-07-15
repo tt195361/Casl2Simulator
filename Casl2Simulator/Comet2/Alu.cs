@@ -9,6 +9,18 @@ namespace Tt195361.Casl2Simulator.Comet2
     internal static class Alu
     {
         /// <summary>
+        /// 演算メソッドを呼び出すデリゲートです。
+        /// </summary>
+        /// <param name="word1">演算する値を格納する第一の語です。</param>
+        /// <param name="word2">演算する値を格納する第二の語です。</param>
+        /// <param name="overflow">演算の結果がオーバーフローしたかどうかを返します。</param>
+        /// <returns>演算の結果を返します。</returns>
+        internal delegate Word OperationMethod(Word word1, Word word2, out Boolean overflow);
+
+        #region Arithmetic Operation
+        private delegate Int32 ArithmeticOp(Int16 i16Val1, Int16 i16Val2);
+
+        /// <summary>
         /// 指定の値を算術加算し、その結果とオーバーフローしたかどうかを返します。
         /// </summary>
         /// <param name="word1">加算する値を格納する第一の語です。</param>
@@ -17,14 +29,38 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <returns>算術加算の結果を返します。</returns>
         internal static Word AddArithmetic(Word word1, Word word2, out Boolean overflow)
         {
+            return ArithmeticOperation(
+                (i16Val1, i16Val2) => i16Val1 + i16Val2, word1, word2, out overflow);
+        }
+
+        /// <summary>
+        /// 指定の値を算術減算し、その結果とオーバーフローしたかどうかを返します。
+        /// </summary>
+        /// <param name="word1">減算される値を格納する語です。</param>
+        /// <param name="word2">減算する値を格納する語です。</param>
+        /// <param name="overflow">減算の結果がオーバーフローしたかどうかを返します。</param>
+        /// <returns>算術減算の結果を返します。</returns>
+        internal static Word SubtractArithmetic(Word word1, Word word2, out Boolean overflow)
+        {
+            return ArithmeticOperation(
+                (i16Val1, i16Val2) => i16Val1 - i16Val2, word1, word2, out overflow);
+        }
+
+        private static Word ArithmeticOperation(
+            ArithmeticOp op, Word word1, Word word2, out Boolean overflow)
+        {
             Int16 i16Val1 = word1.GetAsSigned();
             Int16 i16Val2 = word2.GetAsSigned();
-            Int32 i32Val = i16Val1 + i16Val2;
+            Int32 i32Val = op(i16Val1, i16Val2);
 
             Int16 i16Result = NumberUtils.ToInt16(i32Val);
             overflow = NumberUtils.CheckInt16Overflow(i32Val);
             return new Word(i16Result);
         }
+        #endregion // Arithmetic Operation
+
+        #region Logical Operation
+        private delegate Int32 LogicalOp(UInt16 ui16Val1, UInt16 ui16Val2);
 
         /// <summary>
         /// 指定の値を論理加算し、その結果を返します。
@@ -47,14 +83,35 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <returns>論理加算の結果を返します。</returns>
         internal static Word AddLogical(Word word1, Word word2, out Boolean overflow)
         {
+            return LogicalOperation(
+                (ui16Val1, ui16Val2) => ui16Val1 + ui16Val2, word1, word2, out overflow);
+        }
+
+        /// <summary>
+        /// 指定の値を論理減算し、その結果とオーバーフローしたかどうかを返します。
+        /// </summary>
+        /// <param name="word1">減算される値を格納する語です。</param>
+        /// <param name="word2">減算する値を格納する語です。</param>
+        /// <param name="overflow">減算の結果がオーバーフローしたかどうかを返します。</param>
+        /// <returns>論理減算の結果を返します。</returns>
+        internal static Word SubtractLogical(Word word1, Word word2, out Boolean overflow)
+        {
+            return LogicalOperation(
+                (ui16Val1, ui16Val2) => ui16Val1 - ui16Val2, word1, word2, out overflow);
+        }
+
+        private static Word LogicalOperation(
+            LogicalOp op, Word word1, Word word2, out Boolean overflow)
+        {
             UInt16 ui16Val1 = word1.GetAsUnsigned();
             UInt16 ui16Val2 = word2.GetAsUnsigned();
-            Int32 i32Val = ui16Val1 + ui16Val2;
+            Int32 i32Val = op(ui16Val1, ui16Val2);
 
             UInt16 ui16Result = NumberUtils.ToUInt16(i32Val);
             overflow = NumberUtils.CheckUInt16Overflow(i32Val);
             return new Word(ui16Result);
         }
+        #endregion // Logical Operation
 
         #region Compare
         /// <summary>

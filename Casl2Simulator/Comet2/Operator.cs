@@ -57,8 +57,48 @@ namespace Tt195361.Casl2Simulator.Comet2
         private static void AddArithmeticAction(
             Register r, Word operand, RegisterSet registerSet, Memory memory)
         {
+            DoOperation(Alu.AddArithmetic, r, operand, registerSet, memory);
+        }
+
+        /// <summary>
+        /// r &lt;- (r) - オペランド, 〇: 設定される。
+        /// </summary>
+        internal static readonly Operator SubtractArithmetic = new Operator(SubtractArithmeticAction);
+
+        private static void SubtractArithmeticAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            DoOperation(Alu.SubtractArithmetic, r, operand, registerSet, memory);
+        }
+
+        /// <summary>
+        /// r &lt;- (r) +L オペランド, 〇: 設定される。
+        /// </summary>
+        internal static readonly Operator AddLogical = new Operator(AddLogicalAction);
+
+        private static void AddLogicalAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            DoOperation(Alu.AddLogical, r, operand, registerSet, memory);
+        }
+
+        /// <summary>
+        /// r &lt;- (r) -L オペランド, 〇: 設定される。
+        /// </summary>
+        internal static readonly Operator SubtractLogical = new Operator(SubtractLogicalAction);
+
+        private static void SubtractLogicalAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            DoOperation(Alu.SubtractLogical, r, operand, registerSet, memory);
+        }
+
+        private static void DoOperation(
+            Alu.OperationMethod operationMethod, Register r, Word operand,
+            RegisterSet registerSet, Memory memory)
+        {
             Boolean overflowFlag;
-            r.Value = Alu.AddArithmetic(r.Value, operand, out overflowFlag);
+            r.Value = operationMethod(r.Value, operand, out overflowFlag);
             registerSet.FR.SetFlags(r, overflowFlag);
         }
         #endregion // Arithmetic/Logical Operation
@@ -247,6 +287,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         private readonly OperateAction m_operateAction;
         #endregion
 
+        // このクラスのインスタンスは、このクラス内からのみ作成できます。
         private Operator(OperateAction operateAction)
         {
             m_operateAction = operateAction;

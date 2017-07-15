@@ -23,6 +23,15 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// 算術加算 (実効アドレス) 命令
         internal static readonly Instruction AddArithmeticEaContents = new Instruction(
             "ADDA r,adr,x", Operator.AddArithmetic, RegisterHandler.Register, OperandHandler.EaContents);
+        /// 算術減算 (実効アドレス) 命令
+        internal static readonly Instruction SubtractArithmeticEaContents = new Instruction(
+            "SUBA r,adr,x", Operator.SubtractArithmetic, RegisterHandler.Register, OperandHandler.EaContents);
+        /// 論理加算 (実効アドレス) 命令
+        internal static readonly Instruction AddLogicalEaContents = new Instruction(
+            "ADDL r,adr,x", Operator.AddLogical, RegisterHandler.Register, OperandHandler.EaContents);
+        /// 論理減算 (実効アドレス) 命令
+        internal static readonly Instruction SubtractLogicalEaContents = new Instruction(
+            "SUBL r,adr,x", Operator.SubtractLogical, RegisterHandler.Register, OperandHandler.EaContents);
 
         /// 算術比較 (実効アドレス) 命令
         internal static readonly Instruction CompareArithmeticEaContents = new Instruction(
