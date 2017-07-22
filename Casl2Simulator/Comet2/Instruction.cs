@@ -32,6 +32,18 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// 論理減算 (実効アドレス) 命令
         internal static readonly Instruction SubtractLogicalEaContents = new Instruction(
             "SUBL r,adr,x", Operator.SubtractLogical, RegisterHandler.Register, OperandHandler.EaContents);
+        /// 算術加算 レジスタ 命令
+        internal static readonly Instruction AddArithmeticRegister = new Instruction(
+            "ADDA r1,r2", Operator.AddArithmetic, RegisterHandler.Register, OperandHandler.Register);
+        /// 算術減算 レジスタ 命令
+        internal static readonly Instruction SubtractArithmeticRegister = new Instruction(
+            "SUBA r1,r2", Operator.SubtractArithmetic, RegisterHandler.Register, OperandHandler.Register);
+        /// 論理加算 レジスタ 命令
+        internal static readonly Instruction AddLogicalRegister = new Instruction(
+            "ADDL r1,r2", Operator.AddLogical, RegisterHandler.Register, OperandHandler.Register);
+        /// 論理減算 レジスタ 命令
+        internal static readonly Instruction SubtractLogicalRegister = new Instruction(
+            "SUBL r1,r2", Operator.SubtractLogical, RegisterHandler.Register, OperandHandler.Register);
 
         /// 算術比較 (実効アドレス) 命令
         internal static readonly Instruction CompareArithmeticEaContents = new Instruction(

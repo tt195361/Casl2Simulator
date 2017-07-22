@@ -18,9 +18,10 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private const UInt16 NextAddress = 100;
         private const UInt16 R = 3;
         private const UInt16 X = 4;
+        private const UInt16 R1 = 5;
+        private const UInt16 R2 = 6;
         private const UInt16 Adr = 12345;
         private const UInt16 Offset = 23456;
-        private const UInt16 R2 = Offset;
         private const UInt16 EffectiveAddress = Adr + Offset;
 
         private const UInt16 NextAddressPlusOne = NextAddress + 1;
@@ -77,8 +78,10 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         [TestMethod]
         public void LoadRegister()
         {
-            CheckEaContentsRegister(
-                Instruction.LoadRegister, DontCareUInt16, DontCareUInt16, R2,
+            const UInt16 R2Value = 13579;
+
+            CheckRegisterRegister(
+                Instruction.LoadRegister, DontCareUInt16, R2Value, R2Value,
                 "指定のレジスタの内容がレジスタに設定される");
         }
         #endregion // Load/Store
@@ -129,6 +132,54 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckEaContentsRegister(
                 Instruction.SubtractLogicalEaContents, 1, 2, 0xffff,
                 "実効アドレスの内容がレジスタから論理減算される");
+            Assert.IsTrue(m_registerSet.FR.OF, "論理だと 0..65535 なのでオーバーフローする");
+        }
+
+        /// <summary>
+        /// AddArithmeticRegister 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void AddArithmeticRegister()
+        {
+            CheckRegisterRegister(
+                Instruction.AddArithmeticRegister, 10000, 22768, 32768,
+                "レジスタ2の内容がレジスタ1に算術加算される");
+            Assert.IsTrue(m_registerSet.FR.OF, "算術だと -32768..32767 なのでオーバーフローする");
+        }
+
+        /// <summary>
+        /// SubtractArithmeticRegister 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void SubtractArithmeticRegister()
+        {
+            CheckRegisterRegister(
+                Instruction.SubtractArithmeticRegister, 0x7ffe, 0x7fff, 0xffff,
+                "レジスタ2の内容がレジスタ1から算術減算される");
+            Assert.IsFalse(m_registerSet.FR.OF, "算術だと -32768..32767 なのでオーバーフローしない");
+        }
+
+        /// <summary>
+        /// AddLogicalRegister 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void AddLogicalRegister()
+        {
+            CheckRegisterRegister(
+                Instruction.AddLogicalRegister, 10000, 22768, 32768,
+                "レジスタ2の内容がレジスタ1に論理加算される");
+            Assert.IsFalse(m_registerSet.FR.OF, "論理だと 0..65535 なのでオーバーフローしない");
+        }
+
+        /// <summary>
+        /// SubtractLogicalRegister 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void SubtractLogicalRegister()
+        {
+            CheckRegisterRegister(
+                Instruction.SubtractLogicalRegister, 0x7ffe, 0x7fff, 0xffff,
+                "レジスタ2の内容がレジスタ1から論理減算される");
             Assert.IsTrue(m_registerSet.FR.OF, "論理だと 0..65535 なのでオーバーフローする");
         }
         #endregion // Arithmetic/Logical Operation
@@ -292,7 +343,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private void CheckEaContentsRegister(
             Instruction instruction, UInt16 regValue, UInt16 eaContents, UInt16 expected, String message)
         {
-            ExecuteInstruction(instruction, regValue, eaContents);
+            ExecuteEaContentsInstruction(instruction, regValue, eaContents);
             UInt16 actual = m_registerSet.GR[R].Value.GetAsUnsigned();
             Assert.AreEqual(expected, actual, message);
         }
@@ -301,7 +352,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Instruction instruction, UInt16 regValue, UInt16 eaContents, Int32 address,
             UInt16 expected, String message)
         {
-            ExecuteInstruction(instruction, regValue, eaContents);
+            ExecuteEaContentsInstruction(instruction, regValue, eaContents);
             Word word = m_memory.Read(address);
             UInt16 actual = word.GetAsUnsigned();
             Assert.AreEqual(expected, actual, message);
@@ -311,7 +362,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Instruction instruction, UInt16 regValue, UInt16 eaContents,
             Boolean expectedOverflow, Boolean expectedSign, Boolean expectedZero, String message)
         {
-            ExecuteInstruction(instruction, regValue, eaContents);
+            ExecuteEaContentsInstruction(instruction, regValue, eaContents);
             CheckFlag(expectedOverflow, m_registerSet.FR.OF, "Overflow: " + message);
             CheckFlag(expectedSign, m_registerSet.FR.SF, "Sign: " + message);
             CheckFlag(expectedZero, m_registerSet.FR.ZF, "Zero: " + message);
@@ -327,14 +378,14 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Boolean jump, String message)
         {
             m_registerSet.FR.SetFlags(overflowFlag, signFlag, zeroFlag);
-            ExecuteInstruction(instruction, DontCareUInt16, DontCareUInt16);
+            ExecuteEaContentsInstruction(instruction, DontCareUInt16, DontCareUInt16);
 
             UInt16 expected = jump ? EffectiveAddress : NextAddressPlusOne;
             UInt16 actual = m_registerSet.PR.Value.GetAsUnsigned();
             Assert.AreEqual(expected, actual, message);
         }
 
-        private void ExecuteInstruction(Instruction instruction, UInt16 regValue, UInt16 eaContents)
+        private void ExecuteEaContentsInstruction(Instruction instruction, UInt16 regValue, UInt16 eaContents)
         {
             // 命令語の次のアドレスに adr, 実効アドレスの内容、GRx にオフセットの値を書き込みます。
             m_memory.Write(NextAddress, Adr);
@@ -345,6 +396,22 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             m_registerSet.GR[R].SetValue(regValue);
             m_registerSet.PR.SetValue(NextAddress);
             instruction.Execute(R, X, m_registerSet, m_memory);
+        }
+
+        private void CheckRegisterRegister(
+            Instruction instruction, UInt16 reg1Value, UInt16 reg2Value, UInt16 expected, String message)
+        {
+            ExecuteRegisterInstruction(instruction, reg1Value, reg2Value);
+            UInt16 actual = m_registerSet.GR[R1].Value.GetAsUnsigned();
+            Assert.AreEqual(expected, actual, message);
+        }
+
+        private void ExecuteRegisterInstruction(Instruction instruction, UInt16 reg1Value, UInt16 reg2Value)
+        {
+            // レジスタに値を設定し、命令を実行します。
+            m_registerSet.GR[R1].SetValue(reg1Value);
+            m_registerSet.GR[R2].SetValue(reg2Value);
+            instruction.Execute(R1, R2, m_registerSet, m_memory);
         }
         #endregion // Check
 
@@ -364,6 +431,10 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckToString(Instruction.SubtractArithmeticEaContents, "SUBA r,adr,x");
             CheckToString(Instruction.AddLogicalEaContents, "ADDL r,adr,x");
             CheckToString(Instruction.SubtractLogicalEaContents, "SUBL r,adr,x");
+            CheckToString(Instruction.AddArithmeticRegister, "ADDA r1,r2");
+            CheckToString(Instruction.SubtractArithmeticRegister, "SUBA r1,r2");
+            CheckToString(Instruction.AddLogicalRegister, "ADDL r1,r2");
+            CheckToString(Instruction.SubtractLogicalRegister, "SUBL r1,r2");
 
             CheckToString(Instruction.CompareArithmeticEaContents, "CPA r,adr,x");
             CheckToString(Instruction.CompareLogicalEaContents, "CPL r,adr,x");

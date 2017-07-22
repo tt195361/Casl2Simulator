@@ -26,6 +26,10 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckDecode(0x21, Instruction.SubtractArithmeticEaContents, "0x21 => SUBA r,adr,x");
             CheckDecode(0x22, Instruction.AddLogicalEaContents, "0x22 => ADDL r,adr,x");
             CheckDecode(0x23, Instruction.SubtractLogicalEaContents, "0x23 => SUBL r,adr,x");
+            CheckDecode(0x24, Instruction.AddArithmeticRegister, "0x24 => ADDA r1,r2");
+            CheckDecode(0x25, Instruction.SubtractArithmeticRegister, "0x25 => SUBA r1,r2");
+            CheckDecode(0x26, Instruction.AddLogicalRegister, "0x26 => ADDL r1,r2");
+            CheckDecode(0x27, Instruction.SubtractLogicalRegister, "0x27 => SUBL r1,r2");
 
             CheckDecode(0x40, Instruction.CompareArithmeticEaContents, "0x40 => CPA r,adr,x");
             CheckDecode(0x41, Instruction.CompareLogicalEaContents, "0x41 => CPL r,adr,x");
