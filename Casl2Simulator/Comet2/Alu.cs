@@ -100,6 +100,48 @@ namespace Tt195361.Casl2Simulator.Comet2
                 (ui16Val1, ui16Val2) => ui16Val1 - ui16Val2, word1, word2, out overflow);
         }
 
+        /// <summary>
+        /// 指定の値の論理積を求め、その結果を返します。
+        /// オーバーフローは、常に <see langword="false"/> を返します。
+        /// </summary>
+        /// <param name="word1">論理積する値を格納する第一の語です。</param>
+        /// <param name="word2">論理積する値を格納する第二の語です。</param>
+        /// <param name="overflow">常に <see langword="false"/> を返します。</param>
+        /// <returns>論理積の結果を返します。</returns>
+        internal static Word And(Word word1, Word word2, out Boolean overflow)
+        {
+            return LogicalOperation(
+                (ui16Val1, ui16Val2) => ui16Val1 & ui16Val2, word1, word2, out overflow);
+        }
+
+        /// <summary>
+        /// 指定の値の論理和を求め、その結果を返します。
+        /// オーバーフローは、常に <see langword="false"/> を返します。
+        /// </summary>
+        /// <param name="word1">論理和する値を格納する第一の語です。</param>
+        /// <param name="word2">論理和する値を格納する第二の語です。</param>
+        /// <param name="overflow">常に <see langword="false"/> を返します。</param>
+        /// <returns>論理和の結果を返します。</returns>
+        internal static Word Or(Word word1, Word word2, out Boolean overflow)
+        {
+            return LogicalOperation(
+                (ui16Val1, ui16Val2) => ui16Val1 | ui16Val2, word1, word2, out overflow);
+        }
+
+        /// <summary>
+        /// 指定の値の排他的論理和を求め、その結果を返します。
+        /// オーバーフローは、常に <see langword="false"/> を返します。
+        /// </summary>
+        /// <param name="word1">排他的論理和する値を格納する第一の語です。</param>
+        /// <param name="word2">排他的論理和する値を格納する第二の語です。</param>
+        /// <param name="overflow">常に <see langword="false"/> を返します。</param>
+        /// <returns>排他的論理和の結果を返します。</returns>
+        internal static Word Xor(Word word1, Word word2, out Boolean overflow)
+        {
+            return LogicalOperation(
+                (ui16Val1, ui16Val2) => ui16Val1 ^ ui16Val2, word1, word2, out overflow);
+        }
+
         private static Word LogicalOperation(
             LogicalOp op, Word word1, Word word2, out Boolean overflow)
         {

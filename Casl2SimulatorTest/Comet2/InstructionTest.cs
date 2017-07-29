@@ -184,6 +184,74 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
         #endregion // Arithmetic/Logical Operation
 
+        #region Logic
+        /// <summary>
+        /// AndEaContents 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void AndEaContents()
+        {
+            CheckEaContentsRegister(
+                Instruction.AndEaContents, 0x137f, 0x5555, 0x1155,
+                "実効アドレスの内容とレジスタの論理積を求める");
+        }
+
+        /// <summary>
+        /// OrEaContents 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void OrEaContents()
+        {
+            CheckEaContentsRegister(
+                Instruction.OrEaContents, 0x137f, 0x5555, 0x577f,
+                "実効アドレスの内容とレジスタの論理和を求める");
+        }
+
+        /// <summary>
+        /// XorEaContents 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void XorEaContents()
+        {
+            CheckEaContentsRegister(
+                Instruction.XorEaContents, 0x137f, 0x5555, 0x462a,
+                "実効アドレスの内容とレジスタの排他的論理和を求める");
+        }
+
+        /// <summary>
+        /// AndRegister 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void AndRegister()
+        {
+            CheckRegisterRegister(
+                Instruction.AndRegister, 0x8cef, 0x5555, 0x0445,
+                "レジスタ2の内容がレジスタ1に論理積される");
+        }
+
+        /// <summary>
+        /// OrRegister 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void OrRegister()
+        {
+            CheckRegisterRegister(
+                Instruction.OrRegister, 0x8cef, 0x5555, 0xddff,
+                "レジスタ2の内容がレジスタ1に論理和される");
+        }
+
+        /// <summary>
+        /// XorRegister 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void XorRegister()
+        {
+            CheckRegisterRegister(
+                Instruction.XorRegister, 0x8cef, 0x5555, 0xd9ba,
+                "レジスタ2の内容がレジスタ1に排他的論理和される");
+        }
+        #endregion
+
         #region Comparison
         /// <summary>
         /// CompareArithmeticEaContents 命令のテストです。
@@ -435,6 +503,13 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckToString(Instruction.SubtractArithmeticRegister, "SUBA r1,r2");
             CheckToString(Instruction.AddLogicalRegister, "ADDL r1,r2");
             CheckToString(Instruction.SubtractLogicalRegister, "SUBL r1,r2");
+
+            CheckToString(Instruction.AndEaContents, "AND r,adr,x");
+            CheckToString(Instruction.OrEaContents, "OR r,adr,x");
+            CheckToString(Instruction.XorEaContents, "XOR r,adr,x");
+            CheckToString(Instruction.AndRegister, "AND r1,r2");
+            CheckToString(Instruction.OrRegister, "OR r1,r2");
+            CheckToString(Instruction.XorRegister, "XOR r1,r2");
 
             CheckToString(Instruction.CompareArithmeticEaContents, "CPA r,adr,x");
             CheckToString(Instruction.CompareLogicalEaContents, "CPL r,adr,x");

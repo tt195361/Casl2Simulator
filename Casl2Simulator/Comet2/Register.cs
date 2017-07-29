@@ -79,7 +79,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         public override String ToString()
         {
             UInt16 ui16Val = m_value.GetAsUnsigned();
-            String str = String.Format("{0}: {1}", m_name, ui16Val);
+            String str = String.Format("{0}: {1} (0x{1:x04})", m_name, ui16Val);
             return str;
         }
     }

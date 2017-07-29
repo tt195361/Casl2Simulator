@@ -103,6 +103,52 @@ namespace Tt195361.Casl2Simulator.Comet2
         }
         #endregion // Arithmetic/Logical Operation
 
+        #region Logic
+        /// <summary>
+        /// r &lt;- (r) AND オペランド, 〇*1: 設定される。ただし、OF には 0 が設定される。
+        /// </summary>
+        internal static readonly Operator And = new Operator(AndAction);
+
+        private static void AndAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            DoLogic(Alu.And, r, operand, registerSet, memory);
+        }
+
+        /// <summary>
+        /// r &lt;- (r) OR オペランド, 〇*1: 設定される。ただし、OF には 0 が設定される。
+        /// </summary>
+        internal static readonly Operator Or = new Operator(OrAction);
+
+        private static void OrAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            DoLogic(Alu.Or, r, operand, registerSet, memory);
+        }
+
+        /// <summary>
+        /// r &lt;- (r) XOR オペランド, 〇*1: 設定される。ただし、OF には 0 が設定される。
+        /// </summary>
+        internal static readonly Operator Xor = new Operator(XorAction);
+
+        private static void XorAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            DoLogic(Alu.Xor, r, operand, registerSet, memory);
+        }
+
+        private static void DoLogic(
+            Alu.OperationMethod operationMethod, Register r, Word operand,
+            RegisterSet registerSet, Memory memory)
+        {
+            Boolean notUsed;
+            r.Value = operationMethod(r.Value, operand, out notUsed);
+
+            const Boolean OverflowFlag = false;
+            registerSet.FR.SetFlags(r, OverflowFlag);
+        }
+        #endregion
+
         #region Comparison
         /// <summary>
         /// r と オペランドを算術比較し FR を設定する, 〇*1: 設定される。ただし、OF には 0 が設定される。

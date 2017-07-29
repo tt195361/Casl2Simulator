@@ -7,6 +7,7 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// </summary>
     internal class Instruction
     {
+        #region Load/Store
         /// ロード (実効アドレス) 命令
         internal static readonly Instruction LoadEaContents = new Instruction(
             "LD r,adr,x", Operator.LoadWithFr, RegisterHandler.Register, OperandHandler.EaContents);
@@ -19,7 +20,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// ロード レジスタ 命令
         internal static readonly Instruction LoadRegister = new Instruction(
             "LD r1,r2", Operator.LoadWithFr, RegisterHandler.Register, OperandHandler.Register);
+        #endregion // Load/Store
 
+        #region Arithmetic/Logical Operation
         /// 算術加算 (実効アドレス) 命令
         internal static readonly Instruction AddArithmeticEaContents = new Instruction(
             "ADDA r,adr,x", Operator.AddArithmetic, RegisterHandler.Register, OperandHandler.EaContents);
@@ -44,14 +47,39 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// 論理減算 レジスタ 命令
         internal static readonly Instruction SubtractLogicalRegister = new Instruction(
             "SUBL r1,r2", Operator.SubtractLogical, RegisterHandler.Register, OperandHandler.Register);
+        #endregion // Arithmetic/Logical Operation
 
+        #region Logic
+        /// 論理積 (実効アドレス) 命令
+        internal static readonly Instruction AndEaContents = new Instruction(
+            "AND r,adr,x", Operator.And, RegisterHandler.Register, OperandHandler.EaContents);
+        /// 論理和 (実効アドレス) 命令
+        internal static readonly Instruction OrEaContents = new Instruction(
+            "OR r,adr,x", Operator.Or, RegisterHandler.Register, OperandHandler.EaContents);
+        /// 排他的論理和 (実効アドレス) 命令
+        internal static readonly Instruction XorEaContents = new Instruction(
+            "XOR r,adr,x", Operator.Xor, RegisterHandler.Register, OperandHandler.EaContents);
+        /// 論理積 レジスタ 命令
+        internal static readonly Instruction AndRegister = new Instruction(
+            "AND r1,r2", Operator.And, RegisterHandler.Register, OperandHandler.Register);
+        /// 論理和 レジスタ 命令
+        internal static readonly Instruction OrRegister = new Instruction(
+            "OR r1,r2", Operator.Or, RegisterHandler.Register, OperandHandler.Register);
+        /// 排他的論理和 レジスタ 命令
+        internal static readonly Instruction XorRegister = new Instruction(
+            "XOR r1,r2", Operator.Xor, RegisterHandler.Register, OperandHandler.Register);
+        #endregion // Logic
+
+        #region Comparison
         /// 算術比較 (実効アドレス) 命令
         internal static readonly Instruction CompareArithmeticEaContents = new Instruction(
             "CPA r,adr,x", Operator.CompareArithmetic, RegisterHandler.Register, OperandHandler.EaContents);
         /// 論理比較 (実効アドレス) 命令
         internal static readonly Instruction CompareLogicalEaContents = new Instruction(
             "CPL r,adr,x", Operator.CompareLogical, RegisterHandler.Register, OperandHandler.EaContents);
+        #endregion // Comparison
 
+        #region Shift
         /// 算術左シフト (実効アドレス) 命令
         internal static readonly Instruction ShiftLeftArithmeticEaContents = new Instruction(
             "SLA r,adr,x", Operator.ShiftLeftArithmetic, RegisterHandler.Register, OperandHandler.EaContents);
@@ -64,7 +92,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// 論理右シフト (実効アドレス) 命令
         internal static readonly Instruction ShiftRightLogicalEaContents = new Instruction(
             "SRL r,adr,x", Operator.ShiftRightLogical, RegisterHandler.Register, OperandHandler.EaContents);
+        #endregion // Shift
 
+        #region Jump
         /// 負分岐 命令
         internal static readonly Instruction JumpOnMinus = new Instruction(
             "JMI adr,x", Operator.JumpOnMinus, RegisterHandler.NoRegister, OperandHandler.EffectiveAddress);
@@ -83,6 +113,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// オーバーフロー分岐 命令
         internal static readonly Instruction JumpOnOverflow = new Instruction(
             "JOV adr,x", Operator.JumpOnOverflow, RegisterHandler.NoRegister, OperandHandler.EffectiveAddress);
+        #endregion // Jump
 
         #region Fields
         private readonly String m_str;

@@ -71,7 +71,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// 語に格納する値のビット 15 が 1 ならば、符号は負とします。
         /// </summary>
         /// <returns>
-        /// 符号が負ならば <see langword="true"/> true、それ以外ならば <see langword="false"/> を返します。
+        /// 符号が負ならば <see langword="true"/>、それ以外ならば <see langword="false"/> を返します。
         /// </returns>
         internal Boolean IsMinus()
         {
@@ -81,7 +81,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <summary>
         /// 語に格納する値が零かどうかを返します。
         /// </summary>
-        /// <returns>値が零ならば true、それ以外ならば false を返します。</returns>
+        /// <returns>
+        /// 値が零ならば <see langword="true"/>、それ以外ならば <see langword="false"/> を返します。
+        /// </returns>
         internal Boolean IsZero()
         {
             return m_ui16Val == 0;
@@ -93,7 +95,8 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <returns>この語を表わす文字列を返します。</returns>
         public override String ToString()
         {
-            return m_ui16Val.ToString();
+            String str = String.Format("{0} (0x{0:x04})", m_ui16Val);
+            return str;
         }
     }
 }

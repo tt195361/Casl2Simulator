@@ -70,6 +70,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckLogicalOp(0x8000, 0x7fff, 0xffff, false, "ちょうど最大 => 結果は計算通り, オーバーフローなし");
             CheckLogicalOp(0x8000, 0x8000, 0, true, "最大より大きい => 結果は反転, オーバーフローあり");
         }
+
         /// <summary>
         /// SubtractLogical メソッドの単体テストです。
         /// </summary>
@@ -80,6 +81,45 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
             CheckLogicalOp(0x0001, 0x0001, 0x0000, false, "引いて 0 => 結果は計算通り, オーバーフローなし");
             CheckLogicalOp(0x0001, 0x0002, 0xffff, true, "引いたらマイナス => 結果は反転, オーバーフローあり");
+        }
+
+        /// <summary>
+        /// And メソッドの単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void And()
+        {
+            m_operationMethodToTest = Alu.And;
+
+            CheckLogicalOp(
+                0x5a5a, 0x5555, 0x5050, false, 
+                "両方のビットが 1 なら 1、どちらかのビットが 0 なら 0, オーバーフローしない");
+        }
+
+        /// <summary>
+        /// Or メソッドの単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void Or()
+        {
+            m_operationMethodToTest = Alu.Or;
+
+            CheckLogicalOp(
+                0x5a5a, 0x5555, 0x5f5f, false,
+                "両方のビットが 0 なら 0、どちらかのビットが 1 なら 1, オーバーフローしない");
+        }
+
+        /// <summary>
+        /// Xor メソッドの単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void Xor()
+        {
+            m_operationMethodToTest = Alu.Xor;
+
+            CheckLogicalOp(
+                0x3636, 0x6363, 0x5555, false,
+                "両方のビットが同じなら 0、異なっていれば 1, オーバーフローしない");
         }
 
         private void CheckLogicalOp(

@@ -164,6 +164,65 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
         #endregion // Arithmetic/Logical Operation
 
+        #region Logic
+        /// <summary>
+        /// And の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void And()
+        {
+            Operator target = Operator.And;
+
+            CheckRegisterResult(target, 0xc3a5, 0xa5c3, 0x8181, "論理積の値がレジスタに設定される");
+
+            CheckOverflowFlag(target, 0xffff, 0xffff, false, "OF は常に false");
+
+            CheckSignFlag(target, 0xffff, 0x7fff, false, "結果が正の値か 0 => SF は false");
+            CheckSignFlag(target, 0xffff, 0x8000, true, "結果が負の値 => SF は true");
+
+            CheckZeroFlag(target, 0x5a5a, 0x5a5a, false, "結果が 0 以外 => ZF は false");
+            CheckZeroFlag(target, 0x5a5a, 0xa5a5, true, "結果が 0 => ZF は true");
+        }
+
+        /// <summary>
+        /// Or の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void Or()
+        {
+            Operator target = Operator.Or;
+
+            CheckRegisterResult(target, 0xc3a5, 0xa5c3, 0xe7e7, "論理和の値がレジスタに設定される");
+
+            CheckOverflowFlag(target, 0xffff, 0xffff, false, "OF は常に false");
+
+            CheckSignFlag(target, 0x7fff, 0x7fff, false, "結果が正の値か 0 => SF は false");
+            CheckSignFlag(target, 0x8000, 0x8000, true, "結果が負の値 => SF は true");
+
+            CheckZeroFlag(target, 0x5a5a, 0xa5a5, false, "結果が 0 以外 => ZF は false");
+            CheckZeroFlag(target, 0x0000, 0x0000, true, "結果が 0 => ZF は true");
+        }
+
+        /// <summary>
+        /// Xor の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void Xor()
+        {
+            Operator target = Operator.Xor;
+
+            CheckRegisterResult(target, 0xc3a5, 0xa5c3, 0x6666, "排他的論理和の値がレジスタに設定される");
+
+            CheckOverflowFlag(target, 0xaaaa, 0x5555, false, "OF は常に false");
+
+            CheckSignFlag(target, 0xaaaa, 0xaaaa, false, "結果が正の値か 0 => SF は false");
+            CheckSignFlag(target, 0xaaaa, 0x5555, true, "結果が負の値 => SF は true");
+
+            CheckZeroFlag(target, 0x5a5a, 0xa5a5, false, "結果が 0 以外 => ZF は false");
+            CheckZeroFlag(target, 0x5a5a, 0x5a5a, true, "結果が 0 => ZF は true");
+        }
+        #endregion
+
         #region Comparison
         /// <summary>
         /// CompareArithmetic の単体テストです。

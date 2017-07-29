@@ -30,6 +30,13 @@ namespace Tt195361.Casl2Simulator.Comet2
             { 0x26, Instruction.AddLogicalRegister },
             { 0x27, Instruction.SubtractLogicalRegister },
 
+            { 0x30, Instruction.AndEaContents },
+            { 0x31, Instruction.OrEaContents },
+            { 0x32, Instruction.XorEaContents },
+            { 0x34, Instruction.AndRegister },
+            { 0x35, Instruction.OrRegister },
+            { 0x36, Instruction.XorRegister },
+
             { 0x40, Instruction.CompareArithmeticEaContents },
             { 0x41, Instruction.CompareLogicalEaContents },
 
