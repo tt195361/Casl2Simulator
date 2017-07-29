@@ -276,6 +276,30 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
                 "実効アドレスの内容とレジスタを論理比較し FR を設定する。" +
                 "1 (0x0001) < 65535 (0xffff) なので、サインフラグが設定され true になる");
         }
+
+        /// <summary>
+        /// CompareArithmeticRegister 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void CompareArithmeticRegister()
+        {
+            CheckRegisterFlags(
+                Instruction.CompareArithmeticRegister, 0x8000, 0x7fff, false, true, false,
+                "指定のレジスタの内容を算術比較し FR を設定する。" +
+                "-32768 (0x8000) < 32767 (0x7fff) なので、サインフラグが設定され true になる");
+        }
+
+        /// <summary>
+        /// CompareLogicalRegister 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void CompareLogicalRegister()
+        {
+            CheckRegisterFlags(
+                Instruction.CompareLogicalRegister, 0x7fff, 0x8000, false, true, false,
+                "指定のレジスタの内容を論理比較し FR を設定する。" +
+                "32767 (0x7fff) < 32768 (0x8000) なので、サインフラグが設定され true になる");
+        }
         #endregion // Comparison
 
         #region Shift
@@ -431,6 +455,20 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Boolean expectedOverflow, Boolean expectedSign, Boolean expectedZero, String message)
         {
             ExecuteEaContentsInstruction(instruction, regValue, eaContents);
+            CheckFlags(expectedOverflow, expectedSign, expectedZero, message);
+        }
+
+        private void CheckRegisterFlags(
+            Instruction instruction, UInt16 reg1Value, UInt16 reg2Value,
+            Boolean expectedOverflow, Boolean expectedSign, Boolean expectedZero, String message)
+        {
+            ExecuteRegisterInstruction(instruction, reg1Value, reg2Value);
+            CheckFlags(expectedOverflow, expectedSign, expectedZero, message);
+        }
+
+        private void CheckFlags(
+            Boolean expectedOverflow, Boolean expectedSign, Boolean expectedZero, String message)
+        {
             CheckFlag(expectedOverflow, m_registerSet.FR.OF, "Overflow: " + message);
             CheckFlag(expectedSign, m_registerSet.FR.SF, "Sign: " + message);
             CheckFlag(expectedZero, m_registerSet.FR.ZF, "Zero: " + message);
@@ -513,6 +551,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
             CheckToString(Instruction.CompareArithmeticEaContents, "CPA r,adr,x");
             CheckToString(Instruction.CompareLogicalEaContents, "CPL r,adr,x");
+            CheckToString(Instruction.CompareArithmeticRegister, "CPA r1,r2");
+            CheckToString(Instruction.CompareLogicalRegister, "CPL r1,r2");
 
             CheckToString(Instruction.ShiftLeftArithmeticEaContents, "SLA r,adr,x");
             CheckToString(Instruction.ShiftRightArithmeticEaContents, "SRA r,adr,x");

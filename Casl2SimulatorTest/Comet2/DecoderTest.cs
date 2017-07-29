@@ -40,6 +40,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
             CheckDecode(0x40, Instruction.CompareArithmeticEaContents, "0x40 => CPA r,adr,x");
             CheckDecode(0x41, Instruction.CompareLogicalEaContents, "0x41 => CPL r,adr,x");
+            CheckDecode(0x44, Instruction.CompareArithmeticRegister, "0x44 => CPA r1,r2");
+            CheckDecode(0x45, Instruction.CompareLogicalRegister, "0x45 => CPL r1,r2");
 
             CheckDecode(0x50, Instruction.ShiftLeftArithmeticEaContents, "0x50 => SLA r,adr,x");
             CheckDecode(0x51, Instruction.ShiftRightArithmeticEaContents, "0x51 => SRA r,adr,x");

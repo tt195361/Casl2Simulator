@@ -77,6 +77,12 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// 論理比較 (実効アドレス) 命令
         internal static readonly Instruction CompareLogicalEaContents = new Instruction(
             "CPL r,adr,x", Operator.CompareLogical, RegisterHandler.Register, OperandHandler.EaContents);
+        /// 算術比較 レジスタ 命令
+        internal static readonly Instruction CompareArithmeticRegister = new Instruction(
+            "CPA r1,r2", Operator.CompareArithmetic, RegisterHandler.Register, OperandHandler.Register);
+        /// 論理比較 レジスタ 命令
+        internal static readonly Instruction CompareLogicalRegister = new Instruction(
+            "CPL r1,r2", Operator.CompareLogical, RegisterHandler.Register, OperandHandler.Register);
         #endregion // Comparison
 
         #region Shift
