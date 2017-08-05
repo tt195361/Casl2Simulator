@@ -16,8 +16,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <returns>PR レジスタが指すアドレスの内容を返します。</returns>
         internal static Word Fetch(Register pr, Memory memory)
         {
-            Int32 address = pr.Value.GetAsUnsigned();
-            Word word = memory.Read(address);
+            Word word = memory.Read(pr.Value);
             pr.Increment();
             return word;
         }

@@ -51,8 +51,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Boolean actualOverflow;
             Word resultWord = m_operationMethodToTest(word1, word2, out actualOverflow);
 
-            Int16 actualResult = resultWord.GetAsSigned();
-            Assert.AreEqual(expectedResult, actualResult, "Result: " + message);
+            WordTest.Check(resultWord, expectedResult, "Result: " + message);
             Assert.AreEqual(expectedOverflow, actualOverflow, "Overflow: " + message);
         }
         #endregion // Arithmetic Operation
@@ -130,8 +129,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Boolean actualOverflow;
             Word resultWord = m_operationMethodToTest(word1, word2, out actualOverflow);
 
-            UInt16 actualResult = resultWord.GetAsUnsigned();
-            Assert.AreEqual(expectedResult, actualResult, "Result: " + message);
+            WordTest.Check(resultWord, expectedResult, "Result: " + message);
             Assert.AreEqual(expectedOverflow, actualOverflow, "Overflow: " + message);
         }
         #endregion // Logical Operation
@@ -311,9 +309,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Word word2 = new Word(count);
             UInt16 notUsed;
             Word resultWord = shiftMethod(word1, word2, out notUsed);
-
-            UInt16 actual = resultWord.GetAsUnsigned();
-            Assert.AreEqual(expected, actual, message);
+            WordTest.Check(resultWord, expected, message);
         }
 
         /// <summary>

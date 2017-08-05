@@ -73,6 +73,14 @@ namespace Tt195361.Casl2Simulator.Comet2
         }
 
         /// <summary>
+        /// レジスタの値を 1 減らします。
+        /// </summary>
+        internal void Decrement()
+        {
+            Value = Alu.SubtractLogical(Value, Word.One);
+        }
+
+        /// <summary>
         /// このレジスタを表わす文字列を作成します。
         /// </summary>
         /// <returns>このレジスタを表わす文字列を返します。</returns>

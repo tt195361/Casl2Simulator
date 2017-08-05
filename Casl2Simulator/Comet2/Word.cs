@@ -9,8 +9,14 @@ namespace Tt195361.Casl2Simulator.Comet2
     internal struct Word
     {
         #region Fields
-        // 値が 0 と 1 の語。
+        /// <summary>
+        /// 値が 0 の語です。
+        /// </summary>
         internal static readonly Word Zero = new Word(0);
+
+        /// <summary>
+        /// 値が 1 の語です。
+        /// </summary>
         internal static readonly Word One = new Word(1);
 
         // 1 語は 16 ビット。符号なしで格納します。

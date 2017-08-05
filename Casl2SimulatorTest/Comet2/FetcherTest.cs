@@ -33,23 +33,19 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             const UInt16 contents2 = 2222;
             const UInt16 contents3 = 3333;
 
-            m_memory.Write(StartAddress, contents1, contents2, contents3);
+            MemoryTest.WriteRange(m_memory, StartAddress, contents1, contents2, contents3);
             m_pr.SetValue(StartAddress);
 
-            CheckFetch(contents1, StartAddress + 1, "1000 番地の内容をフェッチ => 1111");
-            CheckFetch(contents2, StartAddress + 2, "1001 番地の内容をフェッチ => 2222");
-            CheckFetch(contents3, StartAddress + 3, "1002 番地の内容をフェッチ => 3333");
+            CheckFetch(contents1, StartAddress + 1, "1000 番地の内容をフェッチ => contents1");
+            CheckFetch(contents2, StartAddress + 2, "1001 番地の内容をフェッチ => contents2");
+            CheckFetch(contents3, StartAddress + 3, "1002 番地の内容をフェッチ => contents3");
         }
 
         private void CheckFetch(UInt16 expectedContents, UInt16 expectedPr, String message)
         {
             Word word = Fetcher.Fetch(m_pr, m_memory);
-
-            UInt16 actualContents = word.GetAsUnsigned();
-            Assert.AreEqual(expectedContents, actualContents, "Contents: " + message);
-
-            UInt16 actualPr = m_pr.Value.GetAsUnsigned();
-            Assert.AreEqual(expectedPr, actualPr, "PR: " + message);
+            WordTest.Check(word, expectedContents, "Contents: " + message);
+            RegisterTest.Check(m_pr, expectedPr, "PR: " + message);
         }
     }
 }

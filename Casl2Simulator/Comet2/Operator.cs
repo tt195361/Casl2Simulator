@@ -32,8 +32,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         private static void StoreAction(
             Register r, Word operand, RegisterSet registerSet, Memory memory)
         {
-            UInt16 effectiveAddress = operand.GetAsUnsigned();
-            memory.Write(effectiveAddress, r.Value);
+            memory.Write(operand, r.Value);
         }
 
         /// <summary>
@@ -328,6 +327,34 @@ namespace Tt195361.Casl2Simulator.Comet2
             }
         }
         #endregion // Jump
+
+        #region Stack Operation
+        /// <summary>
+        /// SP &lt;- (SP) -L 1; (SP) &lt;- 実効アドレス, -- 実効前の値が保持される。
+        /// </summary>
+        internal static readonly Operator Push = new Operator(PushAction);
+
+        private static void PushAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            Register sp = registerSet.SP;
+            sp.Decrement();
+            memory.Write(sp.Value, operand);
+        }
+
+        /// <summary>
+        /// r &lt;- ( (SP) ); SP &lt;- (SP) +L 1, -- 実効前の値が保持される。
+        /// </summary>
+        internal static readonly Operator Pop = new Operator(PopAction);
+
+        private static void PopAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            Register sp = registerSet.SP;
+            r.Value = memory.Read(sp.Value);
+            sp.Increment();
+        }
+        #endregion
 
         #region Fields
         private readonly OperateAction m_operateAction;

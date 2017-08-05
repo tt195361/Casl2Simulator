@@ -436,18 +436,15 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Instruction instruction, UInt16 regValue, UInt16 eaContents, UInt16 expected, String message)
         {
             ExecuteEaContentsInstruction(instruction, regValue, eaContents);
-            UInt16 actual = m_registerSet.GR[R].Value.GetAsUnsigned();
-            Assert.AreEqual(expected, actual, message);
+            RegisterTest.Check(m_registerSet.GR[R], expected, message);
         }
 
         private void CheckEaContentsMemory(
-            Instruction instruction, UInt16 regValue, UInt16 eaContents, Int32 address,
+            Instruction instruction, UInt16 regValue, UInt16 eaContents, UInt16 address,
             UInt16 expected, String message)
         {
             ExecuteEaContentsInstruction(instruction, regValue, eaContents);
-            Word word = m_memory.Read(address);
-            UInt16 actual = word.GetAsUnsigned();
-            Assert.AreEqual(expected, actual, message);
+            MemoryTest.Check(m_memory, address, expected, message);
         }
 
         private void CheckEaContentsFlags(
@@ -487,15 +484,14 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             ExecuteEaContentsInstruction(instruction, DontCareUInt16, DontCareUInt16);
 
             UInt16 expected = jump ? EffectiveAddress : NextAddressPlusOne;
-            UInt16 actual = m_registerSet.PR.Value.GetAsUnsigned();
-            Assert.AreEqual(expected, actual, message);
+            RegisterTest.Check(m_registerSet.PR, expected, message);
         }
 
         private void ExecuteEaContentsInstruction(Instruction instruction, UInt16 regValue, UInt16 eaContents)
         {
             // 命令語の次のアドレスに adr, 実効アドレスの内容、GRx にオフセットの値を書き込みます。
-            m_memory.Write(NextAddress, Adr);
-            m_memory.Write(EffectiveAddress, eaContents);
+            MemoryTest.Write(m_memory, NextAddress, Adr);
+            MemoryTest.Write(m_memory, EffectiveAddress, eaContents);
             m_registerSet.GR[X].SetValue(Offset);
 
             // レジスタと PR に値を設定し、命令を実行します。
@@ -508,8 +504,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Instruction instruction, UInt16 reg1Value, UInt16 reg2Value, UInt16 expected, String message)
         {
             ExecuteRegisterInstruction(instruction, reg1Value, reg2Value);
-            UInt16 actual = m_registerSet.GR[R1].Value.GetAsUnsigned();
-            Assert.AreEqual(expected, actual, message);
+            RegisterTest.Check(m_registerSet.GR[R1], expected, message);
         }
 
         private void ExecuteRegisterInstruction(Instruction instruction, UInt16 reg1Value, UInt16 reg2Value)

@@ -158,5 +158,23 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Boolean actual = word.IsZero();
             Assert.AreEqual(expected, actual, message);
         }
+
+        internal static void Check(Word word, Word expected, String message)
+        {
+            UInt16 expectedValue = expected.GetAsUnsigned();
+            Check(word, expectedValue, message);
+        }
+
+        internal static void Check(Word word, UInt16 expected, String message)
+        {
+            UInt16 actual = word.GetAsUnsigned();
+            Assert.AreEqual(expected, actual, message);
+        }
+
+        internal static void Check(Word word, Int16 expected, String message)
+        {
+            Int16 actual = word.GetAsSigned();
+            Assert.AreEqual(expected, actual, message);
+        }
     }
 }

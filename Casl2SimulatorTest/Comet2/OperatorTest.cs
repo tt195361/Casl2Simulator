@@ -17,9 +17,11 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private Register m_pr;
         private FlagRegister m_fr;
 
-        const Boolean DontCareBool = false;
+        private const Boolean DontCareBool = false;
+        private const UInt16 DontCareUInt16 = 0;
         #endregion
 
+        #region TestInitialize
         [TestInitialize]
         public void TestInitialize()
         {
@@ -29,6 +31,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             m_pr = m_registerSet.PR;
             m_fr = m_registerSet.FR;
         }
+        #endregion
 
         #region Load/Store
         /// <summary>
@@ -421,22 +424,64 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
         #endregion // Jump
 
+        #region Stack Operation
+        /// <summary>
+        /// Push の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void Push()
+        {
+            CheckPush(0x8000, 0x1234, 0x7fff, "SP の値を 1 減らし、そのアドレスにオペランドの値を書き込む");
+            CheckPush(0x0000, 0x5678, 0xffff, "SP が 0x0000 の場合、1 減らした値は 0xffff になる。");
+        }
+
+        private void CheckPush(UInt16 spValue, UInt16 oprValue, UInt16 expectedSp, String message)
+        {
+            Register sp = m_registerSet.SP;
+            sp.SetValue(spValue);
+
+            Operate(Operator.Push, DontCareUInt16, oprValue);
+
+            CheckRegister(sp, expectedSp, "SP の値が 1 減る: " + message);
+            CheckMemory(expectedSp, oprValue, "SP の指すアドレスにオペランドの値が書き込まれる: " + message);
+        }
+
+        /// <summary>
+        /// Pop の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void Pop()
+        {
+            CheckPop(0x7fff, 0x2468, 0x8000, "SP の指すアドレスから値をレジスタに読み込み、SP の値を 1 増やす");
+            CheckPop(0xffff, 0x1357, 0x0000, "SP が 0xffff の場合、1 増やした値は 0x0000 になる。");
+        }
+
+        private void CheckPop(UInt16 spValue, UInt16 memValue, UInt16 expectedSp, String message)
+        {
+            Register sp = m_registerSet.SP;
+            sp.SetValue(spValue);
+            MemoryTest.Write(m_memory, spValue, memValue);
+
+            Operate(Operator.Pop, DontCareUInt16, DontCareUInt16);
+
+            CheckRegister(m_gr, memValue, "SP の指すアドレスから値が指定のレジスタに読み込まれる: " + message);
+            CheckRegister(sp, expectedSp, "SP の値が 1 増える: " + message);
+        }
+        #endregion
+
         #region Check
         private void CheckRegisterResult(
             Operator op, UInt16 regValue, UInt16 oprValue, UInt16 expected, String message)
         {
             Operate(op, regValue, oprValue);
-            UInt16 actual = m_gr.Value.GetAsUnsigned();
-            Assert.AreEqual(expected, actual, message);
+            CheckRegister(m_gr, expected, message);
         }
 
         private void CheckMemoryResult(
             Operator op, UInt16 regValue, UInt16 oprValue, UInt16 expected, String message)
         {
             Operate(op, regValue, oprValue);
-            Word word = m_memory.Read(oprValue);
-            UInt16 actual = word.GetAsUnsigned();
-            Assert.AreEqual(expected, actual, message);
+            CheckMemory(oprValue, expected, message);
         }
 
         private void CheckOverflowFlag(
@@ -475,8 +520,17 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Operate(op, DontCare, OperandValue);
 
             UInt16 expected = jump ? OperandValue : PRValue;
-            UInt16 actual = m_pr.Value.GetAsUnsigned();
-            Assert.AreEqual(expected, actual, message);
+            CheckRegister(m_pr, expected, message);
+        }
+
+        private void CheckRegister(Register reg, UInt16 expected, String message)
+        {
+            RegisterTest.Check(reg, expected, message);
+        }
+
+        private void CheckMemory(UInt16 address, UInt16 expected, String message)
+        {
+            MemoryTest.Check(m_memory, address, expected, message);
         }
 
         private void Operate(Operator op, UInt16 regValue, UInt16 oprValue)

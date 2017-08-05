@@ -88,6 +88,18 @@ namespace Tt195361.Casl2Simulator.Comet2
         }
 
         /// <summary>
+        /// 指定の値を論理減算し、その結果を返します。
+        /// </summary>
+        /// <param name="word1">減算される値を格納する語です。</param>
+        /// <param name="word2">減算する値を格納する語です。</param>
+        /// <returns>論理減算の結果を返します。</returns>
+        internal static Word SubtractLogical(Word word1, Word word2)
+        {
+            Boolean notUsed;
+            return SubtractLogical(word1, word2, out notUsed);
+        }
+
+        /// <summary>
         /// 指定の値を論理減算し、その結果とオーバーフローしたかどうかを返します。
         /// </summary>
         /// <param name="word1">減算される値を格納する語です。</param>

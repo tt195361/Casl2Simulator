@@ -16,7 +16,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private Memory m_memory;
 
         // 命令語の次のアドレス。
-        private const Int32 NextAddress = 1;
+        private const UInt16 NextAddress = 1;
 
         private const UInt16 DontCare = 0;
         #endregion
@@ -40,7 +40,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             const UInt16 Gr7 = 65536 - Adr;
             const UInt16 X7 = 7;
 
-            m_memory.Write(NextAddress, Adr);
+            MemoryTest.Write(m_memory, NextAddress, Adr);
             m_registerSet.GR[X6].SetValue(Gr6);
             m_registerSet.GR[X7].SetValue(Gr7);
 
@@ -59,9 +59,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
                 OperandHandler target = OperandHandler.EffectiveAddress;
                 Word effectiveAddress = target.GetOperand(xR2Field, m_registerSet, m_memory);
                 Assert.IsTrue(success, message);
-
-                UInt16 actual = effectiveAddress.GetAsUnsigned();
-                Assert.AreEqual(expected, actual, message);
+                WordTest.Check(effectiveAddress, expected, message);
             }
             catch (Casl2SimulatorException)
             {
@@ -81,8 +79,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             const UInt16 EffectiveAddress = Adr + Gr6;
             const UInt16 EaContents = 0xaa55;
 
-            m_memory.Write(NextAddress, Adr);
-            m_memory.Write(EffectiveAddress, EaContents);
+            MemoryTest.Write(m_memory, NextAddress, Adr);
+            MemoryTest.Write(m_memory, EffectiveAddress, EaContents);
             m_registerSet.GR[X].SetValue(Gr6);
             m_registerSet.PR.SetValue(NextAddress);
 
@@ -90,8 +88,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Word word = target.GetOperand(X, m_registerSet, m_memory);
 
             const UInt16 Expected = EaContents;
-            UInt16 actual = word.GetAsUnsigned();
-            Assert.AreEqual(Expected, actual, "実効アドレスの内容を取得する");
+            WordTest.Check(word, Expected, "実効アドレスの内容を取得する");
         }
 
         /// <summary>
@@ -119,9 +116,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
                 OperandHandler target = OperandHandler.Register;
                 Word r2 = target.GetOperand(xR2Field, m_registerSet, m_memory);
                 Assert.IsTrue(success, message);
-
-                UInt16 actual = r2.GetAsUnsigned();
-                Assert.AreEqual(expected, actual, message);
+                WordTest.Check(r2, expected, message);
             }
             catch (Casl2SimulatorException)
             {
