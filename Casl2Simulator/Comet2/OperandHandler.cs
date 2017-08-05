@@ -66,6 +66,16 @@ namespace Tt195361.Casl2Simulator.Comet2
         }
         #endregion
 
+        #region NoOperand
+        internal static readonly OperandHandler NoOperand = new OperandHandler(GetNoOperand);
+
+        private static Word GetNoOperand(UInt16 xR2Field, RegisterSet registerSet, Memory memory)
+        {
+            Word DontCare = Word.Zero;
+            return DontCare;
+        }
+        #endregion
+
         #region Fields
         private readonly GetOperandAction m_getOperandAction;
         #endregion

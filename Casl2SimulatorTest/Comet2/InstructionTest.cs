@@ -56,8 +56,10 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         [TestMethod]
         public void Store()
         {
+            const UInt16 RegValue = 345;
+
             CheckEaContentsMemory(
-                Instruction.Store, 345, DontCareUInt16, EffectiveAddress, 345,
+                Instruction.Store, RegValue, DontCareUInt16, EffectiveAddress, RegValue,
                 "レジスタの内容が実効アドレスに書き込まれる");
         }
 
@@ -431,6 +433,48 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
         #endregion
 
+        #region Stack Operation
+        /// <summary>
+        /// Push 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void Push()
+        {
+            const UInt16 SpValue = 0x789a;
+            const UInt16 SpValueMinusOne = 0x7899;
+            SP.SetValue(SpValue);
+
+            ExecuteEaContentsInstruction(Instruction.Push, DontCareUInt16, DontCareUInt16);
+
+            RegisterTest.Check(
+                SP, SpValueMinusOne, "SP の値が 1 減る");
+            MemoryTest.Check(
+                m_memory, SpValueMinusOne, EffectiveAddress,
+                "SP の指すアドレスに実効アドレスの値を書き込む");
+        }
+
+        /// <summary>
+        /// Pop 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void Pop()
+        {
+            const UInt16 SpValue = 0xabcd;
+            const UInt16 SpValuePlusOne = 0xabce;
+            const UInt16 PopValue = 0xbcde;
+
+            SP.SetValue(SpValue);
+            MemoryTest.Write(m_memory, SpValue, PopValue);
+
+            ExecuteRegisterInstruction(Instruction.Pop, DontCareUInt16, DontCareUInt16);
+
+            RegisterTest.Check(
+                m_registerSet.GR[R1], PopValue, "SP の指すアドレスの値がレジスタに読み込まれる");
+            RegisterTest.Check(
+                SP, SpValuePlusOne, "SP の値が 1 増える");
+        }
+        #endregion
+
         #region Check
         private void CheckEaContentsRegister(
             Instruction instruction, UInt16 regValue, UInt16 eaContents, UInt16 expected, String message)
@@ -560,6 +604,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckToString(Instruction.UnconditionalJump, "JUMP adr,x");
             CheckToString(Instruction.JumpOnPlus, "JPL adr,x");
             CheckToString(Instruction.JumpOnOverflow, "JOV adr,x");
+
+            CheckToString(Instruction.Push, "PUSH adr,x");
+            CheckToString(Instruction.Pop, "POP r");
         }
 
         private void CheckToString(Instruction instruction, String expected)
@@ -568,5 +615,10 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Assert.AreEqual(expected, actual);
         }
         #endregion // ToString
+
+        private Register SP
+        {
+            get { return m_registerSet.SP; }
+        }
     }
 }

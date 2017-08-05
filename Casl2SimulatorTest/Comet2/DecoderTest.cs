@@ -55,6 +55,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckDecode(0x65, Instruction.JumpOnPlus, "0x65 => JPL adr,x");
             CheckDecode(0x66, Instruction.JumpOnOverflow, "0x66 => JOV adr,x");
 
+            CheckDecode(0x70, Instruction.Push, "0x70 => PUSH adr,x");
+            CheckDecode(0x71, Instruction.Pop, "0x71 => POP r");
+
             CheckDecode(0xe0, null, "0xe0 => 未定義");
         }
 

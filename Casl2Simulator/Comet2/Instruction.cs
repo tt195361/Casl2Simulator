@@ -121,6 +121,15 @@ namespace Tt195361.Casl2Simulator.Comet2
             "JOV adr,x", Operator.JumpOnOverflow, RegisterHandler.NoRegister, OperandHandler.EffectiveAddress);
         #endregion // Jump
 
+        #region Stack Operation
+        // プッシュ 命令
+        internal static readonly Instruction Push = new Instruction(
+            "PUSH adr,x", Operator.Push, RegisterHandler.NoRegister, OperandHandler.EffectiveAddress);
+        // ポップ 命令
+        internal static readonly Instruction Pop = new Instruction(
+            "POP r", Operator.Pop, RegisterHandler.Register, OperandHandler.NoOperand);
+        #endregion
+
         #region Fields
         private readonly String m_str;
         private readonly Operator m_operator;
