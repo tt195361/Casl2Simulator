@@ -17,6 +17,10 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private Register m_pr;
         private FlagRegister m_fr;
 
+        private const UInt16 SpValue = 0x2468;
+        private const UInt16 SpValueMinusOne = SpValue - 1;
+        private const UInt16 SpValuePlusOne = SpValue + 1;
+
         private const Boolean DontCareBool = false;
         private const UInt16 DontCareUInt16 = 0;
         #endregion
@@ -469,6 +473,42 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
         #endregion
 
+        #region Call/Return
+        /// <summary>
+        /// Call の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void Call()
+        {
+            const UInt16 PrValue = 0x1357;
+            const UInt16 OprValue = 0x9bdf;
+            SP.SetValue(SpValue);
+            PR.SetValue(PrValue);
+
+            Operate(Operator.Call, DontCareUInt16, OprValue);
+
+            RegisterTest.Check(SP, SpValueMinusOne, "SP の値が 1 減る");
+            MemoryTest.Check(m_memory, SpValueMinusOne, PrValue, "(SP - 1) に PR の値が書き込まれる");
+            RegisterTest.Check(PR, OprValue, "PR にオペランドの値が設定される");
+        }
+
+        /// <summary>
+        /// Ret の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void Ret()
+        {
+            const UInt16 MemValue = 0xace0;
+            SP.SetValue(SpValue);
+            MemoryTest.Write(m_memory, SpValue, MemValue);
+
+            Operate(Operator.Ret, DontCareUInt16, DontCareUInt16);
+
+            RegisterTest.Check(PR, MemValue, "PR に SP の指すアドレスの値が設定される");
+            RegisterTest.Check(SP, SpValuePlusOne, "SP の値が 1 増える");
+        }
+        #endregion
+
         #region Check
         private void CheckRegisterResult(
             Operator op, UInt16 regValue, UInt16 oprValue, UInt16 expected, String message)
@@ -538,6 +578,16 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             m_gr.Value = new Word(regValue);
             Word operand = new Word(oprValue);
             op.Operate(m_gr, operand, m_registerSet, m_memory);
+        }
+
+        private Register SP
+        {
+            get { return m_registerSet.SP; }
+        }
+
+        private Register PR
+        {
+            get { return m_registerSet.PR; }
         }
         #endregion // Check
     }

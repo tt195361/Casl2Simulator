@@ -24,6 +24,10 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private const UInt16 Offset = 23456;
         private const UInt16 EffectiveAddress = Adr + Offset;
 
+        private const UInt16 SpValue = 0x789a;
+        private const UInt16 SpValueMinusOne = SpValue - 1;
+        private const UInt16 SpValuePlusOne = SpValue + 1;
+
         private const UInt16 NextAddressPlusOne = NextAddress + 1;
         private const Boolean DontCareBool = false;
         private const UInt16 DontCareUInt16 = 0;
@@ -431,7 +435,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
                 Instruction.JumpOnOverflow, false, DontCareBool, DontCareBool,
                 false, "JumpOnOverflow: OF=0 => 分岐しない");
         }
-        #endregion
+        #endregion // Jump
 
         #region Stack Operation
         /// <summary>
@@ -440,8 +444,6 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         [TestMethod]
         public void Push()
         {
-            const UInt16 SpValue = 0x789a;
-            const UInt16 SpValueMinusOne = 0x7899;
             SP.SetValue(SpValue);
 
             ExecuteEaContentsInstruction(Instruction.Push, DontCareUInt16, DontCareUInt16);
@@ -459,10 +461,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         [TestMethod]
         public void Pop()
         {
-            const UInt16 SpValue = 0xabcd;
-            const UInt16 SpValuePlusOne = 0xabce;
             const UInt16 PopValue = 0xbcde;
-
             SP.SetValue(SpValue);
             MemoryTest.Write(m_memory, SpValue, PopValue);
 
@@ -473,7 +472,44 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             RegisterTest.Check(
                 SP, SpValuePlusOne, "SP の値が 1 増える");
         }
-        #endregion
+        #endregion // Stack Operation
+
+        #region Call/Ret
+        /// <summary>
+        /// CallSubroutine 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void CallSubroutine()
+        {
+            SP.SetValue(SpValue);
+            ExecuteEaContentsInstruction(Instruction.CallSubroutine, DontCareUInt16, DontCareUInt16);
+
+            RegisterTest.Check(
+                SP, SpValueMinusOne, "SP の値が 1 減る");
+            MemoryTest.Check(
+                m_memory, SpValueMinusOne, NextAddressPlusOne,　"SP の指すアドレスに PR の値を書き込む");
+            RegisterTest.Check(
+                PR, EffectiveAddress, "PR に実効アドレスの値が設定される");
+        }
+
+        /// <summary>
+        /// Ret 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void ReturnFromSubroutine()
+        {
+            const UInt16 MemValue = 0x9876;
+            SP.SetValue(SpValue);
+            MemoryTest.Write(m_memory, SpValue, MemValue);
+
+            ExecuteRegisterInstruction(Instruction.ReturnFromSubroutine, DontCareUInt16, DontCareUInt16);
+
+            RegisterTest.Check(
+                PR, MemValue, "SP の指すアドレスの値が PR に読み込まれる");
+            RegisterTest.Check(
+                SP, SpValuePlusOne, "SP の値が 1 増える");
+        }
+        #endregion // Call/Ret
 
         #region Check
         private void CheckEaContentsRegister(
@@ -558,6 +594,16 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             m_registerSet.GR[R2].SetValue(reg2Value);
             instruction.Execute(R1, R2, m_registerSet, m_memory);
         }
+
+        private Register SP
+        {
+            get { return m_registerSet.SP; }
+        }
+
+        private Register PR
+        {
+            get { return m_registerSet.PR; }
+        }
         #endregion // Check
 
         #region ToString
@@ -607,6 +653,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
             CheckToString(Instruction.Push, "PUSH adr,x");
             CheckToString(Instruction.Pop, "POP r");
+
+            CheckToString(Instruction.CallSubroutine, "CALL adr,x");
+            CheckToString(Instruction.ReturnFromSubroutine, "RET");
         }
 
         private void CheckToString(Instruction instruction, String expected)
@@ -615,10 +664,5 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Assert.AreEqual(expected, actual);
         }
         #endregion // ToString
-
-        private Register SP
-        {
-            get { return m_registerSet.SP; }
-        }
     }
 }

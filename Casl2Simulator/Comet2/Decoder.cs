@@ -54,8 +54,11 @@ namespace Tt195361.Casl2Simulator.Comet2
             { 0x65, Instruction.JumpOnPlus },
             { 0x66, Instruction.JumpOnOverflow },
 
-            { 0x70, Instruction.Push},
-            { 0x71, Instruction.Pop},
+            { 0x70, Instruction.Push },
+            { 0x71, Instruction.Pop },
+
+            { 0x80, Instruction.CallSubroutine },
+            { 0x81, Instruction.ReturnFromSubroutine },
         };
         #endregion
 

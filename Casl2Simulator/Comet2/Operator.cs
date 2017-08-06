@@ -337,9 +337,13 @@ namespace Tt195361.Casl2Simulator.Comet2
         private static void PushAction(
             Register r, Word operand, RegisterSet registerSet, Memory memory)
         {
-            Register sp = registerSet.SP;
+            PushValue(registerSet.SP, memory, operand);
+        }
+
+        private static void PushValue(Register sp, Memory memory, Word value)
+        {
             sp.Decrement();
-            memory.Write(sp.Value, operand);
+            memory.Write(sp.Value, value);
         }
 
         /// <summary>
@@ -350,9 +354,41 @@ namespace Tt195361.Casl2Simulator.Comet2
         private static void PopAction(
             Register r, Word operand, RegisterSet registerSet, Memory memory)
         {
-            Register sp = registerSet.SP;
-            r.Value = memory.Read(sp.Value);
+            r.Value = PopValue(registerSet.SP, memory);
+        }
+
+        private static Word PopValue(Register sp, Memory memory)
+        {
+            Word value = memory.Read(sp.Value);
             sp.Increment();
+            return value;
+        }
+        #endregion
+
+        #region Call/Return
+        /// <summary>
+        /// SP &lt;- (SP) -L 1; (SP) &lt;- (PR); PR &lt;- 実効アドレス, -- 実効前の値が保持される。
+        /// </summary>
+        internal static readonly Operator Call = new Operator(CallAction);
+
+        private static void CallAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            Register pr = registerSet.PR;
+            PushValue(registerSet.SP, memory, pr.Value);
+            pr.Value = operand;
+        }
+
+        /// <summary>
+        /// PR &lt;- ( (SP) ); SP &lt;- (SP) +L 1, -- 実効前の値が保持される。
+        /// </summary>
+        internal static readonly Operator Ret = new Operator(RetAction);
+
+        private static void RetAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            Register pr = registerSet.PR;
+            pr.Value = PopValue(registerSet.SP, memory);
         }
         #endregion
 

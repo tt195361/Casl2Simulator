@@ -130,6 +130,15 @@ namespace Tt195361.Casl2Simulator.Comet2
             "POP r", Operator.Pop, RegisterHandler.Register, OperandHandler.NoOperand);
         #endregion
 
+        #region Call/Ret
+        // コール 命令
+        internal static readonly Instruction CallSubroutine = new Instruction(
+            "CALL adr,x", Operator.Call, RegisterHandler.NoRegister, OperandHandler.EffectiveAddress);
+        // リターン 命令
+        internal static readonly Instruction ReturnFromSubroutine = new Instruction(
+            "RET", Operator.Ret, RegisterHandler.NoRegister, OperandHandler.NoOperand);
+        #endregion
+
         #region Fields
         private readonly String m_str;
         private readonly Operator m_operator;

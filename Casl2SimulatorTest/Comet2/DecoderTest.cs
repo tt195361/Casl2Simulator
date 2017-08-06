@@ -58,6 +58,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckDecode(0x70, Instruction.Push, "0x70 => PUSH adr,x");
             CheckDecode(0x71, Instruction.Pop, "0x71 => POP r");
 
+            CheckDecode(0x80, Instruction.CallSubroutine, "0x80 => CALL adr,x");
+            CheckDecode(0x81, Instruction.ReturnFromSubroutine, "0x81 => RET");
+
             CheckDecode(0xe0, null, "0xe0 => 未定義");
         }
 
