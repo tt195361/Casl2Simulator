@@ -16,6 +16,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private Register m_gr;
         private Register m_pr;
         private FlagRegister m_fr;
+        private TestLogger m_logger;
+        private Boolean m_cancelRet;
 
         private const UInt16 SpValue = 0x2468;
         private const UInt16 SpValueMinusOne = SpValue - 1;
@@ -23,9 +25,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         private const Boolean DontCareBool = false;
         private const UInt16 DontCareUInt16 = 0;
-        #endregion
+        #endregion // Fields
 
-        #region TestInitialize
+        #region TestInitialize/TestCleanup
         [TestInitialize]
         public void TestInitialize()
         {
@@ -34,8 +36,19 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             m_gr = m_registerSet.GR[1];
             m_pr = m_registerSet.PR;
             m_fr = m_registerSet.FR;
+            m_logger = new TestLogger();
+
+            Operator.ReturningFromSubroutine += OnReturningFromSubroutine;
+            Operator.CallingSuperVisor += OnCallingSuperVisor;
         }
-        #endregion
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            Operator.ReturningFromSubroutine -= OnReturningFromSubroutine;
+            Operator.CallingSuperVisor -= OnCallingSuperVisor;
+        }
+        #endregion // TestInitialize/TestCleanup
 
         #region Load/Store
         /// <summary>
@@ -228,7 +241,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckZeroFlag(target, 0x5a5a, 0xa5a5, false, "結果が 0 以外 => ZF は false");
             CheckZeroFlag(target, 0x5a5a, 0x5a5a, true, "結果が 0 => ZF は true");
         }
-        #endregion
+        #endregion // Logic
 
         #region Comparison
         /// <summary>
@@ -471,21 +484,21 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckRegister(m_gr, memValue, "SP の指すアドレスから値が指定のレジスタに読み込まれる: " + message);
             CheckRegister(sp, expectedSp, "SP の値が 1 増える: " + message);
         }
-        #endregion
+        #endregion // Stack Operation
 
         #region Call/Return
         /// <summary>
-        /// Call の単体テストです。
+        /// CallSubroutine の単体テストです。
         /// </summary>
         [TestMethod]
-        public void Call()
+        public void CallSubroutine()
         {
             const UInt16 PrValue = 0x1357;
             const UInt16 OprValue = 0x9bdf;
             SP.SetValue(SpValue);
             PR.SetValue(PrValue);
 
-            Operate(Operator.Call, DontCareUInt16, OprValue);
+            Operate(Operator.CallSubroutine, DontCareUInt16, OprValue);
 
             RegisterTest.Check(SP, SpValueMinusOne, "SP の値が 1 減る");
             MemoryTest.Check(m_memory, SpValueMinusOne, PrValue, "(SP - 1) に PR の値が書き込まれる");
@@ -493,21 +506,73 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// Ret の単体テストです。
+        /// ReturnFromSubroutine でキャンセルしない場合の単体テストです。
         /// </summary>
         [TestMethod]
-        public void Ret()
+        public void ReturnFromSubroutine_NotCancel()
         {
             const UInt16 MemValue = 0xace0;
             SP.SetValue(SpValue);
             MemoryTest.Write(m_memory, SpValue, MemValue);
+            m_cancelRet = false;
 
-            Operate(Operator.Ret, DontCareUInt16, DontCareUInt16);
+            Operate(Operator.ReturnFromSubroutine, DontCareUInt16, DontCareUInt16);
 
             RegisterTest.Check(PR, MemValue, "PR に SP の指すアドレスの値が設定される");
             RegisterTest.Check(SP, SpValuePlusOne, "SP の値が 1 増える");
+
+            String expectedLog = TestLogger.ExpectedLog("OnReturningFromSubroutine: 'SP: 9320 (0x2468)'");
+            String actualLog = m_logger.Log;
+            Assert.AreEqual(expectedLog, actualLog, "ReturningFromSubroutine イベントが発生する");
         }
-        #endregion
+
+        /// <summary>
+        /// ReturnFromSubroutine でキャンセルする場合の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void ReturnFromSubroutine_Cancel()
+        {
+            const UInt16 PrValue = 0xcdef;
+            PR.SetValue(PrValue);
+            SP.SetValue(SpValue);
+            m_cancelRet = true;
+
+            Operate(Operator.ReturnFromSubroutine, DontCareUInt16, DontCareUInt16);
+
+            RegisterTest.Check(PR, PrValue, "PR の値はそのまま");
+            RegisterTest.Check(SP, SpValue, "SP の値はそのまま");
+
+            String expectedLog = TestLogger.ExpectedLog("OnReturningFromSubroutine: 'SP: 9320 (0x2468)'");
+            String actualLog = m_logger.Log;
+            Assert.AreEqual(expectedLog, actualLog, "ReturningFromSubroutine イベントが発生する");
+        }
+        #endregion // Call/Return
+
+        #region Others
+        /// <summary>
+        /// SuperVisorCall の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void SuperVisorCall()
+        {
+            const UInt16 OprValue = 0xabcd;
+            Operate(Operator.SuperVisorCall, DontCareUInt16, OprValue);
+
+            String expected = TestLogger.ExpectedLog("OnCallingSuperVisor: operand='43981 (0xabcd)'");
+            String actual = m_logger.Log;
+            Assert.AreEqual(expected, actual, "CallingSuperVisor イベントが発生する");
+        }
+
+        /// <summary>
+        /// NoOperation の単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void NoOperation()
+        {
+            Operate(Operator.NoOperation, DontCareUInt16, DontCareUInt16);
+            // 何もしない。
+        }
+        #endregion // Others
 
         #region Check
         private void CheckRegisterResult(
@@ -590,5 +655,18 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             get { return m_registerSet.PR; }
         }
         #endregion // Check
+
+        #region EventHandlers
+        private void OnReturningFromSubroutine(Object sender, ReturningFromSubroutineEventArgs e)
+        {
+            m_logger.Add("OnReturningFromSubroutine: '{0}'", e.SP);
+            e.Cancel = m_cancelRet;
+        }
+
+        private void OnCallingSuperVisor(Object sender, CallingSuperVisorEventArgs e)
+        {
+            m_logger.Add("OnCallingSuperVisor: operand='{0}'", e.Operand);
+        }
+        #endregion // EventHandlers
     }
 }

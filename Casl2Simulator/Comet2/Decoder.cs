@@ -16,6 +16,8 @@ namespace Tt195361.Casl2Simulator.Comet2
         private static readonly
         Dictionary<UInt16, Instruction> m_instructionDictionary = new Dictionary<UInt16, Instruction>
         {
+            { 0x00, Instruction.NoOperation },
+
             { 0x10, Instruction.LoadEaContents },
             { 0x11, Instruction.Store },
             { 0x12, Instruction.LoadEffectiveAddress },
@@ -59,6 +61,8 @@ namespace Tt195361.Casl2Simulator.Comet2
 
             { 0x80, Instruction.CallSubroutine },
             { 0x81, Instruction.ReturnFromSubroutine },
+
+            { 0xf0, Instruction.SuperVisorCall },
         };
         #endregion
 

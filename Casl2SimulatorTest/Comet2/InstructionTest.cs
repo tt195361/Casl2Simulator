@@ -13,6 +13,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         #region Fields
         private RegisterSet m_registerSet;
         private Memory m_memory;
+        private TestLogger m_logger;
 
         // 命令語の次のアドレス。
         private const UInt16 NextAddress = 100;
@@ -33,14 +34,25 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private const UInt16 DontCareUInt16 = 0;
         #endregion
 
-        #region TestInitialize
+        #region TestInitialize/TestCleanup
         [TestInitialize]
         public void TestInitialize()
         {
             m_registerSet = new RegisterSet();
             m_memory = new Memory();
+            m_logger = new TestLogger();
+
+            Instruction.ReturningFromSubroutine += OnReturningFromSubroutine;
+            Instruction.CallingSuperVisor += OnCallingSuperVisor;
         }
-        #endregion
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            Instruction.ReturningFromSubroutine -= OnReturningFromSubroutine;
+            Instruction.CallingSuperVisor -= OnCallingSuperVisor;
+        }
+        #endregion // TestInitialize/TestCleanup
 
         #region Load/Store
         /// <summary>
@@ -493,7 +505,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// Ret 命令のテストです。
+        /// ReturnFromSubroutine 命令のテストです。
         /// </summary>
         [TestMethod]
         public void ReturnFromSubroutine()
@@ -508,8 +520,37 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
                 PR, MemValue, "SP の指すアドレスの値が PR に読み込まれる");
             RegisterTest.Check(
                 SP, SpValuePlusOne, "SP の値が 1 増える");
+
+            String expectedLog = TestLogger.ExpectedLog("OnReturningFromSubroutine: 'SP: 30874 (0x789a)'");
+            String actualLog = m_logger.Log;
+            Assert.AreEqual(expectedLog, actualLog, "ReturningFromSubroutine イベントが発生する");
         }
         #endregion // Call/Ret
+        /// <summary>
+        /// SuperVisorCall 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void SuperVisorCall()
+        {
+            ExecuteEaContentsInstruction(Instruction.SuperVisorCall, DontCareUInt16, DontCareUInt16);
+
+            String expectedLog = TestLogger.ExpectedLog("OnCallingSuperVisor: operand='35801 (0x8bd9)'");
+            String actualLog = m_logger.Log;
+            Assert.AreEqual(expectedLog, actualLog, "CallingSuperVisor イベントが発生する");
+        }
+
+        /// <summary>
+        /// NoOperation 命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void NoOperation()
+        {
+            ExecuteRegisterInstruction(Instruction.NoOperation, DontCareUInt16, DontCareUInt16);
+            // 何もしない。
+        }
+        #region Others
+
+        #endregion // Others
 
         #region Check
         private void CheckEaContentsRegister(
@@ -656,6 +697,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
             CheckToString(Instruction.CallSubroutine, "CALL adr,x");
             CheckToString(Instruction.ReturnFromSubroutine, "RET");
+
+            CheckToString(Instruction.SuperVisorCall, "SVC adr,x");
+            CheckToString(Instruction.NoOperation, "NOP");
         }
 
         private void CheckToString(Instruction instruction, String expected)
@@ -664,5 +708,18 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Assert.AreEqual(expected, actual);
         }
         #endregion // ToString
+
+        #region EventHandlers
+        private void OnReturningFromSubroutine(Object sender, ReturningFromSubroutineEventArgs e)
+        {
+            m_logger.Add("OnReturningFromSubroutine: '{0}'", e.SP);
+            e.Cancel = false;
+        }
+
+        private void OnCallingSuperVisor(Object sender, CallingSuperVisorEventArgs e)
+        {
+            m_logger.Add("OnCallingSuperVisor: operand='{0}'", e.Operand);
+        }
+        #endregion // EventHandlers
     }
 }

@@ -68,6 +68,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="TestLogger.cs" />
     <Compile Include="Utils\ArgCheckerTest.cs" />
     <Compile Include="Utils\NumberUtilsTest.cs" />
     <Compile Include="Utils\UInt16UtilsTest.cs" />

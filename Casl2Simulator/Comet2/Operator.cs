@@ -7,6 +7,16 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// </summary>
     internal class Operator
     {
+        /// <summary>
+        /// ReturnFromSubroutine 命令を実行しようとすると発生します。
+        /// </summary>
+        internal static event EventHandler<ReturningFromSubroutineEventArgs> ReturningFromSubroutine;
+
+        /// <summary>
+        /// スーパーバイザーを呼び出そうとすると発生します。
+        /// </summary>
+        internal static event EventHandler<CallingSuperVisorEventArgs> CallingSuperVisor;
+
         private delegate void OperateAction(
             Register r, Word operand, RegisterSet registerSet, Memory memory);
 
@@ -146,7 +156,7 @@ namespace Tt195361.Casl2Simulator.Comet2
             const Boolean OverflowFlag = false;
             registerSet.FR.SetFlags(r, OverflowFlag);
         }
-        #endregion
+        #endregion // Logic
 
         #region Comparison
         /// <summary>
@@ -243,7 +253,7 @@ namespace Tt195361.Casl2Simulator.Comet2
             Boolean overflowFlag = (lastShiftedOutBit != 0);
             fr.SetFlags(r, overflowFlag);
         }
-        #endregion
+        #endregion // Shift
 
         #region Jump
         /// <summary>
@@ -363,15 +373,15 @@ namespace Tt195361.Casl2Simulator.Comet2
             sp.Increment();
             return value;
         }
-        #endregion
+        #endregion // Stack Operation
 
         #region Call/Return
         /// <summary>
         /// SP &lt;- (SP) -L 1; (SP) &lt;- (PR); PR &lt;- 実効アドレス, -- 実効前の値が保持される。
         /// </summary>
-        internal static readonly Operator Call = new Operator(CallAction);
+        internal static readonly Operator CallSubroutine = new Operator(CallSubroutineAction);
 
-        private static void CallAction(
+        private static void CallSubroutineAction(
             Register r, Word operand, RegisterSet registerSet, Memory memory)
         {
             Register pr = registerSet.PR;
@@ -382,15 +392,66 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <summary>
         /// PR &lt;- ( (SP) ); SP &lt;- (SP) +L 1, -- 実効前の値が保持される。
         /// </summary>
-        internal static readonly Operator Ret = new Operator(RetAction);
+        internal static readonly Operator ReturnFromSubroutine = new Operator(ReturnFromSubroutineAction);
 
-        private static void RetAction(
+        private static void ReturnFromSubroutineAction(
             Register r, Word operand, RegisterSet registerSet, Memory memory)
         {
-            Register pr = registerSet.PR;
-            pr.Value = PopValue(registerSet.SP, memory);
+            Boolean cancel = OnReturningFromSubroutine(registerSet.SP);
+            if (!cancel)
+            {
+                Register pr = registerSet.PR;
+                pr.Value = PopValue(registerSet.SP, memory);
+            }
         }
-        #endregion
+
+        private static Boolean OnReturningFromSubroutine(Register sp)
+        {
+            Boolean cancel = false;
+
+            if (ReturningFromSubroutine != null)
+            {
+                ReturningFromSubroutineEventArgs e = new ReturningFromSubroutineEventArgs(sp);
+                ReturningFromSubroutine(null, e);
+                cancel = e.Cancel;
+            }
+
+            return cancel;
+        }
+        #endregion // Call/Return
+
+        #region Others
+        /// <summary>
+        /// 実効アドレスを引数として割出しを行う。実行後の GR と FR は不定となる。
+        /// </summary>
+        internal static readonly Operator SuperVisorCall = new Operator(SuperVisorCallAction);
+
+        private static void SuperVisorCallAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            OnCallingSuperVisor(operand, registerSet, memory);
+        }
+
+        private static void OnCallingSuperVisor(Word operand, RegisterSet registerSet, Memory memory)
+        {
+            if (CallingSuperVisor != null)
+            {
+                CallingSuperVisorEventArgs e = new CallingSuperVisorEventArgs(operand, registerSet, memory);
+                CallingSuperVisor(null, e);
+            }
+        }
+
+        /// <summary>
+        /// 何もしない。
+        /// </summary>
+        internal static readonly Operator NoOperation = new Operator(NoOperationAction);
+
+        private static void NoOperationAction(
+            Register r, Word operand, RegisterSet registerSet, Memory memory)
+        {
+            //
+        }
+        #endregion // Others
 
         #region Fields
         private readonly OperateAction m_operateAction;

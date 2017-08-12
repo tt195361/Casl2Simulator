@@ -7,6 +7,40 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// </summary>
     internal class Instruction
     {
+        #region Events
+        /// <summary>
+        /// ReturnFromSubroutine 命令を実行しようとすると発生します。
+        /// </summary>
+        internal static event EventHandler<ReturningFromSubroutineEventArgs> ReturningFromSubroutine;
+
+        /// <summary>
+        /// スーパーバイザーを呼び出そうとすると発生します。
+        /// </summary>
+        internal static event EventHandler<CallingSuperVisorEventArgs> CallingSuperVisor;
+
+        static Instruction()
+        {
+            Operator.ReturningFromSubroutine += OnReturningFromSubroutine;
+            Operator.CallingSuperVisor += OnCallingSuperVisor;
+        }
+
+        private static void OnReturningFromSubroutine(Object sender, ReturningFromSubroutineEventArgs e)
+        {
+            if (ReturningFromSubroutine != null)
+            {
+                ReturningFromSubroutine(null, e);
+            }
+        }
+
+        private static void OnCallingSuperVisor(Object sender, CallingSuperVisorEventArgs e)
+        {
+            if (CallingSuperVisor != null)
+            {
+                CallingSuperVisor(null, e);
+            }
+        }
+        #endregion // Events
+
         #region Load/Store
         /// ロード (実効アドレス) 命令
         internal static readonly Instruction LoadEaContents = new Instruction(
@@ -128,16 +162,25 @@ namespace Tt195361.Casl2Simulator.Comet2
         // ポップ 命令
         internal static readonly Instruction Pop = new Instruction(
             "POP r", Operator.Pop, RegisterHandler.Register, OperandHandler.NoOperand);
-        #endregion
+        #endregion // Stack Operation
 
         #region Call/Ret
         // コール 命令
         internal static readonly Instruction CallSubroutine = new Instruction(
-            "CALL adr,x", Operator.Call, RegisterHandler.NoRegister, OperandHandler.EffectiveAddress);
+            "CALL adr,x", Operator.CallSubroutine, RegisterHandler.NoRegister, OperandHandler.EffectiveAddress);
         // リターン 命令
         internal static readonly Instruction ReturnFromSubroutine = new Instruction(
-            "RET", Operator.Ret, RegisterHandler.NoRegister, OperandHandler.NoOperand);
-        #endregion
+            "RET", Operator.ReturnFromSubroutine, RegisterHandler.NoRegister, OperandHandler.NoOperand);
+        #endregion // Call/Ret
+
+        #region Others
+        // スーパバイザコール 命令
+        internal static readonly Instruction SuperVisorCall = new Instruction(
+            "SVC adr,x", Operator.SuperVisorCall, RegisterHandler.NoRegister, OperandHandler.EffectiveAddress);
+        // ノーオペレーション 命令
+        internal static readonly Instruction NoOperation = new Instruction(
+            "NOP", Operator.NoOperation, RegisterHandler.NoRegister, OperandHandler.NoOperand);
+        #endregion // Others
 
         #region Fields
         private readonly String m_str;
