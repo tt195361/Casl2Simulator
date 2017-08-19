@@ -429,14 +429,14 @@ namespace Tt195361.Casl2Simulator.Comet2
         private static void SuperVisorCallAction(
             Register r, Word operand, RegisterSet registerSet, Memory memory)
         {
-            OnCallingSuperVisor(operand, registerSet, memory);
+            OnCallingSuperVisor(operand);
         }
 
-        private static void OnCallingSuperVisor(Word operand, RegisterSet registerSet, Memory memory)
+        private static void OnCallingSuperVisor(Word operand)
         {
             if (CallingSuperVisor != null)
             {
-                CallingSuperVisorEventArgs e = new CallingSuperVisorEventArgs(operand, registerSet, memory);
+                CallingSuperVisorEventArgs e = new CallingSuperVisorEventArgs(operand);
                 CallingSuperVisor(null, e);
             }
         }

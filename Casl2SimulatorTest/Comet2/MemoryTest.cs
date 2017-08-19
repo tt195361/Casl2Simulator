@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tt195361.Casl2Simulator;
 using Tt195361.Casl2Simulator.Comet2;
 using Tt195361.Casl2Simulator.Utils;
 
@@ -29,8 +28,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         public void Reset()
         {
             const UInt16 NoneZeroValue = 0x55aa;
-            Write(m_memory, 0x0000, NoneZeroValue);
-            Write(m_memory, 0xffff, NoneZeroValue);
+            m_memory.Write(0x0000, NoneZeroValue);
+            m_memory.Write(0xffff, NoneZeroValue);
 
             m_memory.Reset();
 
@@ -58,32 +57,47 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             m_memory.Write(wordAddr, wordWrite);
 
             Word wordRead = m_memory.Read(wordAddr);
-            WordTest.Check(wordWrite, wordRead, message);
+            WordTest.Check(wordRead, wordWrite, message);
+        }
+
+        /// <summary>
+        /// WriteRange メソッドの単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void WriteRange()
+        {
+            CheckWriteRange(
+                0x0000, new UInt16[] { 0x1111, 0x2222, 0x3333 },
+                "0x0000 から 0x0002 まで 3 バイト書き込み");
+            CheckWriteRange(
+                0xfffd, new UInt16[] { 0x4444, 0x5555, 0x6666 },
+                "0xfffd から 0xffff まで 3 バイト書き込み");
+            CheckWriteRange(
+                0xfffe, new UInt16[] { 0x7777, 0x8888, 0x9999, 0xaaaa },
+                "0xfffe から 0x0001 まで 4 バイト書き込み、例外は発生せず最初に戻る");
+        }
+
+        private void CheckWriteRange(UInt16 ui16StartAddr, UInt16[] ui16Values, String message)
+        {
+            m_memory.WriteRange(ui16StartAddr, ui16Values);
+            CheckRange(ui16StartAddr, ui16Values, message);
+        }
+
+        private void CheckRange(UInt16 ui16StartAddr, UInt16[] ui16Values, String message)
+        {
+            m_memory.ForEach(
+                ui16StartAddr, ui16Values, (ui16Addr, ui16Value) => Check(ui16Addr, ui16Value, message));
+        }
+
+        private void Check(UInt16 ui16Addr, UInt16 expected, String message)
+        {
+            Check(m_memory, ui16Addr, expected, message);
         }
 
         internal static void Check(Memory mem, UInt16 ui16Addr, UInt16 expected, String message)
         {
-            Word wordRead = Read(mem, ui16Addr);
+            Word wordRead = mem.Read(ui16Addr);
             WordTest.Check(wordRead, expected, message);
-        }
-
-        internal static void WriteRange(Memory mem, UInt16 startAddress, params UInt16[] values)
-        {
-            values.ForEach(
-                (index, value) => Write(mem, (UInt16)(startAddress + index), values[index]));
-        }
-
-        internal static void Write(Memory mem, UInt16 ui16Addr, UInt16 ui16Value)
-        {
-            Word wordAddr = new Word(ui16Addr);
-            Word wordValue = new Word(ui16Value);
-            mem.Write(wordAddr, wordValue);
-        }
-
-        private static Word Read(Memory mem, UInt16 ui16Addr)
-        {
-            Word wordAddr = new Word(ui16Addr);
-            return mem.Read(wordAddr);
         }
     }
 }

@@ -46,6 +46,16 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal Word Read(Word word)
         {
             UInt16 ui16Addr = word.GetAsUnsigned();
+            return Read(ui16Addr);
+        }
+
+        /// <summary>
+        /// 指定のアドレスの語を読み出します。
+        /// </summary>
+        /// <param name="ui16Addr">読み出すアドレスです。</param>
+        /// <returns>指定アドレスから読み出した語を返します。</returns>
+        internal Word Read(UInt16 ui16Addr)
+        {
             return m_contents[ui16Addr];
         }
 
@@ -60,9 +70,48 @@ namespace Tt195361.Casl2Simulator.Comet2
             Write(ui16Addr, word);
         }
 
+        /// <summary>
+        /// 指定のアドレスから、指定の値を順に書き込みます。
+        /// </summary>
+        /// <param name="ui16StartAddr">指定の値を順に書き込むアドレスの値です。</param>
+        /// <param name="ui16Values">指定のアドレスから書き込む値です。</param>
+        internal void WriteRange(UInt16 ui16StartAddr, params UInt16[] ui16Values)
+        {
+            ForEach(ui16StartAddr, ui16Values, Write);
+        }
+
+        /// <summary>
+        /// 指定のアドレスに指定の値を書き込みます。
+        /// </summary>
+        /// <param name="ui16Addr">指定の値を書き込むアドレスの値です。</param>
+        /// <param name="ui16Value">指定のアドレスに書き込む値です。</param>
+        internal void Write(UInt16 ui16Addr, UInt16 ui16Value)
+        {
+            Write(ui16Addr, new Word(ui16Value));
+        }
+
         private void Write(UInt16 ui16Addr, Word word)
         {
             m_contents[ui16Addr] = word;
+        }
+
+        /// <summary>
+        /// 指定の開始アドレスから順に、指定のそれぞれの値について、指定の動作を行います。
+        /// </summary>
+        /// <param name="ui16StartAddr">
+        /// 実施する動作に引数として渡す開始アドレスです。<paramref name="ui16Values"/> の
+        /// それぞれの値に対して、実施する動作に引数として渡すアドレスは、
+        /// "<paramref name="ui16StartAddr"/> + <paramref name="ui16Values"/>[] のインデックス"
+        /// となります。
+        /// </param>
+        /// <param name="ui16Values">
+        /// 実施する動作に引数として渡す値です。配列のそれぞれの値について、指定の動作を実行します。
+        /// </param>
+        /// <param name="action">それぞれのアドレスと値について、実施する動作です。</param>
+        internal void ForEach(UInt16 ui16StartAddr, UInt16[] ui16Values, Action<UInt16, UInt16> action)
+        {
+            ui16Values.ForEach(
+                (index, ui16Value) => action((UInt16)(ui16StartAddr + index), ui16Value));
         }
     }
 }

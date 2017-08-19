@@ -33,7 +33,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             const UInt16 contents2 = 2222;
             const UInt16 contents3 = 3333;
 
-            MemoryTest.WriteRange(m_memory, StartAddress, contents1, contents2, contents3);
+            m_memory.WriteRange(StartAddress, contents1, contents2, contents3);
             m_pr.SetValue(StartAddress);
 
             CheckFetch(contents1, StartAddress + 1, "1000 番地の内容をフェッチ => contents1");

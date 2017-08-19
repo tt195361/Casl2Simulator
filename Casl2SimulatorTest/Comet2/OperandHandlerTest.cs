@@ -40,7 +40,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             const UInt16 Gr7 = 65536 - Adr;
             const UInt16 X7 = 7;
 
-            MemoryTest.Write(m_memory, NextAddress, Adr);
+            m_memory.Write(NextAddress, Adr);
             m_registerSet.GR[X6].SetValue(Gr6);
             m_registerSet.GR[X7].SetValue(Gr7);
 
@@ -79,8 +79,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             const UInt16 EffectiveAddress = Adr + Gr6;
             const UInt16 EaContents = 0xaa55;
 
-            MemoryTest.Write(m_memory, NextAddress, Adr);
-            MemoryTest.Write(m_memory, EffectiveAddress, EaContents);
+            m_memory.Write(NextAddress, Adr);
+            m_memory.Write(EffectiveAddress, EaContents);
             m_registerSet.GR[X].SetValue(Gr6);
             m_registerSet.PR.SetValue(NextAddress);
 

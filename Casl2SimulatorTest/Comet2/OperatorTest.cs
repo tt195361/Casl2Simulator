@@ -477,7 +477,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         {
             Register sp = m_registerSet.SP;
             sp.SetValue(spValue);
-            MemoryTest.Write(m_memory, spValue, memValue);
+            m_memory.Write(spValue, memValue);
 
             Operate(Operator.Pop, DontCareUInt16, DontCareUInt16);
 
@@ -513,7 +513,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         {
             const UInt16 MemValue = 0xace0;
             SP.SetValue(SpValue);
-            MemoryTest.Write(m_memory, SpValue, MemValue);
+            m_memory.Write(SpValue, MemValue);
             m_cancelRet = false;
 
             Operate(Operator.ReturnFromSubroutine, DontCareUInt16, DontCareUInt16);

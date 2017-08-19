@@ -54,6 +54,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Comet2\AluTest.cs" />
+    <Compile Include="Comet2\CpuTest.cs" />
     <Compile Include="Comet2\DecoderTest.cs" />
     <Compile Include="Comet2\FetcherTest.cs" />
     <Compile Include="Comet2\GeneralRegistersTest.cs" />

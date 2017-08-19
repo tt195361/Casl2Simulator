@@ -29,29 +29,15 @@ namespace Tt195361.Casl2Simulator.Comet2
     internal class CallingSuperVisorEventArgs : EventArgs
     {
         private readonly Word m_operand;
-        private readonly RegisterSet m_registerSet;
-        private readonly Memory m_memory;
 
-        internal CallingSuperVisorEventArgs(Word operand, RegisterSet registerSet, Memory memory)
+        internal CallingSuperVisorEventArgs(Word operand)
         {
             m_operand = operand;
-            m_registerSet = registerSet;
-            m_memory = memory;
         }
 
         internal Word Operand
         {
             get { return m_operand; }
-        }
-
-        internal RegisterSet RegisterSet
-        {
-            get { return m_registerSet; }
-        }
-
-        internal Memory Memory
-        {
-            get { return m_memory; }
         }
     }
 }

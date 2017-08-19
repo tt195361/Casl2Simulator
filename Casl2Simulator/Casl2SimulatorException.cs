@@ -17,5 +17,11 @@ namespace Tt195361.Casl2Simulator
         {
             //
         }
+
+        internal Casl2SimulatorException(String message, Exception innerException)
+            : base(message, innerException)
+        {
+
+        }
     }
 }

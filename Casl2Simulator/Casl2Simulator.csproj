@@ -66,7 +66,7 @@
     <Compile Include="Casl2SimulatorException.cs" />
     <Compile Include="Comet2\Alu.cs" />
     <Compile Include="Comet2\Comet2EventArgs.cs" />
-    <Compile Include="Comet2\OperationSystem.cs" />
+    <Compile Include="Comet2\Comet2OperatingSystem.cs" />
     <Compile Include="Comet2\Decoder.cs" />
     <Compile Include="Comet2\Fetcher.cs" />
     <Compile Include="Comet2\OperandHandler.cs" />

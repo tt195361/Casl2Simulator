@@ -79,6 +79,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to アドレス #{0:x04} の命令 #{1:x04} の実行でエラーが発生しました。詳細は InnerException を参照してください。.
+        /// </summary>
+        internal static string MSG_CpuExecutionError {
+            get {
+                return ResourceManager.GetString("MSG_CpuExecutionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 命令コード 0x{0:x02} は未定義です。.
         /// </summary>
         internal static string MSG_UndefinedOpcode {

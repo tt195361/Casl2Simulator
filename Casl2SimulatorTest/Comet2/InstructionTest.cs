@@ -475,7 +475,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         {
             const UInt16 PopValue = 0xbcde;
             SP.SetValue(SpValue);
-            MemoryTest.Write(m_memory, SpValue, PopValue);
+            m_memory.Write(SpValue, PopValue);
 
             ExecuteRegisterInstruction(Instruction.Pop, DontCareUInt16, DontCareUInt16);
 
@@ -512,7 +512,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         {
             const UInt16 MemValue = 0x9876;
             SP.SetValue(SpValue);
-            MemoryTest.Write(m_memory, SpValue, MemValue);
+            m_memory.Write(SpValue, MemValue);
 
             ExecuteRegisterInstruction(Instruction.ReturnFromSubroutine, DontCareUInt16, DontCareUInt16);
 
@@ -611,8 +611,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private void ExecuteEaContentsInstruction(Instruction instruction, UInt16 regValue, UInt16 eaContents)
         {
             // 命令語の次のアドレスに adr, 実効アドレスの内容、GRx にオフセットの値を書き込みます。
-            MemoryTest.Write(m_memory, NextAddress, Adr);
-            MemoryTest.Write(m_memory, EffectiveAddress, eaContents);
+            m_memory.Write(NextAddress, Adr);
+            m_memory.Write(EffectiveAddress, eaContents);
             m_registerSet.GR[X].SetValue(Offset);
 
             // レジスタと PR に値を設定し、命令を実行します。

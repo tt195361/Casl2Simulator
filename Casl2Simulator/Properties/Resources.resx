@@ -123,6 +123,9 @@
   <data name="MSG_ArgRangeError" xml:space="preserve">
     <value>{0} の値 {1} が範囲外です。{0} の値は、"{2} &lt;= {0} &lt;= {3}" の範囲でなければなりません。</value>
   </data>
+  <data name="MSG_CpuExecutionError" xml:space="preserve">
+    <value>アドレス #{0:x04} の命令 #{1:x04} の実行でエラーが発生しました。詳細は InnerException を参照してください。</value>
+  </data>
   <data name="MSG_UndefinedOpcode" xml:space="preserve">
     <value>命令コード 0x{0:x02} は未定義です。</value>
   </data>
