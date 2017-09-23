@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Tt195361.Casl2Simulator.Utils
 {
@@ -36,6 +37,45 @@ namespace Tt195361.Casl2Simulator.Utils
                 action(index, item);
                 ++index;
             }
+        }
+
+        /// <summary>
+        /// それぞれの文字列を <paramref name="delimiter"/> で区切って連結します。
+        /// </summary>
+        internal static String MakeList(this IEnumerable<String> strEnumerable, String delimiter)
+        {
+            return strEnumerable.Delimit(delimiter)
+                                .ConcatString();
+        }
+
+        /// <summary>
+        /// 指定の<param name="enumerable" />の各項目の間に、<param name="delimiter" />を挿入します。
+        /// </summary>
+        private static IEnumerable<T> Delimit<T>(this IEnumerable<T> enumerable, T delimiter)
+        {
+            bool afterSecond = false;
+            foreach (T item in enumerable)
+            {
+                if (afterSecond)
+                {
+                    yield return delimiter;
+                }
+
+                yield return item;
+                afterSecond = true;
+            }
+        }
+
+        /// <summary>
+        /// それぞれの文字列を連結します。
+        /// </summary>
+        /// <param name="strEnumerable"><see cref="String"/> 型の列挙子です。</param>
+        /// <returns>それぞれの文字列を連結した文字列を返します。</returns>
+        internal static String ConcatString(this IEnumerable<String> strEnumerable)
+        {
+            StringBuilder builder = new StringBuilder();
+            strEnumerable.ForEach((str) => builder.Append(str));
+            return builder.ToString();
         }
     }
 }

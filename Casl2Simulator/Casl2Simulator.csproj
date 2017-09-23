@@ -64,6 +64,23 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Casl2SimulatorException.cs" />
+    <Compile Include="Casl2\AddressConstant.cs" />
+    <Compile Include="Casl2\AsmDcInstruction.cs" />
+    <Compile Include="Casl2\Casl2Defs.cs" />
+    <Compile Include="Casl2\AsmStartInstruction.cs" />
+    <Compile Include="Casl2\Constant.cs" />
+    <Compile Include="Casl2\Label.cs" />
+    <Compile Include="Casl2\Line.cs" />
+    <Compile Include="Casl2\MacroRpushInstruction.cs" />
+    <Compile Include="Casl2\NumericConstant.cs" />
+    <Compile Include="Casl2\Operand.cs" />
+    <Compile Include="Casl2\ReadBuffer.cs" />
+    <Compile Include="Casl2\Instruction.cs" />
+    <Compile Include="Casl2\MacroInInstruction.cs" />
+    <Compile Include="Casl2\RelocatableModule.cs" />
+    <Compile Include="Casl2\ReservedWord.cs" />
+    <Compile Include="Casl2\LabelManager.cs" />
+    <Compile Include="Casl2\StringConstant.cs" />
     <Compile Include="Comet2\Alu.cs" />
     <Compile Include="Comet2\Comet2EventArgs.cs" />
     <Compile Include="Comet2\Comet2OperatingSystem.cs" />
@@ -79,6 +96,8 @@
     <Compile Include="Comet2\RegisterHandler.cs" />
     <Compile Include="Comet2\RegisterSet.cs" />
     <Compile Include="Utils\ArgChecker.cs" />
+    <Compile Include="Utils\CharUtils.cs" />
+    <Compile Include="Utils\ExceptionUtils.cs" />
     <Compile Include="Utils\UInt16Utils.cs" />
     <Compile Include="Utils\EnumerableUtils.cs" />
     <Compile Include="Utils\NumberUtils.cs" />

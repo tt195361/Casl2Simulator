@@ -53,6 +53,19 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Casl2\AddressConstantTest.cs" />
+    <Compile Include="Casl2\AsmDcInstructionTest.cs" />
+    <Compile Include="Casl2\AsmStartInstructionTest.cs" />
+    <Compile Include="Casl2\ConstantTest.cs" />
+    <Compile Include="Casl2\LabelTest.cs" />
+    <Compile Include="Casl2\InstructionTest.cs" />
+    <Compile Include="Casl2\LineTest.cs" />
+    <Compile Include="Casl2\MacroInInstructionTest.cs" />
+    <Compile Include="Casl2\MacroRpushInstructionTest.cs" />
+    <Compile Include="Casl2\NumericConstantTest.cs" />
+    <Compile Include="Casl2\ReadBufferTest.cs" />
+    <Compile Include="Casl2\ReservedWordTest.cs" />
+    <Compile Include="Casl2\StringConstantTest.cs" />
     <Compile Include="Comet2\AluTest.cs" />
     <Compile Include="Comet2\CpuTest.cs" />
     <Compile Include="Comet2\DecoderTest.cs" />
@@ -70,7 +83,9 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="TestLogger.cs" />
+    <Compile Include="TestUtils.cs" />
     <Compile Include="Utils\ArgCheckerTest.cs" />
+    <Compile Include="Utils\CharUtilsTest.cs" />
     <Compile Include="Utils\NumberUtilsTest.cs" />
     <Compile Include="Utils\UInt16UtilsTest.cs" />
   </ItemGroup>

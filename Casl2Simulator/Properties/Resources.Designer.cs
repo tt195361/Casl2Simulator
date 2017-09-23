@@ -79,6 +79,24 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 定数を予期していましたが、オペランドの終わり、あるいは行の終わりに到達しました。.
+        /// </summary>
+        internal static string MSG_ConstantExpected {
+            get {
+                return ResourceManager.GetString("MSG_ConstantExpected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 文字列 &quot;{0}&quot; を定数として解釈できませんでした。最初の文字 &quot;{1}&quot; は、10 進定数 (n)、16 進定数 (#h)、文字定数 (&apos;文字列&apos;)、アドレス定数 (ラベル) のいずれとも解釈できません。.
+        /// </summary>
+        internal static string MSG_ConstantParseError {
+            get {
+                return ResourceManager.GetString("MSG_ConstantParseError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to アドレス #{0:x04} の命令 #{1:x04} の実行でエラーが発生しました。詳細は InnerException を参照してください。.
         /// </summary>
         internal static string MSG_CpuExecutionError {
@@ -88,11 +106,182 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 10 進数値として指定の値 {0} は、{1} ~ {2} の範囲外です。範囲内の値を指定してください。.
+        /// </summary>
+        internal static string MSG_DecimalConstantOutOfRange {
+            get {
+                return ResourceManager.GetString("MSG_DecimalConstantOutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 指定の命令コード &quot;{0}&quot; は定義されていません。.
+        /// </summary>
+        internal static string MSG_InstructionNotDefined {
+            get {
+                return ResourceManager.GetString("MSG_InstructionNotDefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 指定の文字 &apos;{0}&apos; は 10 進定数を記述する半角数字 (0~9) ではありません。10 進定数には半角数字を使用してください。.
+        /// </summary>
+        internal static string MSG_InvalidCharForDecimalConstant {
+            get {
+                return ResourceManager.GetString("MSG_InvalidCharForDecimalConstant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 16 進定数として指定の文字列 &quot;{0}&quot; の桁数が 4 桁ではなく {1} 桁です。16 進定数は #h の形式で、h は 4 桁の 16 進数 (0~9, A~F) で指定します。.
+        /// </summary>
+        internal static string MSG_InvalidHexConstantDigitCount {
+            get {
+                return ResourceManager.GetString("MSG_InvalidHexConstantDigitCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ラベル &quot;{0}&quot; の先頭の文字 &apos;{1}&apos; が半角英大文字ではありません。ラベルの先頭の文字は半角英大文字でなければなりません。.
+        /// </summary>
+        internal static string MSG_LabelFirstCharIsNotUppercase {
+            get {
+                return ResourceManager.GetString("MSG_LabelFirstCharIsNotUppercase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ラベル &quot;{0}&quot; は予約語です。ラベルに予約語は使用できません。予約語は {1} です。 .
+        /// </summary>
+        internal static string MSG_LabelIsReservedWord {
+            get {
+                return ResourceManager.GetString("MSG_LabelIsReservedWord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ラベル &quot;{0}&quot; の長さ {1} 文字は有効な範囲外です。ラベルの長さは 1 ~ 8 文字でなければなりません。.
+        /// </summary>
+        internal static string MSG_LabelLengthMustBe1Thru8 {
+            get {
+                return ResourceManager.GetString("MSG_LabelLengthMustBe1Thru8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ラベル &quot;{0}&quot; の文字 &apos;{1}&apos; が、半角英大文字でも半角数字でもありません。ラベルの 2 文字目以降は、半角英大文字または半角数字でなければなりません。.
+        /// </summary>
+        internal static string MSG_LabelSubsequentCharIsNeitherUppercaseNorDigit {
+            get {
+                return ResourceManager.GetString("MSG_LabelSubsequentCharIsNeitherUppercaseNorDigit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 指定の文字定数 &quot;{0}&quot; で、閉じ側のアポストロフィ (&apos;) がありません。.
+        /// </summary>
+        internal static string MSG_NoCloseQuoteInStrConstant {
+            get {
+                return ResourceManager.GetString("MSG_NoCloseQuoteInStrConstant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 命令コードがありません。命令行には、オプションのラベルと空白に続いて、命令コードがなければなりません。.
+        /// </summary>
+        internal static string MSG_NoInstructionInInstructionLine {
+            get {
+                return ResourceManager.GetString("MSG_NoInstructionInInstructionLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ラベルを予期していましたが見つかりませんでした。ラベルを指定してください。.
+        /// </summary>
+        internal static string MSG_NoLabel {
+            get {
+                return ResourceManager.GetString("MSG_NoLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 次の文字として &apos;{0}&apos; を予期していましたが、実際の文字は &apos;{1}&apos; でした。.
+        /// </summary>
+        internal static string MSG_NotExpectedChar {
+            get {
+                return ResourceManager.GetString("MSG_NotExpectedChar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} 命令のオペランドで、文字列 &quot;{1}&quot; が解釈できずに残りました。.
+        /// </summary>
+        internal static string MSG_NotParsedStringRemainsInOperand {
+            get {
+                return ResourceManager.GetString("MSG_NotParsedStringRemainsInOperand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} 命令のオペランドの解釈で問題が発生しました。オペランドの記述の形式は {1} です。確認してください。.
+        /// </summary>
+        internal static string MSG_OperandParseError {
+            get {
+                return ResourceManager.GetString("MSG_OperandParseError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 命令コード 0x{0:x02} は未定義です。.
         /// </summary>
         internal static string MSG_UndefinedOpcode {
             get {
                 return ResourceManager.GetString("MSG_UndefinedOpcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 文字列の終わり.
+        /// </summary>
+        internal static string STR_EndOfStr {
+            get {
+                return ResourceManager.GetString("STR_EndOfStr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;定数[,定数]...&quot;.
+        /// </summary>
+        internal static string SYN_ConstantList {
+            get {
+                return ResourceManager.GetString("SYN_ConstantList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;[実行開始番地]&quot;.
+        /// </summary>
+        internal static string SYN_ExecStartAddr {
+            get {
+                return ResourceManager.GetString("SYN_ExecStartAddr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;入力領域,入力文字長領域&quot;.
+        /// </summary>
+        internal static string SYN_InputAreaLengthArea {
+            get {
+                return ResourceManager.GetString("SYN_InputAreaLengthArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to オペランドなし.
+        /// </summary>
+        internal static string SYN_NoOperand {
+            get {
+                return ResourceManager.GetString("SYN_NoOperand", resourceCulture);
             }
         }
     }
