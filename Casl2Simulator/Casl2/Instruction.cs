@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Tt195361.Casl2Simulator.Properties;
 
 namespace Tt195361.Casl2Simulator.Casl2
@@ -9,70 +8,30 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal abstract class Instruction
     {
-        #region Static Fields
-        internal const String START = "START";
-        internal const String DC = "DC";
-
-        internal const String IN = "IN";
-        internal const String RPUSH = "RPUSH";
-
-        internal const String LAD = "LAD";
-        internal const String PUSH = "PUSH";
-        internal const String POP = "POP";
-        internal const String SVC = "SVC";
-
-        private static readonly Dictionary<String, Func<Instruction>> m_factoryMethodDictionary;
-        #endregion
-
-        static Instruction()
-        {
-            m_factoryMethodDictionary = new Dictionary<String, Func<Instruction>>()
-            {
-                { START, () => new AsmStartInstruction() },
-                { DC, () => new AsmDcInstruction() },
-
-                { IN, () => new MacroInInstruction() },
-                { RPUSH, () => new MacroRpushInstruction() },
-            };
-        }
-
         /// <summary>
         /// 命令コードの文字列を解釈します。
         /// </summary>
-        /// <param name="buffer">解釈する文字列が入った <see cref="ReadBuffer"/> のオブジェクトです。</param>
-        /// <returns>解釈した結果として生成した <see cref="Instruction"/> クラスのオブジェクトを返します。</returns>
-        internal static Instruction Parse(ReadBuffer buffer)
+        /// <param name="instructionField">解釈する文字列です。</param>
+        /// <returns>
+        /// 解釈した文字列から生成した <see cref="Instruction"/> クラスのオブジェクトを返します。
+        /// </returns>
+        internal static Instruction Parse(String instructionField)
         {
-            String instructionField = buffer.ReadNoneSpace();
-            if (instructionField.Length == 0)
-            {
-                String message = Resources.MSG_NoInstructionInInstructionLine;
-                throw new Casl2SimulatorException(message);
-            }
-
-            if (!m_factoryMethodDictionary.ContainsKey(instructionField))
-            {
-                String message = String.Format(Resources.MSG_InstructionNotDefined, instructionField);
-                throw new Casl2SimulatorException(message);
-            }
-
-            Func<Instruction> factoryMethod = m_factoryMethodDictionary[instructionField];
-            Instruction instruction = factoryMethod();
-            return instruction;
+            return InstructionFactory.Make(instructionField);
         }
 
         #region Fields
-        private readonly String m_name;
+        private readonly String m_code;
         #endregion
 
-        protected Instruction(String name)
+        protected Instruction(String code)
         {
-            m_name = name;
+            m_code = code;
         }
 
-        internal String Name
+        internal String Code
         {
-            get { return m_name; }
+            get { return m_code; }
         }
 
         /// <summary>
@@ -87,27 +46,22 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
             catch (Casl2SimulatorException ex)
             {
-                String message = String.Format(Resources.MSG_OperandParseError, Name, OperandSyntax);
+                String message = String.Format(Resources.MSG_OperandParseError, Code, OperandSyntax);
                 throw new Casl2SimulatorException(message, ex);
             }
         }
 
         private void DoParseOperand(ReadBuffer buffer)
         {
-            // ';' ならば、そのあとはコメントなので、オペランドとして解釈しない。
-            if (buffer.Current == Casl2Defs.Semicolon)
-            {
-                buffer.SkipToEnd();
-            }
+            OperandLexer lexer = new OperandLexer(buffer);
+            lexer.MoveNext();
+            ParseSpecificOperand(lexer);
 
-            ParseSpecificOperand(buffer);
-
-            // 解釈していない残りの文字列があるかチェックする。
-            if (!Operand.EndOfField(buffer.Current))
+            // 解釈していない残りの字句要素があるかチェックする。
+            Token token = lexer.CurrentToken;
+            if (token.Type != TokenType.EndOfToken)
             {
-                String notParsedString = buffer.GetRest();
-                String message = String.Format(
-                    Resources.MSG_NotParsedStringRemainsInOperand, Name, notParsedString);
+                String message = String.Format(Resources.MSG_NotParsedTokenRemainsInOperand, Code, token);
                 throw new Casl2SimulatorException(message);
             }
         }
@@ -115,8 +69,8 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <summary>
         /// それぞれの命令に応じてオペランドの内容を解釈します。
         /// </summary>
-        /// <param name="buffer">解釈する文字列が入った <see cref="ReadBuffer"/> のオブジェクトです。</param>
-        protected abstract void ParseSpecificOperand(ReadBuffer buffer);
+        /// <param name="lexer">オペランドの字句を解析する <see cref="OperandLexer"/> のオブジェクトです。</param>
+        protected abstract void ParseSpecificOperand(OperandLexer lexer);
 
         /// <summary>
         /// オペランドの文法を説明する文字列を取得します。
@@ -185,7 +139,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <returns>この命令を表わす文字列を返します。</returns>
         public override String ToString()
         {
-            return m_name;
+            return m_code;
         }
     }
 }

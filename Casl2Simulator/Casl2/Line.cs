@@ -12,7 +12,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// CASL II アセンブラ言語の行を解釈します。
         /// </summary>
         /// <param name="str">解釈する行の文字列です。</param>
-        /// <returns>解釈した結果として生成した <see cref="Casl2.Line"/> のオブジェクトを返します。</returns>
+        /// <returns>解釈した結果として生成した <see cref="Line"/> のオブジェクトを返します。</returns>
         internal static Line Parse(String str)
         {
             try
@@ -35,7 +35,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
             else
             {
-                return MakeInstructionLine(str);
+                return ParseInstructionLine(str);
             }
         }
 
@@ -49,31 +49,53 @@ namespace Tt195361.Casl2Simulator.Casl2
             return buffer.Current == Casl2Defs.Semicolon;
         }
 
-        private static Line MakeCommentLine(String str)
-        {
-            return new Line(str);
-        }
-
         // 命令行
         //   オペランドあり: [ラベル] {空白} {命令コード} {空白} {オペランド} [ {空白} [コメント]]
         //   オペランドなし: [ラベル] {空白} {命令コード} [ {空白} [ {;} [コメント]]]
-        private static Line MakeInstructionLine(String str)
+        private static Line ParseInstructionLine(String str)
         {
             ReadBuffer buffer = new ReadBuffer(str);
-            String label = Casl2.Label.ParseLine(buffer);
 
-            buffer.SkipSpace();
-            Instruction instruction = Instruction.Parse(buffer);
+            Label label = ParseLabel(buffer);
+            Instruction instruction = ParseInstruction(buffer);
+            ParseOperand(instruction, buffer);
 
-            buffer.SkipSpace();
-            instruction.ParseOperand(buffer);
-
-            return new Line(str, label, instruction);
+            return MakeInstructionLine(str, label, instruction);
         }
 
-        private static Line MakeErrorLine(String str, String errorMessage)
+        private static Label ParseLabel(ReadBuffer buffer)
         {
-            return new Line(str, errorMessage);
+            String labelField = ReadField(buffer);
+            return Label.Parse(labelField);
+        }
+
+        private static Instruction ParseInstruction(ReadBuffer buffer)
+        {
+            buffer.SkipSpace();
+            String instructionField = ReadField(buffer);
+            return Instruction.Parse(instructionField);
+        }
+
+        private static void ParseOperand(Instruction instruction, ReadBuffer buffer)
+        {
+            buffer.SkipSpace();
+            // ';' ならば、そのあとはコメントなので、オペランドとして解釈しない。
+            if (buffer.Current == Casl2Defs.Semicolon)
+            {
+                buffer.SkipToEnd();
+            }
+
+            instruction.ParseOperand(buffer);
+        }
+
+        private static String ReadField(ReadBuffer buffer)
+        {
+            return buffer.ReadWhile((c) => !EndOfField(c));
+        }
+
+        internal static Boolean EndOfField(Char current)
+        {
+            return Char.IsWhiteSpace(current) || current == ReadBuffer.EndOfStr;
         }
 
         internal static String Generate(String label, String opcode, params Object[] args)
@@ -82,36 +104,30 @@ namespace Tt195361.Casl2Simulator.Casl2
             return String.Format("{0}\t{1}\t{2}", label, opcode, operand);
         }
 
+        private static Line MakeCommentLine(String str)
+        {
+            return new Line(str, null, null, null);
+        }
+
+        private static Line MakeInstructionLine(String str, Label label, Instruction instruction)
+        {
+            return new Line(str, label, instruction, null);
+        }
+
+        private static Line MakeErrorLine(String str, String errorMessage)
+        {
+            return new Line(str, null, null, errorMessage);
+        }
+
         #region Fields
         // 行は、ラベル、オペランドを含む命令コード、およびエラーメッセージを持つ。
         private readonly String m_str;
-        private readonly String m_label;
+        private readonly Label m_label;
         private readonly Instruction m_instruction;
         private readonly String m_errorMessage;
         #endregion
 
-        // コメント行
-        private Line(String str)
-            : this(str, null, null, null)
-        {
-            //
-        }
-
-        // エラーが発生した行
-        private Line(String str, String errorMessage)
-            : this(str, null, null, errorMessage)
-        {
-            //
-        }
-
-        // 命令行
-        private Line(String str, String label, Instruction instruction)
-            : this(str, label, instruction, null)
-        {
-            //
-        }
-
-        private Line(String str, String label, Instruction instruction, String errorMessage)
+        private Line(String str, Label label, Instruction instruction, String errorMessage)
         {
             m_str = str;
             m_label = label;
@@ -124,7 +140,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_str; }
         }
 
-        internal String Label
+        internal Label Label
         {
             get { return m_label; }
         }

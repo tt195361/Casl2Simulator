@@ -16,7 +16,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void ParseOperand()
         {
-            const String DontCare = null;
+            Label expectedInputBufferArea = new Label("LBL001");
+            Label expectedInputLengthArea = new Label("LBL002");
+            const Label DontCare = null;
 
             CheckParseOperand(
                 String.Empty, false, DontCare, DontCare,
@@ -28,7 +30,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 "LBL001,", false, DontCare, DontCare,
                 "ラベル 1 つとコンマ => エラー, 2 つのラベルが必要");
             CheckParseOperand(
-                "LBL001,LBL002", true, "LBL001", "LBL002",
+                "LBL001,LBL002", true, expectedInputBufferArea, expectedInputLengthArea,
                 "ラベル 2 つ => OK");
             CheckParseOperand(
                 "LBL001,LBL002,", false, DontCare, DontCare,
@@ -36,18 +38,15 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         private void CheckParseOperand(
-            String str, Boolean success, String expectedInputBufferArea,
-            String expectedInputLengthArea, String message)
+            String str, Boolean success, Label expectedInputBufferArea,
+            Label expectedInputLengthArea, String message)
         {
-            MacroInInstruction target = new MacroInInstruction();
-            InstructionTest.CheckParseOperand(target, str, success, message);
+            MacroInInstruction actual = new MacroInInstruction();
+            InstructionTest.CheckParseOperand(actual, str, success, message);
             if (success)
             {
-                String actualInputBufferArea = target.InputBufferArea;
-                Assert.AreEqual(expectedInputBufferArea, actualInputBufferArea, message);
-
-                String actualInputLengthArea = target.InputLengthArea;
-                Assert.AreEqual(expectedInputLengthArea, actualInputLengthArea, message);
+                LabelTest.Check(expectedInputBufferArea, actual.InputBufferArea, message);
+                LabelTest.Check(expectedInputLengthArea, actual.InputLengthArea, message);
             }
         }
 

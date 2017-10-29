@@ -19,6 +19,8 @@ namespace Tt195361.Casl2Simulator.Utils
         {
             if (value < min || max < value)
             {
+                // TODO: メッセージを変更。
+                // {0} として指定の値 {1} は、{2} ~ {3} の範囲外です。範囲内の値を指定してください。
                 String message = String.Format(Resources.MSG_ArgRangeError, name, value, min, max);
                 throw new Casl2SimulatorException(message);
             }

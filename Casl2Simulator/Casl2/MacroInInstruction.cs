@@ -10,22 +10,22 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class MacroInInstruction : Instruction
     {
         #region Fields
-        private String m_inputBufferArea;
-        private String m_inputLengthArea;
+        private Label m_inputBufferArea;
+        private Label m_inputLengthArea;
         #endregion
 
         internal MacroInInstruction()
-            : base(Instruction.IN)
+            : base(Casl2Defs.IN)
         {
             //
         }
 
-        internal String InputBufferArea
+        internal Label InputBufferArea
         {
             get { return m_inputBufferArea; }
         }
 
-        internal String InputLengthArea
+        internal Label InputLengthArea
         {
             get { return m_inputLengthArea; }
         }
@@ -33,12 +33,12 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <summary>
         /// IN 命令のオペランドを解釈します。記述の形式は "入力領域,入力文字長領域" です。
         /// </summary>
-        /// <param name="buffer">解釈する文字列が入った <see cref="ReadBuffer"/> のオブジェクトです。</param>
-        protected override void ParseSpecificOperand(ReadBuffer buffer)
+        /// <param name="lexer">オペランドの字句を解析する <see cref="OperandLexer"/> のオブジェクトです。</param>
+        protected override void ParseSpecificOperand(OperandLexer lexer)
         {
-            m_inputBufferArea = Label.ParseOperand(buffer);
-            buffer.SkipExpected(Casl2Defs.Comma);
-            m_inputLengthArea = Label.ParseOperand(buffer);
+            m_inputBufferArea = lexer.ReadCurrentAsLabel();
+            lexer.SkipComma();
+            m_inputLengthArea = lexer.ReadCurrentAsLabel();
         }
 
         protected override String OperandSyntax
@@ -57,21 +57,21 @@ namespace Tt195361.Casl2Simulator.Casl2
             //          SVC     1
             //          POP     GR2
             //          POP     GR1
-            result[0] = Line.Generate(label, Instruction.PUSH, 0, Operand.GR1);
-            result[1] = Line.Generate(null, Instruction.PUSH, 0, Operand.GR2);
-            result[2] = Line.Generate(null, Instruction.LAD, Operand.GR1, m_inputBufferArea);
-            result[3] = Line.Generate(null, Instruction.LAD, Operand.GR2, m_inputLengthArea);
-            result[4] = Line.Generate(null, Instruction.SVC, 1);
-            result[5] = Line.Generate(null, Instruction.POP, Operand.GR2);
-            result[6] = Line.Generate(null, Instruction.POP, Operand.GR1);
+            result[0] = Line.Generate(label, Casl2Defs.PUSH, 0, Casl2Defs.GR1);
+            result[1] = Line.Generate(null, Casl2Defs.PUSH, 0, Casl2Defs.GR2);
+            result[2] = Line.Generate(null, Casl2Defs.LAD, Casl2Defs.GR1, m_inputBufferArea.Name);
+            result[3] = Line.Generate(null, Casl2Defs.LAD, Casl2Defs.GR2, m_inputLengthArea.Name);
+            result[4] = Line.Generate(null, Casl2Defs.SVC, 1);
+            result[5] = Line.Generate(null, Casl2Defs.POP, Casl2Defs.GR2);
+            result[6] = Line.Generate(null, Casl2Defs.POP, Casl2Defs.GR1);
 
             return result;
         }
 
         internal void SetLabelsForUnitTest(String inputBufferArea, String inputLengthArea)
         {
-            m_inputBufferArea = inputBufferArea;
-            m_inputLengthArea = inputLengthArea;
+            m_inputBufferArea = new Label(inputBufferArea);
+            m_inputLengthArea = new Label(inputLengthArea);
         }
     }
 }

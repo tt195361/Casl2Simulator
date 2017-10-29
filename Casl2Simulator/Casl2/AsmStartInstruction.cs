@@ -9,16 +9,16 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class AsmStartInstruction : Instruction
     {
         #region Fields
-        private String m_execStartAddress;
+        private Label m_execStartAddress;
         #endregion
 
         internal AsmStartInstruction()
-            : base(Instruction.START)
+            : base(Casl2Defs.START)
         {
             //
         }
 
-        internal String ExecStartAddress
+        internal Label ExecStartAddress
         {
             get { return m_execStartAddress; }
         }
@@ -26,17 +26,21 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <summary>
         /// START 命令のオペランドを解釈します。記述の形式は "[実行開始番地]" です。
         /// </summary>
-        /// <param name="buffer">解釈する文字列が入った <see cref="ReadBuffer"/> のオブジェクトです。</param>
-        protected override void ParseSpecificOperand(ReadBuffer buffer)
+        /// <param name="lexer">オペランドの字句を解析する <see cref="OperandLexer"/> のオブジェクトです。</param>
+        protected override void ParseSpecificOperand(OperandLexer lexer)
         {
-            if (Operand.EndOfField(buffer.Current))
+            Token token = lexer.CurrentToken;
+
+            if (token.Type == TokenType.EndOfToken)
             {
                 m_execStartAddress = null;
             }
-            else
+            else if (token.Type == TokenType.Label)
             {
-                m_execStartAddress = Label.ParseOperand(buffer);
+                lexer.MoveNext();
+                m_execStartAddress = new Label(token.StrValue);
             }
+            // 解釈しなかった残りの字句要素は、Instruction.DoParseOperand() で取り扱う。
         }
 
         protected override String OperandSyntax

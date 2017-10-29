@@ -79,20 +79,38 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 定数を予期していましたが、オペランドの終わり、あるいは行の終わりに到達しました。.
+        ///   Looks up a localized string similar to 指定のレジスタ {0} は指標レジスタとして使えません。指標レジスタとして用いる GR は、記号 {1} で指定してください。.
         /// </summary>
-        internal static string MSG_ConstantExpected {
+        internal static string MSG_CanNotBeIndexRegister {
             get {
-                return ResourceManager.GetString("MSG_ConstantExpected", resourceCulture);
+                return ResourceManager.GetString("MSG_CanNotBeIndexRegister", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 文字列 &quot;{0}&quot; を定数として解釈できませんでした。最初の文字 &quot;{1}&quot; は、10 進定数 (n)、16 進定数 (#h)、文字定数 (&apos;文字列&apos;)、アドレス定数 (ラベル) のいずれとも解釈できません。.
+        ///   Looks up a localized string similar to {0} を定数として解釈できませんでした。10 進定数 (n)、16 進定数 (#h)、文字定数 (&apos;文字列&apos;)、アドレス定数 (ラベル) のいずれかを記述してください。.
         /// </summary>
         internal static string MSG_ConstantParseError {
             get {
                 return ResourceManager.GetString("MSG_ConstantParseError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 字句要素 {0} をアドレスとして解釈できませんでした。アドレスは、10 進定数、16 進定数、アドレス定数又はリテラルで指定してください。.
+        /// </summary>
+        internal static string MSG_CouldNotParseAsAdr {
+            get {
+                return ResourceManager.GetString("MSG_CouldNotParseAsAdr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 文字 &apos;{0}&apos; で始まる句ををオペランドの字句要素として解釈できませんでした。オペランドの字句要素には、10 進定数 (n)、16 進定数 (#h)、文字定数 (&apos;文字列&apos;)、アドレス定数 (ラベル)、レジスタ名 (GRn)、リテラル (=定数) があります。.
+        /// </summary>
+        internal static string MSG_CouldNotParseAsToken {
+            get {
+                return ResourceManager.GetString("MSG_CouldNotParseAsToken", resourceCulture);
             }
         }
         
@@ -106,11 +124,11 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 10 進数値として指定の値 {0} は、{1} ~ {2} の範囲外です。範囲内の値を指定してください。.
+        ///   Looks up a localized string similar to オペランド &quot;r1,r2&quot; 又は &quot;r,adr[,x]&quot; で、r2 あるいは adr を解釈できませんでした。レジスタ名かアドレスを指定してください。詳細は InnerException を参照してください。.
         /// </summary>
-        internal static string MSG_DecimalConstantOutOfRange {
+        internal static string MSG_FailedToParseR2OrAdrX {
             get {
-                return ResourceManager.GetString("MSG_DecimalConstantOutOfRange", resourceCulture);
+                return ResourceManager.GetString("MSG_FailedToParseR2OrAdrX", resourceCulture);
             }
         }
         
@@ -142,7 +160,7 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ラベル &quot;{0}&quot; の先頭の文字 &apos;{1}&apos; が半角英大文字ではありません。ラベルの先頭の文字は半角英大文字でなければなりません。.
+        ///   Looks up a localized string similar to ラベル &quot;{0}&quot; の先頭の文字 &apos;{1}&apos; が半角英大文字ではありません。ラベルの先頭の文字は半角英大文字にしてください。.
         /// </summary>
         internal static string MSG_LabelFirstCharIsNotUppercase {
             get {
@@ -151,7 +169,7 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ラベル &quot;{0}&quot; は予約語です。ラベルに予約語は使用できません。予約語は {1} です。 .
+        ///   Looks up a localized string similar to ラベル &quot;{0}&quot; は予約語です。ラベルには予約語を使わないでください。予約語は {1} です。 .
         /// </summary>
         internal static string MSG_LabelIsReservedWord {
             get {
@@ -160,20 +178,29 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ラベル &quot;{0}&quot; の長さ {1} 文字は有効な範囲外です。ラベルの長さは 1 ~ 8 文字でなければなりません。.
+        ///   Looks up a localized string similar to ラベル &quot;{0}&quot; の長さ {1} 文字は有効な範囲外です。ラベルの長さは {2} ~ {3} 文字にしてください。.
         /// </summary>
-        internal static string MSG_LabelLengthMustBe1Thru8 {
+        internal static string MSG_LabelLengthOutOfRange {
             get {
-                return ResourceManager.GetString("MSG_LabelLengthMustBe1Thru8", resourceCulture);
+                return ResourceManager.GetString("MSG_LabelLengthOutOfRange", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ラベル &quot;{0}&quot; の文字 &apos;{1}&apos; が、半角英大文字でも半角数字でもありません。ラベルの 2 文字目以降は、半角英大文字または半角数字でなければなりません。.
+        ///   Looks up a localized string similar to ラベル &quot;{0}&quot; の文字 &apos;{1}&apos; が、半角英大文字でも半角数字でもありません。ラベルの 2 文字目以降は、半角英大文字または半角数字にしてください。.
         /// </summary>
         internal static string MSG_LabelSubsequentCharIsNeitherUppercaseNorDigit {
             get {
                 return ResourceManager.GetString("MSG_LabelSubsequentCharIsNeitherUppercaseNorDigit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} をリテラルとして解釈できませんでした。リテラルは、10 進定数、16 進定数、または文字定数の前に等号 (=) を付けて記述します。.
+        /// </summary>
+        internal static string MSG_LiteralParseError {
+            get {
+                return ResourceManager.GetString("MSG_LiteralParseError", resourceCulture);
             }
         }
         
@@ -196,7 +223,7 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ラベルを予期していましたが見つかりませんでした。ラベルを指定してください。.
+        ///   Looks up a localized string similar to ラベルを予期していましたが指定されていませんでした。ラベルを指定してください。.
         /// </summary>
         internal static string MSG_NoLabel {
             get {
@@ -214,16 +241,25 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} 命令のオペランドで、文字列 &quot;{1}&quot; が解釈できずに残りました。.
+        ///   Looks up a localized string similar to オペランドの字句要素として {0} を予期していましたが、実際は {1} でした。{0} を記述してください。.
         /// </summary>
-        internal static string MSG_NotParsedStringRemainsInOperand {
+        internal static string MSG_NotExpectedToken {
             get {
-                return ResourceManager.GetString("MSG_NotParsedStringRemainsInOperand", resourceCulture);
+                return ResourceManager.GetString("MSG_NotExpectedToken", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} 命令のオペランドの解釈で問題が発生しました。オペランドの記述の形式は {1} です。確認してください。.
+        ///   Looks up a localized string similar to {0} 命令のオペランドで、{1} から後ろが解釈できずに残りました。記述形式を確認してください。.
+        /// </summary>
+        internal static string MSG_NotParsedTokenRemainsInOperand {
+            get {
+                return ResourceManager.GetString("MSG_NotParsedTokenRemainsInOperand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} 命令のオペランドの解釈で問題が発生しました。オペランドの記述形式は {1} です。確認してください。.
         /// </summary>
         internal static string MSG_OperandParseError {
             get {
@@ -241,11 +277,74 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 指定の文字列 &quot;{0}&quot; はレジスタ名ではありません。レジスタ名は、記号 GR0~GR7 で指定してください。.
+        /// </summary>
+        internal static string MSG_UndefinedRegisterName {
+            get {
+                return ResourceManager.GetString("MSG_UndefinedRegisterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 10 進定数.
+        /// </summary>
+        internal static string STR_DecimalConstant {
+            get {
+                return ResourceManager.GetString("STR_DecimalConstant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 文字列の終わり.
         /// </summary>
         internal static string STR_EndOfStr {
             get {
                 return ResourceManager.GetString("STR_EndOfStr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to オペランドの終わり.
+        /// </summary>
+        internal static string STR_EndOfToken {
+            get {
+                return ResourceManager.GetString("STR_EndOfToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 16 進定数.
+        /// </summary>
+        internal static string STR_HexaDecimalConstant {
+            get {
+                return ResourceManager.GetString("STR_HexaDecimalConstant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ラベル.
+        /// </summary>
+        internal static string STR_Label {
+            get {
+                return ResourceManager.GetString("STR_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to レジスタ名.
+        /// </summary>
+        internal static string STR_RegisterName {
+            get {
+                return ResourceManager.GetString("STR_RegisterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 文字定数.
+        /// </summary>
+        internal static string STR_StringConstant {
+            get {
+                return ResourceManager.GetString("STR_StringConstant", resourceCulture);
             }
         }
         

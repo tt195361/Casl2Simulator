@@ -12,60 +12,56 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <summary>
         /// 定数の並びを解釈します。
         /// </summary>
-        /// <param name="buffer">解釈する文字列が入った <see cref="ReadBuffer"/> のオブジェクトです。</param>
+        /// <param name="lexer">オペランドの字句を解析する <see cref="OperandLexer"/> のオブジェクトです。</param>
         /// <returns>
-        /// 解釈した結果として生成した <see cref="Constant"/> クラスのオブジェクトの配列を返します。
+        /// 解釈した結果として生成した <see cref="Constant"/> オブジェクトの配列を返します。
         /// </returns>
-        internal static Constant[] ParseList(ReadBuffer buffer)
+        internal static Constant[] ParseList(OperandLexer lexer)
         {
             List<Constant> constantList = new List<Constant>();
 
             for ( ; ; )
             {
-                Constant constant = Parse(buffer);
+                Constant constant = Parse(lexer);
                 constantList.Add(constant);
 
-                if (buffer.Current != Casl2Defs.Comma)
+                if (!lexer.SkipIf(TokenType.Comma))
                 {
                     break;
                 }
-
-                buffer.MoveNext();
             }
 
-            // 解釈できなかった残りの文字列は、Instruction.DoParseOperand() で取り扱う。
+            // 解釈しなかった残りの字句要素は、Instruction.DoParseOperand() で取り扱う。
             return constantList.ToArray();
         }
 
-        private static Constant Parse(ReadBuffer buffer)
+        private static Constant Parse(OperandLexer lexer)
         {
-            Char firstChar = buffer.Current;
+            Token token = lexer.CurrentToken;
 
-            if (Operand.EndOfField(firstChar))
+            if (token.Type == TokenType.DecimalConstant)
             {
-                throw new Casl2SimulatorException(Resources.MSG_ConstantExpected);
+                lexer.MoveNext();
+                return new DecimalConstant(token.I32Value);
             }
-
-            if (NumericConstant.IsDecimalStart(firstChar))
+            else if (token.Type == TokenType.HexaDecimalConstant)
             {
-                return NumericConstant.ParseDecimal(buffer);
+                lexer.MoveNext();
+                return new HexaDecimalConstant(token.I32Value);
             }
-            else if (NumericConstant.IsHexaDecimalStart(firstChar))
+            else if (token.Type == TokenType.StringConstant)
             {
-                return NumericConstant.ParseHexaDecimal(buffer);
+                lexer.MoveNext();
+                return new StringConstant(token.StrValue);
             }
-            else if (StringConstant.IsStart(firstChar))
+            else if (token.Type == TokenType.Label)
             {
-                return StringConstant.Parse(buffer);
-            }
-            else if (AddressConstant.IsStart(firstChar))
-            {
-                return AddressConstant.Parse(buffer);
+                lexer.MoveNext();
+                return new AddressConstant(token.StrValue);
             }
             else
             {
-                String rest = buffer.GetRest();
-                String message = String.Format(Resources.MSG_ConstantParseError, rest, firstChar);
+                String message = String.Format(Resources.MSG_ConstantParseError, token);
                 throw new Casl2SimulatorException(message);
             }
         }
@@ -91,5 +87,12 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// 生成したコードを格納する <see cref="RelocatableModule"/> のオブジェクトです。
         /// </param>
         internal abstract void GenerateCode(LabelManager lblManager, RelocatableModule relModule);
+
+        public override String ToString()
+        {
+            return ValueToString();
+        }
+
+        protected abstract String ValueToString();
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using Tt195361.Casl2Simulator.Properties;
 using Tt195361.Casl2Simulator.Utils;
 
@@ -23,16 +22,6 @@ namespace Tt195361.Casl2Simulator.Casl2
             m_currentIndex = 0;
         }
 
-        internal Int32 CurrentIndex
-        {
-            get { return m_currentIndex; }
-        }
-
-        private Boolean HasEndOfStr()
-        {
-            return m_str.Length <= m_currentIndex;
-        }
-
         /// <summary>
         /// 現在位置の文字を取得します。
         /// 現在位置が文字列の終わりならば、文字として <see cref="EndOfStr"/> を返します。
@@ -50,6 +39,21 @@ namespace Tt195361.Casl2Simulator.Casl2
                     return m_str[m_currentIndex];
                 }
             }
+        }
+
+        /// <summary>
+        /// 現在位置のインデックスを取得します。
+        /// 最初の文字のインデックスは 0、最後の文字のインデックスは Length - 1 です。
+        /// 現在位置が最後の文字を越えると、Length を返します。
+        /// </summary>
+        internal Int32 CurrentIndex
+        {
+            get { return m_currentIndex; }
+        }
+
+        private Boolean HasEndOfStr()
+        {
+            return m_str.Length <= m_currentIndex;
         }
 
         private String GetPrintableCurrent()
@@ -116,16 +120,6 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         /// <summary>
-        /// 現在位置から空白以外の文字列を読み込みます。
-        /// 現在位置は読み込んだ文字列の次の位置に移動します。
-        /// </summary>
-        /// <returns>読み込んだ文字列を返します。</returns>
-        internal String ReadNoneSpace()
-        {
-            return ReadWhile((c) => !Char.IsWhiteSpace(c));
-        }
-
-        /// <summary>
         /// 現在位置から指定の<paramref name="condition"/>が<see langword="true"/>を返す間、文字列を読み込みます。
         /// 現在位置は読み込んだ文字列の次の位置に移動します。
         /// </summary>
@@ -133,7 +127,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <returns></returns>
         internal String ReadWhile(Func<Char, Boolean> condition)
         {
-            Int32 fromIndex = m_currentIndex;
+            Int32 fromIndex = CurrentIndex;
 
             while (!HasEndOfStr() && condition(Current))
             {

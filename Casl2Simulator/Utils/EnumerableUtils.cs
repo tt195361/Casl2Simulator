@@ -45,7 +45,7 @@ namespace Tt195361.Casl2Simulator.Utils
         internal static String MakeList(this IEnumerable<String> strEnumerable, String delimiter)
         {
             return strEnumerable.Delimit(delimiter)
-                                .ConcatString();
+                                .ConcatStrings();
         }
 
         /// <summary>
@@ -71,10 +71,22 @@ namespace Tt195361.Casl2Simulator.Utils
         /// </summary>
         /// <param name="strEnumerable"><see cref="String"/> 型の列挙子です。</param>
         /// <returns>それぞれの文字列を連結した文字列を返します。</returns>
-        internal static String ConcatString(this IEnumerable<String> strEnumerable)
+        internal static String ConcatStrings(this IEnumerable<String> strEnumerable)
         {
             StringBuilder builder = new StringBuilder();
             strEnumerable.ForEach((str) => builder.Append(str));
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// それぞれの文字を連結します。
+        /// </summary>
+        /// <param name="charEnumerable"><see cref="Char"/> 型の列挙子です。</param>
+        /// <returns>それぞれの文字を連結した文字列を返します。</returns>
+        internal static String ConcatChars(this IEnumerable<Char> charEnumerable)
+        {
+            StringBuilder builder = new StringBuilder();
+            charEnumerable.ForEach((c) => builder.Append(c));
             return builder.ToString();
         }
     }

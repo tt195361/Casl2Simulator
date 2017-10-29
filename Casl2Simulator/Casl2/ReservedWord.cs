@@ -12,14 +12,14 @@ namespace Tt195361.Casl2Simulator.Casl2
         #region Fields
         private static readonly HashSet<String> m_reservedWords = new HashSet<String>()
         {
-            Operand.GR0,
-            Operand.GR1,
-            Operand.GR2,
-            Operand.GR3,
-            Operand.GR4,
-            Operand.GR5,
-            Operand.GR6,
-            Operand.GR7,
+            Casl2Defs.GR0,
+            Casl2Defs.GR1,
+            Casl2Defs.GR2,
+            Casl2Defs.GR3,
+            Casl2Defs.GR4,
+            Casl2Defs.GR5,
+            Casl2Defs.GR6,
+            Casl2Defs.GR7,
         };
         #endregion
 

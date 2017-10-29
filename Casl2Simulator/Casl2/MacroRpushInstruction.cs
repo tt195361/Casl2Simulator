@@ -10,12 +10,12 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class MacroRpushInstruction : Instruction
     {
         internal MacroRpushInstruction()
-            : base(Instruction.RPUSH)
+            : base(Casl2Defs.RPUSH)
         {
             //
         }
 
-        protected override void ParseSpecificOperand(ReadBuffer buffer)
+        protected override void ParseSpecificOperand(OperandLexer lexer)
         {
             // オペランドなし
         }
@@ -35,13 +35,13 @@ namespace Tt195361.Casl2Simulator.Casl2
             //          PUSH    0,GR5
             //          PUSH    0,GR6
             //          PUSH    0,GR7
-            result[0] = Line.Generate(label, Instruction.PUSH, 0, Operand.GR1);
-            result[1] = Line.Generate(null, Instruction.PUSH, 0, Operand.GR2);
-            result[2] = Line.Generate(null, Instruction.PUSH, 0, Operand.GR3);
-            result[3] = Line.Generate(null, Instruction.PUSH, 0, Operand.GR4);
-            result[4] = Line.Generate(null, Instruction.PUSH, 0, Operand.GR5);
-            result[5] = Line.Generate(null, Instruction.PUSH, 0, Operand.GR6);
-            result[6] = Line.Generate(null, Instruction.PUSH, 0, Operand.GR7);
+            result[0] = Line.Generate(label, Casl2Defs.PUSH, 0, Casl2Defs.GR1);
+            result[1] = Line.Generate(null, Casl2Defs.PUSH, 0, Casl2Defs.GR2);
+            result[2] = Line.Generate(null, Casl2Defs.PUSH, 0, Casl2Defs.GR3);
+            result[3] = Line.Generate(null, Casl2Defs.PUSH, 0, Casl2Defs.GR4);
+            result[4] = Line.Generate(null, Casl2Defs.PUSH, 0, Casl2Defs.GR5);
+            result[5] = Line.Generate(null, Casl2Defs.PUSH, 0, Casl2Defs.GR6);
+            result[6] = Line.Generate(null, Casl2Defs.PUSH, 0, Casl2Defs.GR7);
 
             return result;
         }

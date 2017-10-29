@@ -15,7 +15,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         #endregion
 
         internal AsmDcInstruction()
-            : base(Instruction.DC)
+            : base(Casl2Defs.DC)
         {
             //
         }
@@ -28,10 +28,10 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <summary>
         /// DC 命令のオペランドを解釈します。記述の形式は "定数[,定数]..." です。
         /// </summary>
-        /// <param name="buffer">解釈する文字列が入った <see cref="ReadBuffer"/> のオブジェクトです。</param>
-        protected override void ParseSpecificOperand(ReadBuffer buffer)
+        /// <param name="lexer">オペランドの字句を解析する <see cref="OperandLexer"/> のオブジェクトです。</param>
+        protected override void ParseSpecificOperand(OperandLexer lexer)
         {
-            m_constants = Constant.ParseList(buffer);
+            m_constants = Constant.ParseList(lexer);
         }
 
         protected override String OperandSyntax

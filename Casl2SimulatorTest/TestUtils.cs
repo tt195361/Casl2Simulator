@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2SimulatorTest
 {
@@ -10,31 +11,41 @@ namespace Tt195361.Casl2SimulatorTest
     {
         internal static void CheckArray<T>(T[] expectedArray, T[] actualArray, String message)
         {
+            CheckArray<T>(expectedArray, actualArray, Assert.AreEqual, message);
+        }
+
+        internal static void CheckArray<T>(
+            T[] expectedArray, T[] actualArray, Action<T, T, String> checkAtion, String message)
+        {
             Assert.AreEqual(expectedArray.Length, actualArray.Length, "Length: " + message);
 
             for (Int32 index = 0; index < expectedArray.Length; ++index)
             {
                 T expectedItem = expectedArray[index];
                 T actualItem = actualArray[index];
-                Assert.AreEqual(expectedItem, actualItem, index.ToString() + ": " + message);
-            }
-        }
-
-        internal static void CheckTypes(Object[] actualArray, Type[] expectedTypes, String message)
-        {
-            Assert.AreEqual(expectedTypes.Length, actualArray.Length, "Length: " + message);
-
-            for (Int32 index = 0; index < expectedTypes.Length; ++index)
-            {
-                Type expectedType = expectedTypes[index];
-                Object actualItem = actualArray[index];
-                Assert.IsInstanceOfType(actualItem, expectedType, index.ToString() + ": " + message);
+                checkAtion(expectedItem, actualItem, index.ToString() + ": " + message);
             }
         }
 
         internal static T[] MakeArray<T>(params T[] args)
         {
-            return args;
+            if (args == null)
+            {
+                // MakeArray<T>(null) と書くと、args が null になる。
+                // 長さが 1 で、要素が null の配列を作りたい。
+                return new T[] { default(T) };
+            }
+            else
+            {
+                return args;
+            }
+        }
+
+        internal static void CheckType(Object expected, Object actual, String message)
+        {
+            Type expectedType = expected.GetType();
+            Type actualType = actual.GetType();
+            Assert.AreSame(expectedType, actualType, "Type: " + message);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Tt195361.Casl2Simulator.Properties;
 using Tt195361.Casl2Simulator.Utils;
 
@@ -9,107 +10,129 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class Label
     {
+        #region Fields
+        private const Int32 MinLength = 1;
+        private const Int32 MaxLength = 8;
+        #endregion
+
         /// <summary>
         /// アセンブラ行のラベルを解釈します。
         /// </summary>
-        /// <param name="buffer">解釈する文字列が入った <see cref="ReadBuffer"/> のオブジェクトです。</param>
+        /// <param name="labelField">解釈する文字列です。</param>
         /// <returns>
-        /// 解釈したラベルの文字列を返します。
+        /// 解釈した文字列から生成した <see cref="Label"/> のオブジェクトを返します。
         /// ラベルが指定されていない場合は <see langword="null"/> を返します。
         /// </returns>
-        internal static String ParseLine(ReadBuffer buffer)
+        internal static Label Parse(String labelField)
         {
-            String label = buffer.ReadNoneSpace();
-
-            if (label.Length == 0)
+            if (labelField.Length == 0)
             {
                 return null;
             }
             else
             {
-                CheckLabel(label);
-                return label;
+                return new Label(labelField);
             }
         }
 
         /// <summary>
-        /// オペランドのラベルを解釈します。
+        /// 指定の文字がラベルの最初の文字かどうかを判断します。
         /// </summary>
-        /// <param name="buffer">解釈する文字列が入った <see cref="ReadBuffer"/> のオブジェクトです。</param>
-        /// <returns>解釈したラベルの文字列を返します。</returns>
-        internal static String ParseOperand(ReadBuffer buffer)
-        {
-            String label = buffer.ReadWhile((c) => !Operand.EndOfItem(c));
-            CheckLabel(label);
-            return label;
-        }
-
-        private static void CheckLabel(String label)
-        {
-            CheckLength(label);
-            CheckFirstChar(label);
-            CheckSubsequentChars(label);
-            CheckNotReservedWord(label);
-        }
-
-        private static void CheckLength(String label)
-        {
-            // 長さは 1 ~ 8 文字。
-            Int32 length = label.Length;
-            if (length < 1)
-            {
-                throw new Casl2SimulatorException(Resources.MSG_NoLabel);
-            }
-            else if (8 < length)
-            {
-                String message = String.Format(Resources.MSG_LabelLengthMustBe1Thru8, label, length);
-                throw new Casl2SimulatorException(message);
-            }
-        }
-
-        private static void CheckFirstChar(String label)
-        {
-            // 先頭の文字は英大文字でなければならない。
-            // CheckLength で、長さは 1 ~ 8 と確認している。
-            Char firstChar = label[0];
-            if (!IsLabelFirstChar(firstChar))
-            {
-                String message = String.Format(Resources.MSG_LabelFirstCharIsNotUppercase, label, firstChar);
-                throw new Casl2SimulatorException(message);
-            }
-        }
-
-        private static void CheckSubsequentChars(String label)
-        {
-            // 以降の文字は、英大文字または数字のいずれでもよい。
-            for (Int32 index = 1; index < label.Length; ++index)
-            {
-                Char subsequentChar = label[index];
-                if (!CharUtils.IsHankakuUpper(subsequentChar) && !CharUtils.IsHankakuDigit(subsequentChar))
-                {
-                    String message = String.Format(
-                        Resources.MSG_LabelSubsequentCharIsNeitherUppercaseNorDigit,
-                        label, subsequentChar);
-                    throw new Casl2SimulatorException(message);
-                }
-            }
-        }
-
-        private static void CheckNotReservedWord(String label)
-        {
-            // なお、予約語である GR0 ~ GR7 は、使用できない。
-            if (ReservedWord.IsReserved(label))
-            {
-                String reservedWordList = ReservedWord.GetList();
-                String message = String.Format(Resources.MSG_LabelIsReservedWord, label, reservedWordList);
-                throw new Casl2SimulatorException(message);
-            }
-        }
-
-        internal static Boolean IsLabelFirstChar(Char firstChar)
+        /// <param name="firstChar">ラベルの最初かどうかを判断する対象の文字です。</param>
+        /// <returns>
+        /// 指定の文字がラベルの最初の文字なら <see langword="true"/> を、
+        /// それ以外は <see langword="false"/> を返します。
+        /// </returns>
+        internal static Boolean IsStart(Char firstChar)
         {
             // 先頭の文字は英大文字。
             return CharUtils.IsHankakuUpper(firstChar);
+        }
+
+        #region Fields
+        private readonly String m_name;
+        #endregion
+
+        internal Label(String name)
+        {
+            CheckName(name);
+            m_name = name;
+        }
+
+        internal String Name
+        {
+            get { return m_name; }
+        }
+
+        private void CheckName(String name)
+        {
+            CheckLength(name);
+            CheckFirstChar(name);
+            CheckSubsequentChars(name);
+            CheckNotReservedWord(name);
+        }
+
+        private void CheckLength(String name)
+        {
+            // 長さは 1 ~ 8 文字。
+            Int32 length = name.Length;
+            if (length < MinLength)
+            {
+                throw new Casl2SimulatorException(Resources.MSG_NoLabel);
+            }
+            else if (MaxLength < length)
+            {
+                String message = String.Format(
+                    Resources.MSG_LabelLengthOutOfRange, name, length, MinLength, MaxLength);
+                throw new Casl2SimulatorException(message);
+            }
+        }
+
+        private void CheckFirstChar(String name)
+        {
+            // 先頭の文字は英大文字でなければならない。
+            // CheckLength で、長さは 1 ~ 8 と確認している。
+            Char firstChar = name[0];
+            if (!IsStart(firstChar))
+            {
+                String message = String.Format(Resources.MSG_LabelFirstCharIsNotUppercase, name, firstChar);
+                throw new Casl2SimulatorException(message);
+            }
+        }
+
+        private void CheckSubsequentChars(String name)
+        {
+            // 以降の文字は、英大文字または数字のいずれでもよい。
+            name.Skip(1)
+                .ForEach((subsequentChar) => CheckSubsequentChar(name, subsequentChar));
+        }
+
+        private void CheckSubsequentChar(String name, Char subsequentChar)
+        {
+            // 以降の文字は、英大文字または数字のいずれでもよい。
+            if (!CharUtils.IsHankakuUpper(subsequentChar) && !CharUtils.IsHankakuDigit(subsequentChar))
+            {
+                String message = String.Format(
+                    Resources.MSG_LabelSubsequentCharIsNeitherUppercaseNorDigit,
+                    name, subsequentChar);
+                throw new Casl2SimulatorException(message);
+            }
+        }
+
+        private void CheckNotReservedWord(String name)
+        {
+            // なお、予約語である GR0 ~ GR7 は、使用できない。
+            if (ReservedWord.IsReserved(name))
+            {
+                String reservedWordList = ReservedWord.GetList();
+                String message = String.Format(Resources.MSG_LabelIsReservedWord, name, reservedWordList);
+                throw new Casl2SimulatorException(message);
+            }
+        }
+
+        public override String ToString()
+        {
+            return m_name;
         }
     }
 }

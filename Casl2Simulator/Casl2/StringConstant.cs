@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Text;
+using System.Collections.Generic;
 using Tt195361.Casl2Simulator.Properties;
+using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
@@ -23,24 +24,19 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         /// <summary>
-        /// 文字定数を解釈します。
+        /// 文字定数を読み込みます。
         /// </summary>
-        /// <param name="buffer">解釈する文字列が入った <see cref="ReadBuffer"/> のオブジェクトです。</param>
-        /// <returns>
-        /// 解釈した結果として生成した <see cref="StringConstant"/> クラスのオブジェクトを返します。
-        /// </returns>
-        internal static StringConstant Parse(ReadBuffer buffer)
+        /// <param name="buffer">読み込む文字列が入った <see cref="ReadBuffer"/> のオブジェクトです。</param>
+        /// <returns>読み込んだ文字列を返します。</returns>
+        internal static String Read(ReadBuffer buffer)
         {
-            String value = GetString(buffer);
-            return new StringConstant(value);
+            return ReadChars(buffer).ConcatChars();
         }
 
-        private static String GetString(ReadBuffer buffer)
+        private static IEnumerable<Char> ReadChars(ReadBuffer buffer)
         {
             Int32 parseStartIndex = buffer.CurrentIndex;
             buffer.SkipExpected(Casl2Defs.SingleQuote);
-
-            StringBuilder builder = new StringBuilder();
 
             for ( ; ; )
             {
@@ -51,39 +47,38 @@ namespace Tt195361.Casl2Simulator.Casl2
                     throw new Casl2SimulatorException(message);
                 }
 
-                Char? c = GetChar(buffer);
+                Char? c = ReadChar(buffer);
                 if (c == null)
                 {
                     break;
                 }
 
-                builder.Append(c);
+                yield return c.Value;
             }
-
-            return builder.ToString();
         }
 
-        private static Char? GetChar(ReadBuffer buffer)
+        private static Char? ReadChar(ReadBuffer buffer)
         {
             Char? result;
 
             if (buffer.Current != Casl2Defs.SingleQuote)
             {
-                // 文字定数では、空白やコンマも文字定数に含める。
+                // 文字定数を囲むシングルクォートの内側。その文字が結果で、次の文字に進む。
                 result = buffer.Current;
                 buffer.MoveNext();
             }
             else
             {
+                // シングルクォート、シングルクォートが 2 個続いているかどうか調べる。
                 buffer.MoveNext();
                 if (buffer.Current != Casl2Defs.SingleQuote)
                 {
-                    // 閉じ側のシングルクォート
+                    // シングルクォートが 2 個続いていなければ、閉じ側のシングルクォート。
                     result = null;
                 }
                 else
                 {
-                    // アポストロフィは 2 個続けて書く。
+                    // シングルクォートが 2 個続いていれば、シングルクォート 1 つで、次の文字に進む。
                     result = Casl2Defs.SingleQuote;
                     buffer.MoveNext();
                 }
@@ -96,7 +91,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         private readonly String m_value;
         #endregion
 
-        private StringConstant(String value)
+        internal StringConstant(String value)
         {
             m_value = value;
         }
@@ -114,6 +109,37 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
         {
             throw new NotImplementedException();
+        }
+
+        protected override String ValueToString()
+        {
+            return ValueToString(m_value);
+        }
+
+        internal static String ValueToString(String value)
+        {
+            return WriteChars(value).ConcatChars();
+        }
+
+        private static IEnumerable<Char> WriteChars(String value)
+        {
+            yield return Casl2Defs.SingleQuote;
+
+            foreach (Char c in value)
+            {
+                if (c != Casl2Defs.SingleQuote)
+                {
+                    yield return c;
+                }
+                else
+                {
+                    // アポストロフィは 2 個続けて書く。
+                    yield return Casl2Defs.SingleQuote;
+                    yield return Casl2Defs.SingleQuote;
+                }
+            }
+
+            yield return Casl2Defs.SingleQuote;
         }
     }
 }

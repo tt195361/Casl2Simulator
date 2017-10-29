@@ -12,71 +12,81 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     public class LabelTest
     {
         #region Fields
-        internal const String ValidLabel = "LBL001";
-        internal const String InvalidLabel = "不正なラベル";
+        internal const String ValidLabelName = "LBL001";
+        internal const String InvalidLabelName = "不正なラベル";
 
-        private const String DontCare = null;
+        internal static readonly Label ValidLabel = new Label(ValidLabelName);
         #endregion
 
         /// <summary>
-        /// ParseLine メソッドのテストです。
+        /// Parse メソッドのテストです。
         /// </summary>
         [TestMethod]
-        public void ParseLine()
+        public void Parse()
         {
-            CheckParseLine(String.Empty, true, null, "空文字 => ラベルなし");
-            CheckParseLine(" ", true, null, "空白 => ラベルなし");
+            const Label DontCare = null;
 
-            CheckParseLine("A", true, "A", "半角英大文字 1 文字");
-            CheckParseLine("A2B4C6D8", true, "A2B4C6D8", "半角英大文字とそれに続く半角数字か半角英大文字で 8 文字");
-
-            CheckParseLine("A23456789", false, DontCare, "文字数が 8 文字より多い => エラー");
-            CheckParseLine("Ａ", false, DontCare, "先頭が半角英大文字でない => エラー");
-            CheckParseLine("A_", false, DontCare, "以降に半角英大文字か数字以外 (_) => エラー");
-            CheckParseLine("Ab", false, DontCare, "以降に半角英大文字か数字以外 (b) => エラー");
-            CheckParseLine("AＢ", false, DontCare, "以降に半角英大文字か数字以外 (Ｂ) => エラー");
-            CheckParseLine("A８", false, DontCare, "以降に半角英大文字か数字以外 (８) => エラー");
-            CheckParseLine("GR0", false, DontCare, "予約語 => エラー");
+            CheckParse(String.Empty, true, null, "空文字列 => ラベルはないので null");
+            CheckParse(ValidLabelName, true, ValidLabel, "適正なラベル名 => ラベルを生成して返す");
+            CheckParse(InvalidLabelName, false, DontCare, "不正なラベル名 => 例外");
         }
 
-        private void CheckParseLine(String str, Boolean success, String expected, String message)
+        private void CheckParse(String labelField, Boolean success, Label expected, String message)
         {
-            CheckParse(Label.ParseLine, str, success, expected, message);
-        }
-
-        /// <summary>
-        /// ParseOperand メソッドのテストです。
-        /// </summary>
-        [TestMethod]
-        public void ParseOperand()
-        {
-            CheckParseOperand("L001", true, "L001", "ラベルで文字列の終わり => 文字列の終わりの前まで解釈");
-            CheckParseOperand("L001 ", true, "L001", "ラベルに続いて空白 => 空白の前まで解釈");
-            CheckParseOperand("L001,", true, "L001", "ラベルに続いてコンマ => コンマの前まで解釈");
-
-            CheckParseOperand(String.Empty, false, DontCare, "空文字 => ラベルがない => 例外");
-            CheckParseOperand(" ", false, DontCare, "空白 => ラベルがない => 例外");
-            CheckParseOperand("001", false, DontCare, "不正なラベル => 例外");
-        }
-
-        private void CheckParseOperand(String str, Boolean success, String expected, String message)
-        {
-            CheckParse(Label.ParseOperand, str, success, expected, message);
-        }
-
-        private void CheckParse(
-            Func<ReadBuffer, String> checkFunc, String str, Boolean success, String expected, String message)
-        {
-            ReadBuffer buffer = new ReadBuffer(str);
             try
             {
-                String actual = checkFunc(buffer);
+                Label actual = Label.Parse(labelField);
                 Assert.IsTrue(success, message);
-                Assert.AreEqual(expected, actual, message);
+                Check(expected, actual, message);
             }
             catch (Casl2SimulatorException)
             {
                 Assert.IsFalse(success, message);
+            }
+        }
+
+        /// <summary>
+        /// コンストラクタのテストです。
+        /// </summary>
+        [TestMethod]
+        public void Ctor()
+        {
+            CheckCtor("A", true, "半角英大文字 1 文字: 最短");
+            CheckCtor("A2B4C6D8", true, "半角英大文字とそれに続く半角数字か半角英大文字で 8 文字: 最長");
+
+            CheckCtor(String.Empty, false, "空文字 => 1 文字より短い => エラー");
+            CheckCtor("A23456789", false, "文字数が 8 文字より長い => エラー");
+            CheckCtor("Ａ", false, "先頭が半角英大文字でない => エラー");
+            CheckCtor("A_", false, "以降に半角英大文字か数字以外 (_) => エラー");
+            CheckCtor("Ab", false, "以降に半角英大文字か数字以外 (b) => エラー");
+            CheckCtor("AＢ", false, "以降に半角英大文字か数字以外 (Ｂ) => エラー");
+            CheckCtor("A８", false, "以降に半角英大文字か数字以外 (８) => エラー");
+            CheckCtor("GR0", false, "予約語 => エラー");
+        }
+
+        private void CheckCtor(String name, Boolean success, String message)
+        {
+            try
+            {
+                Label actual = new Label(name);
+                Assert.IsTrue(success, message);
+            }
+            catch (Casl2SimulatorException)
+            {
+                Assert.IsFalse(success, message);
+            }
+        }
+
+        internal static void Check(Label expected, Label actual, String message)
+        {
+            if (expected == null)
+            {
+                Assert.IsNull(actual, message);
+            }
+            else
+            {
+                Assert.IsNotNull(actual, message);
+                Assert.AreEqual(expected.Name, actual.Name, "Name: " + message);
             }
         }
     }

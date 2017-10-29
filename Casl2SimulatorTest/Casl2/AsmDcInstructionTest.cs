@@ -10,42 +10,42 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class AsmDcInstructionTest
     {
-        #region Fields
-        private static readonly Type NumericConstant = typeof(NumericConstant);
-        private static readonly Type StringConstant = typeof(StringConstant);
-        private static readonly Type AddressConstant = typeof(AddressConstant);
-        #endregion
-
         /// <summary>
         /// ParseOperand メソッドのテストです。
         /// </summary>
         [TestMethod]
         public void ParseOperand()
         {
+            const Constant[] DontCare = null;
+
             CheckParseOperand(
-                "'文字定数',12345,L001,#ABCD",
-                TestUtils.MakeArray(StringConstant, NumericConstant, AddressConstant, NumericConstant),
+                "'文字定数',12345,L001,#ABCD", true,
+                ConstantTest.MakeArray(
+                    new StringConstant("文字定数"),
+                    new DecimalConstant(12345),
+                    new AddressConstant("L001"),
+                    new HexaDecimalConstant(0xABCD)),
                 "定数の並び");
             CheckParseOperand(
-                String.Empty, null,
+                String.Empty, false, DontCare,
                 "空文字列でオペランドなし => エラー, 1 つ以上の定数が必要");
             CheckParseOperand(
-                "; コメント", null,
+                "; コメント", false, DontCare,
                 "コメントでオペランドなし => エラー, 1 つ以上の定数が必要");
             CheckParseOperand(
-                "'abc'123", null,
-                "区切りのコンマがない、定数の後ろに解釈できない文字列がある => エラー");
+                "'abc'123", false, DontCare,
+                "区切りのコンマではなく別の字句要素がある => エラー");
         }
 
-        private void CheckParseOperand(String str, Type[] expectedTypes, String message)
+        private void CheckParseOperand(
+            String str, Boolean success, Constant[] expectedConstants, String message)
         {
             AsmDcInstruction target = new AsmDcInstruction();
-            Boolean success = (expectedTypes != null);
             InstructionTest.CheckParseOperand(target, str, success, message);
             if (success)
             {
                 Constant[] actualConstants = target.Constants;
-                TestUtils.CheckTypes(actualConstants, expectedTypes, message);
+                TestUtils.CheckArray(expectedConstants, actualConstants, ConstantTest.Check, message);
             }
         }
     }

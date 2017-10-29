@@ -11,29 +11,66 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     public class StringConstantTest
     {
         /// <summary>
-        /// Parse メソッドのテストです。
+        /// IsStart メソッドのテストです。
         /// </summary>
         [TestMethod]
-        public void Parse()
+        public void IsStart()
+        {
+            CheckIsStart('\'', true, "' => true: 文字定数の最初の文字");
+            CheckIsStart('!', false, "' 以外 => false: 文字定数の最初の文字でない");
+        }
+
+        private void CheckIsStart(Char firstChar, Boolean expected, String message)
+        {
+            Boolean actual = StringConstant.IsStart(firstChar);
+            Assert.AreEqual(expected, actual, message);
+        }
+
+        /// <summary>
+        /// Read メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void Read()
         {
             const String DontCare = null;
 
-            CheckParse("'文字定数'", true, "文字定数", "シングルクォート内の文字列を値とする => OK");
-            CheckParse("'''a'''", true, "'a'", "シングルクォートは 2 個続けて書く => OK");
-            CheckParse("',; '", true, ",; ", "コンマ、セミコロン、スペースも含められる => OK");
+            CheckRead("'文字定数'", true, "文字定数", "シングルクォート内の文字列を値とする => OK");
+            CheckRead("'''a'''", true, "'a'", "シングルクォートは 2 個続けて書く => OK");
+            CheckRead("',; '", true, ",; ", "コンマ、セミコロン、スペースも含められる => OK");
 
-            CheckParse("!'", false, DontCare, "開き側のシングルクォートなし => 例外");
-            CheckParse("'!", false, DontCare, "閉じ側のシングルクォートなし => 例外");
+            CheckRead("!'", false, DontCare, "開き側のシングルクォートなし => 例外");
+            CheckRead("'!", false, DontCare, "閉じ側のシングルクォートなし => 例外");
+            CheckRead("'!''", false, DontCare, "シングルクォート 2 個続きで終わり => 例外");
         }
 
-        private void CheckParse(String str, Boolean success, String expected, String message)
+        private void CheckRead(String str, Boolean success, String expected, String message)
         {
-            StringConstant target = ConstantTest.CheckParse(StringConstant.Parse, str, success, message);
+            String actual = ConstantTest.CheckRead(StringConstant.Read, str, success, message);
             if (success)
             {
-                String actual = target.Value;
                 Assert.AreEqual(expected, actual, message);
             }
+        }
+
+        /// <summary>
+        /// ValueToString メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void ValueToString()
+        {
+            CheckValueToString("abc", "'abc'", "' と ' で囲まれる");
+            CheckValueToString("'a'", "'''a'''", "' は '' に変換される");
+        }
+
+        private void CheckValueToString(String value, String expected, String message)
+        {
+            String actual = StringConstant.ValueToString(value);
+            Assert.AreEqual(expected, actual, message);
+        }
+
+        internal static void Check(StringConstant expected, StringConstant actual, String message)
+        {
+            Assert.AreEqual(expected.Value, actual.Value, "Value: " + message);
         }
     }
 }
