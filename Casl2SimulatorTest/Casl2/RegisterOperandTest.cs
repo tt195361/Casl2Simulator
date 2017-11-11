@@ -16,6 +16,10 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         internal static RegisterOperand GR1 = RegisterOperand.GetFor(Casl2Defs.GR1);
         internal static RegisterOperand GR2 = RegisterOperand.GetFor(Casl2Defs.GR2);
         internal static RegisterOperand GR3 = RegisterOperand.GetFor(Casl2Defs.GR3);
+        internal static RegisterOperand GR4 = RegisterOperand.GetFor(Casl2Defs.GR4);
+        internal static RegisterOperand GR5 = RegisterOperand.GetFor(Casl2Defs.GR5);
+        internal static RegisterOperand GR6 = RegisterOperand.GetFor(Casl2Defs.GR6);
+        internal static RegisterOperand GR7 = RegisterOperand.GetFor(Casl2Defs.GR7);
         #endregion
 
         /// <summary>
@@ -24,7 +28,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void GetFor_NameNumberCanIndex()
         {
-            const Int32 DontCareNumber = -1;
+            const UInt16 DontCareNumber = 0;
             const Boolean DontCareCanIndex = false;
 
             CheckGetFor("GR0", true, 0, false, "GR0 => 番号=0, 指標レジスタとして使え*ない*");
@@ -40,7 +44,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         private void CheckGetFor(
-            String name, Boolean success, Int32 expectedNumber, Boolean expectedCanIndex, String message)
+            String name, Boolean success, UInt16 expectedNumber, Boolean expectedCanIndex, String message)
         {
             try
             {
@@ -71,7 +75,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         private void Check(
-            String expectedName, Int32 expectedNumber, Boolean expectedCanIndex,
+            String expectedName, UInt16 expectedNumber, Boolean expectedCanIndex,
             RegisterOperand actual, String message)
         {
             Assert.AreEqual(expectedName, actual.Name, "Name: " + message);

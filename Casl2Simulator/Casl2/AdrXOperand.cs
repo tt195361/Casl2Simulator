@@ -9,7 +9,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <remarks>
     /// アドレスは、10 進定数、16 進定数、アドレス定数又はリテラルで指定します。
     /// </remarks>
-    internal class AdrXOperand
+    internal class AdrXOperand : MachineInstructionOperand
     {
         /// <summary>
         /// adr[,x] のオペランドを解釈します。
@@ -102,6 +102,24 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal RegisterOperand X
         {
             get { return m_x; }
+        }
+
+        internal override Int32 GetAdditionalWordCount()
+        {
+            // adr で 1 ワード追加する。
+            return 1;
+        }
+
+        internal override UInt16 GetXR2()
+        {
+            if (m_x == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return m_x.Number;
+            }
         }
 
         public override String ToString()

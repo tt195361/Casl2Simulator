@@ -7,7 +7,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <summary>
     /// 機械語命令のレジスタオペランドです。
     /// </summary>
-    internal class RegisterOperand
+    internal class RegisterOperand : MachineInstructionOperand
     {
         #region Static Fields
         internal static readonly String IndexRegisters = String.Format("{0}~{1}", Casl2Defs.GR1, Casl2Defs.GR7);
@@ -48,11 +48,11 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         #region Fields
         private readonly String m_name;
-        private readonly Int32 m_number;
+        private readonly UInt16 m_number;
         private readonly Boolean m_canIndex;
         #endregion
 
-        private RegisterOperand(String name, Int32 number, Boolean canIndex)
+        private RegisterOperand(String name, UInt16 number, Boolean canIndex)
         {
             m_name = name;
             m_number = number;
@@ -64,7 +64,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_name; }
         }
 
-        internal Int32 Number
+        internal UInt16 Number
         {
             get { return m_number; }
         }
@@ -75,6 +75,11 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal Boolean CanIndex
         {
             get { return m_canIndex; }
+        }
+
+        internal override UInt16 GetRR1()
+        {
+            return Number;
         }
 
         public override String ToString()

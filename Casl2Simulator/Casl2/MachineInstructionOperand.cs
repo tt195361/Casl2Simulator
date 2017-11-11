@@ -1,4 +1,5 @@
-﻿using Tt195361.Casl2Simulator.Properties;
+﻿using System;
+using Tt195361.Casl2Simulator.Properties;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
@@ -68,6 +69,36 @@ namespace Tt195361.Casl2Simulator.Casl2
         protected MachineInstructionOperand()
         {
             //
+        }
+
+        /// <summary>
+        /// このオペランドで追加されるワード数を返します。
+        /// </summary>
+        /// <returns>このオペランドで追加されるワード数を返します。</returns>
+        internal virtual Int32 GetAdditionalWordCount()
+        {
+            // デフォルトは追加なし。
+            return 0;
+        }
+
+        /// <summary>
+        /// このオペランドの r/r1 フィールドの値を取得します。
+        /// </summary>
+        /// <returns>このオペランドの r/r1 フィールドの値を返します。</returns>
+        internal virtual UInt16 GetRR1()
+        {
+            // デフォルトは 0。
+            return 0;
+        }
+
+        /// <summary>
+        /// このオペランドの x/r2 フィールドの値を取得します。
+        /// </summary>
+        /// <returns>このオペランドの x/r2 フィールドの値を返します。</returns>
+        internal virtual UInt16 GetXR2()
+        {
+            // デフォルトは 0。
+            return 0;
         }
     }
 }

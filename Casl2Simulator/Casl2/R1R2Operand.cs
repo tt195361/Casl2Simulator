@@ -28,6 +28,16 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_r2; }
         }
 
+        internal override UInt16 GetRR1()
+        {
+            return m_r1.Number;
+        }
+
+        internal override UInt16 GetXR2()
+        {
+            return m_r2.Number;
+        }
+
         public override String ToString()
         {
             return m_r1.ToString() + Casl2Defs.Comma + m_r2.ToString();
