@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator;
 using Tt195361.Casl2Simulator.Casl2;
+using Tt195361.Casl2Simulator.Common;
+using Tt195361.Casl2SimulatorTest.Common;
 
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
@@ -212,6 +214,14 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             {
                 Assert.Fail("未知の MachineInstructionOperand の派生クラスです。");
             }
+        }
+
+        internal static void CheckMakeSecondWord(
+            MachineInstructionOperand target, Word? expected, String message)
+        {
+            LabelManager lblManager = new LabelManager();
+            Word? actual = target.MakeSecondWord(lblManager);
+            WordTest.Check(expected, actual, message);
         }
     }
 }

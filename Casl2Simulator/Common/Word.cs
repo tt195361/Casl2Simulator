@@ -1,7 +1,7 @@
 ﻿using System;
 using Tt195361.Casl2Simulator.Utils;
 
-namespace Tt195361.Casl2Simulator.Comet2
+namespace Tt195361.Casl2Simulator.Common
 {
     /// <summary>
     /// COMET II の語を表わします。1 語は 16 ビットで、最下位がビット 0、最上位がビット 15 です。

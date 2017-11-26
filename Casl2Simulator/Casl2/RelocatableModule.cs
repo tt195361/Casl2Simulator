@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tt195361.Casl2Simulator.Common;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
@@ -9,12 +10,17 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class RelocatableModule
     {
         #region Fields
-        private readonly List<UInt16> m_codeList;
+        private readonly List<Word> m_wordList;
         #endregion
 
         internal RelocatableModule()
         {
-            m_codeList = new List<UInt16>();
+            m_wordList = new List<Word>();
+        }
+
+        internal Int32 WordCount
+        {
+            get { return m_wordList.Count; }
         }
 
         // 実行開始アドレス
@@ -27,7 +33,17 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal UInt16 GetCurrentOffset()
         {
-            return (UInt16)m_codeList.Count;
+            return (UInt16)m_wordList.Count;
+        }
+
+        internal void AddWord(Word word)
+        {
+            m_wordList.Add(word);
+        }
+
+        internal Word[] GetWords()
+        {
+            return m_wordList.ToArray();
         }
     }
 }

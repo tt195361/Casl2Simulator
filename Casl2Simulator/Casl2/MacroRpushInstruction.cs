@@ -45,5 +45,10 @@ namespace Tt195361.Casl2Simulator.Casl2
 
             return result;
         }
+
+        protected override String OperandString()
+        {
+            return String.Empty;
+        }
     }
 }

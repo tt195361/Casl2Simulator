@@ -1,4 +1,5 @@
 ﻿using System;
+using Tt195361.Casl2Simulator.Common;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
@@ -42,6 +43,11 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal override UInt16 GetXR2()
         {
             return m_adrX.GetXR2();
+        }
+
+        internal override Word? MakeSecondWord(LabelManager lblManager)
+        {
+            return m_adrX.MakeSecondWord(lblManager);
         }
 
         public override String ToString()

@@ -58,17 +58,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             }
         }
 
-        /// <summary>
-        /// IndexRegisters の値のテストです。
-        /// </summary>
-        [TestMethod]
-        public void IndexRegisters()
-        {
-            const String Expected = "GR1~GR7";
-            String actual = RegisterOperand.IndexRegisters;
-            Assert.AreEqual(Expected, actual, "指標レジスタとして使えるレジスタ");
-        }
-
         internal static void Check(RegisterOperand expected, RegisterOperand actual, String message)
         {
             Assert.AreSame(expected, actual, message);
@@ -80,7 +69,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             Assert.AreEqual(expectedName, actual.Name, "Name: " + message);
             Assert.AreEqual(expectedNumber, actual.Number, "Number: " + message);
-            Assert.AreEqual(expectedCanIndex, actual.CanIndex, "CanIndex: " + message);
         }
     }
 }

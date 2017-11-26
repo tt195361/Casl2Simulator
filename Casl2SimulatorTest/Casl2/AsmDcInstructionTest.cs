@@ -44,8 +44,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             InstructionTest.CheckParseOperand(target, str, success, message);
             if (success)
             {
-                Constant[] actualConstants = target.Constants;
-                TestUtils.CheckArray(expectedConstants, actualConstants, ConstantTest.Check, message);
+                ConstantCollection actualConstants = target.Constants;
+                TestUtils.CheckEnumerable(expectedConstants, actualConstants, ConstantTest.Check, message);
             }
         }
     }

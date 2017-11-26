@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator.Casl2;
+using Tt195361.Casl2Simulator.Common;
+using Tt195361.Casl2SimulatorTest.Common;
 
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
@@ -91,6 +93,53 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             {
                 Assert.AreEqual(expectedInstructionCode, actial.Instruction.Code, message);
             }
+        }
+
+        /// <summary>
+        /// GenerateCode メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GenerateCode()
+        {
+            Line instructionLine = Line.Parse("LBL001 LD GR1,GR2");
+            CheckGenerateCode(
+                instructionLine, new Label("LBL001"), WordTest.MakeArray(0x1412),
+                "命令行 => ラベルがあれば登録し、その命令のコードを生成する");
+
+            Line commentLine = Line.Parse("; コメント行");
+            CheckGenerateCode(
+                commentLine, null, WordTest.MakeArray(),
+                "コメント行 => ラベル登録も、コード生成も、行わない");
+
+            Line errorLine = Line.Parse(" 未定義命令");
+            CheckGenerateCode(
+                errorLine, null, WordTest.MakeArray(),
+                "エラー行 => ラベル登録も、コード生成も、行わない");
+        }
+
+        private void CheckGenerateCode(
+            Line target, Label expectedLabel, Word[] expectedWords, String message)
+        {
+            LabelManager lblManager = new LabelManager();
+            RelocatableModule relModule = new RelocatableModule();
+            target.GenerateCode(lblManager, relModule);
+
+            CheckLabelIsRegistered(expectedLabel, lblManager, "Label: " + message);
+            CheckGeneratedCode(relModule, expectedWords, "Code: " + message);
+        }
+
+        private void CheckLabelIsRegistered(Label expectedLabel, LabelManager lblManager, String message)
+        {
+            if (expectedLabel != null)
+            {
+                Boolean isRegistered = lblManager.IsRegistered(expectedLabel);
+                Assert.IsTrue(isRegistered, message);
+            }
+        }
+
+        private void CheckGeneratedCode(RelocatableModule relModule, Word[] expectedWords, String message)
+        {
+            RelocatableModuleTest.Check(relModule, expectedWords, message);
         }
     }
 }

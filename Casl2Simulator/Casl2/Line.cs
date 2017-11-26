@@ -154,5 +154,21 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             get { return m_errorMessage; }
         }
+
+        internal void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        {
+            // このアセンブラ行にラベルがあれば登録する。
+            if (m_label != null)
+            {
+                UInt16 offset = relModule.GetCurrentOffset();
+                lblManager.Register(m_label, offset);
+            }
+
+            // このアセンブラ行に命令があれば、コードを生成する。
+            if (m_instruction != null)
+            {
+                m_instruction.GenerateCode(m_label, lblManager, relModule);
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Tt195361.Casl2Simulator.Common;
 
 namespace Tt195361.Casl2Simulator.Comet2
 {

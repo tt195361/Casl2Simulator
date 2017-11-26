@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator.Comet2;
+using Tt195361.Casl2Simulator.Common;
 
 namespace Tt195361.Casl2SimulatorTest.Comet2
 {

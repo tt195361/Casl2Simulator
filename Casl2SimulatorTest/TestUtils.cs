@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2SimulatorTest
 {
@@ -9,21 +10,38 @@ namespace Tt195361.Casl2SimulatorTest
     /// </summary>
     internal static class TestUtils
     {
-        internal static void CheckArray<T>(T[] expectedArray, T[] actualArray, String message)
+        internal static void CheckEnumerable<T>(
+            IEnumerable<T> expectedItems, IEnumerable<T> actualItems, String message)
         {
-            CheckArray<T>(expectedArray, actualArray, Assert.AreEqual, message);
+            CheckEnumerable(expectedItems, actualItems, Assert.AreEqual, message);
         }
 
-        internal static void CheckArray<T>(
-            T[] expectedArray, T[] actualArray, Action<T, T, String> checkAtion, String message)
+        internal static void CheckEnumerable<T>(
+            IEnumerable<T> expectedItems, IEnumerable<T> actualItems,
+            Action<T, T, String> checkAction, String message)
         {
-            Assert.AreEqual(expectedArray.Length, actualArray.Length, "Length: " + message);
+            Int32 expectedCount = expectedItems.Count();
+            Int32 actualCount = actualItems.Count();
+            Assert.AreEqual(expectedCount, actualCount, "Count: " + message);
 
-            for (Int32 index = 0; index < expectedArray.Length; ++index)
+            expectedItems.ZipAction(
+                actualItems,
+                (expectedItem, actualItem) => checkAction(expectedItem, actualItem, message));
+        }
+
+        private static void ZipAction<TFirst, TSecond>(
+            this IEnumerable<TFirst> firstEnumerable, IEnumerable<TSecond> secondEnumerable,
+            Action<TFirst, TSecond> action)
+        {
+            using (IEnumerator<TFirst> firstEnumerator = firstEnumerable.GetEnumerator())
             {
-                T expectedItem = expectedArray[index];
-                T actualItem = actualArray[index];
-                checkAtion(expectedItem, actualItem, index.ToString() + ": " + message);
+                using (IEnumerator<TSecond> secondEnumerator = secondEnumerable.GetEnumerator())
+                {
+                    while (firstEnumerator.MoveNext() && secondEnumerator.MoveNext())
+                    {
+                        action(firstEnumerator.Current, secondEnumerator.Current);
+                    }
+                }
             }
         }
 

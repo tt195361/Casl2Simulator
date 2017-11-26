@@ -34,6 +34,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal const String IN = "IN";
         internal const String RPUSH = "RPUSH";
 
+        internal const String LD = "LD";
         internal const String LAD = "LAD";
         internal const String PUSH = "PUSH";
         internal const String POP = "POP";

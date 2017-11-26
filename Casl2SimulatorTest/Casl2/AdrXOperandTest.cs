@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator.Casl2;
+using Tt195361.Casl2Simulator.Common;
+using Tt195361.Casl2SimulatorTest.Common;
 
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
@@ -10,6 +12,24 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class AdrXOperandTest
     {
+        #region Fields
+        private AdrXOperand m_adrOnly;
+        private AdrXOperand m_adrWithX;
+        private LabelManager m_lblManager;
+
+        private const UInt16 AdrOnlyValue = 0x1357;
+        private const UInt16 AdrWithXValue = 0x2468;
+        private readonly RegisterOperand X = RegisterOperandTest.GR7;
+        #endregion
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            m_adrOnly = AdrXOperand.MakeForUnitTest(new DecimalConstant(AdrOnlyValue), null);
+            m_adrWithX = AdrXOperand.MakeForUnitTest(new DecimalConstant(AdrWithXValue), X);
+            m_lblManager = new LabelManager();
+        }
+
         /// <summary>
         /// Parse メソッドのテストです。
         /// </summary>
@@ -66,6 +86,40 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             }
         }
 
+        /// <summary>
+        /// GetXR2 メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GetXR2()
+        {
+            CheckGetXR2(m_adrOnly, 0, "adr のみで X なし => XR2 は 0");
+            CheckGetXR2(m_adrWithX, X.Number, "X あり => XR2 は X の値");
+        }
+
+        private void CheckGetXR2(AdrXOperand target, UInt16 expected, String message)
+        {
+            UInt16 actual = target.GetXR2();
+            Assert.AreEqual(expected, actual, message);
+        }
+
+        /// <summary>
+        /// MakeSecondWord メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void MakeSecondWord()
+        {
+            CheckMakeSecondWord(
+                m_adrOnly, new Word(AdrOnlyValue), "adr の値を第 2 語にする: adr のみ");
+            CheckMakeSecondWord(
+                m_adrWithX, new Word(AdrWithXValue), "adr の値を第 2 語にする: X あり");
+        }
+
+        private void CheckMakeSecondWord(AdrXOperand target, Word? expected, String message)
+        {
+            Word? actual = target.MakeSecondWord(m_lblManager);
+            WordTest.Check(expected, actual, message);
+        }
+
         internal static void Check(AdrXOperand expected, AdrXOperand actual, String message)
         {
             Check(expected.Adr, expected.X, actual, message);
@@ -83,17 +137,17 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             IAdrValueTest.Check(expected, actual, "Adr: " + message);
         }
 
-        private static void CheckX(RegisterOperand expectedX, RegisterOperand actualX, String message)
+        private static void CheckX(RegisterOperand expected, RegisterOperand actual, String message)
         {
             String xMessage = "X: " + message;
 
-            if (expectedX == null)
+            if (expected == null)
             {
-                Assert.IsNull(actualX, xMessage);
+                Assert.IsNull(actual, xMessage);
             }
             else
             {
-                RegisterOperandTest.Check(expectedX, actualX, xMessage);
+                RegisterOperandTest.Check(expected, actual, xMessage);
             }
         }
     }

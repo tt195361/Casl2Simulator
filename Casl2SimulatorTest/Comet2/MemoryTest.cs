@@ -1,7 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator.Comet2;
-using Tt195361.Casl2Simulator.Utils;
+using Tt195361.Casl2Simulator.Common;
+using Tt195361.Casl2SimulatorTest.Common;
 
 namespace Tt195361.Casl2SimulatorTest.Comet2
 {
@@ -57,7 +58,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             m_memory.Write(wordAddr, wordWrite);
 
             Word wordRead = m_memory.Read(wordAddr);
-            WordTest.Check(wordRead, wordWrite, message);
+            WordTest.Check(wordWrite, wordRead, message);
         }
 
         /// <summary>

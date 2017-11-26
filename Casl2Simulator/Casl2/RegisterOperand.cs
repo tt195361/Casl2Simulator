@@ -10,8 +10,6 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class RegisterOperand : MachineInstructionOperand
     {
         #region Static Fields
-        internal static readonly String IndexRegisters = String.Format("{0}~{1}", Casl2Defs.GR1, Casl2Defs.GR7);
-
         private static readonly Dictionary<String, RegisterOperand> m_registerOperandDictionary;
         #endregion
 
@@ -19,14 +17,14 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             m_registerOperandDictionary = new Dictionary<String, RegisterOperand>
             {
-                { Casl2Defs.GR0, new RegisterOperand(Casl2Defs.GR0, 0, false) },
-                { Casl2Defs.GR1, new RegisterOperand(Casl2Defs.GR1, 1, true) },
-                { Casl2Defs.GR2, new RegisterOperand(Casl2Defs.GR2, 2, true) },
-                { Casl2Defs.GR3, new RegisterOperand(Casl2Defs.GR3, 3, true) },
-                { Casl2Defs.GR4, new RegisterOperand(Casl2Defs.GR4, 4, true) },
-                { Casl2Defs.GR5, new RegisterOperand(Casl2Defs.GR5, 5, true) },
-                { Casl2Defs.GR6, new RegisterOperand(Casl2Defs.GR6, 6, true) },
-                { Casl2Defs.GR7, new RegisterOperand(Casl2Defs.GR7, 7, true) },
+                { Casl2Defs.GR0, new RegisterOperand(Casl2Defs.GR0, 0) },
+                { Casl2Defs.GR1, new RegisterOperand(Casl2Defs.GR1, 1) },
+                { Casl2Defs.GR2, new RegisterOperand(Casl2Defs.GR2, 2) },
+                { Casl2Defs.GR3, new RegisterOperand(Casl2Defs.GR3, 3) },
+                { Casl2Defs.GR4, new RegisterOperand(Casl2Defs.GR4, 4) },
+                { Casl2Defs.GR5, new RegisterOperand(Casl2Defs.GR5, 5) },
+                { Casl2Defs.GR6, new RegisterOperand(Casl2Defs.GR6, 6) },
+                { Casl2Defs.GR7, new RegisterOperand(Casl2Defs.GR7, 7) },
             };
         }
 
@@ -49,14 +47,12 @@ namespace Tt195361.Casl2Simulator.Casl2
         #region Fields
         private readonly String m_name;
         private readonly UInt16 m_number;
-        private readonly Boolean m_canIndex;
         #endregion
 
-        private RegisterOperand(String name, UInt16 number, Boolean canIndex)
+        private RegisterOperand(String name, UInt16 number)
         {
             m_name = name;
             m_number = number;
-            m_canIndex = canIndex;
         }
 
         internal String Name
@@ -67,14 +63,6 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal UInt16 Number
         {
             get { return m_number; }
-        }
-
-        /// <summary>
-        /// 指標レジスタとして使えるかどうかを取得します。
-        /// </summary>
-        internal Boolean CanIndex
-        {
-            get { return m_canIndex; }
         }
 
         internal override UInt16 GetRR1()

@@ -70,18 +70,22 @@
     <Compile Include="Casl2\Casl2Defs.cs" />
     <Compile Include="Casl2\AsmStartInstruction.cs" />
     <Compile Include="Casl2\Constant.cs" />
+    <Compile Include="Casl2\ConstantCollection.cs" />
     <Compile Include="Casl2\HexaDecimalConstant.cs" />
     <Compile Include="Casl2\IAdrValue.cs" />
     <Compile Include="Casl2\InstructionFactory.cs" />
+    <Compile Include="Casl2\MachineInstruction.cs" />
     <Compile Include="Casl2\MachineInstructionOperand.cs" />
     <Compile Include="Casl2\Label.cs" />
     <Compile Include="Casl2\Line.cs" />
     <Compile Include="Casl2\Literal.cs" />
     <Compile Include="Casl2\MacroRpushInstruction.cs" />
     <Compile Include="Casl2\DecimalConstant.cs" />
+    <Compile Include="Casl2\NoOperand.cs" />
     <Compile Include="Casl2\Operand.cs" />
     <Compile Include="Casl2\OperandLexer.cs" />
     <Compile Include="Casl2\R1R2Operand.cs" />
+    <Compile Include="Casl2\R1R2OrRAdrXInstruction.cs" />
     <Compile Include="Casl2\RAdrXOperand.cs" />
     <Compile Include="Casl2\ReadBuffer.cs" />
     <Compile Include="Casl2\Instruction.cs" />
@@ -107,6 +111,8 @@
     <Compile Include="Comet2\Register.cs" />
     <Compile Include="Comet2\RegisterHandler.cs" />
     <Compile Include="Comet2\RegisterSet.cs" />
+    <Compile Include="Common\InstructionWord.cs" />
+    <Compile Include="Common\Opcode.cs" />
     <Compile Include="Utils\ArgChecker.cs" />
     <Compile Include="Utils\CharUtils.cs" />
     <Compile Include="Utils\ExceptionUtils.cs" />
@@ -128,7 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comet2\Memory.cs" />
-    <Compile Include="Comet2\Word.cs" />
+    <Compile Include="Common\Word.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

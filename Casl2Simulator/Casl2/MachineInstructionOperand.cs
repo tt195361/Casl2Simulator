@@ -1,4 +1,5 @@
 ﻿using System;
+using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Properties;
 
 namespace Tt195361.Casl2Simulator.Casl2
@@ -99,6 +100,20 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             // デフォルトは 0。
             return 0;
+        }
+
+        /// <summary>
+        /// このオペランドの第 2 語を返します。
+        /// </summary>
+        /// <param name="lblManager">
+        /// ラベルを管理する <see cref="LabelManager"/> のオブジェクトです。
+        /// </param>
+        /// <returns>
+        /// このオペランドの第 2 語を返します。第 2 語がない場合は <see langword="null"/> を返します。
+        /// </returns>
+        internal virtual Word? MakeSecondWord(LabelManager lblManager)
+        {
+            return null;
         }
     }
 }

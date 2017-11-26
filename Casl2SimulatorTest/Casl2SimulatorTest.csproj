@@ -57,15 +57,18 @@
     <Compile Include="Casl2\AdrXOperandTest.cs" />
     <Compile Include="Casl2\AsmDcInstructionTest.cs" />
     <Compile Include="Casl2\AsmStartInstructionTest.cs" />
+    <Compile Include="Casl2\ConstantCollectionTest.cs" />
     <Compile Include="Casl2\ConstantTest.cs" />
     <Compile Include="Casl2\HexaDecimalConstantTest.cs" />
     <Compile Include="Casl2\IAdrValueTest.cs" />
     <Compile Include="Casl2\InstructionFactoryTest.cs" />
+    <Compile Include="Casl2\LabelManagerTest.cs" />
     <Compile Include="Casl2\LiteralTest.cs" />
     <Compile Include="Casl2\MachineInstructionOperandTest.cs" />
     <Compile Include="Casl2\LabelTest.cs" />
     <Compile Include="Casl2\InstructionTest.cs" />
     <Compile Include="Casl2\LineTest.cs" />
+    <Compile Include="Casl2\MachineInstructionTest.cs" />
     <Compile Include="Casl2\MacroInInstructionTest.cs" />
     <Compile Include="Casl2\MacroRpushInstructionTest.cs" />
     <Compile Include="Casl2\DecimalConstantTest.cs" />
@@ -73,6 +76,7 @@
     <Compile Include="Casl2\RAdrXOperandTest.cs" />
     <Compile Include="Casl2\ReadBufferTest.cs" />
     <Compile Include="Casl2\RegisterOperandTest.cs" />
+    <Compile Include="Casl2\RelocatableModuleTest.cs" />
     <Compile Include="Casl2\ReservedWordTest.cs" />
     <Compile Include="Casl2\StringConstantTest.cs" />
     <Compile Include="Casl2\OperandLexerTest.cs" />
@@ -88,7 +92,7 @@
     <Compile Include="Comet2\OperatorTest.cs" />
     <Compile Include="Comet2\RegisterHandlerTest.cs" />
     <Compile Include="Comet2\RegisterTest.cs" />
-    <Compile Include="Comet2\WordTest.cs" />
+    <Compile Include="Common\WordTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>

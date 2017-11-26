@@ -1,4 +1,5 @@
 ﻿using System;
+using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Properties;
 
 namespace Tt195361.Casl2Simulator.Comet2
@@ -85,12 +86,12 @@ namespace Tt195361.Casl2Simulator.Comet2
         {
             // PR レジスタが指すアドレスから命令語をフェッチし、デコードします。
             Word firstWord = Fetcher.Fetch(m_registerSet.PR, m_memory);
-            UInt16 opcode = firstWord.GetBits(15, 8);
+            UInt16 opcode = InstructionWord.GetOpcode(firstWord);
             Instruction instruction = Decoder.Decode(opcode);
 
             // 命令語から r/r1 フィールドと x/r2 フィールドを取得し、命令を実行します。
-            UInt16 rR1Field = firstWord.GetBits(7, 4);
-            UInt16 xR2Field = firstWord.GetBits(3, 0);
+            UInt16 rR1Field = InstructionWord.GetRR1(firstWord);
+            UInt16 xR2Field = InstructionWord.GetXR2(firstWord);
             instruction.Execute(rR1Field, xR2Field, m_registerSet, m_memory);
         }
 

@@ -68,6 +68,11 @@ namespace Tt195361.Casl2Simulator.Casl2
             return result;
         }
 
+        protected override String OperandString()
+        {
+            return String.Format("{0}{1}{2}", m_inputBufferArea, Casl2Defs.Comma, m_inputLengthArea);
+        }
+
         internal void SetLabelsForUnitTest(String inputBufferArea, String inputLengthArea)
         {
             m_inputBufferArea = new Label(inputBufferArea);

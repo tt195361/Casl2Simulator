@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using Tt195361.Casl2Simulator.Properties;
-using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
@@ -11,7 +9,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class AsmDcInstruction : Instruction
     {
         #region Fields
-        private Constant[] m_constants;
+        private ConstantCollection m_constants;
         #endregion
 
         internal AsmDcInstruction()
@@ -20,7 +18,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             //
         }
 
-        internal Constant[] Constants
+        internal ConstantCollection Constants
         {
             get { return m_constants; }
         }
@@ -31,7 +29,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <param name="lexer">オペランドの字句を解析する <see cref="OperandLexer"/> のオブジェクトです。</param>
         protected override void ParseSpecificOperand(OperandLexer lexer)
         {
-            m_constants = Constant.ParseList(lexer);
+            m_constants = ConstantCollection.Parse(lexer);
         }
 
         protected override String OperandSyntax
@@ -41,13 +39,17 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal override Int32 GetCodeWordCount()
         {
-            return m_constants.Select((constant) => constant.GetWordCount())
-                              .Sum();
+            return m_constants.GetCodeWordCount();
         }
 
-        internal override void GenerateCode(String label, LabelManager lblManager, RelocatableModule relModule)
+        internal override void GenerateCode(Label label, LabelManager lblManager, RelocatableModule relModule)
         {
-            m_constants.ForEach((constant) => constant.GenerateCode(lblManager, relModule));
+            m_constants.GenerateCode(label, lblManager, relModule);
+        }
+
+        protected override String OperandString()
+        {
+            return m_constants.ToString();
         }
     }
 }

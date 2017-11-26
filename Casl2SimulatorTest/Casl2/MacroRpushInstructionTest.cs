@@ -47,7 +47,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 "\t" +       "PUSH\t" + "0,GR6",
                 "\t" +       "PUSH\t" + "0,GR7",
             };
-            TestUtils.CheckArray(expected, actual, "マクロ命令 RPUSH の展開結果");
+            TestUtils.CheckEnumerable(expected, actual, "マクロ命令 RPUSH の展開結果");
         }
     }
 }

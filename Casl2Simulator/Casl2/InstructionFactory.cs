@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Properties;
 
 namespace Tt195361.Casl2Simulator.Casl2
@@ -22,6 +23,9 @@ namespace Tt195361.Casl2Simulator.Casl2
 
                 { Casl2Defs.IN, () => new MacroInInstruction() },
                 { Casl2Defs.RPUSH, () => new MacroRpushInstruction() },
+
+                { Casl2Defs.LD, () => new R1R2OrRAdrXInstruction(
+                    Casl2Defs.LD, Opcode.LoadEaContents, Opcode.LoadRegister) }
             };
         }
 

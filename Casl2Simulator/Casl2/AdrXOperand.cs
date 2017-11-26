@@ -1,4 +1,5 @@
 ﻿using System;
+using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Properties;
 
 namespace Tt195361.Casl2Simulator.Casl2
@@ -11,6 +12,15 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </remarks>
     internal class AdrXOperand : MachineInstructionOperand
     {
+        #region Fields
+        // 指標レジスタとして指定できる GR は GR1 ~ 7。
+        private const Int32 MinIndexReg = 1;
+        private const Int32 MaxIndexReg = 7;
+
+        // 指標レジスタが指定されていない場合の XR2 フィールドの値。
+        private const UInt16 XR2ForNoX = 0;
+        #endregion
+
         /// <summary>
         /// adr[,x] のオペランドを解釈します。
         /// </summary>
@@ -73,14 +83,19 @@ namespace Tt195361.Casl2Simulator.Casl2
         private static RegisterOperand ParseIndexRegister(OperandLexer lexer)
         {
             RegisterOperand x = lexer.ReadCurrentAsRegisterOperand();
-            if (!x.CanIndex)
+            if (!CanIndex(x))
             {
                 String message =
-                    String.Format(Resources.MSG_CanNotBeIndexRegister, x.Name, RegisterOperand.IndexRegisters);
+                    String.Format(Resources.MSG_CanNotBeIndexRegister, x.Name, MinIndexReg, MaxIndexReg);
                 throw new Casl2SimulatorException(message);
             }
 
             return x;
+        }
+
+        private static Boolean CanIndex(RegisterOperand x)
+        {
+            return MinIndexReg <= x.Number && x.Number <= MaxIndexReg;
         }
 
         #region Fields
@@ -114,12 +129,18 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             if (m_x == null)
             {
-                return 0;
+                return XR2ForNoX;
             }
             else
             {
                 return m_x.Number;
             }
+        }
+
+        internal override Word? MakeSecondWord(LabelManager lblManager)
+        {
+            UInt16 address = m_adr.GetAddress(lblManager);
+            return new Word(address);
         }
 
         public override String ToString()

@@ -71,7 +71,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 "\t" +       "POP\t" +  "GR2",
                 "\t" +       "POP\t" +  "GR1",
             };
-            TestUtils.CheckArray(expected, actual, "マクロ命令 IN の展開結果");
+            TestUtils.CheckEnumerable(expected, actual, "マクロ命令 IN の展開結果");
         }
     }
 }

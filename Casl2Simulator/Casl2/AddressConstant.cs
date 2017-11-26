@@ -38,7 +38,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         UInt16 IAdrValue.GetAddress(LabelManager lblManager)
         {
-            throw new NotImplementedException();
+            return lblManager.GetOffset(m_label);
         }
 
         protected override String ValueToString()

@@ -53,13 +53,25 @@ namespace Tt195361.Casl2Simulator.Casl2
             return 0;
         }
 
-        internal override void GenerateCode(String label, LabelManager lblManager, RelocatableModule relModule)
+        internal override void GenerateCode(Label label, LabelManager lblManager, RelocatableModule relModule)
         {
             // TODO: 実装する。
             throw new NotImplementedException();
 
             // 開始アドレス
             // Exports: 外部モジュールから参照できるアドレス。
+        }
+
+        protected override String OperandString()
+        {
+            if (m_execStartAddress == null)
+            {
+                return String.Empty;
+            }
+            else
+            {
+                return m_execStartAddress.ToString();
+            }
         }
     }
 }

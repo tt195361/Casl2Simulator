@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tt195361.Casl2Simulator.Comet2;
+using Tt195361.Casl2Simulator.Common;
 
-namespace Tt195361.Casl2SimulatorTest.Comet2
+namespace Tt195361.Casl2SimulatorTest.Common
 {
     /// <summary>
     /// Word クラスの単体テストです。
@@ -114,7 +115,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         private void CheckGetBits(
-            UInt16 value, Int16 fromUpperBit, Int16 toLowerBit, UInt16 expected, String message)
+            UInt16 value, Int32 fromUpperBit, Int32 toLowerBit, UInt16 expected, String message)
         {
             Word target = new Word(value);
             UInt16 actual = target.GetBits(fromUpperBit, toLowerBit);
@@ -159,22 +160,42 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Assert.AreEqual(expected, actual, message);
         }
 
-        internal static void Check(Word word, Word expected, String message)
+        internal static void Check(Word? expected, Word? actual, String message)
+        {
+            if (expected == null)
+            {
+                Assert.IsNull(actual, message);
+            }
+            else
+            {
+                Assert.IsNotNull(actual, message);
+                Check(expected.Value, actual.Value, message);
+            }
+        }
+
+        internal static void Check(Word actual, UInt16 expectedValue, String message)
+        {
+            Word expected = new Word(expectedValue);
+            Check(expected, actual, message);
+        }
+
+        internal static void Check(Word actual, Int16 expectedValue, String message)
+        {
+            Word expected = new Word(expectedValue);
+            Check(expected, actual, message);
+        }
+
+        internal static void Check(Word expected, Word actual, String message)
         {
             UInt16 expectedValue = expected.GetAsUnsigned();
-            Check(word, expectedValue, message);
+            UInt16 actualValue = actual.GetAsUnsigned();
+            Assert.AreEqual(expectedValue, actualValue, message);
         }
 
-        internal static void Check(Word word, UInt16 expected, String message)
+        internal static Word[] MakeArray(params UInt16[] ui16Vals)
         {
-            UInt16 actual = word.GetAsUnsigned();
-            Assert.AreEqual(expected, actual, message);
-        }
-
-        internal static void Check(Word word, Int16 expected, String message)
-        {
-            Int16 actual = word.GetAsSigned();
-            Assert.AreEqual(expected, actual, message);
+            return ui16Vals.Select((ui16Val) => new Word(ui16Val))
+                           .ToArray();
         }
     }
 }

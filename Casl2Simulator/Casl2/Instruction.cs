@@ -128,7 +128,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <param name="relModule">
         /// 生成したコードを格納する <see cref="RelocatableModule"/> のオブジェクトです。
         /// </param>
-        internal virtual void GenerateCode(String label, LabelManager lblManager, RelocatableModule relModule)
+        internal virtual void GenerateCode(Label label, LabelManager lblManager, RelocatableModule relModule)
         {
             // デフォルトは、コードを生成しない。
         }
@@ -141,5 +141,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             return m_code;
         }
+
+        protected abstract String OperandString();
     }
 }

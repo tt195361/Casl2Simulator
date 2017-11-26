@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Tt195361.Casl2Simulator.Properties;
 
 namespace Tt195361.Casl2Simulator.Casl2
@@ -9,33 +8,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal abstract class Constant
     {
-        /// <summary>
-        /// 定数の並びを解釈します。
-        /// </summary>
-        /// <param name="lexer">オペランドの字句を解析する <see cref="OperandLexer"/> のオブジェクトです。</param>
-        /// <returns>
-        /// 解釈した結果として生成した <see cref="Constant"/> オブジェクトの配列を返します。
-        /// </returns>
-        internal static Constant[] ParseList(OperandLexer lexer)
-        {
-            List<Constant> constantList = new List<Constant>();
-
-            for ( ; ; )
-            {
-                Constant constant = Parse(lexer);
-                constantList.Add(constant);
-
-                if (!lexer.SkipIf(TokenType.Comma))
-                {
-                    break;
-                }
-            }
-
-            // 解釈しなかった残りの字句要素は、Instruction.DoParseOperand() で取り扱う。
-            return constantList.ToArray();
-        }
-
-        private static Constant Parse(OperandLexer lexer)
+        internal static Constant Parse(OperandLexer lexer)
         {
             Token token = lexer.CurrentToken;
 

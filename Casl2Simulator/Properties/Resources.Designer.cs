@@ -79,7 +79,7 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 指定のレジスタ {0} は指標レジスタとして使えません。指標レジスタとして用いる GR は、記号 {1} で指定してください。.
+        ///   Looks up a localized string similar to 指定のレジスタ {0} は指標レジスタとして使えません。指標レジスタとして用いる GR は、記号 GR{1}～GR{2} で指定してください。.
         /// </summary>
         internal static string MSG_CanNotBeIndexRegister {
             get {
@@ -156,6 +156,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         internal static string MSG_InvalidHexConstantDigitCount {
             get {
                 return ResourceManager.GetString("MSG_InvalidHexConstantDigitCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ラベル &quot;{0}&quot; はすでに定義されています。ラベルの名前はプログラムの中で重複しないようにしてください。.
+        /// </summary>
+        internal static string MSG_LabelAlreadyDefined {
+            get {
+                return ResourceManager.GetString("MSG_LabelAlreadyDefined", resourceCulture);
             }
         }
         
@@ -381,6 +390,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         internal static string SYN_NoOperand {
             get {
                 return ResourceManager.GetString("SYN_NoOperand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to r1,r2 あるいは r,adr[,x].
+        /// </summary>
+        internal static string SYN_R1R2OrRAdrX {
+            get {
+                return ResourceManager.GetString("SYN_R1R2OrRAdrX", resourceCulture);
             }
         }
     }
