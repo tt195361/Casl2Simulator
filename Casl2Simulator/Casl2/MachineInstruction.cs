@@ -13,13 +13,14 @@ namespace Tt195361.Casl2Simulator.Casl2
     {
         internal static MachineInstruction MakeLD()
         {
-            return MakeRAdrXOrR1R2(Casl2Defs.LD, OpcodeDef.LoadEaContents, OpcodeDef.LoadRegister);
+            return MakeRAdrXOrR1R2(MnemonicDef.LD, OpcodeDef.LoadEaContents, OpcodeDef.LoadRegister);
         }
 
-        private static MachineInstruction MakeRAdrXOrR1R2(String code, UInt16 opcodeRAdrX, UInt16 opcodeR1R2)
+        private static MachineInstruction MakeRAdrXOrR1R2(
+            String mnemonic, UInt16 opcodeRAdrX, UInt16 opcodeR1R2)
         {
             return new MachineInstruction(
-                code, Resources.SYN_RAdrXOrR1R2,
+                mnemonic, Resources.SYN_RAdrXOrR1R2,
                 (lexer) => RAdrXOrR1R2Operand.Parse(lexer, opcodeRAdrX, opcodeR1R2));
         }
 
@@ -29,8 +30,8 @@ namespace Tt195361.Casl2Simulator.Casl2
         private MachineInstructionOperand m_operand;
         #endregion
 
-        private MachineInstruction(String code, String operandSyntax, OperandParseFunc operandParseFunc)
-            : base(code)
+        private MachineInstruction(String mnemonic, String operandSyntax, OperandParseFunc operandParseFunc)
+            : base(mnemonic)
         {
             m_operandSyntax = operandSyntax;
             m_operandParseFunc = operandParseFunc;

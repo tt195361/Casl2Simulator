@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2Simulator.Casl2
@@ -12,14 +13,14 @@ namespace Tt195361.Casl2Simulator.Casl2
         #region Fields
         private static readonly HashSet<String> m_reservedWords = new HashSet<String>()
         {
-            Casl2Defs.GR0,
-            Casl2Defs.GR1,
-            Casl2Defs.GR2,
-            Casl2Defs.GR3,
-            Casl2Defs.GR4,
-            Casl2Defs.GR5,
-            Casl2Defs.GR6,
-            Casl2Defs.GR7,
+            RegisterDef.GR0,
+            RegisterDef.GR1,
+            RegisterDef.GR2,
+            RegisterDef.GR3,
+            RegisterDef.GR4,
+            RegisterDef.GR5,
+            RegisterDef.GR6,
+            RegisterDef.GR7,
         };
         #endregion
 

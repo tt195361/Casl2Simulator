@@ -18,13 +18,13 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             m_factoryMethodDictionary = new Dictionary<String, Func<Instruction>>()
             {
-                { Casl2Defs.START, () => new AsmStartInstruction() },
-                { Casl2Defs.DC, () => new AsmDcInstruction() },
+                { MnemonicDef.START, () => new AsmStartInstruction() },
+                { MnemonicDef.DC, () => new AsmDcInstruction() },
 
-                { Casl2Defs.IN, () => new MacroInInstruction() },
-                { Casl2Defs.RPUSH, () => new MacroRpushInstruction() },
+                { MnemonicDef.IN, () => new MacroInInstruction() },
+                { MnemonicDef.RPUSH, () => new MacroRpushInstruction() },
 
-                { Casl2Defs.LD, () => MachineInstruction.MakeLD() }
+                { MnemonicDef.LD, () => MachineInstruction.MakeLD() }
             };
         }
 

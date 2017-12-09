@@ -1,4 +1,5 @@
 ﻿using System;
+using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Properties;
 
 namespace Tt195361.Casl2Simulator.Casl2
@@ -15,7 +16,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         #endregion
 
         internal MacroInInstruction()
-            : base(Casl2Defs.IN)
+            : base(MnemonicDef.IN)
         {
             //
         }
@@ -57,13 +58,13 @@ namespace Tt195361.Casl2Simulator.Casl2
             //          SVC     1
             //          POP     GR2
             //          POP     GR1
-            result[0] = Line.Generate(label, Casl2Defs.PUSH, 0, Casl2Defs.GR1);
-            result[1] = Line.Generate(null, Casl2Defs.PUSH, 0, Casl2Defs.GR2);
-            result[2] = Line.Generate(null, Casl2Defs.LAD, Casl2Defs.GR1, m_inputBufferArea.Name);
-            result[3] = Line.Generate(null, Casl2Defs.LAD, Casl2Defs.GR2, m_inputLengthArea.Name);
-            result[4] = Line.Generate(null, Casl2Defs.SVC, 1);
-            result[5] = Line.Generate(null, Casl2Defs.POP, Casl2Defs.GR2);
-            result[6] = Line.Generate(null, Casl2Defs.POP, Casl2Defs.GR1);
+            result[0] = Line.Generate(label, MnemonicDef.PUSH, 0, RegisterDef.GR1);
+            result[1] = Line.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR2);
+            result[2] = Line.Generate(null, MnemonicDef.LAD, RegisterDef.GR1, m_inputBufferArea.Name);
+            result[3] = Line.Generate(null, MnemonicDef.LAD, RegisterDef.GR2, m_inputLengthArea.Name);
+            result[4] = Line.Generate(null, MnemonicDef.SVC, 1);
+            result[5] = Line.Generate(null, MnemonicDef.POP, RegisterDef.GR2);
+            result[6] = Line.Generate(null, MnemonicDef.POP, RegisterDef.GR1);
 
             return result;
         }

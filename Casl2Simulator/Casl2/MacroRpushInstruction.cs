@@ -1,4 +1,5 @@
 ﻿using System;
+using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Properties;
 
 namespace Tt195361.Casl2Simulator.Casl2
@@ -10,7 +11,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class MacroRpushInstruction : Instruction
     {
         internal MacroRpushInstruction()
-            : base(Casl2Defs.RPUSH)
+            : base(MnemonicDef.RPUSH)
         {
             //
         }
@@ -35,13 +36,13 @@ namespace Tt195361.Casl2Simulator.Casl2
             //          PUSH    0,GR5
             //          PUSH    0,GR6
             //          PUSH    0,GR7
-            result[0] = Line.Generate(label, Casl2Defs.PUSH, 0, Casl2Defs.GR1);
-            result[1] = Line.Generate(null, Casl2Defs.PUSH, 0, Casl2Defs.GR2);
-            result[2] = Line.Generate(null, Casl2Defs.PUSH, 0, Casl2Defs.GR3);
-            result[3] = Line.Generate(null, Casl2Defs.PUSH, 0, Casl2Defs.GR4);
-            result[4] = Line.Generate(null, Casl2Defs.PUSH, 0, Casl2Defs.GR5);
-            result[5] = Line.Generate(null, Casl2Defs.PUSH, 0, Casl2Defs.GR6);
-            result[6] = Line.Generate(null, Casl2Defs.PUSH, 0, Casl2Defs.GR7);
+            result[0] = Line.Generate(label, MnemonicDef.PUSH, 0, RegisterDef.GR1);
+            result[1] = Line.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR2);
+            result[2] = Line.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR3);
+            result[3] = Line.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR4);
+            result[4] = Line.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR5);
+            result[5] = Line.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR6);
+            result[6] = Line.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR7);
 
             return result;
         }

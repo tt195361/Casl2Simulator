@@ -65,7 +65,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         private void CheckParse(
-            String str, Boolean success, Label expectedLabel, String expectedInstructionCode, String message)
+            String str, Boolean success, Label expectedLabel, String expectedMnemonic, String message)
         {
             Line actual = Line.Parse(str);
 
@@ -79,19 +79,19 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             {
                 Assert.IsNull(actual.ErrorMessage, "ErrorMessage: " + message);
                 LabelTest.Check(expectedLabel, actual.Label, "Label: " + message);
-                CheckInstructionType(actual, expectedInstructionCode, "Instruction: " + message);
+                CheckInstruction(actual, expectedMnemonic, "Instruction: " + message);
             }
         }
 
-        private void CheckInstructionType(Line actial, String expectedInstructionCode, String message)
+        private void CheckInstruction(Line actial, String expectedMnemonic, String message)
         {
-            if (expectedInstructionCode == null)
+            if (expectedMnemonic == null)
             {
                 Assert.IsNull(actial.Instruction, message);
             }
             else
             {
-                Assert.AreEqual(expectedInstructionCode, actial.Instruction.Code, message);
+                Assert.AreEqual(expectedMnemonic, actial.Instruction.Mnemonic, message);
             }
         }
 

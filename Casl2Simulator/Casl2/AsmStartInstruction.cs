@@ -1,4 +1,5 @@
 ﻿using System;
+using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Properties;
 
 namespace Tt195361.Casl2Simulator.Casl2
@@ -13,7 +14,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         #endregion
 
         internal AsmStartInstruction()
-            : base(Casl2Defs.START)
+            : base(MnemonicDef.START)
         {
             //
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Properties;
 
 namespace Tt195361.Casl2Simulator.Casl2
@@ -7,14 +8,14 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class Register
     {
         #region Static Fields
-        internal static Register GR0 = new Register(Casl2Defs.GR0, 0);
-        internal static Register GR1 = new Register(Casl2Defs.GR1, 1);
-        internal static Register GR2 = new Register(Casl2Defs.GR2, 2);
-        internal static Register GR3 = new Register(Casl2Defs.GR3, 3);
-        internal static Register GR4 = new Register(Casl2Defs.GR4, 4);
-        internal static Register GR5 = new Register(Casl2Defs.GR5, 5);
-        internal static Register GR6 = new Register(Casl2Defs.GR6, 6);
-        internal static Register GR7 = new Register(Casl2Defs.GR7, 7);
+        internal static Register GR0 = new Register(RegisterDef.GR0, 0);
+        internal static Register GR1 = new Register(RegisterDef.GR1, 1);
+        internal static Register GR2 = new Register(RegisterDef.GR2, 2);
+        internal static Register GR3 = new Register(RegisterDef.GR3, 3);
+        internal static Register GR4 = new Register(RegisterDef.GR4, 4);
+        internal static Register GR5 = new Register(RegisterDef.GR5, 5);
+        internal static Register GR6 = new Register(RegisterDef.GR6, 6);
+        internal static Register GR7 = new Register(RegisterDef.GR7, 7);
 
         private static readonly Dictionary<String, Register> m_registerDictionary;
         #endregion

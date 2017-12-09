@@ -21,8 +21,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestInitialize]
         public void TestInitialize()
         {
-            m_rAdrXOrR1R2_RAdrX = MakeTarget(Casl2Defs.LD, "GR1,#ABCD,GR2");
-            m_rAdrXOrR1R2_R1R2 = MakeTarget(Casl2Defs.LD, "GR3,GR4");
+            m_rAdrXOrR1R2_RAdrX = MakeTarget(MnemonicDef.LD, "GR1,#ABCD,GR2");
+            m_rAdrXOrR1R2_R1R2 = MakeTarget(MnemonicDef.LD, "GR3,GR4");
             m_lblManager = new LabelManager();
         }
 

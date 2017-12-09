@@ -113,7 +113,9 @@
     <Compile Include="Comet2\RegisterHandler.cs" />
     <Compile Include="Comet2\RegisterSet.cs" />
     <Compile Include="Common\InstructionWord.cs" />
+    <Compile Include="Common\MnemonicDef.cs" />
     <Compile Include="Common\OpcodeDef.cs" />
+    <Compile Include="Common\RegisterDef.cs" />
     <Compile Include="Utils\ArgChecker.cs" />
     <Compile Include="Utils\CharUtils.cs" />
     <Compile Include="Utils\ExceptionUtils.cs" />

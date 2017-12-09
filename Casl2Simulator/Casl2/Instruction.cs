@@ -21,17 +21,17 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         #region Fields
-        private readonly String m_code;
+        private readonly String m_mnemonic;
         #endregion
 
-        protected Instruction(String code)
+        protected Instruction(String mnemonic)
         {
-            m_code = code;
+            m_mnemonic = mnemonic;
         }
 
-        internal String Code
+        internal String Mnemonic
         {
-            get { return m_code; }
+            get { return m_mnemonic; }
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
             catch (Casl2SimulatorException ex)
             {
-                String message = String.Format(Resources.MSG_OperandParseError, Code, OperandSyntax);
+                String message = String.Format(Resources.MSG_OperandParseError, Mnemonic, OperandSyntax);
                 throw new Casl2SimulatorException(message, ex);
             }
         }
@@ -61,7 +61,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             Token token = lexer.CurrentToken;
             if (token.Type != TokenType.EndOfToken)
             {
-                String message = String.Format(Resources.MSG_NotParsedTokenRemainsInOperand, Code, token);
+                String message = String.Format(Resources.MSG_NotParsedTokenRemainsInOperand, Mnemonic, token);
                 throw new Casl2SimulatorException(message);
             }
         }
@@ -139,7 +139,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <returns>この命令を表わす文字列を返します。</returns>
         public override String ToString()
         {
-            return m_code;
+            return m_mnemonic;
         }
 
         protected abstract String OperandString();
