@@ -186,6 +186,9 @@
   <data name="MSG_NotParsedTokenRemainsInOperand" xml:space="preserve">
     <value>{0} 命令のオペランドで、{1} から後ろが解釈できずに残りました。記述形式を確認してください。</value>
   </data>
+  <data name="MSG_OperandNeitherRAdrXNorR1R2" xml:space="preserve">
+    <value>オペランドを r,adr[,x] としても r1,r2 としても解釈できませんでした。オペランドに r,adr[,x] あるいは r1,r2 を指定してください。</value>
+  </data>
   <data name="MSG_OperandParseError" xml:space="preserve">
     <value>{0} 命令のオペランドの解釈で問題が発生しました。オペランドの記述形式は {1} です。確認してください。</value>
   </data>
@@ -216,6 +219,9 @@
   <data name="STR_StringConstant" xml:space="preserve">
     <value>文字定数</value>
   </data>
+  <data name="SYN_AdrX" xml:space="preserve">
+    <value>adr[,x]</value>
+  </data>
   <data name="SYN_ConstantList" xml:space="preserve">
     <value>"定数[,定数]..."</value>
   </data>
@@ -228,7 +234,16 @@
   <data name="SYN_NoOperand" xml:space="preserve">
     <value>オペランドなし</value>
   </data>
-  <data name="SYN_R1R2OrRAdrX" xml:space="preserve">
-    <value>r1,r2 あるいは r,adr[,x]</value>
+  <data name="SYN_R" xml:space="preserve">
+    <value>r</value>
+  </data>
+  <data name="SYN_R1R2" xml:space="preserve">
+    <value>r1,r2</value>
+  </data>
+  <data name="SYN_RAdrX" xml:space="preserve">
+    <value>r,adr[,x]</value>
+  </data>
+  <data name="SYN_RAdrXOrR1R2" xml:space="preserve">
+    <value>r,adr[,x] あるいは r1,r2</value>
   </data>
 </root>

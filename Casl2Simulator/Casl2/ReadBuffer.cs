@@ -159,6 +159,17 @@ namespace Tt195361.Casl2Simulator.Casl2
             return m_str.Substring(fromIndex, length);
         }
 
+        internal ReadBufferState GetState()
+        {
+            // m_currentIndex を保存する。m_str は書き換わらない。
+            return new ReadBufferState(m_currentIndex);
+        }
+
+        internal void SetState(ReadBufferState state)
+        {
+            m_currentIndex = state.CurrentIndex;
+        }
+
         /// <summary>
         /// このオブジェクトを表わす文字列を作成します。
         /// </summary>
@@ -167,6 +178,26 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             // デバッグ時に現在位置がわかるように、現在位置から残りを表示する。
             return GetRest();
+        }
+    }
+
+    /// <summary>
+    /// <see cref="ReadBufferState"/>オブジェクトの状態を格納します。
+    /// </summary>
+    internal class ReadBufferState
+    {
+        #region Fields
+        private readonly Int32 m_currentIndex;
+        #endregion
+
+        internal ReadBufferState(Int32 currentIndex)
+        {
+            m_currentIndex = currentIndex;
+        }
+
+        internal Int32 CurrentIndex
+        {
+            get { return m_currentIndex; }
         }
     }
 }

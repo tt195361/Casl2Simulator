@@ -268,6 +268,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to オペランドを r,adr[,x] としても r1,r2 としても解釈できませんでした。オペランドに r,adr[,x] あるいは r1,r2 を指定してください。.
+        /// </summary>
+        internal static string MSG_OperandNeitherRAdrXNorR1R2 {
+            get {
+                return ResourceManager.GetString("MSG_OperandNeitherRAdrXNorR1R2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} 命令のオペランドの解釈で問題が発生しました。オペランドの記述形式は {1} です。確認してください。.
         /// </summary>
         internal static string MSG_OperandParseError {
@@ -358,6 +367,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to adr[,x].
+        /// </summary>
+        internal static string SYN_AdrX {
+            get {
+                return ResourceManager.GetString("SYN_AdrX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &quot;定数[,定数]...&quot;.
         /// </summary>
         internal static string SYN_ConstantList {
@@ -394,11 +412,38 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to r1,r2 あるいは r,adr[,x].
+        ///   Looks up a localized string similar to r.
         /// </summary>
-        internal static string SYN_R1R2OrRAdrX {
+        internal static string SYN_R {
             get {
-                return ResourceManager.GetString("SYN_R1R2OrRAdrX", resourceCulture);
+                return ResourceManager.GetString("SYN_R", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to r1,r2.
+        /// </summary>
+        internal static string SYN_R1R2 {
+            get {
+                return ResourceManager.GetString("SYN_R1R2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to r,adr[,x].
+        /// </summary>
+        internal static string SYN_RAdrX {
+            get {
+                return ResourceManager.GetString("SYN_RAdrX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to r,adr[,x] あるいは r1,r2.
+        /// </summary>
+        internal static string SYN_RAdrXOrR1R2 {
+            get {
+                return ResourceManager.GetString("SYN_RAdrXOrR1R2", resourceCulture);
             }
         }
     }

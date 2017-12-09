@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using Tt195361.Casl2Simulator.Properties;
+using Tt195361.Casl2Simulator.Common;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
@@ -9,60 +8,41 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class RegisterOperand : MachineInstructionOperand
     {
-        #region Static Fields
-        private static readonly Dictionary<String, RegisterOperand> m_registerOperandDictionary;
-        #endregion
-
-        static RegisterOperand()
+        internal static RegisterOperand Parse(OperandLexer lexer)
         {
-            m_registerOperandDictionary = new Dictionary<String, RegisterOperand>
-            {
-                { Casl2Defs.GR0, new RegisterOperand(Casl2Defs.GR0, 0) },
-                { Casl2Defs.GR1, new RegisterOperand(Casl2Defs.GR1, 1) },
-                { Casl2Defs.GR2, new RegisterOperand(Casl2Defs.GR2, 2) },
-                { Casl2Defs.GR3, new RegisterOperand(Casl2Defs.GR3, 3) },
-                { Casl2Defs.GR4, new RegisterOperand(Casl2Defs.GR4, 4) },
-                { Casl2Defs.GR5, new RegisterOperand(Casl2Defs.GR5, 5) },
-                { Casl2Defs.GR6, new RegisterOperand(Casl2Defs.GR6, 6) },
-                { Casl2Defs.GR7, new RegisterOperand(Casl2Defs.GR7, 7) },
-            };
+            return Parse(lexer, OpcodeDef.Dummy);
         }
 
-        internal static Boolean IsRegisterName(String str)
+        internal static RegisterOperand Parse(OperandLexer lexer, UInt16 opcode)
         {
-            return m_registerOperandDictionary.ContainsKey(str);
-        }
-
-        internal static RegisterOperand GetFor(String name)
-        {
-            if (!IsRegisterName(name))
-            {
-                String message = String.Format(Resources.MSG_UndefinedRegisterName, name);
-                throw new Casl2SimulatorException(message);
-            }
-
-            return m_registerOperandDictionary[name];
+            Token token = lexer.ReadCurrentAs(TokenType.RegisterName);
+            Register r = Register.GetFor(token.StrValue);
+            return new RegisterOperand(opcode, r);
         }
 
         #region Fields
-        private readonly String m_name;
-        private readonly UInt16 m_number;
+        private readonly Register m_r;
         #endregion
 
-        private RegisterOperand(String name, UInt16 number)
+        private RegisterOperand(UInt16 opcode, Register r)
+            : base(opcode)
         {
-            m_name = name;
-            m_number = number;
+            m_r = r;
+        }
+
+        internal Register R
+        {
+            get { return m_r; }
         }
 
         internal String Name
         {
-            get { return m_name; }
+            get { return m_r.Name; }
         }
 
         internal UInt16 Number
         {
-            get { return m_number; }
+            get { return m_r.Number; }
         }
 
         internal override UInt16 GetRR1()
@@ -73,6 +53,16 @@ namespace Tt195361.Casl2Simulator.Casl2
         public override String ToString()
         {
             return Name;
+        }
+
+        internal static RegisterOperand MakeForUnitTest(Register r)
+        {
+            return MakeForUnitTest(OpcodeDef.Dummy, r);
+        }
+
+        internal static RegisterOperand MakeForUnitTest(UInt16 opcode, Register r)
+        {
+            return new RegisterOperand(opcode, r);
         }
     }
 }

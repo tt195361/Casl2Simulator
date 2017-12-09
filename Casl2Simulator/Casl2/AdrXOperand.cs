@@ -30,9 +30,22 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// </returns>
         internal static AdrXOperand Parse(OperandLexer lexer)
         {
+            return Parse(lexer, OpcodeDef.Dummy);
+        }
+
+        /// <summary>
+        /// adr[,x] のオペランドを解釈します。
+        /// </summary>
+        /// <param name="lexer">オペランドの字句を解析する <see cref="OperandLexer"/> のオブジェクトです。</param>
+        /// <param name="opcode">このオペラントの命令の第 1 語のオペコードの値です。</param>
+        /// <returns>
+        /// 解釈した結果として生成した <see cref="AdrXOperand"/> オブジェクトを返します。
+        /// </returns>
+        internal static AdrXOperand Parse(OperandLexer lexer, UInt16 opcode)
+        {
             IAdrValue adr = ParseAdr(lexer);
             RegisterOperand x = ParseX(lexer);
-            return new AdrXOperand(adr, x);
+            return new AdrXOperand(opcode, adr, x);
         }
 
         private static IAdrValue ParseAdr(OperandLexer lexer)
@@ -82,7 +95,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         // 指標レジスタとして指定できる GR は GR1 ~ 7。
         private static RegisterOperand ParseIndexRegister(OperandLexer lexer)
         {
-            RegisterOperand x = lexer.ReadCurrentAsRegisterOperand();
+            RegisterOperand x = RegisterOperand.Parse(lexer);
             if (!CanIndex(x))
             {
                 String message =
@@ -103,7 +116,8 @@ namespace Tt195361.Casl2Simulator.Casl2
         private readonly RegisterOperand m_x;
         #endregion
 
-        private AdrXOperand(IAdrValue adr, RegisterOperand x)
+        private AdrXOperand(UInt16 opcode, IAdrValue adr, RegisterOperand x)
+            : base(opcode)
         {
             m_adr = adr;
             m_x = x;
@@ -153,13 +167,18 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
             else
             {
-                return adrStr + Casl2Defs.Comma + m_x.ToString();
+                return Operand.Join(adrStr, m_x);
             }
         }
 
         internal static AdrXOperand MakeForUnitTest(IAdrValue adr, RegisterOperand x)
         {
-            return new AdrXOperand(adr, x);
+            return MakeForUnitTest(OpcodeDef.Dummy, adr, x);
+        }
+
+        internal static AdrXOperand MakeForUnitTest(UInt16 opcode, IAdrValue adr, RegisterOperand x)
+        {
+            return new AdrXOperand(opcode, adr, x);
         }
     }
 }

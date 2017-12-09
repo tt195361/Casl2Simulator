@@ -24,8 +24,7 @@ namespace Tt195361.Casl2Simulator.Casl2
                 { Casl2Defs.IN, () => new MacroInInstruction() },
                 { Casl2Defs.RPUSH, () => new MacroRpushInstruction() },
 
-                { Casl2Defs.LD, () => new R1R2OrRAdrXInstruction(
-                    Casl2Defs.LD, Opcode.LoadEaContents, Opcode.LoadRegister) }
+                { Casl2Defs.LD, () => MachineInstruction.MakeLD() }
             };
         }
 

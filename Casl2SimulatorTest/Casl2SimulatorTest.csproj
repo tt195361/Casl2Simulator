@@ -74,8 +74,10 @@
     <Compile Include="Casl2\DecimalConstantTest.cs" />
     <Compile Include="Casl2\R1R2OperandTest.cs" />
     <Compile Include="Casl2\RAdrXOperandTest.cs" />
+    <Compile Include="Casl2\RAdrXOrR1R2OperandTest.cs" />
     <Compile Include="Casl2\ReadBufferTest.cs" />
     <Compile Include="Casl2\RegisterOperandTest.cs" />
+    <Compile Include="Casl2\RegisterTest.cs" />
     <Compile Include="Casl2\RelocatableModuleTest.cs" />
     <Compile Include="Casl2\ReservedWordTest.cs" />
     <Compile Include="Casl2\StringConstantTest.cs" />

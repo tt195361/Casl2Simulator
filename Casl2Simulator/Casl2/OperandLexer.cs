@@ -71,7 +71,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             {
                 // ラベルはレジスタ名の場合もある。オペランドの字句要素の区切りまで読み込む。
                 String strValue = Operand.ReadItem(m_buffer);
-                if (RegisterOperand.IsRegisterName(strValue))
+                if (Register.IsRegisterName(strValue))
                 {
                     return Token.MakeRegisterName(strValue);
                 }
@@ -87,16 +87,11 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
+        // TODO: Label に移動して、Parse にする。
         internal Label ReadCurrentAsLabel()
         {
             Token token = ReadCurrentAs(TokenType.Label);
             return new Label(token.StrValue);
-        }
-
-        internal RegisterOperand ReadCurrentAsRegisterOperand()
-        {
-            Token token = ReadCurrentAs(TokenType.RegisterName);
-            return RegisterOperand.GetFor(token.StrValue);
         }
 
         internal void SkipComma()
@@ -104,7 +99,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             Token notUsed = ReadCurrentAs(TokenType.Comma);
         }
 
-        private Token ReadCurrentAs(TokenType expectedType)
+        internal Token ReadCurrentAs(TokenType expectedType)
         {
             TokenType actualType = CurrentToken.Type;
             if (expectedType != actualType)
@@ -131,10 +126,50 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
+        internal OperandLexerState GetState()
+        {
+            // m_currentToken オブジェクトは内容が書き換わらないので、参照のみ保存する。
+            ReadBufferState bufferState = m_buffer.GetState();
+            return new OperandLexerState(m_currentToken, bufferState);
+        }
+
+        internal void SetState(OperandLexerState state)
+        {
+            m_currentToken = state.CurrentToken;
+            m_buffer.SetState(state.ReadBufferState);
+        }
+
         public override String ToString()
         {
             String str = String.Format("{0}; '{1}'", m_currentToken, m_buffer);
             return str;
+        }
+    }
+
+    /// <summary>
+    /// <see cref="OperandLexer"/>オブジェクトの状態を格納します。
+    /// </summary>
+    internal class OperandLexerState
+    {
+        #region Fields
+        private readonly Token m_currentToken;
+        private readonly ReadBufferState m_readBufferState;
+        #endregion
+
+        internal OperandLexerState(Token currentToken, ReadBufferState bufferState)
+        {
+            m_currentToken = currentToken;
+            m_readBufferState = bufferState;
+        }
+
+        internal Token CurrentToken
+        {
+            get { return m_currentToken; }
+        }
+
+        internal ReadBufferState ReadBufferState
+        {
+            get { return m_readBufferState; }
         }
     }
 }

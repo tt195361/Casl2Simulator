@@ -1,4 +1,5 @@
 ﻿using System;
+using Tt195361.Casl2Simulator.Common;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
@@ -7,12 +8,35 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class R1R2Operand : MachineInstructionOperand
     {
+        internal static Boolean TryParse(OperandLexer lexer, UInt16 opcode, out R1R2Operand r1R2)
+        {
+            try
+            {
+                r1R2 = Parse(lexer, opcode);
+                return true;
+            }
+            catch (Exception)
+            {
+                r1R2 = null;
+                return false;
+            }
+        }
+
+        internal static R1R2Operand Parse(OperandLexer lexer, UInt16 opcode)
+        {
+            RegisterOperand r1 = RegisterOperand.Parse(lexer);
+            lexer.SkipComma();
+            RegisterOperand r2 = RegisterOperand.Parse(lexer);
+            return new R1R2Operand(opcode, r1, r2);
+        }
+
         #region Fields
         private readonly RegisterOperand m_r1;
         private readonly RegisterOperand m_r2;
         #endregion
 
-        internal R1R2Operand(RegisterOperand r1, RegisterOperand r2)
+        private R1R2Operand(UInt16 opcode, RegisterOperand r1, RegisterOperand r2)
+            : base(opcode)
         {
             m_r1 = r1;
             m_r2 = r2;
@@ -40,7 +64,17 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         public override String ToString()
         {
-            return m_r1.ToString() + Casl2Defs.Comma + m_r2.ToString();
+            return Operand.Join(m_r1, m_r2);
+        }
+
+        internal static R1R2Operand MakeForUnitTest(RegisterOperand r1, RegisterOperand r2)
+        {
+            return MakeForUnitTest(OpcodeDef.Dummy, r1, r2);
+        }
+
+        internal static R1R2Operand MakeForUnitTest(UInt16 opcode, RegisterOperand r1, RegisterOperand r2)
+        {
+            return new R1R2Operand(opcode, r1, r2);
         }
     }
 }

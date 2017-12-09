@@ -85,11 +85,12 @@
     <Compile Include="Casl2\Operand.cs" />
     <Compile Include="Casl2\OperandLexer.cs" />
     <Compile Include="Casl2\R1R2Operand.cs" />
-    <Compile Include="Casl2\R1R2OrRAdrXInstruction.cs" />
     <Compile Include="Casl2\RAdrXOperand.cs" />
+    <Compile Include="Casl2\RAdrXOrR1R2Operand.cs" />
     <Compile Include="Casl2\ReadBuffer.cs" />
     <Compile Include="Casl2\Instruction.cs" />
     <Compile Include="Casl2\MacroInInstruction.cs" />
+    <Compile Include="Casl2\Register.cs" />
     <Compile Include="Casl2\RegisterOperand.cs" />
     <Compile Include="Casl2\RelocatableModule.cs" />
     <Compile Include="Casl2\ReservedWord.cs" />
@@ -112,7 +113,7 @@
     <Compile Include="Comet2\RegisterHandler.cs" />
     <Compile Include="Comet2\RegisterSet.cs" />
     <Compile Include="Common\InstructionWord.cs" />
-    <Compile Include="Common\Opcode.cs" />
+    <Compile Include="Common\OpcodeDef.cs" />
     <Compile Include="Utils\ArgChecker.cs" />
     <Compile Include="Utils\CharUtils.cs" />
     <Compile Include="Utils\ExceptionUtils.cs" />

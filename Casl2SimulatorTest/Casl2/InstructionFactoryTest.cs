@@ -23,7 +23,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             CheckMake("IN", typeof(MacroInInstruction), "マクロ命令 IN");
             CheckMake("RPUSH", typeof(MacroRpushInstruction), "マクロ命令 RPUSH");
 
-            CheckMake("LD", typeof(R1R2OrRAdrXInstruction), "機械語命令 LD");
+            CheckMake("LD", typeof(MachineInstruction), "機械語命令 LD");
 
             CheckMake(String.Empty, null, "空文字列 => 例外");
             CheckMake("UNDEF", null, "未定義命令 => 例外");
