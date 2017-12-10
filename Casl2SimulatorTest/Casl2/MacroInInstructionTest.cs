@@ -59,7 +59,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             MacroInInstruction target = new MacroInInstruction();
             target.SetLabelsForUnitTest("IBUF", "LEN");
 
-            String[] actual = target.ExpandMacro("LBL001");
+            String[] actual = target.ExpandMacro(new Label("LBL001"));
 
             String[] expected = new String[]
             {

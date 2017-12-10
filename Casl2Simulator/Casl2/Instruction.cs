@@ -85,7 +85,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// マクロの内容を展開した文字列の配列を返します。
         /// <see langword="null"/> が返された場合は、もとの行をそのまま使います。
         /// </returns>
-        internal virtual String[] ExpandMacro(String label)
+        internal virtual String[] ExpandMacro(Label label)
         {
             // デフォルトでは、マクロ展開しない。
             return null;

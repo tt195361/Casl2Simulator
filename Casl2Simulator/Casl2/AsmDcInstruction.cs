@@ -9,6 +9,11 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class AsmDcInstruction : Instruction
     {
+        internal static String Generate(Label label, params Constant[] constants)
+        {
+            return Line.Generate(label, MnemonicDef.DC, constants);
+        }
+
         #region Fields
         private ConstantCollection m_constants;
         #endregion

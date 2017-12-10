@@ -47,7 +47,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return Resources.SYN_InputAreaLengthArea; }
         }
 
-        internal override String[] ExpandMacro(String label)
+        internal override String[] ExpandMacro(Label label)
         {
             String[] result = new String[7];
 

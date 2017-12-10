@@ -98,10 +98,11 @@ namespace Tt195361.Casl2Simulator.Casl2
             return Char.IsWhiteSpace(current) || current == ReadBuffer.EndOfStr;
         }
 
-        internal static String Generate(String label, String opcode, params Object[] args)
+        internal static String Generate(Label label, String opcode, params Object[] args)
         {
+            String name = (label == null) ? String.Empty : label.Name;
             String operand = Operand.Join(args);
-            return String.Format("{0}\t{1}\t{2}", label, opcode, operand);
+            return String.Format("{0}\t{1}\t{2}", name, opcode, operand);
         }
 
         private static Line MakeCommentLine(String str)

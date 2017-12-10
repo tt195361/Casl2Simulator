@@ -35,7 +35,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         public void ExpandMacro()
         {
             MacroRpushInstruction target = new MacroRpushInstruction();
-            String[] actual = target.ExpandMacro("LBL001");
+            String[] actual = target.ExpandMacro(new Label("LBL001"));
 
             String[] expected = new String[]
             {

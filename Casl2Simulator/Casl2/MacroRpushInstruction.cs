@@ -26,7 +26,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return Resources.SYN_NoOperand; }
         }
 
-        internal override String[] ExpandMacro(String label)
+        internal override String[] ExpandMacro(Label label)
         {
             String[] result = new String[7];
             // LABEL    PUSH    0,GR1

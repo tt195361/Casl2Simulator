@@ -34,6 +34,51 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             }
         }
 
+        /// <summary>
+        /// IAdrValue.GenerateDc メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GenerateDc()
+        {
+            CheckGenerateDc(
+                Literal.MakeForUnitTest(new DecimalConstant(12345)),
+                "LTRL0001\tDC\t12345",
+                "10 進定数 => 10 進定数の DC 命令が生成される。");
+            CheckGenerateDc(
+                Literal.MakeForUnitTest(new HexaDecimalConstant(0xFEDC)),
+                "LTRL0001\tDC\t#FEDC",
+                "16 進定数 => 16 進定数の DC 命令が生成される。");
+            CheckGenerateDc(
+                Literal.MakeForUnitTest(new StringConstant("!@#$%")),
+                "LTRL0001\tDC\t'!@#$%'",
+                "文字定数 => 文字定数の DC 命令が生成される。");
+        }
+
+        private void CheckGenerateDc(IAdrValue literal, String expected, String message)
+        {
+            LabelManager lblManager = new LabelManager();
+            String actual = literal.GenerateDc(lblManager);
+            Assert.AreEqual(expected, actual, message);
+        }
+
+        /// <summary>
+        /// IAdrValue.GetAddress メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GetAddress()
+        {
+            const UInt16 LabelOffset = 1357;
+            Literal literal = Literal.MakeForUnitTest(new DecimalConstant(2468));
+            IAdrValue iAdrValue = literal;
+            LabelManager lblManager = new LabelManager();
+
+            String notUsed = iAdrValue.GenerateDc(lblManager);
+            lblManager.SetOffset(literal.Label, LabelOffset);
+
+            UInt16 actual = iAdrValue.GetAddress(lblManager);
+            Assert.AreEqual(LabelOffset, actual, "生成した DC 命令のラベルに設定したオフセットが返される");
+        }
+
         internal static void Check(Literal expected, Literal actual, String message)
         {
             ConstantTest.Check(expected.Constant, actual.Constant, message);

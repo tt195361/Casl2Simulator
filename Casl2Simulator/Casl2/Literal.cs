@@ -53,6 +53,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         #region Fields
         private readonly Constant m_constant;
+        private Label m_label;
         #endregion
 
         private Literal(Constant constant)
@@ -65,14 +66,20 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_constant; }
         }
 
+        internal Label Label
+        {
+            get { return m_label; }
+        }
+
         String IAdrValue.GenerateDc(LabelManager lblManager)
         {
-            throw new NotImplementedException();
+            m_label = lblManager.MakeLiteralLabel();
+            return AsmDcInstruction.Generate(m_label, m_constant);
         }
 
         UInt16 IAdrValue.GetAddress(LabelManager lblManager)
         {
-            throw new NotImplementedException();
+            return lblManager.GetOffset(m_label);
         }
 
         public override String ToString()
