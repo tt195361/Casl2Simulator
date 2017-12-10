@@ -11,6 +11,11 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class Label
     {
         #region Fields
+        internal const Int32 MinLiteralLabelNumber = 1;
+        internal const Int32 MaxLiteralLabelNumber = 9999;
+        internal const String LiteralLabelPrefix = "LTRL";
+        private const String LiteralLabelFormat = LiteralLabelPrefix + "{0:d04}";
+
         private const Int32 MinLength = 1;
         private const Int32 MaxLength = 8;
         #endregion
@@ -47,6 +52,17 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             // 先頭の文字は英大文字。
             return CharUtils.IsHankakuUpper(firstChar);
+        }
+
+        /// <summary>
+        /// 指定の番号を用いてリテラルで使用するラベルの名前を作成します。
+        /// </summary>
+        /// <param name="number">ラベル名の一部として使用する番号です。</param>
+        /// <returns>作成したラベルの名前を返します。</returns>
+        internal static String MakeLiteralLabelName(Int32 number)
+        {
+            ArgChecker.CheckRange(number, MinLiteralLabelNumber, MaxLiteralLabelNumber, nameof(number));
+            return String.Format(LiteralLabelFormat, number);
         }
 
         #region Fields

@@ -103,7 +103,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             Line instructionLine = Line.Parse("LBL001 LD GR1,GR2");
             CheckGenerateCode(
-                instructionLine, new Label("LBL001"), WordTest.MakeArray(0x1412),
+                instructionLine, "LBL001", WordTest.MakeArray(0x1412),
                 "命令行 => ラベルがあれば登録し、その命令のコードを生成する");
 
             Line commentLine = Line.Parse("; コメント行");
@@ -118,21 +118,21 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         private void CheckGenerateCode(
-            Line target, Label expectedLabel, Word[] expectedWords, String message)
+            Line target, String expectedLabelName, Word[] expectedWords, String message)
         {
             LabelManager lblManager = new LabelManager();
             RelocatableModule relModule = new RelocatableModule();
             target.GenerateCode(lblManager, relModule);
 
-            CheckLabelIsRegistered(expectedLabel, lblManager, "Label: " + message);
+            CheckLabelIsRegistered(expectedLabelName, lblManager, "Label: " + message);
             CheckGeneratedCode(relModule, expectedWords, "Code: " + message);
         }
 
-        private void CheckLabelIsRegistered(Label expectedLabel, LabelManager lblManager, String message)
+        private void CheckLabelIsRegistered(String expectedLabelName, LabelManager lblManager, String message)
         {
-            if (expectedLabel != null)
+            if (expectedLabelName != null)
             {
-                Boolean isRegistered = lblManager.IsRegistered(expectedLabel);
+                Boolean isRegistered = lblManager.IsRegistered(expectedLabelName);
                 Assert.IsTrue(isRegistered, message);
             }
         }

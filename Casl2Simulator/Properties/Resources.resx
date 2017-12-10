@@ -129,6 +129,9 @@
   <data name="MSG_ConstantParseError" xml:space="preserve">
     <value>{0} を定数として解釈できませんでした。10 進定数 (n)、16 進定数 (#h)、文字定数 ('文字列')、アドレス定数 (ラベル) のいずれかを記述してください。</value>
   </data>
+  <data name="MSG_CouldNotMakeLiteralLabel" xml:space="preserve">
+    <value>リテラルで使用する DC 命令のラベルを作成できませんでした。"{0}" で始まる名前のラベルを減らしてください。</value>
+  </data>
   <data name="MSG_CouldNotParseAsAdr" xml:space="preserve">
     <value>字句要素 {0} をアドレスとして解釈できませんでした。アドレスは、10 進定数、16 進定数、アドレス定数又はリテラルで指定してください。</value>
   </data>
@@ -151,7 +154,7 @@
     <value>16 進定数として指定の文字列 "{0}" の桁数が 4 桁ではなく {1} 桁です。16 進定数は #h の形式で、h は 4 桁の 16 進数 (0~9, A~F) で指定します。</value>
   </data>
   <data name="MSG_LabelAlreadyDefined" xml:space="preserve">
-    <value>ラベル "{0}" はすでに定義されています。ラベルの名前はプログラムの中で重複しないようにしてください。</value>
+    <value>ラベル "{0}" はすでに定義されています。ラベルの名前はプログラムの中で一意にしてください。</value>
   </data>
   <data name="MSG_LabelFirstCharIsNotUppercase" xml:space="preserve">
     <value>ラベル "{0}" の先頭の文字 '{1}' が半角英大文字ではありません。ラベルの先頭の文字は半角英大文字にしてください。</value>
@@ -161,6 +164,9 @@
   </data>
   <data name="MSG_LabelLengthOutOfRange" xml:space="preserve">
     <value>ラベル "{0}" の長さ {1} 文字は有効な範囲外です。ラベルの長さは {2} ~ {3} 文字にしてください。</value>
+  </data>
+  <data name="MSG_LabelNotDefined" xml:space="preserve">
+    <value>定義されていないラベル "{0}" のオフセットを登録しようとしています。プログラムになにか問題があります。</value>
   </data>
   <data name="MSG_LabelSubsequentCharIsNeitherUppercaseNorDigit" xml:space="preserve">
     <value>ラベル "{0}" の文字 '{1}' が、半角英大文字でも半角数字でもありません。ラベルの 2 文字目以降は、半角英大文字または半角数字にしてください。</value>

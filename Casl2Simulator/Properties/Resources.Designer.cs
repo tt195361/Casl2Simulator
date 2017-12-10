@@ -97,6 +97,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to リテラルで使用する DC 命令のラベルを作成できませんでした。&quot;{0}&quot; で始まる名前のラベルを減らしてください。.
+        /// </summary>
+        internal static string MSG_CouldNotMakeLiteralLabel {
+            get {
+                return ResourceManager.GetString("MSG_CouldNotMakeLiteralLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 字句要素 {0} をアドレスとして解釈できませんでした。アドレスは、10 進定数、16 進定数、アドレス定数又はリテラルで指定してください。.
         /// </summary>
         internal static string MSG_CouldNotParseAsAdr {
@@ -160,7 +169,7 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ラベル &quot;{0}&quot; はすでに定義されています。ラベルの名前はプログラムの中で重複しないようにしてください。.
+        ///   Looks up a localized string similar to ラベル &quot;{0}&quot; はすでに定義されています。ラベルの名前はプログラムの中で一意にしてください。.
         /// </summary>
         internal static string MSG_LabelAlreadyDefined {
             get {
@@ -192,6 +201,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         internal static string MSG_LabelLengthOutOfRange {
             get {
                 return ResourceManager.GetString("MSG_LabelLengthOutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 定義されていないラベル &quot;{0}&quot; のオフセットを登録しようとしています。プログラムになにか問題があります。.
+        /// </summary>
+        internal static string MSG_LabelNotDefined {
+            get {
+                return ResourceManager.GetString("MSG_LabelNotDefined", resourceCulture);
             }
         }
         
