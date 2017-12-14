@@ -29,15 +29,26 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 "オペランドが 1 より多い => 例外");
         }
 
-        private void CheckParseOperand(String str, Boolean success, Label expected, String message)
+        private void CheckParseOperand(String text, Boolean success, Label expected, String message)
         {
             AsmStartInstruction target = new AsmStartInstruction();
-            InstructionTest.CheckParseOperand(target, str, success, message);
+            InstructionTest.CheckParseOperand(target, text, success, message);
             if (success)
             {
                 Label actual = target.ExecStartAddress;
                 LabelTest.Check(expected, actual, message);
             }
+        }
+
+        /// <summary>
+        /// IsStart メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void IsStart()
+        {
+            AsmStartInstruction target = new AsmStartInstruction();
+            Boolean result = target.IsStart();
+            Assert.IsTrue(result, "START 命令の IsStart() => true");
         }
     }
 }

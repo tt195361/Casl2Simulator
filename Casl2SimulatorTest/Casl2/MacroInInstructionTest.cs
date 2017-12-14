@@ -38,11 +38,11 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         private void CheckParseOperand(
-            String str, Boolean success, Label expectedInputBufferArea,
+            String text, Boolean success, Label expectedInputBufferArea,
             Label expectedInputLengthArea, String message)
         {
             MacroInInstruction actual = new MacroInInstruction();
-            InstructionTest.CheckParseOperand(actual, str, success, message);
+            InstructionTest.CheckParseOperand(actual, text, success, message);
             if (success)
             {
                 LabelTest.Check(expectedInputBufferArea, actual.InputBufferArea, message);

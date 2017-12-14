@@ -142,6 +142,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to END 命令の後に命令が書かれています。END 命令の後には命令を書かないでください。.
+        /// </summary>
+        internal static string MSG_InstructionAfterEnd {
+            get {
+                return ResourceManager.GetString("MSG_InstructionAfterEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 指定の命令コード &quot;{0}&quot; は定義されていません。.
         /// </summary>
         internal static string MSG_InstructionNotDefined {
@@ -232,11 +241,38 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to プログラムに 2 つ以上の END 命令があります。END 命令は 1 つだけ指定してください。.
+        /// </summary>
+        internal static string MSG_MoreThanOneEndInstruction {
+            get {
+                return ResourceManager.GetString("MSG_MoreThanOneEndInstruction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to プログラムに 2 つ以上の START 命令があります。START 命令は 1 つだけ指定してください。.
+        /// </summary>
+        internal static string MSG_MoreThanOneStartInstruction {
+            get {
+                return ResourceManager.GetString("MSG_MoreThanOneStartInstruction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 指定の文字定数 &quot;{0}&quot; で、閉じ側のアポストロフィ (&apos;) がありません。.
         /// </summary>
         internal static string MSG_NoCloseQuoteInStrConstant {
             get {
                 return ResourceManager.GetString("MSG_NoCloseQuoteInStrConstant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to プログラムに END 命令がありません。プログラムには END 命令を 1 つ指定し、プログラムの終わりを定義してください。.
+        /// </summary>
+        internal static string MSG_NoEndInstruction {
+            get {
+                return ResourceManager.GetString("MSG_NoEndInstruction", resourceCulture);
             }
         }
         
@@ -255,6 +291,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         internal static string MSG_NoLabel {
             get {
                 return ResourceManager.GetString("MSG_NoLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to プログラムに START 命令がありません。プログラムには START 命令を 1 つ指定し、プログラムの先頭を定義してください。.
+        /// </summary>
+        internal static string MSG_NoStartInstruction {
+            get {
+                return ResourceManager.GetString("MSG_NoStartInstruction", resourceCulture);
             }
         }
         

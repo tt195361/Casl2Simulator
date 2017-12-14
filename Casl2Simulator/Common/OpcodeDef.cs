@@ -14,6 +14,8 @@ namespace Tt195361.Casl2Simulator.Common
         internal const UInt16 LoadEffectiveAddress = 0x12;
         internal const UInt16 LoadRegister = 0x14;
 
+        internal const UInt16 Push = 0x70;
+
         internal const UInt16 Dummy = 0xff;
     }
 }

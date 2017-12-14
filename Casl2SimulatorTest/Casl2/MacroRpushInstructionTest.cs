@@ -22,10 +22,10 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 "OPR", false, "オペランドがある => 例外");
         }
 
-        private void CheckParseOperand(String str, Boolean success, String message)
+        private void CheckParseOperand(String text, Boolean success, String message)
         {
             MacroRpushInstruction target = new MacroRpushInstruction();
-            InstructionTest.CheckParseOperand(target, str, success, message);
+            InstructionTest.CheckParseOperand(target, text, success, message);
         }
 
         /// <summary>

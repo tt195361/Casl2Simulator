@@ -19,6 +19,11 @@ namespace Tt195361.Casl2Simulator.Casl2
             //
         }
 
+        internal override Boolean IsStart()
+        {
+            return true;
+        }
+
         internal Label ExecStartAddress
         {
             get { return m_execStartAddress; }

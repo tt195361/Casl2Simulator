@@ -67,6 +67,8 @@
     <Compile Include="Casl2\AddressConstant.cs" />
     <Compile Include="Casl2\AdrXOperand.cs" />
     <Compile Include="Casl2\AsmDcInstruction.cs" />
+    <Compile Include="Casl2\AsmEndInstruction.cs" />
+    <Compile Include="Casl2\Assembler.cs" />
     <Compile Include="Casl2\Casl2Defs.cs" />
     <Compile Include="Casl2\AsmStartInstruction.cs" />
     <Compile Include="Casl2\Constant.cs" />
@@ -74,7 +76,9 @@
     <Compile Include="Casl2\HexaDecimalConstant.cs" />
     <Compile Include="Casl2\IAdrValue.cs" />
     <Compile Include="Casl2\InstructionFactory.cs" />
+    <Compile Include="Casl2\LineCollection.cs" />
     <Compile Include="Casl2\MachineInstruction.cs" />
+    <Compile Include="Casl2\MachineInstructionFactory.cs" />
     <Compile Include="Casl2\MachineInstructionOperand.cs" />
     <Compile Include="Casl2\Label.cs" />
     <Compile Include="Casl2\Line.cs" />
@@ -84,6 +88,7 @@
     <Compile Include="Casl2\NoOperand.cs" />
     <Compile Include="Casl2\Operand.cs" />
     <Compile Include="Casl2\OperandLexer.cs" />
+    <Compile Include="Casl2\ProgramChecker.cs" />
     <Compile Include="Casl2\R1R2Operand.cs" />
     <Compile Include="Casl2\RAdrXOperand.cs" />
     <Compile Include="Casl2\RAdrXOrR1R2Operand.cs" />

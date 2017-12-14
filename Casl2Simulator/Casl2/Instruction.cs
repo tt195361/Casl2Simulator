@@ -34,6 +34,16 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_mnemonic; }
         }
 
+        internal virtual Boolean IsStart()
+        {
+            return false;
+        }
+
+        internal virtual Boolean IsEnd()
+        {
+            return false;
+        }
+
         /// <summary>
         /// オペランドの文字列を解釈します。オペランドは命令ごとに記述の形式が定義されています。
         /// </summary>

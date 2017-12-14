@@ -56,13 +56,16 @@
     <Compile Include="Casl2\AddressConstantTest.cs" />
     <Compile Include="Casl2\AdrXOperandTest.cs" />
     <Compile Include="Casl2\AsmDcInstructionTest.cs" />
+    <Compile Include="Casl2\AsmEndInstructionTest.cs" />
     <Compile Include="Casl2\AsmStartInstructionTest.cs" />
+    <Compile Include="Casl2\AssemblerTest.cs" />
     <Compile Include="Casl2\ConstantCollectionTest.cs" />
     <Compile Include="Casl2\ConstantTest.cs" />
     <Compile Include="Casl2\HexaDecimalConstantTest.cs" />
     <Compile Include="Casl2\IAdrValueTest.cs" />
     <Compile Include="Casl2\InstructionFactoryTest.cs" />
     <Compile Include="Casl2\LabelManagerTest.cs" />
+    <Compile Include="Casl2\LineCollectionTest.cs" />
     <Compile Include="Casl2\LiteralTest.cs" />
     <Compile Include="Casl2\MachineInstructionOperandTest.cs" />
     <Compile Include="Casl2\LabelTest.cs" />
@@ -72,6 +75,7 @@
     <Compile Include="Casl2\MacroInInstructionTest.cs" />
     <Compile Include="Casl2\MacroRpushInstructionTest.cs" />
     <Compile Include="Casl2\DecimalConstantTest.cs" />
+    <Compile Include="Casl2\ProgramCheckerTest.cs" />
     <Compile Include="Casl2\R1R2OperandTest.cs" />
     <Compile Include="Casl2\RAdrXOperandTest.cs" />
     <Compile Include="Casl2\RAdrXOrR1R2OperandTest.cs" />

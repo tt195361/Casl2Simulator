@@ -5,6 +5,7 @@ namespace Tt195361.Casl2Simulator.Common
     internal static class MnemonicDef
     {
         internal const String START = "START";
+        internal const String END = "END";
         internal const String DC = "DC";
 
         internal const String IN = "IN";

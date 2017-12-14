@@ -11,17 +11,18 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class MachineInstruction : Instruction
     {
-        internal static MachineInstruction MakeLD()
-        {
-            return MakeRAdrXOrR1R2(MnemonicDef.LD, OpcodeDef.LoadEaContents, OpcodeDef.LoadRegister);
-        }
-
-        private static MachineInstruction MakeRAdrXOrR1R2(
+        internal static MachineInstruction MakeRAdrXOrR1R2(
             String mnemonic, UInt16 opcodeRAdrX, UInt16 opcodeR1R2)
         {
             return new MachineInstruction(
                 mnemonic, Resources.SYN_RAdrXOrR1R2,
                 (lexer) => RAdrXOrR1R2Operand.Parse(lexer, opcodeRAdrX, opcodeR1R2));
+        }
+
+        internal static MachineInstruction MakeAdrX(String mnemonic, UInt16 opcode)
+        {
+            return new MachineInstruction(
+                mnemonic, Resources.SYN_AdrX, (lexer) => AdrXOperand.Parse(lexer, opcode));
         }
 
         #region Fields

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator.Casl2;
 using Tt195361.Casl2Simulator.Common;
@@ -65,9 +67,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         private void CheckParse(
-            String str, Boolean success, Label expectedLabel, String expectedMnemonic, String message)
+            String text, Boolean success, Label expectedLabel, String expectedMnemonic, String message)
         {
-            Line actual = Line.Parse(str);
+            Line actual = Line.Parse(text);
 
             if (!success)
             {
@@ -93,6 +95,44 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             {
                 Assert.AreEqual(expectedMnemonic, actial.Instruction.Mnemonic, message);
             }
+        }
+
+        /// <summary>
+        /// ExpandMacro メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void ExpandMacro()
+        {
+            CheckExpandMacro(
+                "LBL001 RPUSH",
+                TestUtils.MakeArray(
+                    "LBL001\tPUSH\t0,GR1",
+                    "\tPUSH\t0,GR2",
+                    "\tPUSH\t0,GR3",
+                    "\tPUSH\t0,GR4",
+                    "\tPUSH\t0,GR5",
+                    "\tPUSH\t0,GR6",
+                    "\tPUSH\t0,GR7"),
+                "マクロ命令 => 内容が展開される");
+
+            const String DcInstructionText = " DC 123";
+            CheckExpandMacro(
+                DcInstructionText,
+                TestUtils.MakeArray(DcInstructionText),
+                "マクロ以外の命令 => そのまま");
+
+            const String CommentText = "; コメント行";
+            CheckExpandMacro(
+                CommentText,
+                TestUtils.MakeArray(CommentText),
+                "コメント行 => そのまま");
+        }
+
+        private void CheckExpandMacro(String text, String[] expected, String message)
+        {
+            Line target = Line.Parse(text);
+            IEnumerable<Line> result = target.ExpandMacro();
+            LineCollectionTest.Check(result, expected, message);
         }
 
         /// <summary>

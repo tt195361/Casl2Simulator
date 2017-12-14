@@ -11,9 +11,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class InstructionTest
     {
-        internal static void CheckParseOperand(Instruction target, String str, Boolean success, String message)
+        internal static void CheckParseOperand(Instruction target, String text, Boolean success, String message)
         {
-            ReadBuffer buffer = new ReadBuffer(str);
+            ReadBuffer buffer = new ReadBuffer(text);
             try
             {
                 target.ParseOperand(buffer);

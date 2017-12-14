@@ -18,12 +18,14 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         public void Make()
         {
             CheckMake("START", typeof(AsmStartInstruction), "アセンブラ命令 START");
+            CheckMake("END", typeof(AsmEndInstruction), "アセンブラ命令 END");
             CheckMake("DC", typeof(AsmDcInstruction), "アセンブラ命令 DC");
 
             CheckMake("IN", typeof(MacroInInstruction), "マクロ命令 IN");
             CheckMake("RPUSH", typeof(MacroRpushInstruction), "マクロ命令 RPUSH");
 
             CheckMake("LD", typeof(MachineInstruction), "機械語命令 LD");
+            CheckMake("PUSH", typeof(MachineInstruction), "機械語命令 PUSH");
 
             CheckMake(String.Empty, null, "空文字列 => 例外");
             CheckMake("UNDEF", null, "未定義命令 => 例外");

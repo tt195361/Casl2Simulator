@@ -53,7 +53,7 @@ namespace Tt195361.Casl2Simulator.Utils
         /// </summary>
         private static IEnumerable<T> Delimit<T>(this IEnumerable<T> enumerable, T delimiter)
         {
-            bool afterSecond = false;
+            Boolean afterSecond = false;
             foreach (T item in enumerable)
             {
                 if (afterSecond)

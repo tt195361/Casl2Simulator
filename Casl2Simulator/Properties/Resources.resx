@@ -144,6 +144,9 @@
   <data name="MSG_FailedToParseR2OrAdrX" xml:space="preserve">
     <value>オペランド "r1,r2" 又は "r,adr[,x]" で、r2 あるいは adr を解釈できませんでした。レジスタ名かアドレスを指定してください。詳細は InnerException を参照してください。</value>
   </data>
+  <data name="MSG_InstructionAfterEnd" xml:space="preserve">
+    <value>END 命令の後に命令が書かれています。END 命令の後には命令を書かないでください。</value>
+  </data>
   <data name="MSG_InstructionNotDefined" xml:space="preserve">
     <value>指定の命令コード "{0}" は定義されていません。</value>
   </data>
@@ -174,14 +177,26 @@
   <data name="MSG_LiteralParseError" xml:space="preserve">
     <value>{0} をリテラルとして解釈できませんでした。リテラルは、10 進定数、16 進定数、または文字定数の前に等号 (=) を付けて記述します。</value>
   </data>
+  <data name="MSG_MoreThanOneEndInstruction" xml:space="preserve">
+    <value>プログラムに 2 つ以上の END 命令があります。END 命令は 1 つだけ指定してください。</value>
+  </data>
+  <data name="MSG_MoreThanOneStartInstruction" xml:space="preserve">
+    <value>プログラムに 2 つ以上の START 命令があります。START 命令は 1 つだけ指定してください。</value>
+  </data>
   <data name="MSG_NoCloseQuoteInStrConstant" xml:space="preserve">
     <value>指定の文字定数 "{0}" で、閉じ側のアポストロフィ (') がありません。</value>
+  </data>
+  <data name="MSG_NoEndInstruction" xml:space="preserve">
+    <value>プログラムに END 命令がありません。プログラムには END 命令を 1 つ指定し、プログラムの終わりを定義してください。</value>
   </data>
   <data name="MSG_NoInstructionInInstructionLine" xml:space="preserve">
     <value>命令コードがありません。命令行には、オプションのラベルと空白に続いて、命令コードがなければなりません。</value>
   </data>
   <data name="MSG_NoLabel" xml:space="preserve">
     <value>ラベルを予期していましたが指定されていませんでした。ラベルを指定してください。</value>
+  </data>
+  <data name="MSG_NoStartInstruction" xml:space="preserve">
+    <value>プログラムに START 命令がありません。プログラムには START 命令を 1 つ指定し、プログラムの先頭を定義してください。</value>
   </data>
   <data name="MSG_NotExpectedChar" xml:space="preserve">
     <value>次の文字として '{0}' を予期していましたが、実際の文字は '{1}' でした。</value>

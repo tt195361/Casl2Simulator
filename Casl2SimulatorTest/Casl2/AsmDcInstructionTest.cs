@@ -38,10 +38,10 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         private void CheckParseOperand(
-            String str, Boolean success, Constant[] expectedConstants, String message)
+            String text, Boolean success, Constant[] expectedConstants, String message)
         {
             AsmDcInstruction target = new AsmDcInstruction();
-            InstructionTest.CheckParseOperand(target, str, success, message);
+            InstructionTest.CheckParseOperand(target, text, success, message);
             if (success)
             {
                 ConstantCollection actualConstants = target.Constants;
