@@ -60,6 +60,11 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_adrX; }
         }
 
+        internal override String GenerateLiteralDc(LabelManager lblManager)
+        {
+            return m_adrX.GenerateLiteralDc(lblManager);
+        }
+
         internal override Int32 GetAdditionalWordCount()
         {
             // adr で 1 ワード追加する。

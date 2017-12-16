@@ -196,30 +196,29 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        // TODO: 実装する。
-        //internal void RegisterLabel(LabelManager lblManager)
-        //{
-        //    if (m_label != null)
-        //    {
-        //        lblManager.RegisterLabel(m_label);
-        //    }
-        //}
+        internal void RegisterLabel(LabelManager lblManager)
+        {
+            if (m_label != null)
+            {
+                lblManager.RegisterLabel(m_label);
+            }
+        }
 
-        //internal  Line GenerateLiteralDc(LabelManager lblManager)
-        //{
-        //    if (m_instruction == null)
-        //    {
-        //        return null;
-        //    }
+        internal Line GenerateLiteralDc(LabelManager lblManager)
+        {
+            if (m_instruction == null)
+            {
+                return null;
+            }
 
-        //    String generatedText = m_instruction.GenerateLiteralDc(lblManager);
-        //    if (generatedText == null)
-        //    {
-        //        return null;
-        //    }
+            String generatedText = m_instruction.GenerateLiteralDc(lblManager);
+            if (generatedText == null)
+            {
+                return null;
+            }
 
-        //    return Parse(generatedText);
-        //}
+            return Parse(generatedText);
+        }
 
         internal void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
         {
@@ -235,6 +234,11 @@ namespace Tt195361.Casl2Simulator.Casl2
             {
                 m_instruction.GenerateCode(m_label, lblManager, relModule);
             }
+        }
+
+        public override String ToString()
+        {
+            return m_text;
         }
     }
 }

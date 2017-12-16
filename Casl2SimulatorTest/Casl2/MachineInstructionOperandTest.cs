@@ -16,8 +16,10 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         #region Fields
         private MachineInstructionOperand m_GR1_GR2;
         private MachineInstructionOperand m_GR3_1111_GR4;
+        private MachineInstructionOperand m_GR3_Eq1234_GR4;
         private MachineInstructionOperand m_GR5_2222;
         private MachineInstructionOperand m_3333_GR6;
+        private MachineInstructionOperand m_EqSTR_GR6;
         private MachineInstructionOperand m_4444;
         private MachineInstructionOperand m_GR7;
         private MachineInstructionOperand m_NoOperand;
@@ -32,13 +34,50 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             m_GR3_1111_GR4 = RAdrXOperand.MakeForUnitTest(
                 RegisterOperandTest.GR3,
                 AdrXOperand.MakeForUnitTest(new DecimalConstant(1111), RegisterOperandTest.GR4));
+            m_GR3_Eq1234_GR4 = RAdrXOperand.MakeForUnitTest(
+                RegisterOperandTest.GR3,
+                AdrXOperand.MakeForUnitTest(
+                    Literal.MakeForUnitTest(new DecimalConstant(1234)), RegisterOperandTest.GR4));
             m_GR5_2222 = RAdrXOperand.MakeForUnitTest(
                 RegisterOperandTest.GR5,
                 AdrXOperand.MakeForUnitTest(new DecimalConstant(2222), null));
             m_3333_GR6 = AdrXOperand.MakeForUnitTest(new DecimalConstant(3333), RegisterOperandTest.GR6);
+            m_EqSTR_GR6 = AdrXOperand.MakeForUnitTest(
+                Literal.MakeForUnitTest(new StringConstant("STR")), RegisterOperandTest.GR6);
             m_4444 = AdrXOperand.MakeForUnitTest(new DecimalConstant(4444), null);
             m_GR7 = RegisterOperandTest.GR7;
             m_NoOperand = NoOperand.MakeForUnitTest();
+        }
+
+        /// <summary>
+        /// GenerateLiteralDc メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GenerateLiteralDc()
+        {
+            CheckGenerateLiteralDc(
+                m_GR1_GR2, null,
+                "r1,r2 => DC 命令は生成されない");
+            CheckGenerateLiteralDc(
+                m_GR3_1111_GR4, null,
+                "r,adr[,x] で adr がリテラルでない => DC 命令は生成されない");
+            CheckGenerateLiteralDc(
+                m_GR3_Eq1234_GR4, "LTRL0001\tDC\t1234",
+                "r,adr[,x] で adr がリテラル => DC 命令が生成される");
+            CheckGenerateLiteralDc(
+                m_3333_GR6, null,
+                "adr[,x] で adr がリテラルでない => DC 命令は生成されない");
+            CheckGenerateLiteralDc(
+                m_EqSTR_GR6, "LTRL0001\tDC\t'STR'",
+                "adr[,x] で adr がリテラル => DC 命令が生成される");
+        }
+
+        private void CheckGenerateLiteralDc(
+            MachineInstructionOperand target, String expected, String message)
+        {
+            LabelManager lblManager = new LabelManager();
+            String actual = target.GenerateLiteralDc(lblManager);
+            Assert.AreEqual(expected, actual, message);
         }
 
         /// <summary>

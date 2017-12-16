@@ -103,7 +103,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         String IAdrValue.GenerateDc(LabelManager lblManager)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         UInt16 IAdrValue.GetAddress(LabelManager lblManager)

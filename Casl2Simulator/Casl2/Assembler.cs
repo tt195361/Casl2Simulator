@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
     /// <summary>
-    /// ソーステキストをアセンブルし、再配置可能コードを生成します。
+    /// ソーステキストをアセンブルし再配置可能コードを生成します。
     /// </summary>
     internal class Assembler
     {
@@ -30,11 +31,12 @@ namespace Tt195361.Casl2Simulator.Casl2
             ProgramChecker.Check(parsedLines);
             IEnumerable<Line> macroExpandedLines = ExpandMacro(parsedLines);
 
-            // TODO: ラベルを登録する。リテラルの DC 命令を展開する。
-            m_processedLines = new LineCollection(macroExpandedLines);
+            // プログラムのラベルを先に登録し、リテラルで生成する DC 命令のラベルと重複しないようにする。
+            RegisterLabel(macroExpandedLines);
+            IEnumerable<Line> literalDcGeneratedLines = GenerateLiteralDc(macroExpandedLines);
+            m_processedLines = new LineCollection(literalDcGeneratedLines);
 
-            Int32 errorCount = m_processedLines.Count((line) => line.HasError());
-            return errorCount == 0;
+            return m_processedLines.NoErrorLine();
         }
 
         private IEnumerable<Line> ParseLines(String[] sourceText)
@@ -42,13 +44,34 @@ namespace Tt195361.Casl2Simulator.Casl2
             return sourceText.Select((text) => Line.Parse(text));
         }
 
-        private IEnumerable<Line> ExpandMacro(IEnumerable<Line> parsedLines)
+        private IEnumerable<Line> ExpandMacro(IEnumerable<Line> lines)
         {
             // マクロ展開の結果は複数行になるので、line.ExpandMacro() は IEnumerable<Line> を返し、
             // Select() の結果の型は IEnumerable<IEnumerable<Line>> になる。
             // SelectMany() で IEnumerable<IEnumerable<Line>> を IEnumerable<Line> にする。
-            return parsedLines.Select((line) => line.ExpandMacro())
-                              .SelectMany((expandedLines) => expandedLines);
+            return lines.Select((line) => line.ExpandMacro())
+                        .SelectMany((expandedLines) => expandedLines);
+        }
+
+        private void RegisterLabel(IEnumerable<Line> lines)
+        {
+            lines.ForEach((line) => line.RegisterLabel(m_lblManager));
+        }
+
+        private IEnumerable<Line> GenerateLiteralDc(IEnumerable<Line> lines)
+        {
+            return DoGeneratedLiteralDc(lines).SelectMany((lineEnumerable) => lineEnumerable);
+        }
+
+        private IEnumerable<IEnumerable<Line>> DoGeneratedLiteralDc(IEnumerable<Line> lines)
+        {
+            // リテラルから生成される DC 命令は、END 命令の直前にまとめて配置される。
+            // END 命令の前までに続いて、生成された DC 命令を出力し、その後に END 命令以降を出力する。
+            Func<Line, Boolean> notEnd = (line) => !line.IsEnd();
+            yield return lines.TakeWhile(notEnd);
+            yield return lines.Select((line) => line.GenerateLiteralDc(m_lblManager))
+                                                    .Where((generatedLine) => generatedLine != null);
+            yield return lines.SkipWhile(notEnd);
         }
 
         internal void Assemble(String[] sourceText)

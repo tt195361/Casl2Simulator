@@ -21,6 +21,17 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
+        /// GenerateDc メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GenerateDc()
+        {
+            IAdrValue target = new AddressConstant("LBL001");
+            String result = target.GenerateDc(m_lblManager);
+            Assert.IsNull(result, "AddressConstant は DC 命令を生成しない ==> null が返される");
+        }
+
+        /// <summary>
         /// GetAddress メソッドのテストです。
         /// </summary>
         [TestMethod]

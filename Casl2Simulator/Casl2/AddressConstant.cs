@@ -11,9 +11,9 @@ namespace Tt195361.Casl2Simulator.Casl2
         private readonly Label m_label;
         #endregion
 
-        internal AddressConstant(String label)
+        internal AddressConstant(String name)
         {
-            m_label = new Label(label);
+            m_label = new Label(name);
         }
 
         internal Label Label
@@ -33,7 +33,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         String IAdrValue.GenerateDc(LabelManager lblManager)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         UInt16 IAdrValue.GetAddress(LabelManager lblManager)

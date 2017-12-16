@@ -136,6 +136,42 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
+        /// GenerateLiteralDc メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GenerateLiteralDc()
+        {
+            CheckGenerateLiteralDc(
+                " LD GR0,='ABC',GR1",
+                "LTRL0001\tDC\t'ABC'",
+                "オペランドにリテラルを含む命令 => リテラルの定数をオペランドとする DC 命令が生成される");
+            CheckGenerateLiteralDc(
+                " LD GR0,1234,GR1",
+                null,
+                "オペランドにリテラルを含まない命令 => DC 命令は生成されない");
+            CheckGenerateLiteralDc(
+                "; コメント行",
+                null,
+                "コメント行 => DC 命令は生成されない");
+        }
+
+        private void CheckGenerateLiteralDc(String text, String expected, String message)
+        {
+            Line target = Line.Parse(text);
+            LabelManager lblManager = new LabelManager();
+            Line generatedLine = target.GenerateLiteralDc(lblManager);
+            if (generatedLine == null)
+            {
+                Assert.IsNull(expected, message);
+            }
+            else
+            {
+                String actual = generatedLine.Text;
+                Assert.AreEqual(expected, actual, message);
+            }
+        }
+
+        /// <summary>
         /// GenerateCode メソッドのテストです。
         /// </summary>
         [TestMethod]

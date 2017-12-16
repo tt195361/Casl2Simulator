@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,6 +27,16 @@ namespace Tt195361.Casl2Simulator.Casl2
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        internal Boolean NoErrorLine()
+        {
+            return CountErrorLine() == 0;
+        }
+
+        private Int32 CountErrorLine()
+        {
+            return m_lines.Count((line) => line.HasError());
         }
     }
 }

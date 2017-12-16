@@ -48,6 +48,11 @@ namespace Tt195361.Casl2Simulator.Casl2
             m_operand = m_operandParseFunc(lexer);
         }
 
+        internal override String GenerateLiteralDc(LabelManager lblManager)
+        {
+            return m_operand.GenerateLiteralDc(lblManager);
+        }
+
         internal override Int32 GetCodeWordCount()
         {
             // オペコードで 1 ワード、オペランドに応じて追加。

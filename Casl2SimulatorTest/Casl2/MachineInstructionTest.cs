@@ -27,6 +27,19 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
+        /// GenerateLiteralDc メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GenerateLiteralDc()
+        {
+            MachineInstruction target = MakeTarget(MnemonicDef.LD, "GR1,=1234,GR2");
+            LabelManager lblManager = new LabelManager();
+            String actual = target.GenerateLiteralDc(lblManager);
+            const String Expected = "LTRL0001\tDC\t1234";
+            Assert.AreEqual(Expected, actual, "リテラルの DC 命令が生成される");
+        }
+
+        /// <summary>
         /// GenerateCode メソッドの単体テストです。
         /// </summary>
         [TestMethod]

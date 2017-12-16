@@ -79,6 +79,18 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             }
         }
 
+        /// <summary>
+        /// GenerateDc メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GenerateDc()
+        {
+            IAdrValue target = new HexaDecimalConstant(0);
+            LabelManager lblManager = new LabelManager();
+            String result = target.GenerateDc(lblManager);
+            Assert.IsNull(result, "HexaDecimalConstant は DC 命令を生成しない ==> null が返される");
+        }
+
         internal static void Check(HexaDecimalConstant expected, HexaDecimalConstant actual, String message)
         {
             Assert.AreEqual(expected.Value, actual.Value, "Value: " + message);
