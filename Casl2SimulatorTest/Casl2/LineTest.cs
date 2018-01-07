@@ -21,14 +21,14 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             Label expectedLabel = new Label("LABEL");
             const Label DontCareLabel = null;
-            const String DontCareInstructionCode = null;
+            const String NullInstructionMnemonic = "NULL";
 
             CheckParse(
                 "; コメント",
-                true, null, null, "空白なしで ';' => コメント行");
+                true, null, NullInstructionMnemonic, "空白なしで ';' => コメント行");
             CheckParse(
                 " ; コメント",
-                true, null, null, "空白に続いて ';' => コメント行");
+                true, null, NullInstructionMnemonic, "空白に続いて ';' => コメント行");
 
             CheckParse(
                 "LABEL DC 123",
@@ -62,7 +62,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
             CheckParse(
                 String.Empty,
-                false, DontCareLabel, DontCareInstructionCode, "空行 => エラー");
+                false, DontCareLabel, NullInstructionMnemonic, "空行 => エラー");
         }
 
         private void CheckParse(
@@ -74,26 +74,19 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             {
                 Assert.IsNotNull(actual.ErrorMessage, "ErrorMessage: " + message);
                 Assert.IsNull(actual.Label, "Label: " + message);
-                Assert.IsNull(actual.Instruction, "Instruction: " + message);
             }
             else
             {
                 Assert.IsNull(actual.ErrorMessage, "ErrorMessage: " + message);
                 LabelTest.Check(expectedLabel, actual.Label, "Label: " + message);
-                CheckInstruction(actual, expectedMnemonic, "Instruction: " + message);
             }
+
+            CheckInstruction(actual, expectedMnemonic, "Instruction: " + message);
         }
 
-        private void CheckInstruction(Line actial, String expectedMnemonic, String message)
+        private void CheckInstruction(Line actual, String expectedMnemonic, String message)
         {
-            if (expectedMnemonic == null)
-            {
-                Assert.IsNull(actial.Instruction, message);
-            }
-            else
-            {
-                Assert.AreEqual(expectedMnemonic, actial.Instruction.Mnemonic, message);
-            }
+            Assert.AreEqual(expectedMnemonic, actual.Instruction.Mnemonic, message);
         }
 
         /// <summary>

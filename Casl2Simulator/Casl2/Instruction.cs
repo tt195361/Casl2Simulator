@@ -34,6 +34,11 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_mnemonic; }
         }
 
+        internal virtual Boolean IsNull()
+        {
+            return false;
+        }
+
         internal virtual Boolean IsStart()
         {
             return false;

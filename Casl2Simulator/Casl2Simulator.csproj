@@ -86,6 +86,7 @@
     <Compile Include="Casl2\MacroRpushInstruction.cs" />
     <Compile Include="Casl2\DecimalConstant.cs" />
     <Compile Include="Casl2\NoOperand.cs" />
+    <Compile Include="Casl2\NullInstruction.cs" />
     <Compile Include="Casl2\OffsetCalculator.cs" />
     <Compile Include="Casl2\Operand.cs" />
     <Compile Include="Casl2\OperandLexer.cs" />

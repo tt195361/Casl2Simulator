@@ -45,10 +45,10 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         private static void CheckInstructionAfterEnd(IEnumerable<Line> lines)
         {
-            // END 命令までと END 命令自身をスキップし、そのあとに命令があるかチェックする。
+            // END 命令までと END 命令自身をスキップし、そのあとに null でない有効な命令があるかチェックする。
             Int32 afterEndInstructionCount = lines.SkipWhile((line) => !line.IsEnd())
                                                   .Skip(1)
-                                                  .Count((line) => line.Instruction != null);
+                                                  .Count((line) => !line.Instruction.IsNull());
             if (0 < afterEndInstructionCount)
             {
                 throw new Casl2SimulatorException(Resources.MSG_InstructionAfterEnd);

@@ -16,5 +16,7 @@ namespace Tt195361.Casl2Simulator.Common
         internal const String PUSH = "PUSH";
         internal const String POP = "POP";
         internal const String SVC = "SVC";
+
+        internal const String NULL = "NULL";
     }
 }

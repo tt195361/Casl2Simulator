@@ -108,7 +108,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         private static Line MakeCommentLine(String text)
         {
-            return new Line(text, null, null, null);
+            return new Line(text, null, NullInstruction.Instance, null);
         }
 
         private static Line MakeInstructionLine(String text, Label label, Instruction instruction)
@@ -118,7 +118,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         private static Line MakeErrorLine(String text, String errorMessage)
         {
-            return new Line(text, null, null, errorMessage);
+            return new Line(text, null, NullInstruction.Instance, errorMessage);
         }
 
         #region Fields
@@ -164,34 +164,27 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal Boolean IsStart()
         {
-            return m_instruction != null && m_instruction.IsStart();
+            return m_instruction.IsStart();
         }
 
         internal Boolean IsEnd()
         {
-            return m_instruction != null && m_instruction.IsEnd();
+            return m_instruction.IsEnd();
         }
 
         internal IEnumerable<Line> ExpandMacro()
         {
-            if (m_instruction == null)
+            String[] expandedText = m_instruction.ExpandMacro(m_label);
+            if (expandedText == null)
             {
                 yield return this;
             }
             else
             {
-                String[] expandedText = m_instruction.ExpandMacro(m_label);
-                if (expandedText == null)
+                foreach (String text in expandedText)
                 {
-                    yield return this;
-                }
-                else
-                {
-                    foreach (String text in expandedText)
-                    {
-                        Line parsedLine = Parse(text);
-                        yield return parsedLine;
-                    }
+                    Line parsedLine = Parse(text);
+                    yield return parsedLine;
                 }
             }
         }
@@ -206,18 +199,15 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal Line GenerateLiteralDc(LabelManager lblManager)
         {
-            if (m_instruction == null)
-            {
-                return null;
-            }
-
             String generatedText = m_instruction.GenerateLiteralDc(lblManager);
             if (generatedText == null)
             {
                 return null;
             }
-
-            return Parse(generatedText);
+            else
+            {
+                return Parse(generatedText);
+            }
         }
 
         internal void SetLabelOffset(LabelManager lblManager, UInt16 offset)
@@ -230,23 +220,12 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal Int32 GetCodeWordCount()
         {
-            if (m_instruction == null)
-            {
-                return 0;
-            }
-            else
-            {
-                return m_instruction.GetCodeWordCount();
-            }
+            return m_instruction.GetCodeWordCount();
         }
 
         internal void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
         {
-            // このアセンブラ行に命令があれば、コードを生成する。
-            if (m_instruction != null)
-            {
-                m_instruction.GenerateCode(m_label, lblManager, relModule);
-            }
+            m_instruction.GenerateCode(m_label, lblManager, relModule);
         }
 
         public override String ToString()
