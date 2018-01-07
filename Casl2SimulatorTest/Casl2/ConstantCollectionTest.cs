@@ -42,11 +42,11 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 TokenType.EndOfToken,
                 "アドレス定数");
             CheckParse(
-                "12345,#ABCD,'文字定数',L001",
+                "12345,#ABCD,'StrConst',L001",
                 ConstantTest.MakeArray(
                     new DecimalConstant(12345),
                     new HexaDecimalConstant(0xABCD),
-                    new StringConstant("文字定数"),
+                    new StringConstant("StrConst"),
                     new AddressConstant("L001")),
                 TokenType.EndOfToken,
                 "定数の並び");

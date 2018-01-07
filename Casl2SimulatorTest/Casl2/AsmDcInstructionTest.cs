@@ -19,9 +19,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             const Constant[] DontCare = null;
 
             CheckParseOperand(
-                "'文字定数',12345,L001,#ABCD", true,
+                "'StrConst',12345,L001,#ABCD", true,
                 ConstantTest.MakeArray(
-                    new StringConstant("文字定数"),
+                    new StringConstant("StrConst"),
                     new DecimalConstant(12345),
                     new AddressConstant("L001"),
                     new HexaDecimalConstant(0xABCD)),

@@ -86,6 +86,7 @@
     <Compile Include="Casl2\MacroRpushInstruction.cs" />
     <Compile Include="Casl2\DecimalConstant.cs" />
     <Compile Include="Casl2\NoOperand.cs" />
+    <Compile Include="Casl2\OffsetCalculator.cs" />
     <Compile Include="Casl2\Operand.cs" />
     <Compile Include="Casl2\OperandLexer.cs" />
     <Compile Include="Casl2\ProgramChecker.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Comet2\Register.cs" />
     <Compile Include="Comet2\RegisterHandler.cs" />
     <Compile Include="Comet2\RegisterSet.cs" />
+    <Compile Include="Common\Comet2Defs.cs" />
     <Compile Include="Common\InstructionWord.cs" />
     <Compile Include="Common\MnemonicDef.cs" />
     <Compile Include="Common\OpcodeDef.cs" />
@@ -124,6 +126,7 @@
     <Compile Include="Utils\ArgChecker.cs" />
     <Compile Include="Utils\CharUtils.cs" />
     <Compile Include="Utils\ExceptionUtils.cs" />
+    <Compile Include="Utils\Jisx0201Utils.cs" />
     <Compile Include="Utils\UInt16Utils.cs" />
     <Compile Include="Utils\EnumerableUtils.cs" />
     <Compile Include="Utils\NumberUtils.cs" />

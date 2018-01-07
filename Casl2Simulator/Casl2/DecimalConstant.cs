@@ -1,4 +1,5 @@
 ﻿using System;
+using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Properties;
 using Tt195361.Casl2Simulator.Utils;
 
@@ -9,11 +10,6 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class DecimalConstant : Constant, IAdrValue
     {
-        #region Fields
-        private const Int32 MinValue = Int16.MinValue;
-        private const Int32 MaxValue = Int16.MaxValue;
-        #endregion
-
         /// <summary>
         /// 指定の文字が 10 進定数の最初の文字かどうかを判断します。
         /// </summary>
@@ -81,7 +77,10 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         #region Fields
-        private readonly Int32 m_value;
+        private const Int32 MinValue = Int16.MinValue;
+        private const Int32 MaxValue = Int16.MaxValue;
+
+        private readonly Int16 m_value;
         #endregion
 
         /// <summary>
@@ -94,10 +93,10 @@ namespace Tt195361.Casl2Simulator.Casl2
             // そのため、範囲外のときは例外にして、範囲内の値に書き直してもらうようにします。
             ArgChecker.CheckRange(value, MinValue, MaxValue, Resources.STR_DecimalConstant);
 
-            m_value = value;
+            m_value = NumberUtils.ToInt16(value);
         }
 
-        internal Int32 Value
+        internal Int16 Value
         {
             get { return m_value; }
         }
@@ -109,8 +108,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
         {
-            // TODO: 実装する。
-            throw new NotImplementedException();
+            relModule.AddWord(new Word(m_value));
         }
 
         String IAdrValue.GenerateDc(LabelManager lblManager)

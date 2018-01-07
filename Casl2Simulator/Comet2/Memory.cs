@@ -11,11 +11,6 @@ namespace Tt195361.Casl2Simulator.Comet2
     internal class Memory
     {
         #region Fields
-        // 主記憶のアドレスは 0 ~ 65,535 番地で、容量は 65,536 語です。
-        private const Int32 MinAddress = 0;
-        private const Int32 Size = 65536;
-
-
         private readonly Word[] m_contents;
         #endregion
 
@@ -24,7 +19,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// </summary>
         internal Memory()
         {
-            m_contents = new Word[Size];
+            m_contents = new Word[Comet2Defs.MemorySize];
 
             Reset();
         }
@@ -35,7 +30,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal void Reset()
         {
             Enumerable
-                .Range(MinAddress, Size)
+                .Range(Comet2Defs.MinAddress, Comet2Defs.MemorySize)
                 .ForEach((i32Addr) => Write((UInt16)i32Addr, Word.Zero));
         }
 

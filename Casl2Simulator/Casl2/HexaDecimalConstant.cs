@@ -1,4 +1,5 @@
 ﻿using System;
+using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Properties;
 using Tt195361.Casl2Simulator.Utils;
 
@@ -10,9 +11,6 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class HexaDecimalConstant : Constant, IAdrValue
     {
         #region Fields
-        private const Int32 MinValue = UInt16.MinValue;
-        private const Int32 MaxValue = UInt16.MaxValue;
-
         private const Int32 DigitCount = 4;
         private const String PrintFormat = "{0}{1:X04}";
         #endregion
@@ -43,10 +41,11 @@ namespace Tt195361.Casl2Simulator.Casl2
 
             Int32 digitCount = 0;
             Int32 value = GetValue(buffer, out digitCount);
-            if (digitCount != 4)
+            if (digitCount != DigitCount)
             {
                 String hexStr = buffer.GetToCurrent(parseStartIndex);
-                String message = String.Format(Resources.MSG_InvalidHexConstantDigitCount, hexStr, digitCount);
+                String message = String.Format(
+                    Resources.MSG_InvalidHexConstantDigitCount, hexStr, DigitCount, digitCount);
                 throw new Casl2SimulatorException(message);
             }
 
@@ -75,17 +74,20 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         #region Fields
-        private readonly Int32 m_value;
+        private const Int32 MinValue = UInt16.MinValue;
+        private const Int32 MaxValue = UInt16.MaxValue;
+
+        private readonly UInt16 m_value;
         #endregion
 
         internal HexaDecimalConstant(Int32 value)
         {
             ArgChecker.CheckRange(value, MinValue, MaxValue, nameof(value));
 
-            m_value = value;
+            m_value = NumberUtils.ToUInt16(value);
         }
 
-        internal Int32 Value
+        internal UInt16 Value
         {
             get { return m_value; }
         }
@@ -97,8 +99,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
         {
-            // TODO: 実装する。
-            throw new NotImplementedException();
+            relModule.AddWord(new Word(m_value));
         }
 
         String IAdrValue.GenerateDc(LabelManager lblManager)
@@ -108,7 +109,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         UInt16 IAdrValue.GetAddress(LabelManager lblManager)
         {
-            return NumberUtils.ToUInt16(m_value);
+            return m_value;
         }
 
         protected override String ValueToString()

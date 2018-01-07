@@ -75,8 +75,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             String notUsed = iAdrValue.GenerateDc(lblManager);
             lblManager.SetOffset(literal.Label, LabelOffset);
 
-            UInt16 actual = iAdrValue.GetAddress(lblManager);
-            Assert.AreEqual(LabelOffset, actual, "生成した DC 命令のラベルに設定したオフセットが返される");
+            IAdrValueTest.CheckGetAddress(
+                iAdrValue, lblManager, LabelOffset,
+                "生成した DC 命令のラベルに設定したオフセットが返される");
         }
 
         internal static void Check(Literal expected, Literal actual, String message)

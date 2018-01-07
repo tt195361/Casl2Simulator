@@ -220,15 +220,28 @@ namespace Tt195361.Casl2Simulator.Casl2
             return Parse(generatedText);
         }
 
-        internal void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        internal void SetLabelOffset(LabelManager lblManager, UInt16 offset)
         {
-            // このアセンブラ行にラベルがあれば登録する。
             if (m_label != null)
             {
-                UInt16 offset = relModule.GetCurrentOffset();
-                lblManager.Register(m_label, offset);
+                lblManager.SetOffset(m_label, offset);
             }
+        }
 
+        internal Int32 GetCodeWordCount()
+        {
+            if (m_instruction == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return m_instruction.GetCodeWordCount();
+            }
+        }
+
+        internal void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        {
             // このアセンブラ行に命令があれば、コードを生成する。
             if (m_instruction != null)
             {

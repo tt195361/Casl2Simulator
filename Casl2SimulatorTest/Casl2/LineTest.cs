@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator.Casl2;
 using Tt195361.Casl2Simulator.Common;
@@ -172,49 +171,49 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
+        /// SetLabelOffset メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void SetLabelOffset()
+        {
+            Line instructionLine = Line.Parse("LBL001 LD GR1,GR2");
+            LabelManager lblManager = new LabelManager();
+            instructionLine.RegisterLabel(lblManager);
+
+            const UInt16 OffsetSet = 0xABCD;
+            instructionLine.SetLabelOffset(lblManager, OffsetSet);
+
+            UInt16 offsetGot = lblManager.GetOffset(instructionLine.Label);
+            Assert.AreEqual(OffsetSet, offsetGot, "設定したラベルのオフセットが取得できる");
+        }
+
+        /// <summary>
         /// GenerateCode メソッドのテストです。
         /// </summary>
         [TestMethod]
         public void GenerateCode()
         {
-            Line instructionLine = Line.Parse("LBL001 LD GR1,GR2");
+            Line instructionLine = Line.Parse(" LD GR1,GR2");
             CheckGenerateCode(
-                instructionLine, "LBL001", WordTest.MakeArray(0x1412),
-                "命令行 => ラベルがあれば登録し、その命令のコードを生成する");
+                instructionLine, WordTest.MakeArray(0x1412),
+                "命令行 => その命令のコードを生成する");
 
             Line commentLine = Line.Parse("; コメント行");
             CheckGenerateCode(
-                commentLine, null, WordTest.MakeArray(),
-                "コメント行 => ラベル登録も、コード生成も、行わない");
+                commentLine, WordTest.MakeArray(),
+                "コメント行 => コードを生成しない");
 
             Line errorLine = Line.Parse(" 未定義命令");
             CheckGenerateCode(
-                errorLine, null, WordTest.MakeArray(),
-                "エラー行 => ラベル登録も、コード生成も、行わない");
+                errorLine, WordTest.MakeArray(),
+                "エラー行 => コードを生成しない");
         }
 
-        private void CheckGenerateCode(
-            Line target, String expectedLabelName, Word[] expectedWords, String message)
+        private void CheckGenerateCode(Line target, Word[] expectedWords, String message)
         {
             LabelManager lblManager = new LabelManager();
             RelocatableModule relModule = new RelocatableModule();
             target.GenerateCode(lblManager, relModule);
-
-            CheckLabelIsRegistered(expectedLabelName, lblManager, "Label: " + message);
-            CheckGeneratedCode(relModule, expectedWords, "Code: " + message);
-        }
-
-        private void CheckLabelIsRegistered(String expectedLabelName, LabelManager lblManager, String message)
-        {
-            if (expectedLabelName != null)
-            {
-                Boolean isRegistered = lblManager.IsRegistered(expectedLabelName);
-                Assert.IsTrue(isRegistered, message);
-            }
-        }
-
-        private void CheckGeneratedCode(RelocatableModule relModule, Word[] expectedWords, String message)
-        {
             RelocatableModuleTest.Check(relModule, expectedWords, message);
         }
     }

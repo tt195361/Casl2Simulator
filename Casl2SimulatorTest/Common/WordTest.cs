@@ -192,10 +192,21 @@ namespace Tt195361.Casl2SimulatorTest.Common
             Assert.AreEqual(expectedValue, actualValue, message);
         }
 
+        internal static Word[] MakeArray()
+        {
+            return new Word[0];
+        }
+
         internal static Word[] MakeArray(params UInt16[] ui16Vals)
         {
             return ui16Vals.Select((ui16Val) => new Word(ui16Val))
                            .ToArray();
+        }
+
+        internal static Word[] MakeArray(params Int16[] i16Vals)
+        {
+            return i16Vals.Select((i16Val) => new Word(i16Val))
+                          .ToArray();
         }
     }
 }

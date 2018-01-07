@@ -62,8 +62,6 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal override void GenerateCode(Label label, LabelManager lblManager, RelocatableModule relModule)
         {
             // TODO: 実装する。
-            throw new NotImplementedException();
-
             // 開始アドレス
             // Exports: 外部モジュールから参照できるアドレス。
         }

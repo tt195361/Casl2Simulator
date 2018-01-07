@@ -88,6 +88,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 文字 &apos;{0}&apos; は JIS X 0201 で表せません。JIS X 0201 で表せる文字を使ってください。.
+        /// </summary>
+        internal static string MSG_CanNotRepresentInJisx0201 {
+            get {
+                return ResourceManager.GetString("MSG_CanNotRepresentInJisx0201", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} を定数として解釈できませんでした。10 進定数 (n)、16 進定数 (#h)、文字定数 (&apos;文字列&apos;)、アドレス定数 (ラベル) のいずれかを記述してください。.
         /// </summary>
         internal static string MSG_ConstantParseError {
@@ -169,7 +178,7 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 16 進定数として指定の文字列 &quot;{0}&quot; の桁数が 4 桁ではなく {1} 桁です。16 進定数は #h の形式で、h は 4 桁の 16 進数 (0~9, A~F) で指定します。.
+        ///   Looks up a localized string similar to 16 進定数として指定の文字列 &quot;{0}&quot; の桁数が {1} 桁ではなく {2} 桁です。16 進定数は #h の形式で、h は {1} 桁の 16 進数 (0~9, A~F) で指定します。.
         /// </summary>
         internal static string MSG_InvalidHexConstantDigitCount {
             get {
@@ -349,6 +358,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to プログラムをメモリに格納できません。プログラムの大きさを COMET II の主記憶の容量 {0} 語以下にしてください。.
+        /// </summary>
+        internal static string MSG_ProgramTooBig {
+            get {
+                return ResourceManager.GetString("MSG_ProgramTooBig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 命令コード 0x{0:x02} は未定義です。.
         /// </summary>
         internal static string MSG_UndefinedOpcode {
@@ -363,6 +381,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         internal static string MSG_UndefinedRegisterName {
             get {
                 return ResourceManager.GetString("MSG_UndefinedRegisterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 文字列定数の文字数が 0 です。文字列定数には 1 文字以上の文字を指定してください。.
+        /// </summary>
+        internal static string MSG_ZeroCharsInStringConstant {
+            get {
+                return ResourceManager.GetString("MSG_ZeroCharsInStringConstant", resourceCulture);
             }
         }
         

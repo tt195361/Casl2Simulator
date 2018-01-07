@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator;
 using Tt195361.Casl2Simulator.Casl2;
+using Tt195361.Casl2Simulator.Common;
+using Tt195361.Casl2SimulatorTest.Common;
 
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
@@ -80,6 +82,23 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
+        /// GenerateCode メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GenerateCode()
+        {
+            CheckGenerateCode(0, 0x0000, "最小値 0 => コードはその値 0x0000");
+            CheckGenerateCode(65535, 0xffff, "最大値 65535 => コードはその値 0xffff");
+        }
+
+        private void CheckGenerateCode(Int32 value, UInt16 expected, String message)
+        {
+            HexaDecimalConstant target = new HexaDecimalConstant(value);
+            Word[] expectedWords = WordTest.MakeArray(expected);
+            ConstantTest.CheckGenerateCode(target, expectedWords, message);
+        }
+
+        /// <summary>
         /// GenerateDc メソッドのテストです。
         /// </summary>
         [TestMethod]
@@ -89,6 +108,22 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             LabelManager lblManager = new LabelManager();
             String result = target.GenerateDc(lblManager);
             Assert.IsNull(result, "HexaDecimalConstant は DC 命令を生成しない ==> null が返される");
+        }
+
+        /// <summary>
+        /// GetAddress メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GetAddress()
+        {
+            CheckGetAddress(0, 0x0000, "最小値 0 => その値 0x0000 がアドレス");
+            CheckGetAddress(65535, 0xffff, "最大値 65535 => その値 0xffff がアドレス");
+        }
+
+        private void CheckGetAddress(Int32 value, UInt16 expected, String message)
+        {
+            HexaDecimalConstant target = new HexaDecimalConstant(value);
+            IAdrValueTest.CheckGetAddress(target, expected, message);
         }
 
         internal static void Check(HexaDecimalConstant expected, HexaDecimalConstant actual, String message)

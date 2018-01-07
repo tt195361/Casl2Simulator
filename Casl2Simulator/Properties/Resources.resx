@@ -126,6 +126,9 @@
   <data name="MSG_CanNotBeIndexRegister" xml:space="preserve">
     <value>指定のレジスタ {0} は指標レジスタとして使えません。指標レジスタとして用いる GR は、記号 GR{1}～GR{2} で指定してください。</value>
   </data>
+  <data name="MSG_CanNotRepresentInJisx0201" xml:space="preserve">
+    <value>文字 '{0}' は JIS X 0201 で表せません。JIS X 0201 で表せる文字を使ってください。</value>
+  </data>
   <data name="MSG_ConstantParseError" xml:space="preserve">
     <value>{0} を定数として解釈できませんでした。10 進定数 (n)、16 進定数 (#h)、文字定数 ('文字列')、アドレス定数 (ラベル) のいずれかを記述してください。</value>
   </data>
@@ -154,7 +157,7 @@
     <value>指定の文字 '{0}' は 10 進定数を記述する半角数字 (0~9) ではありません。10 進定数には半角数字を使用してください。</value>
   </data>
   <data name="MSG_InvalidHexConstantDigitCount" xml:space="preserve">
-    <value>16 進定数として指定の文字列 "{0}" の桁数が 4 桁ではなく {1} 桁です。16 進定数は #h の形式で、h は 4 桁の 16 進数 (0~9, A~F) で指定します。</value>
+    <value>16 進定数として指定の文字列 "{0}" の桁数が {1} 桁ではなく {2} 桁です。16 進定数は #h の形式で、h は {1} 桁の 16 進数 (0~9, A~F) で指定します。</value>
   </data>
   <data name="MSG_LabelAlreadyDefined" xml:space="preserve">
     <value>ラベル "{0}" はすでに定義されています。ラベルの名前はプログラムの中で一意にしてください。</value>
@@ -213,11 +216,17 @@
   <data name="MSG_OperandParseError" xml:space="preserve">
     <value>{0} 命令のオペランドの解釈で問題が発生しました。オペランドの記述形式は {1} です。確認してください。</value>
   </data>
+  <data name="MSG_ProgramTooBig" xml:space="preserve">
+    <value>プログラムをメモリに格納できません。プログラムの大きさを COMET II の主記憶の容量 {0} 語以下にしてください。</value>
+  </data>
   <data name="MSG_UndefinedOpcode" xml:space="preserve">
     <value>命令コード 0x{0:x02} は未定義です。</value>
   </data>
   <data name="MSG_UndefinedRegisterName" xml:space="preserve">
     <value>指定の文字列 "{0}" はレジスタ名ではありません。レジスタ名は、記号 GR0~GR7 で指定してください。</value>
+  </data>
+  <data name="MSG_ZeroCharsInStringConstant" xml:space="preserve">
+    <value>文字列定数の文字数が 0 です。文字列定数には 1 文字以上の文字を指定してください。</value>
   </data>
   <data name="STR_DecimalConstant" xml:space="preserve">
     <value>10 進定数</value>

@@ -1,4 +1,5 @@
 ﻿using System;
+using Tt195361.Casl2Simulator.Common;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
@@ -28,7 +29,8 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
         {
-            throw new NotImplementedException();
+            UInt16 offset = GetOffset(lblManager);
+            relModule.AddWord(new Word(offset));
         }
 
         String IAdrValue.GenerateDc(LabelManager lblManager)
@@ -37,6 +39,11 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         UInt16 IAdrValue.GetAddress(LabelManager lblManager)
+        {
+            return GetOffset(lblManager);
+        }
+
+        private UInt16 GetOffset(LabelManager lblManager)
         {
             return lblManager.GetOffset(m_label);
         }

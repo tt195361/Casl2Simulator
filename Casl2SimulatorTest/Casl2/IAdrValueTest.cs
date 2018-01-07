@@ -6,6 +6,19 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 {
     internal class IAdrValueTest
     {
+        internal static void CheckGetAddress(IAdrValue target, UInt16 expected, String message)
+        {
+            LabelManager lblManager = new LabelManager();
+            CheckGetAddress(target, lblManager, expected, message);
+        }
+
+        internal static void CheckGetAddress(
+            IAdrValue target, LabelManager lblManager, UInt16 expected, String message)
+        {
+            UInt16 actual = target.GetAddress(lblManager);
+            Assert.AreEqual(expected, actual, message);
+        }
+
         internal static void Check(IAdrValue expected, IAdrValue actual, String message)
         {
             TestUtils.CheckType(expected, actual, message);

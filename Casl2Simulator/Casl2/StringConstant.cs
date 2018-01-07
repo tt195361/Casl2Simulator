@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Properties;
 using Tt195361.Casl2Simulator.Utils;
 
@@ -89,11 +91,18 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         #region Fields
         private readonly String m_value;
+        private readonly Byte[] m_jisx0201Bytes;
         #endregion
 
         internal StringConstant(String value)
         {
+            if (value.Length == 0)
+            {
+                throw new Casl2SimulatorException(Resources.MSG_ZeroCharsInStringConstant);
+            }
+
             m_value = value;
+            m_jisx0201Bytes = Jisx0201Utils.ToJisx0201Bytes(value);
         }
 
         internal String Value
@@ -103,12 +112,16 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal override int GetWordCount()
         {
-            return m_value.Length;
+            return m_jisx0201Bytes.Length;
         }
 
         internal override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
         {
-            throw new NotImplementedException();
+            // 文字列の文字数 (> 0) 分の連続する領域を確保し、
+            // 最初の文字は第 1 語の下位 8 ビットに、2 番目の文字は第 2 語の下位 8 ビットに、···
+            // と順次文字データとして格納する。各語の上位 8 ビットには 0 のビットが入る。
+            m_jisx0201Bytes.Select((jisx0201Byte) => new Word(jisx0201Byte))
+                           .ForEach((word) => relModule.AddWord(word));
         }
 
         protected override String ValueToString()

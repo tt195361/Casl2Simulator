@@ -29,6 +29,8 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         // Imports: このモジュールが参照し、外部モジュールが提供するアドレス。
 
+        // Relocations: このモジュールの配置アドレスを決めたとき、それに応じて値を更新するアドレス。
+
         // コード
 
         internal UInt16 GetCurrentOffset()

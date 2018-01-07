@@ -32,7 +32,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             IEnumerable<Line> macroExpandedLines = ExpandMacro(parsedLines);
 
             // プログラムのラベルを先に登録し、リテラルで生成する DC 命令のラベルと重複しないようにする。
-            RegisterLabel(macroExpandedLines);
+            RegisterLabels(macroExpandedLines);
             IEnumerable<Line> literalDcGeneratedLines = GenerateLiteralDc(macroExpandedLines);
             m_processedLines = new LineCollection(literalDcGeneratedLines);
 
@@ -53,7 +53,7 @@ namespace Tt195361.Casl2Simulator.Casl2
                         .SelectMany((expandedLines) => expandedLines);
         }
 
-        private void RegisterLabel(IEnumerable<Line> lines)
+        private void RegisterLabels(IEnumerable<Line> lines)
         {
             lines.ForEach((line) => line.RegisterLabel(m_lblManager));
         }
@@ -74,9 +74,29 @@ namespace Tt195361.Casl2Simulator.Casl2
             yield return lines.SkipWhile(notEnd);
         }
 
-        internal void Assemble(String[] sourceText)
+        internal RelocatableModule Assemble()
         {
-            // TODO: 実装する。
+            SetLabelOffset(m_processedLines);
+            RelocatableModule relModule = GenerateCode(m_processedLines);
+            return relModule;
+        }
+
+        private void SetLabelOffset(IEnumerable<Line> lines)
+        {
+            UInt16 offset = 0;
+            foreach (Line line in lines)
+            {
+                line.SetLabelOffset(m_lblManager, offset);
+                Int32 wordCount = line.GetCodeWordCount();
+                offset = OffsetCalculator.Add(offset, wordCount);
+            }
+        }
+
+        private RelocatableModule GenerateCode(IEnumerable<Line> lines)
+        {
+            RelocatableModule relModule = new RelocatableModule();
+            lines.ForEach((line) => line.GenerateCode(m_lblManager, relModule));
+            return relModule;
         }
     }
 }

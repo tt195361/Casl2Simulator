@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator;
 using Tt195361.Casl2Simulator.Casl2;
+using Tt195361.Casl2Simulator.Common;
+using Tt195361.Casl2SimulatorTest.Common;
 
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
@@ -83,6 +85,25 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
+        /// GenerateCode メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GenerateCode()
+        {
+            CheckGenerateCode(0, 0, "ゼロ: 0 => コードはその値: 0");
+            CheckGenerateCode(32767, 32767, "正の最大値: 32767 => コードはその値: 32767");
+            CheckGenerateCode(-32768, -32768, "負の最大値: -32768 => コードはその値: -32768");
+            CheckGenerateCode(-1, -1, "負の最小値: -1 => コードはその値: -1");
+        }
+
+        private void CheckGenerateCode(Int32 value, Int16 expected, String message)
+        {
+            DecimalConstant target = new DecimalConstant(value);
+            Word[] expectedWords = WordTest.MakeArray(expected);
+            ConstantTest.CheckGenerateCode(target, expectedWords, message);
+        }
+
+        /// <summary>
         /// GenerateDc メソッドのテストです。
         /// </summary>
         [TestMethod]
@@ -92,6 +113,24 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             LabelManager lblManager = new LabelManager();
             String result = target.GenerateDc(lblManager);
             Assert.IsNull(result, "DecimalConstant は DC 命令を生成しない ==> null が返される");
+        }
+
+        /// <summary>
+        /// GetAddress メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GetAddress()
+        {
+            CheckGetAddress(0, 0x0000, "ゼロ: 0 => その値 0x0000 がアドレス");
+            CheckGetAddress(32767, 0x7fff, "正の最大値: 32767 => その値 0x7fff がアドレス");
+            CheckGetAddress(-32768, 0x8000, "負の最大値: -32768 => 符号なしの値 0x8000 がアドレス");
+            CheckGetAddress(-1, 0xffff, "負の最小値: -1 => 符号なしの値 0xffff がアドレス");
+        }
+
+        private void CheckGetAddress(Int32 value, UInt16 expected, String message)
+        {
+            DecimalConstant target = new DecimalConstant(value);
+            IAdrValueTest.CheckGetAddress(target, expected, message);
         }
 
         internal static void Check(DecimalConstant expected, DecimalConstant actual, String message)

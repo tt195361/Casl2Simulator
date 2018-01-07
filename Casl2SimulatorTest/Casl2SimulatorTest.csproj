@@ -75,6 +75,7 @@
     <Compile Include="Casl2\MacroInInstructionTest.cs" />
     <Compile Include="Casl2\MacroRpushInstructionTest.cs" />
     <Compile Include="Casl2\DecimalConstantTest.cs" />
+    <Compile Include="Casl2\OffsetCalculatorTest.cs" />
     <Compile Include="Casl2\ProgramCheckerTest.cs" />
     <Compile Include="Casl2\R1R2OperandTest.cs" />
     <Compile Include="Casl2\RAdrXOperandTest.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="TestUtils.cs" />
     <Compile Include="Utils\ArgCheckerTest.cs" />
     <Compile Include="Utils\CharUtilsTest.cs" />
+    <Compile Include="Utils\Jisx0201UtilsTest.cs" />
     <Compile Include="Utils\NumberUtilsTest.cs" />
     <Compile Include="Utils\UInt16UtilsTest.cs" />
   </ItemGroup>
