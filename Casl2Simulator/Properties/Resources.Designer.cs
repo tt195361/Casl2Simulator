@@ -358,6 +358,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} をラベルとして解釈できませんでした。オペランドは、空にするか、ラベルを指定してください。.
+        /// </summary>
+        internal static string MSG_OptionLabelParseError {
+            get {
+                return ResourceManager.GetString("MSG_OptionLabelParseError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to プログラムをメモリに格納できません。プログラムの大きさを COMET II の主記憶の容量 {0} 語以下にしてください。.
         /// </summary>
         internal static string MSG_ProgramTooBig {
@@ -486,9 +495,9 @@ namespace Tt195361.Casl2Simulator.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &quot;入力領域,入力文字長領域&quot;.
         /// </summary>
-        internal static string SYN_InputAreaLengthArea {
+        internal static string SYN_InputArea {
             get {
-                return ResourceManager.GetString("SYN_InputAreaLengthArea", resourceCulture);
+                return ResourceManager.GetString("SYN_InputArea", resourceCulture);
             }
         }
         

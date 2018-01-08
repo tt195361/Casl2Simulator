@@ -11,14 +11,14 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     public class AsmDcInstructionTest
     {
         /// <summary>
-        /// ParseOperand メソッドのテストです。
+        /// ReadOperand メソッドのテストです。
         /// </summary>
         [TestMethod]
-        public void ParseOperand()
+        public void ReadOperand()
         {
             const Constant[] DontCare = null;
 
-            CheckParseOperand(
+            CheckReadOperand(
                 "'StrConst',12345,L001,#ABCD", true,
                 ConstantTest.MakeArray(
                     new StringConstant("StrConst"),
@@ -26,22 +26,22 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                     new AddressConstant("L001"),
                     new HexaDecimalConstant(0xABCD)),
                 "定数の並び");
-            CheckParseOperand(
+            CheckReadOperand(
                 String.Empty, false, DontCare,
                 "空文字列でオペランドなし => エラー, 1 つ以上の定数が必要");
-            CheckParseOperand(
+            CheckReadOperand(
                 "; コメント", false, DontCare,
                 "コメントでオペランドなし => エラー, 1 つ以上の定数が必要");
-            CheckParseOperand(
+            CheckReadOperand(
                 "'abc'123", false, DontCare,
                 "区切りのコンマではなく別の字句要素がある => エラー");
         }
 
-        private void CheckParseOperand(
+        private void CheckReadOperand(
             String text, Boolean success, Constant[] expectedConstants, String message)
         {
             AsmDcInstruction target = new AsmDcInstruction();
-            InstructionTest.CheckParseOperand(target, text, success, message);
+            InstructionTest.CheckReadOperand(target, text, success, message);
             if (success)
             {
                 ConstantCollection actualConstants = target.Constants;

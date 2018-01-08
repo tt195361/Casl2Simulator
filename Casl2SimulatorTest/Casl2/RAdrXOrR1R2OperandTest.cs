@@ -50,7 +50,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private void CheckParse(
             String str, Boolean success, MachineInstructionOperand expected, String message)
         {
-            MachineInstructionOperand actual = MachineInstructionOperandTest.CheckParse(
+            MachineInstructionOperand actual = OperandTest.CheckParse(
                 (lexer) => RAdrXOrR1R2Operand.Parse(lexer, RAdrXOpcode, R1R2Opcode), str, success, message);
             if (success)
             {

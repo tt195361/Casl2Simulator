@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Casl2\AddressConstantTest.cs" />
     <Compile Include="Casl2\AdrXOperandTest.cs" />
+    <Compile Include="Casl2\AreaSpecTest.cs" />
     <Compile Include="Casl2\AsmDcInstructionTest.cs" />
     <Compile Include="Casl2\AsmEndInstructionTest.cs" />
     <Compile Include="Casl2\AsmStartInstructionTest.cs" />
@@ -76,6 +77,8 @@
     <Compile Include="Casl2\MacroRpushInstructionTest.cs" />
     <Compile Include="Casl2\DecimalConstantTest.cs" />
     <Compile Include="Casl2\OffsetCalculatorTest.cs" />
+    <Compile Include="Casl2\OperandTest.cs" />
+    <Compile Include="Casl2\OptionLabelTest.cs" />
     <Compile Include="Casl2\ProgramCheckerTest.cs" />
     <Compile Include="Casl2\R1R2OperandTest.cs" />
     <Compile Include="Casl2\RAdrXOperandTest.cs" />

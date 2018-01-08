@@ -216,6 +216,9 @@
   <data name="MSG_OperandParseError" xml:space="preserve">
     <value>{0} 命令のオペランドの解釈で問題が発生しました。オペランドの記述形式は {1} です。確認してください。</value>
   </data>
+  <data name="MSG_OptionLabelParseError" xml:space="preserve">
+    <value>{0} をラベルとして解釈できませんでした。オペランドは、空にするか、ラベルを指定してください。</value>
+  </data>
   <data name="MSG_ProgramTooBig" xml:space="preserve">
     <value>プログラムをメモリに格納できません。プログラムの大きさを COMET II の主記憶の容量 {0} 語以下にしてください。</value>
   </data>
@@ -258,7 +261,7 @@
   <data name="SYN_ExecStartAddr" xml:space="preserve">
     <value>"[実行開始番地]"</value>
   </data>
-  <data name="SYN_InputAreaLengthArea" xml:space="preserve">
+  <data name="SYN_InputArea" xml:space="preserve">
     <value>"入力領域,入力文字長領域"</value>
   </data>
   <data name="SYN_NoOperand" xml:space="preserve">

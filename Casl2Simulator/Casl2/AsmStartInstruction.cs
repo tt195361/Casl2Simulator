@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class AsmStartInstruction : Instruction
     {
         #region Fields
-        private Label m_execStartAddress;
+        private OptionLabel m_execStartAddress;
         #endregion
 
         internal AsmStartInstruction()
@@ -24,7 +24,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return true;
         }
 
-        internal Label ExecStartAddress
+        internal OptionLabel ExecStartAddress
         {
             get { return m_execStartAddress; }
         }
@@ -33,20 +33,13 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// START 命令のオペランドを解釈します。記述の形式は "[実行開始番地]" です。
         /// </summary>
         /// <param name="lexer">オペランドの字句を解析する <see cref="OperandLexer"/> のオブジェクトです。</param>
-        protected override void ParseSpecificOperand(OperandLexer lexer)
+        /// <returns>
+        /// 解釈した結果として生成した <see cref="Operand"/> クラスのオブジェクトを返します。
+        /// </returns>
+        protected override Operand ParseSpecificOperand(OperandLexer lexer)
         {
-            Token token = lexer.CurrentToken;
-
-            if (token.Type == TokenType.EndOfToken)
-            {
-                m_execStartAddress = null;
-            }
-            else if (token.Type == TokenType.Label)
-            {
-                lexer.MoveNext();
-                m_execStartAddress = new Label(token.StrValue);
-            }
-            // 解釈しなかった残りの字句要素は、Instruction.DoParseOperand() で取り扱う。
+            m_execStartAddress = OptionLabel.Parse(lexer);
+            return m_execStartAddress;
         }
 
         protected override String OperandSyntax
@@ -64,18 +57,6 @@ namespace Tt195361.Casl2Simulator.Casl2
             // TODO: 実装する。
             // 開始アドレス
             // Exports: 外部モジュールから参照できるアドレス。
-        }
-
-        protected override String OperandString()
-        {
-            if (m_execStartAddress == null)
-            {
-                return String.Empty;
-            }
-            else
-            {
-                return m_execStartAddress.ToString();
-            }
         }
     }
 }

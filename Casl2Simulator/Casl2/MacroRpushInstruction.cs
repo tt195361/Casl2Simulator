@@ -16,9 +16,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             //
         }
 
-        protected override void ParseSpecificOperand(OperandLexer lexer)
+        protected override Operand ParseSpecificOperand(OperandLexer lexer)
         {
-            // オペランドなし
+            return null;
         }
 
         protected override String OperandSyntax
@@ -45,11 +45,6 @@ namespace Tt195361.Casl2Simulator.Casl2
             result[6] = Line.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR7);
 
             return result;
-        }
-
-        protected override String OperandString()
-        {
-            return String.Empty;
         }
     }
 }

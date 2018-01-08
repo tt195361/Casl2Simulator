@@ -20,9 +20,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             return true;
         }
 
-        protected override void ParseSpecificOperand(OperandLexer lexer)
+        protected override Operand ParseSpecificOperand(OperandLexer lexer)
         {
-            // オペランドなし
+            return null;
         }
 
         protected override String OperandSyntax
@@ -34,11 +34,6 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             // END 命令はラベルを指定できないことになっている。
             // 指定しても特に問題はないので、ラベルはチェックしない。
-        }
-
-        protected override String OperandString()
-        {
-            return String.Empty;
         }
     }
 }

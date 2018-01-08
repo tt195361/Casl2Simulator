@@ -142,24 +142,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             Assert.AreEqual(expected, actual, message);
         }
 
-        internal static T CheckParse<T>(
-            Func<OperandLexer, T> parseFunc, String str, Boolean success, String message)
-        {
-            OperandLexer lexer = OperandLexerTest.MakeFrom(str);
-            lexer.MoveNext();
-            try
-            {
-                T result = parseFunc(lexer);
-                Assert.IsTrue(success, message);
-                return result;
-            }
-            catch (Casl2SimulatorException)
-            {
-                Assert.IsFalse(success, message);
-                return default(T);
-            }
-        }
-
         internal static void Check<T>(T expected, T actual, Action<T, T, String> checkAction, String message)
             where T : MachineInstructionOperand
         {

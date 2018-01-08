@@ -43,9 +43,10 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_operandSyntax; }
         }
 
-        protected override void ParseSpecificOperand(OperandLexer lexer)
+        protected override Operand ParseSpecificOperand(OperandLexer lexer)
         {
             m_operand = m_operandParseFunc(lexer);
+            return m_operand;
         }
 
         internal override String GenerateLiteralDc(LabelManager lblManager)
@@ -77,11 +78,6 @@ namespace Tt195361.Casl2Simulator.Casl2
             UInt16 rr1 = m_operand.GetRR1();
             UInt16 xr2 = m_operand.GetXR2();
             return InstructionWord.MakeFirstWord(opcode, rr1, xr2);
-        }
-
-        protected override String OperandString()
-        {
-            return null;
         }
     }
 }

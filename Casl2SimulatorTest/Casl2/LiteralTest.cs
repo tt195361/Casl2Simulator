@@ -26,7 +26,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         private void CheckParse(String str, Boolean success, Constant expected, String message)
         {
-            Literal literal = MachineInstructionOperandTest.CheckParse(Literal.Parse, str, success, message);
+            Literal literal = OperandTest.CheckParse(Literal.Parse, str, success, message);
             if (success)
             {
                 Constant actual = literal.Constant;

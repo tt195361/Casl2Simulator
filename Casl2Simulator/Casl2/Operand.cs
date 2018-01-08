@@ -4,7 +4,10 @@ using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
-    internal class Operand
+    /// <summary>
+    /// 命令のオペランドを表わす抽象クラスです。
+    /// </summary>
+    internal abstract class Operand
     {
         internal static String Join(params Object[] args)
         {
@@ -20,6 +23,11 @@ namespace Tt195361.Casl2Simulator.Casl2
         private static Boolean EndOfItem(Char current)
         {
             return Line.EndOfField(current) || current == Casl2Defs.Comma;
+        }
+
+        protected Operand()
+        {
+            //
         }
     }
 }

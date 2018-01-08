@@ -84,7 +84,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         private void CheckParse(String str, Boolean success, AdrXOperand expected, String message)
         {
-            AdrXOperand actual = MachineInstructionOperandTest.CheckParse(
+            AdrXOperand actual = OperandTest.CheckParse(
                 (lexer) => AdrXOperand.Parse(lexer, Opcode), str, success, message);
             if (success)
             {

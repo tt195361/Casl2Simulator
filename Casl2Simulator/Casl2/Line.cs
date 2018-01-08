@@ -59,7 +59,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
             Label label = ParseLabel(buffer);
             Instruction instruction = ParseInstruction(buffer);
-            ParseOperand(instruction, buffer);
+            ReadOperand(instruction, buffer);
 
             return MakeInstructionLine(text, label, instruction);
         }
@@ -77,7 +77,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return Instruction.Parse(instructionField);
         }
 
-        private static void ParseOperand(Instruction instruction, ReadBuffer buffer)
+        private static void ReadOperand(Instruction instruction, ReadBuffer buffer)
         {
             buffer.SkipSpace();
             // ';' ならば、そのあとはコメントなので、オペランドとして解釈しない。
@@ -86,7 +86,7 @@ namespace Tt195361.Casl2Simulator.Casl2
                 buffer.SkipToEnd();
             }
 
-            instruction.ParseOperand(buffer);
+            instruction.ReadOperand(buffer);
         }
 
         private static String ReadField(ReadBuffer buffer)

@@ -9,7 +9,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <summary>
     /// CASL II の定数の並びです。
     /// </summary>
-    internal class ConstantCollection : IEnumerable<Constant>
+    internal class ConstantCollection : Operand, IEnumerable<Constant>
     {
         /// <summary>
         /// 定数の並びを解釈します。
@@ -33,7 +33,7 @@ namespace Tt195361.Casl2Simulator.Casl2
                 }
             }
 
-            // 解釈しなかった残りの字句要素は、Instruction.DoParseOperand() で取り扱う。
+            // 解釈しなかった残りの字句要素は、Instruction.ReadOperand() で取り扱う。
             return new ConstantCollection(constantList.ToArray());
         }
 

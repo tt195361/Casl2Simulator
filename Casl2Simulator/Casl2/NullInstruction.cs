@@ -27,19 +27,14 @@ namespace Tt195361.Casl2Simulator.Casl2
             return true;
         }
 
+        protected override Operand ParseSpecificOperand(OperandLexer lexer)
+        {
+            return null;
+        }
+
         protected override String OperandSyntax
         {
             get { return Resources.SYN_NoOperand; }
-        }
-
-        protected override String OperandString()
-        {
-            return String.Empty;
-        }
-
-        protected override void ParseSpecificOperand(OperandLexer lexer)
-        {
-            // オペランドなし
         }
     }
 }

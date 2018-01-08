@@ -6,7 +6,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <summary>
     /// 機械語命令のオペランドを表わす抽象クラスです。
     /// </summary>
-    internal abstract class MachineInstructionOperand
+    internal abstract class MachineInstructionOperand : Operand
     {
         #region Fields
         private readonly UInt16 m_opcode;

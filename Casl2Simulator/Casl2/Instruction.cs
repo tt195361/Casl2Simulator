@@ -22,6 +22,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         #region Fields
         private readonly String m_mnemonic;
+        private Operand m_operand;
         #endregion
 
         protected Instruction(String mnemonic)
@@ -50,14 +51,14 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         /// <summary>
-        /// オペランドの文字列を解釈します。オペランドは命令ごとに記述の形式が定義されています。
+        /// オペランドの文字列を読み込み処理します。オペランドは命令ごとに記述の形式が定義されています。
         /// </summary>
         /// <param name="buffer">解釈する文字列が入った <see cref="ReadBuffer"/> のオブジェクトです。</param>
-        internal void ParseOperand(ReadBuffer buffer)
+        internal void ReadOperand(ReadBuffer buffer)
         {
             try
             {
-                DoParseOperand(buffer);
+                m_operand = ParseOperand(buffer);
             }
             catch (Casl2SimulatorException ex)
             {
@@ -66,11 +67,11 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        private void DoParseOperand(ReadBuffer buffer)
+        private Operand ParseOperand(ReadBuffer buffer)
         {
             OperandLexer lexer = new OperandLexer(buffer);
             lexer.MoveNext();
-            ParseSpecificOperand(lexer);
+            Operand operand = ParseSpecificOperand(lexer);
 
             // 解釈していない残りの字句要素があるかチェックする。
             Token token = lexer.CurrentToken;
@@ -79,13 +80,18 @@ namespace Tt195361.Casl2Simulator.Casl2
                 String message = String.Format(Resources.MSG_NotParsedTokenRemainsInOperand, Mnemonic, token);
                 throw new Casl2SimulatorException(message);
             }
+
+            return operand;
         }
 
         /// <summary>
         /// それぞれの命令に応じてオペランドの内容を解釈します。
         /// </summary>
         /// <param name="lexer">オペランドの字句を解析する <see cref="OperandLexer"/> のオブジェクトです。</param>
-        protected abstract void ParseSpecificOperand(OperandLexer lexer);
+        /// <returns>
+        /// 解釈した結果として生成した <see cref="Operand"/> クラスのオブジェクトを返します。
+        /// </returns>
+        protected abstract Operand ParseSpecificOperand(OperandLexer lexer);
 
         /// <summary>
         /// オペランドの文法を説明する文字列を取得します。
@@ -156,9 +162,15 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <returns>この命令を表わす文字列を返します。</returns>
         public override String ToString()
         {
-            return m_mnemonic;
+            String operandString = (m_operand == null) ? null : m_operand.ToString();
+            if (String.IsNullOrEmpty(operandString))
+            {
+                return m_mnemonic;
+            }
+            else
+            {
+                return m_mnemonic + " " + operandString;
+            }
         }
-
-        protected abstract String OperandString();
     }
 }

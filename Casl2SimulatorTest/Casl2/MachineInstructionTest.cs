@@ -13,16 +13,16 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     public class MachineInstructionTest
     {
         #region Fields
-        private MachineInstruction m_rAdrXOrR1R2_RAdrX;
-        private MachineInstruction m_rAdrXOrR1R2_R1R2;
+        private Instruction m_rAdrXOrR1R2_RAdrX;
+        private Instruction m_rAdrXOrR1R2_R1R2;
         private LabelManager m_lblManager;
         #endregion
 
         [TestInitialize]
         public void TestInitialize()
         {
-            m_rAdrXOrR1R2_RAdrX = MakeTarget(MnemonicDef.LD, "GR1,#ABCD,GR2");
-            m_rAdrXOrR1R2_R1R2 = MakeTarget(MnemonicDef.LD, "GR3,GR4");
+            m_rAdrXOrR1R2_RAdrX = InstructionTest.Make(MnemonicDef.LD, "GR1,#ABCD,GR2");
+            m_rAdrXOrR1R2_R1R2 = InstructionTest.Make(MnemonicDef.LD, "GR3,GR4");
             m_lblManager = new LabelManager();
         }
 
@@ -32,7 +32,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void GenerateLiteralDc()
         {
-            MachineInstruction target = MakeTarget(MnemonicDef.LD, "GR1,=1234,GR2");
+            Instruction target = InstructionTest.Make(MnemonicDef.LD, "GR1,=1234,GR2");
             LabelManager lblManager = new LabelManager();
             String actual = target.GenerateLiteralDc(lblManager);
             const String Expected = "LTRL0001\tDC\t1234";
@@ -53,19 +53,11 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 "r,adr,x or r1,r2 で r1,r2 の場合: opcode=0x14, r/r1=3, x/r2=4, adr=なし");
         }
 
-        private void CheckGenerateCode(MachineInstruction target, Word[] expectedWords, String message)
+        private void CheckGenerateCode(Instruction target, Word[] expectedWords, String message)
         {
             RelocatableModule relModule = new RelocatableModule();
             target.GenerateCode(null, m_lblManager, relModule);
             RelocatableModuleTest.Check(relModule, expectedWords, message);
-        }
-
-        private MachineInstruction MakeTarget(String instructionField, String operandField)
-        {
-            Instruction instruction = InstructionFactory.Make(instructionField);
-            ReadBuffer buffer = new ReadBuffer(operandField);
-            instruction.ParseOperand(buffer);
-            return (MachineInstruction)instruction;
         }
     }
 }

@@ -33,9 +33,13 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// DC 命令のオペランドを解釈します。記述の形式は "定数[,定数]..." です。
         /// </summary>
         /// <param name="lexer">オペランドの字句を解析する <see cref="OperandLexer"/> のオブジェクトです。</param>
-        protected override void ParseSpecificOperand(OperandLexer lexer)
+        /// <returns>
+        /// 解釈した結果として生成した <see cref="Operand"/> クラスのオブジェクトを返します。
+        /// </returns>
+        protected override Operand ParseSpecificOperand(OperandLexer lexer)
         {
             m_constants = ConstantCollection.Parse(lexer);
+            return m_constants;
         }
 
         protected override String OperandSyntax
@@ -51,11 +55,6 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal override void GenerateCode(Label label, LabelManager lblManager, RelocatableModule relModule)
         {
             m_constants.GenerateCode(label, lblManager, relModule);
-        }
-
-        protected override String OperandString()
-        {
-            return m_constants.ToString();
         }
     }
 }

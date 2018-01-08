@@ -41,7 +41,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         private void CheckParse(String str, Boolean success, RegisterOperand expected, String message)
         {
-            RegisterOperand actual = MachineInstructionOperandTest.CheckParse(
+            RegisterOperand actual = OperandTest.CheckParse(
                 (lexer) => RegisterOperand.Parse(lexer, Opcode), str, success, message);
             if (success)
             {

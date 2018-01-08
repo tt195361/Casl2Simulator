@@ -11,21 +11,21 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     public class MacroRpushInstructionTest
     {
         /// <summary>
-        /// ParseOperand メソッドのテストです。
+        /// ReadOperand メソッドのテストです。
         /// </summary>
         [TestMethod]
-        public void ParseOperand()
+        public void ReadOperand()
         {
-            CheckParseOperand(
+            CheckReadOperand(
                 String.Empty, true, "オペランドなし => OK");
-            CheckParseOperand(
+            CheckReadOperand(
                 "OPR", false, "オペランドがある => 例外");
         }
 
-        private void CheckParseOperand(String text, Boolean success, String message)
+        private void CheckReadOperand(String text, Boolean success, String message)
         {
             MacroRpushInstruction target = new MacroRpushInstruction();
-            InstructionTest.CheckParseOperand(target, text, success, message);
+            InstructionTest.CheckReadOperand(target, text, success, message);
         }
 
         /// <summary>

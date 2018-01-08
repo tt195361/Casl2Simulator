@@ -11,42 +11,33 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     public class MacroInInstructionTest
     {
         /// <summary>
-        /// ParseOperand メソッドのテストです。
+        /// ReadOperand メソッドのテストです。
         /// </summary>
         [TestMethod]
-        public void ParseOperand()
+        public void ReadOperand()
         {
             Label expectedInputBufferArea = new Label("LBL001");
             Label expectedInputLengthArea = new Label("LBL002");
             const Label DontCare = null;
 
-            CheckParseOperand(
-                String.Empty, false, DontCare, DontCare,
-                "オペランドなし => エラー, 2 つのラベルが必要");
-            CheckParseOperand(
-                "LBL001", false, DontCare, DontCare,
-                "ラベル 1 つ => エラー, 2 つのラベルが必要");
-            CheckParseOperand(
-                "LBL001,", false, DontCare, DontCare,
-                "ラベル 1 つとコンマ => エラー, 2 つのラベルが必要");
-            CheckParseOperand(
+            CheckReadOperand(
                 "LBL001,LBL002", true, expectedInputBufferArea, expectedInputLengthArea,
                 "ラベル 2 つ => OK");
-            CheckParseOperand(
+            CheckReadOperand(
                 "LBL001,LBL002,", false, DontCare, DontCare,
                 "ラベル 2 つのあとにまだ文字がある => エラー, 2 つのラベルが必要");
         }
 
-        private void CheckParseOperand(
+        private void CheckReadOperand(
             String text, Boolean success, Label expectedInputBufferArea,
             Label expectedInputLengthArea, String message)
         {
             MacroInInstruction actual = new MacroInInstruction();
-            InstructionTest.CheckParseOperand(actual, text, success, message);
+            InstructionTest.CheckReadOperand(actual, text, success, message);
             if (success)
             {
-                LabelTest.Check(expectedInputBufferArea, actual.InputBufferArea, message);
-                LabelTest.Check(expectedInputLengthArea, actual.InputLengthArea, message);
+                LabelTest.Check(expectedInputBufferArea, actual.InputArea.Buffer, message);
+                LabelTest.Check(expectedInputLengthArea, actual.InputArea.Length, message);
             }
         }
 

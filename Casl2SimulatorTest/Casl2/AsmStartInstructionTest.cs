@@ -11,31 +11,31 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     public class AsmStartInstructionTest
     {
         /// <summary>
-        /// ParseOperand メソッドのテストです。
+        /// ReadOperand メソッドのテストです。
         /// </summary>
         [TestMethod]
-        public void ParseOperand()
+        public void ReadOperand()
         {
             const Label DontCare = null;
 
-            CheckParseOperand(
+            CheckReadOperand(
                 String.Empty, true, null,
                 "空文字列 => OK, 実行開始アドレスは空");
-            CheckParseOperand(
+            CheckReadOperand(
                 LabelTest.ValidLabelName, true, LabelTest.ValidLabel,
                 "オペランド 1 つ、有効なラベル => OK, 実行開始アドレスは指定のラベル");
-            CheckParseOperand(
+            CheckReadOperand(
                 "OPR1,OPR2", false, DontCare,
                 "オペランドが 1 より多い => 例外");
         }
 
-        private void CheckParseOperand(String text, Boolean success, Label expected, String message)
+        private void CheckReadOperand(String text, Boolean success, Label expected, String message)
         {
             AsmStartInstruction target = new AsmStartInstruction();
-            InstructionTest.CheckParseOperand(target, text, success, message);
+            InstructionTest.CheckReadOperand(target, text, success, message);
             if (success)
             {
-                Label actual = target.ExecStartAddress;
+                Label actual = target.ExecStartAddress.Label;
                 LabelTest.Check(expected, actual, message);
             }
         }

@@ -66,6 +66,7 @@
     <Compile Include="Casl2SimulatorException.cs" />
     <Compile Include="Casl2\AddressConstant.cs" />
     <Compile Include="Casl2\AdrXOperand.cs" />
+    <Compile Include="Casl2\AreaSpec.cs" />
     <Compile Include="Casl2\AsmDcInstruction.cs" />
     <Compile Include="Casl2\AsmEndInstruction.cs" />
     <Compile Include="Casl2\Assembler.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Casl2\AsmStartInstruction.cs" />
     <Compile Include="Casl2\Constant.cs" />
     <Compile Include="Casl2\ConstantCollection.cs" />
+    <Compile Include="Casl2\OptionLabel.cs" />
     <Compile Include="Casl2\HexaDecimalConstant.cs" />
     <Compile Include="Casl2\IAdrValue.cs" />
     <Compile Include="Casl2\InstructionFactory.cs" />
