@@ -74,6 +74,7 @@
     <Compile Include="Casl2\AsmStartInstruction.cs" />
     <Compile Include="Casl2\Constant.cs" />
     <Compile Include="Casl2\ConstantCollection.cs" />
+    <Compile Include="Casl2\ImportLabel.cs" />
     <Compile Include="Casl2\OptionLabel.cs" />
     <Compile Include="Casl2\HexaDecimalConstant.cs" />
     <Compile Include="Casl2\IAdrValue.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Casl2\Register.cs" />
     <Compile Include="Casl2\RegisterOperand.cs" />
     <Compile Include="Casl2\RelocatableModule.cs" />
+    <Compile Include="Casl2\Relocation.cs" />
     <Compile Include="Casl2\ReservedWord.cs" />
     <Compile Include="Casl2\LabelManager.cs" />
     <Compile Include="Casl2\StringConstant.cs" />

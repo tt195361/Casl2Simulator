@@ -28,7 +28,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             m_notRegistered = new AddressConstant("NOTREGED");
 
             m_lblManager = new LabelManager();
-            m_lblManager.Register(m_registered.Label, RegisteredOffset);
+            m_lblManager.RegisterForUnitTest(m_registered.Label, RegisteredOffset);
         }
 
         /// <summary>

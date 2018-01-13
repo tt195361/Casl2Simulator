@@ -23,23 +23,6 @@ namespace Tt195361.Casl2Simulator.Casl2
             m_literalLabelNumber = Label.MinLiteralLabelNumber;
         }
 
-        // TODO: Remove
-        /// <summary>
-        /// 指定のラベルとそのラベルのプログラム内のオフセットを登録します。
-        /// </summary>
-        /// <param name="label">登録するラベルです。</param>
-        /// <param name="offset">登録するラベルのプログラム内のオフセットです。</param>
-        internal void Register(Label label, UInt16 offset)
-        {
-            if (m_labelDictionary.ContainsKey(label.Name))
-            {
-                String message = String.Format(Resources.MSG_LabelAlreadyDefined, label.Name);
-                throw new Casl2SimulatorException(message);
-            }
-
-            m_labelDictionary.Add(label.Name, offset);
-        }
-
         /// <summary>
         /// 指定のラベルを登録します。
         /// </summary>
@@ -97,6 +80,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal UInt16 GetOffset(Label label)
         {
             String name = label.Name;
+            // TODO: 登録されていないときは例外にする。
             if (!IsRegistered(name))
             {
                 return NotRegisteredOffset;
@@ -130,6 +114,17 @@ namespace Tt195361.Casl2Simulator.Casl2
 
             String message = String.Format(Resources.MSG_CouldNotMakeLiteralLabel, Label.LiteralLabelPrefix);
             throw new Casl2SimulatorException(message);
+        }
+
+        internal void RegisterForUnitTest(Label label, UInt16 offset)
+        {
+            if (m_labelDictionary.ContainsKey(label.Name))
+            {
+                String message = String.Format(Resources.MSG_LabelAlreadyDefined, label.Name);
+                throw new Casl2SimulatorException(message);
+            }
+
+            m_labelDictionary.Add(label.Name, offset);
         }
     }
 }
