@@ -57,7 +57,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal override Int32 GetCodeWordCount()
         {
             // オペコードで 1 ワード、オペランドに応じて追加。
-            return 1 + m_operand.GetAdditionalWordCount();
+            return 1 + m_operand.GetCodeWordCount();
         }
 
         internal override void GenerateCode(Label label, LabelManager lblManager, RelocatableModule relModule)
@@ -65,11 +65,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             Word firstWord = MakeFirstWord();
             relModule.AddWord(firstWord);
 
-            Word? secondWord = m_operand.MakeSecondWord(lblManager);
-            if (secondWord != null)
-            {
-                relModule.AddWord(secondWord.Value);
-            }
+            m_operand.GenerateCode(lblManager, relModule);
         }
 
         private Word MakeFirstWord()

@@ -57,21 +57,25 @@ namespace Tt195361.Casl2Simulator.Casl2
             return GetEnumerator();
         }
 
-        internal Int32 GetCodeWordCount()
+        public override Int32 GetCodeWordCount()
         {
-            return m_constants.Select((constant) => constant.GetWordCount())
+            return m_constants.Select((constant) => constant.GetCodeWordCount())
                               .Sum();
         }
 
-        internal void GenerateCode(Label label, LabelManager lblManager, RelocatableModule relModule)
+        public override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
         {
             m_constants.ForEach((constant) => constant.GenerateCode(lblManager, relModule));
         }
 
         public override String ToString()
         {
-            return m_constants.Select((constant) => constant.ToString())
-                              .ConcatStrings();
+            return Operand.Join(m_constants);
+        }
+
+        internal static ConstantCollection MakeForUnitTest(params Constant[] constants)
+        {
+            return new ConstantCollection(constants);
         }
     }
 }

@@ -81,6 +81,24 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
+        /// GetCodeWordCount メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GetCodeWordCount()
+        {
+            // 1 文字につき 1 語生成する。
+            CheckGetCodeWordCount("1", 1, "1 文字 => 1 語");
+            CheckGetCodeWordCount("123", 3, "3 文字 => 3 語");
+            CheckGetCodeWordCount("1234567890", 10, "10 文字 => 10 語");
+        }
+
+        private void CheckGetCodeWordCount(String value, Int32 expected, String message)
+        {
+            StringConstant target = new StringConstant(value);
+            ICodeGeneratorTest.CheckGetCodeWordCount(target, expected, message);
+        }
+
+        /// <summary>
         /// GenerateCode メソッドのテストです。
         /// </summary>
         [TestMethod]
@@ -103,7 +121,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private void CheckGenerateCode(String value, Word[] expectedWords, String message)
         {
             StringConstant target = new StringConstant(value);
-            ConstantTest.CheckGenerateCode(target, expectedWords, message);
+            ICodeGeneratorTest.CheckGenerateCode(target, expectedWords, message);
         }
 
         /// <summary>

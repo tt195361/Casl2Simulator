@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator;
 using Tt195361.Casl2Simulator.Casl2;
+using Tt195361.Casl2SimulatorTest.Common;
 
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
@@ -12,8 +13,33 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     public class ConstantCollectionTest
     {
         #region Fields
-        private static readonly TokenType DontCare = null;
+        private ConstantCollection m_constants;
+        private LabelManager m_lblManager;
+
+        private const UInt16 DecimalValue = 12345;
+        private const UInt16 HexaDecimalValue = 0xABCD;
+        private const UInt16 LabelOffset = 0x2468;
+        private const String StringValue = "ABC";
+        private const UInt16 AValue = 0x0041;
+        private const UInt16 BValue = 0x0042;
+        private const UInt16 CValue = 0x0043;
+
+        private const TokenType DontCare = null;
         #endregion
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            DecimalConstant decimalConstant = new DecimalConstant(DecimalValue);
+            HexaDecimalConstant hexaDecimalConstant = new HexaDecimalConstant(HexaDecimalValue);
+            AddressConstant addressConstant = new AddressConstant("LBL001");
+            StringConstant stringConstant = new StringConstant(StringValue);
+            m_constants = ConstantCollection.MakeForUnitTest(
+                decimalConstant, hexaDecimalConstant, addressConstant, stringConstant);
+
+            m_lblManager = new LabelManager();
+            m_lblManager.RegisterForUnitTest(addressConstant.Label, LabelOffset);
+        }
 
         /// <summary>
         /// Parse メソッドのテストです。
@@ -84,6 +110,41 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             {
                 Assert.IsNull(expectedConstants, message);
             }
+        }
+
+        /// <summary>
+        /// GetCodeWordCount メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GetCodeWordCount()
+        {
+            ICodeGeneratorTest.CheckGetCodeWordCount(
+                m_constants, 1 + 1 + 1 + StringValue.Length, "それぞれの Constant の語数の合計");
+        }
+
+        /// <summary>
+        /// GenerateCode メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GenerateCode()
+        {
+            ICodeGeneratorTest.CheckGenerateCode(
+                m_constants, m_lblManager,
+                WordTest.MakeArray(
+                    DecimalValue, HexaDecimalValue, LabelOffset,
+                    AValue, BValue, CValue), 
+                "それぞれの Constant のコードが順に生成される");
+        }
+
+        /// <summary>
+        /// ToString メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void ToStringTest()
+        {
+            String actual = m_constants.ToString();
+            const String Expected = "12345,#ABCD,LBL001,'ABC'";
+            Assert.AreEqual(Expected, actual, "それぞれの Constant が ',' で区切られる");
         }
     }
 }

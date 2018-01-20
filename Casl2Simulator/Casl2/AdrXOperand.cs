@@ -43,12 +43,12 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// </returns>
         internal static AdrXOperand Parse(OperandLexer lexer, UInt16 opcode)
         {
-            IAdrValue adr = ParseAdr(lexer);
+            IAdrCodeGenerator adr = ParseAdr(lexer);
             RegisterOperand x = ParseX(lexer);
             return new AdrXOperand(opcode, adr, x);
         }
 
-        private static IAdrValue ParseAdr(OperandLexer lexer)
+        private static IAdrCodeGenerator ParseAdr(OperandLexer lexer)
         {
             Token token = lexer.CurrentToken;
 
@@ -112,18 +112,18 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         #region Fields
-        private readonly IAdrValue m_adr;
+        private readonly IAdrCodeGenerator m_adr;
         private readonly RegisterOperand m_x;
         #endregion
 
-        private AdrXOperand(UInt16 opcode, IAdrValue adr, RegisterOperand x)
+        private AdrXOperand(UInt16 opcode, IAdrCodeGenerator adr, RegisterOperand x)
             : base(opcode)
         {
             m_adr = adr;
             m_x = x;
         }
 
-        internal IAdrValue Adr
+        internal IAdrCodeGenerator Adr
         {
             get { return m_adr; }
         }
@@ -131,17 +131,6 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal RegisterOperand X
         {
             get { return m_x; }
-        }
-
-        internal override String GenerateLiteralDc(LabelManager lblManager)
-        {
-            return m_adr.GenerateDc(lblManager);
-        }
-
-        internal override Int32 GetAdditionalWordCount()
-        {
-            // adr で 1 ワード追加する。
-            return 1;
         }
 
         internal override UInt16 GetXR2()
@@ -156,10 +145,19 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        internal override Word? MakeSecondWord(LabelManager lblManager)
+        public override Int32 GetCodeWordCount()
         {
-            UInt16 address = m_adr.GetAddress(lblManager);
-            return new Word(address);
+            return m_adr.GetCodeWordCount();
+        }
+
+        public override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        {
+            m_adr.GenerateCode(lblManager, relModule);
+        }
+
+        public override String GenerateLiteralDc(LabelManager lblManager)
+        {
+            return m_adr.GenerateLiteralDc(lblManager);
         }
 
         public override String ToString()
@@ -176,12 +174,12 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        internal static AdrXOperand MakeForUnitTest(IAdrValue adr, RegisterOperand x)
+        internal static AdrXOperand MakeForUnitTest(IAdrCodeGenerator adr, RegisterOperand x)
         {
             return MakeForUnitTest(OpcodeDef.Dummy, adr, x);
         }
 
-        internal static AdrXOperand MakeForUnitTest(UInt16 opcode, IAdrValue adr, RegisterOperand x)
+        internal static AdrXOperand MakeForUnitTest(UInt16 opcode, IAdrCodeGenerator adr, RegisterOperand x)
         {
             return new AdrXOperand(opcode, adr, x);
         }

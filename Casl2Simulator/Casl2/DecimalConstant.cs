@@ -8,7 +8,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <summary>
     /// 10 進の数値定数です。
     /// </summary>
-    internal class DecimalConstant : Constant, IAdrValue
+    internal class DecimalConstant : Constant, IAdrCodeGenerator
     {
         /// <summary>
         /// 指定の文字が 10 進定数の最初の文字かどうかを判断します。
@@ -101,24 +101,20 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_value; }
         }
 
-        internal override int GetWordCount()
+        public override Int32 GetCodeWordCount()
         {
             return 1;
         }
 
-        internal override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        public override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
         {
-            relModule.AddWord(new Word(m_value));
+            Word word = new Word(m_value);
+            relModule.AddWord(word);
         }
 
-        String IAdrValue.GenerateDc(LabelManager lblManager)
+        public String GenerateLiteralDc(LabelManager lblManager)
         {
             return null;
-        }
-
-        UInt16 IAdrValue.GetAddress(LabelManager lblManager)
-        {
-            return NumberUtils.ToUInt16(m_value);
         }
 
         protected override String ValueToString()

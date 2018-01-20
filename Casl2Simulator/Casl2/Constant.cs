@@ -6,7 +6,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <summary>
     /// CASL II の定数です。
     /// </summary>
-    internal abstract class Constant
+    internal abstract class Constant : ICodeGenerator
     {
         internal static Constant Parse(OperandLexer lexer)
         {
@@ -48,7 +48,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// この定数が生成するコードのワード数を取得します。
         /// </summary>
         /// <returns>生成するコードのワード数を返します。</returns>
-        internal abstract Int32 GetWordCount();
+        public abstract Int32 GetCodeWordCount();
 
         /// <summary>
         /// この定数のコードを生成します。
@@ -59,7 +59,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <param name="relModule">
         /// 生成したコードを格納する <see cref="RelocatableModule"/> のオブジェクトです。
         /// </param>
-        internal abstract void GenerateCode(LabelManager lblManager, RelocatableModule relModule);
+        public abstract void GenerateCode(LabelManager lblManager, RelocatableModule relModule);
 
         public override String ToString()
         {

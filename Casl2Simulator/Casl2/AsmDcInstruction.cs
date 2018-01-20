@@ -54,7 +54,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal override void GenerateCode(Label label, LabelManager lblManager, RelocatableModule relModule)
         {
-            m_constants.GenerateCode(label, lblManager, relModule);
+            m_constants.GenerateCode(lblManager, relModule);
         }
     }
 }

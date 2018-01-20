@@ -13,6 +13,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     public class AddressConstantTest
     {
         #region Fields
+        private AddressConstant m_target;
         private AddressConstant m_registered;
         private AddressConstant m_notRegistered;
         private LabelManager m_lblManager;
@@ -24,11 +25,21 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestInitialize]
         public void TestInitialize()
         {
+            m_target = new AddressConstant("LBL001");
             m_registered = new AddressConstant("REGED");
             m_notRegistered = new AddressConstant("NOTREGED");
 
             m_lblManager = new LabelManager();
             m_lblManager.RegisterForUnitTest(m_registered.Label, RegisteredOffset);
+        }
+
+        /// <summary>
+        /// GetCodeWordCount メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GetCodeWordCount()
+        {
+            ICodeGeneratorTest.CheckGetCodeWordCount(m_target, 1, "AddressConstant => 1 語生成する");
         }
 
         /// <summary>
@@ -48,37 +59,17 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private void CheckGenerateCode(AddressConstant target, UInt16 expected, String message)
         {
             Word[] expectedWords = WordTest.MakeArray(expected);
-            ConstantTest.CheckGenerateCode(target, m_lblManager, expectedWords, message);
+            ICodeGeneratorTest.CheckGenerateCode(target, m_lblManager, expectedWords, message);
         }
 
         /// <summary>
-        /// GenerateDc メソッドのテストです。
+        /// GenerateLiteralDc メソッドのテストです。
         /// </summary>
         [TestMethod]
-        public void GenerateDc()
+        public void GenerateLiteralDc()
         {
-            IAdrValue target = new AddressConstant("LBL001");
-            String result = target.GenerateDc(m_lblManager);
-            Assert.IsNull(result, "AddressConstant は DC 命令を生成しない ==> null が返される");
-        }
-
-        /// <summary>
-        /// GetAddress メソッドのテストです。
-        /// </summary>
-        [TestMethod]
-        public void GetAddress()
-        {
-            CheckGetAddress(
-                m_registered, RegisteredOffset,
-                "登録されたラベルのアドレス定数 => アドレスはそのラベルのオフセット");
-            CheckGetAddress(
-                m_notRegistered, NotRegisteredOffset,
-                "登録されていないラベルのアドレス定数 => アドレスは 0");
-        }
-
-        private void CheckGetAddress(IAdrValue target, UInt16 expected, String message)
-        {
-            IAdrValueTest.CheckGetAddress(target, m_lblManager, expected, message);
+            ICodeGeneratorTest.CheckGenerateLiteralDc(
+                m_target, null, "AddressConstant は DC 命令を生成しない ==> null が返される");
         }
 
         internal static void Check(AddressConstant expected, AddressConstant actual, String message)

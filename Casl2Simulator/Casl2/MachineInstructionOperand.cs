@@ -1,12 +1,11 @@
 ﻿using System;
-using Tt195361.Casl2Simulator.Common;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
     /// <summary>
     /// 機械語命令のオペランドを表わす抽象クラスです。
     /// </summary>
-    internal abstract class MachineInstructionOperand : Operand
+    internal abstract class MachineInstructionOperand : Operand, IAdrCodeGenerator
     {
         #region Fields
         private readonly UInt16 m_opcode;
@@ -20,31 +19,6 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal UInt16 Opcode
         {
             get { return m_opcode; }
-        }
-
-        /// <summary>
-        /// このオペランドで記述されたリテラルの DC 命令を生成します。
-        /// </summary>
-        /// <param name="lblManager">
-        /// ラベルを管理する <see cref="LabelManager"/> のオブジェクトです。
-        /// </param>
-        /// <returns>
-        /// このオペランドで記述されたリテラルの DC 命令の文字列を返します。
-        /// リテラルが記述されていない場合は <see langword="null"/> を返します。
-        /// </returns>
-        internal virtual String GenerateLiteralDc(LabelManager lblManager)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// このオペランドで追加されるワード数を返します。
-        /// </summary>
-        /// <returns>このオペランドで追加されるワード数を返します。</returns>
-        internal virtual Int32 GetAdditionalWordCount()
-        {
-            // デフォルトは追加なし。
-            return 0;
         }
 
         /// <summary>
@@ -68,15 +42,16 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         /// <summary>
-        /// このオペランドの第 2 語を返します。
+        /// このオペランドで記述されたリテラルの DC 命令を生成します。
         /// </summary>
         /// <param name="lblManager">
         /// ラベルを管理する <see cref="LabelManager"/> のオブジェクトです。
         /// </param>
         /// <returns>
-        /// このオペランドの第 2 語を返します。第 2 語がない場合は <see langword="null"/> を返します。
+        /// このオペランドで記述されたリテラルの DC 命令の文字列を返します。
+        /// リテラルが記述されていない場合は <see langword="null"/> を返します。
         /// </returns>
-        internal virtual Word? MakeSecondWord(LabelManager lblManager)
+        public virtual String GenerateLiteralDc(LabelManager lblManager)
         {
             return null;
         }

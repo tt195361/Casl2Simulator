@@ -7,7 +7,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <summary>
     /// 命令のオペランドを表わす抽象クラスです。
     /// </summary>
-    internal abstract class Operand
+    internal abstract class Operand : ICodeGenerator
     {
         internal static String Join(params Object[] args)
         {
@@ -28,6 +28,23 @@ namespace Tt195361.Casl2Simulator.Casl2
         protected Operand()
         {
             //
+        }
+
+        /// <summary>
+        /// このオペランドが生成するコードの語数を取得します。
+        /// </summary>
+        public virtual Int32 GetCodeWordCount()
+        {
+            // デフォルトは、コードを生成しない。
+            return 0;
+        }
+
+        /// <summary>
+        /// このオペランドのコードを生成します。
+        /// </summary>
+        public virtual void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        {
+            // デフォルトは、コードを生成しない。
         }
     }
 }

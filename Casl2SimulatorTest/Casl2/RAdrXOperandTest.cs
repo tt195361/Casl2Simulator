@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator.Casl2;
 using Tt195361.Casl2Simulator.Common;
+using Tt195361.Casl2SimulatorTest.Common;
 
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
@@ -56,19 +57,19 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// MakeSecondWord メソッドのテストです。
+        /// GenerateCode メソッドのテストです。
         /// </summary>
         [TestMethod]
-        public void MakeSecondWord()
+        public void GenerateCode()
         {
             const UInt16 Adr = 0xABCD;
             RegisterOperand DontCareRegister = RegisterOperandTest.GR1;
             RAdrXOperand target = RAdrXOperand.MakeForUnitTest(
-                DontCareRegister, 
+                DontCareRegister,
                 AdrXOperand.MakeForUnitTest(new HexaDecimalConstant(Adr), DontCareRegister));
 
-            MachineInstructionOperandTest.CheckMakeSecondWord(
-                target, new Word(Adr), "第 2 語は adr の値になる");
+            Word[] expectedWords = WordTest.MakeArray(Adr);
+            ICodeGeneratorTest.CheckGenerateCode(target, expectedWords, "adr の値がコードとして生成される");
         }
 
         /// <summary>

@@ -14,8 +14,16 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     public class DecimalConstantTest
     {
         #region Fields
+        private DecimalConstant m_target;
+
         private const Int32 DontCare = 0;
         #endregion
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            m_target = new DecimalConstant(0);
+        }
 
         /// <summary>
         /// IsStart メソッドのテストです。
@@ -85,6 +93,15 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
+        /// GetCodeWordCount メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GetCodeWordCount()
+        {
+            ICodeGeneratorTest.CheckGetCodeWordCount(m_target, 1, "DecimalConstant => 1 語生成する");
+        }
+
+        /// <summary>
         /// GenerateCode メソッドのテストです。
         /// </summary>
         [TestMethod]
@@ -100,37 +117,17 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             DecimalConstant target = new DecimalConstant(value);
             Word[] expectedWords = WordTest.MakeArray(expected);
-            ConstantTest.CheckGenerateCode(target, expectedWords, message);
+            ICodeGeneratorTest.CheckGenerateCode(target, expectedWords, message);
         }
 
         /// <summary>
-        /// GenerateDc メソッドのテストです。
+        /// GenerateLiteralDc メソッドのテストです。
         /// </summary>
         [TestMethod]
-        public void GenerateDc()
+        public void GenerateLiteralDc()
         {
-            IAdrValue target = new DecimalConstant(0);
-            LabelManager lblManager = new LabelManager();
-            String result = target.GenerateDc(lblManager);
-            Assert.IsNull(result, "DecimalConstant は DC 命令を生成しない ==> null が返される");
-        }
-
-        /// <summary>
-        /// GetAddress メソッドのテストです。
-        /// </summary>
-        [TestMethod]
-        public void GetAddress()
-        {
-            CheckGetAddress(0, 0x0000, "ゼロ: 0 => その値 0x0000 がアドレス");
-            CheckGetAddress(32767, 0x7fff, "正の最大値: 32767 => その値 0x7fff がアドレス");
-            CheckGetAddress(-32768, 0x8000, "負の最大値: -32768 => 符号なしの値 0x8000 がアドレス");
-            CheckGetAddress(-1, 0xffff, "負の最小値: -1 => 符号なしの値 0xffff がアドレス");
-        }
-
-        private void CheckGetAddress(Int32 value, UInt16 expected, String message)
-        {
-            DecimalConstant target = new DecimalConstant(value);
-            IAdrValueTest.CheckGetAddress(target, expected, message);
+            ICodeGeneratorTest.CheckGenerateLiteralDc(
+                m_target, null, "DecimalConstant は DC 命令を生成しない ==> null が返される");
         }
 
         internal static void Check(DecimalConstant expected, DecimalConstant actual, String message)

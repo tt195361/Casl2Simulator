@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// リテラルは、一つの 10 進定数、16 進定数又は文字定数の前に等号 (=) を付けて記述します。
     /// CASL II は、等号の後の定数をオペランドとする DC 命令を生成し、そのアドレスを adr に値とします。
     /// </remarks>
-    internal class Literal : IAdrValue
+    internal class Literal : IAdrCodeGenerator
     {
         /// <summary>
         /// リテラルを解釈します。
@@ -71,15 +71,20 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_label; }
         }
 
-        String IAdrValue.GenerateDc(LabelManager lblManager)
+        public Int32 GetCodeWordCount()
+        {
+            return 1;
+        }
+
+        public String GenerateLiteralDc(LabelManager lblManager)
         {
             m_label = lblManager.MakeLiteralLabel();
             return AsmDcInstruction.Generate(m_label, m_constant);
         }
 
-        UInt16 IAdrValue.GetAddress(LabelManager lblManager)
+        public void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
         {
-            return lblManager.GetOffset(m_label);
+            relModule.AddReferenceWord(lblManager, m_label);
         }
 
         public override String ToString()

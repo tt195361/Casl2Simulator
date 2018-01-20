@@ -75,29 +75,25 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private void CheckGenerateLiteralDc(
             MachineInstructionOperand target, String expected, String message)
         {
-            LabelManager lblManager = new LabelManager();
-            String actual = target.GenerateLiteralDc(lblManager);
-            Assert.AreEqual(expected, actual, message);
+            ICodeGeneratorTest.CheckGenerateLiteralDc(target, expected, message);
         }
 
         /// <summary>
-        /// GetAdditionalWordCount メソッドのテストです。
+        /// GetCodeWordCount メソッドのテストです。
         /// </summary>
         [TestMethod]
-        public void GetAdditionalWordCount()
+        public void GetCodeWordCount()
         {
-            CheckGetAdditionalWordCount(m_GR1_GR2, 0, "r1,r2 => 0: 追加なし");
-            CheckGetAdditionalWordCount(m_GR3_1111_GR4, 1, "r,adr[,x] => 1: adr で追加 1 ワード");
-            CheckGetAdditionalWordCount(m_3333_GR6, 1, "adr[,x] => 1: adr で追加 1 ワード");
-            CheckGetAdditionalWordCount(m_GR7, 0, "r => 0: 追加なし");
-            CheckGetAdditionalWordCount(m_NoOperand, 0, "オペランドなし => 0: 追加なし");
+            CheckGetCodeWordCount(m_GR1_GR2, 0, "r1,r2 => 0: 追加なし");
+            CheckGetCodeWordCount(m_GR3_1111_GR4, 1, "r,adr[,x] => 1: adr で追加 1 ワード");
+            CheckGetCodeWordCount(m_3333_GR6, 1, "adr[,x] => 1: adr で追加 1 ワード");
+            CheckGetCodeWordCount(m_GR7, 0, "r => 0: 追加なし");
+            CheckGetCodeWordCount(m_NoOperand, 0, "オペランドなし => 0: 追加なし");
         }
 
-        private void CheckGetAdditionalWordCount(
-            MachineInstructionOperand target, Int32 expected, String message)
+        private void CheckGetCodeWordCount(MachineInstructionOperand target, Int32 expected, String message)
         {
-            Int32 actual = target.GetAdditionalWordCount();
-            Assert.AreEqual(expected, actual, message);
+            ICodeGeneratorTest.CheckGetCodeWordCount(target, expected, message);
         }
 
         /// <summary>
@@ -147,14 +143,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             Assert.AreEqual(expected.Opcode, actual.Opcode, "Opcode: " + message);
             checkAction(expected, actual, message);
-        }
-
-        internal static void CheckMakeSecondWord(
-            MachineInstructionOperand target, Word? expected, String message)
-        {
-            LabelManager lblManager = new LabelManager();
-            Word? actual = target.MakeSecondWord(lblManager);
-            WordTest.Check(expected, actual, message);
         }
     }
 }

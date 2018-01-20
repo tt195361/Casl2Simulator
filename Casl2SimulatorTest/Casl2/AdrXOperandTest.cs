@@ -15,7 +15,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         #region Fields
         private AdrXOperand m_adrOnly;
         private AdrXOperand m_adrWithX;
-        private LabelManager m_lblManager;
 
         private const UInt16 Opcode = 0x46;
         private const UInt16 AdrOnlyValue = 1357;
@@ -28,7 +27,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             m_adrOnly = AdrXOperand.MakeForUnitTest(new DecimalConstant(AdrOnlyValue), null);
             m_adrWithX = AdrXOperand.MakeForUnitTest(new DecimalConstant(AdrWithXValue), X);
-            m_lblManager = new LabelManager();
         }
 
         /// <summary>
@@ -37,7 +35,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Parse()
         {
-            AdrXOperand DontCare = AdrXOperand.MakeForUnitTest(null, null);
+            AdrXOperand DontCare = null;
 
             // adr のみの場合。
             CheckParse(
@@ -109,21 +107,23 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// MakeSecondWord メソッドのテストです。
+        /// GenerateCode メソッドのテストです。
         /// </summary>
         [TestMethod]
-        public void MakeSecondWord()
+        public void GenerateCode()
         {
-            CheckMakeSecondWord(
-                m_adrOnly, new Word(AdrOnlyValue), "adr の値を第 2 語にする: adr のみ");
-            CheckMakeSecondWord(
-                m_adrWithX, new Word(AdrWithXValue), "adr の値を第 2 語にする: X あり");
+            CheckGenerateCode(
+                m_adrOnly, AdrOnlyValue,
+                "adr にコードを生成させる => DecimalConstant の AdrOnlyValue");
+            CheckGenerateCode(
+                m_adrWithX, AdrWithXValue,
+                "adr にコードを生成させる => DecimalConstant の AdrWithXValue");
         }
 
-        private void CheckMakeSecondWord(AdrXOperand target, Word? expected, String message)
+        private void CheckGenerateCode(AdrXOperand target, UInt16 expected, String message)
         {
-            Word? actual = target.MakeSecondWord(m_lblManager);
-            WordTest.Check(expected, actual, message);
+            Word[] expectedWords = WordTest.MakeArray(expected);
+            ICodeGeneratorTest.CheckGenerateCode(target, expectedWords, message);
         }
 
         /// <summary>
@@ -148,9 +148,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             CheckX(expected.X, actual.X, "X: " + message);
         }
 
-        private static void CheckAdr(IAdrValue expected, IAdrValue actual, String message)
+        private static void CheckAdr(IAdrCodeGenerator expected, IAdrCodeGenerator actual, String message)
         {
-            IAdrValueTest.Check(expected, actual, message);
+            ICodeGeneratorTest.CheckIAdrCodeGenerator(expected, actual, message);
         }
 
         private static void CheckX(RegisterOperand expected, RegisterOperand actual, String message)

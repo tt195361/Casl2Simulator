@@ -60,17 +60,6 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_adrX; }
         }
 
-        internal override String GenerateLiteralDc(LabelManager lblManager)
-        {
-            return m_adrX.GenerateLiteralDc(lblManager);
-        }
-
-        internal override Int32 GetAdditionalWordCount()
-        {
-            // adr で 1 ワード追加する。
-            return 1;
-        }
-
         internal override UInt16 GetRR1()
         {
             return m_r.Number;
@@ -81,9 +70,19 @@ namespace Tt195361.Casl2Simulator.Casl2
             return m_adrX.GetXR2();
         }
 
-        internal override Word? MakeSecondWord(LabelManager lblManager)
+        public override Int32 GetCodeWordCount()
         {
-            return m_adrX.MakeSecondWord(lblManager);
+            return m_adrX.GetCodeWordCount();
+        }
+
+        public override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        {
+            m_adrX.GenerateCode(lblManager, relModule);
+        }
+
+        public override String GenerateLiteralDc(LabelManager lblManager)
+        {
+            return m_adrX.GenerateLiteralDc(lblManager);
         }
 
         public override String ToString()

@@ -77,7 +77,7 @@
     <Compile Include="Casl2\ImportLabel.cs" />
     <Compile Include="Casl2\OptionLabel.cs" />
     <Compile Include="Casl2\HexaDecimalConstant.cs" />
-    <Compile Include="Casl2\IAdrValue.cs" />
+    <Compile Include="Casl2\ICodeGenerator.cs" />
     <Compile Include="Casl2\InstructionFactory.cs" />
     <Compile Include="Casl2\LineCollection.cs" />
     <Compile Include="Casl2\MachineInstruction.cs" />

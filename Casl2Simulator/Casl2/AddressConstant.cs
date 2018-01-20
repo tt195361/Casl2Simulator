@@ -1,12 +1,11 @@
 ﻿using System;
-using Tt195361.Casl2Simulator.Common;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
     /// <summary>
     /// アドレス定数です。
     /// </summary>
-    internal class AddressConstant : Constant, IAdrValue
+    internal class AddressConstant : Constant, IAdrCodeGenerator
     {
         #region Fields
         private readonly Label m_label;
@@ -22,30 +21,19 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_label; }
         }
 
-        internal override int GetWordCount()
+        public override Int32 GetCodeWordCount()
         {
             return 1;
         }
 
-        internal override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        public override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
         {
-            UInt16 offset = GetOffset(lblManager);
-            relModule.AddWord(new Word(offset));
+            relModule.AddReferenceWord(lblManager, m_label);
         }
 
-        String IAdrValue.GenerateDc(LabelManager lblManager)
+        public String GenerateLiteralDc(LabelManager lblManager)
         {
             return null;
-        }
-
-        UInt16 IAdrValue.GetAddress(LabelManager lblManager)
-        {
-            return GetOffset(lblManager);
-        }
-
-        private UInt16 GetOffset(LabelManager lblManager)
-        {
-            return lblManager.GetOffset(m_label);
         }
 
         protected override String ValueToString()

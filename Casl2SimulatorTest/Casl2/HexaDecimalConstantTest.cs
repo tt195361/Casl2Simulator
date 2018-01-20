@@ -14,8 +14,16 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     public class HexaDecimalConstantTest
     {
         #region Fields
+        private HexaDecimalConstant m_target;
+
         private const Int32 DontCare = 0;
         #endregion
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            m_target = new HexaDecimalConstant(0);
+        }
 
         /// <summary>
         /// IsStart メソッドのテストです。
@@ -82,6 +90,15 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
+        /// GetCodeWordCount メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void GetCodeWordCount()
+        {
+            ICodeGeneratorTest.CheckGetCodeWordCount(m_target, 1, "HexaDecimalConstant => 1 語生成する");
+        }
+
+        /// <summary>
         /// GenerateCode メソッドのテストです。
         /// </summary>
         [TestMethod]
@@ -95,35 +112,17 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             HexaDecimalConstant target = new HexaDecimalConstant(value);
             Word[] expectedWords = WordTest.MakeArray(expected);
-            ConstantTest.CheckGenerateCode(target, expectedWords, message);
+            ICodeGeneratorTest.CheckGenerateCode(target, expectedWords, message);
         }
 
         /// <summary>
-        /// GenerateDc メソッドのテストです。
+        /// GenerateLiteralDc メソッドのテストです。
         /// </summary>
         [TestMethod]
-        public void GenerateDc()
+        public void GenerateLiteralDc()
         {
-            IAdrValue target = new HexaDecimalConstant(0);
-            LabelManager lblManager = new LabelManager();
-            String result = target.GenerateDc(lblManager);
-            Assert.IsNull(result, "HexaDecimalConstant は DC 命令を生成しない ==> null が返される");
-        }
-
-        /// <summary>
-        /// GetAddress メソッドのテストです。
-        /// </summary>
-        [TestMethod]
-        public void GetAddress()
-        {
-            CheckGetAddress(0, 0x0000, "最小値 0 => その値 0x0000 がアドレス");
-            CheckGetAddress(65535, 0xffff, "最大値 65535 => その値 0xffff がアドレス");
-        }
-
-        private void CheckGetAddress(Int32 value, UInt16 expected, String message)
-        {
-            HexaDecimalConstant target = new HexaDecimalConstant(value);
-            IAdrValueTest.CheckGetAddress(target, expected, message);
+            ICodeGeneratorTest.CheckGenerateLiteralDc(
+                m_target, null, "HexaDecimalConstant は DC 命令を生成しない ==> null が返される");
         }
 
         internal static void Check(HexaDecimalConstant expected, HexaDecimalConstant actual, String message)
