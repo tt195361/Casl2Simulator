@@ -20,7 +20,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private Label m_literal3;
 
         private const UInt16 RegisteredOffset = 0x1234;
-        private const UInt16 NotRegisteredOffset = 0x0000;
+        private const UInt16 DontCare = 0x0000;
         #endregion
 
         [TestInitialize]
@@ -91,14 +91,22 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             m_lblManager.RegisterLabel(m_label1);
             m_lblManager.SetOffset(m_label1, RegisteredOffset);
 
-            CheckGetOffset(m_label1, RegisteredOffset, "登録されたラベル => 設定したオフセット");
-            CheckGetOffset(m_label2, NotRegisteredOffset, "登録されていないラベル => 0");
+            CheckGetOffset(m_label1, true, RegisteredOffset, "登録されたラベル => 設定したオフセット");
+            CheckGetOffset(m_label2, false, DontCare, "登録されていないラベル => 例外");
         }
 
-        private void CheckGetOffset(Label label, UInt16 expected, String message)
+        private void CheckGetOffset(Label label, Boolean success, UInt16 expected, String message)
         {
-            UInt16 actual = m_lblManager.GetOffset(label);
-            Assert.AreEqual(expected, actual, message);
+            try
+            {
+                UInt16 actual = m_lblManager.GetOffset(label);
+                Assert.IsTrue(success, message);
+                Assert.AreEqual(expected, actual, message);
+            }
+            catch (Casl2SimulatorException)
+            {
+                Assert.IsFalse(success, message);
+            }
         }
 
         /// <summary>

@@ -13,6 +13,12 @@ namespace Tt195361.Casl2Simulator.Casl2
         // このモジュールに含まれるコードの語。
         private readonly List<Word> m_codeWords;
 
+        // 実行開始アドレス
+        private ExecStartAddress m_execStartAddress;
+
+        // このモジュールが定義し、外部モジュールから参照できるアドレス。
+        private ExportLabel m_exportLabel;
+
         // このモジュールが参照し、外部モジュールが提供するラベルのアドレスを格納する語の情報。
         private readonly List<ImportLabel> m_importLabels;
 
@@ -23,13 +29,31 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal RelocatableModule()
         {
             m_codeWords = new List<Word>();
+            m_execStartAddress = null;
+            m_exportLabel = null;
             m_importLabels = new List<ImportLabel>();
             m_relocations = new List<Relocation>();
         }
 
-        // 実行開始アドレス
+        internal void SetExecStartAddress(ExecStartAddress execStartAddress)
+        {
+            m_execStartAddress = execStartAddress;
+        }
 
-        // Exports: このモジュールが定義し、外部モジュールから参照できるアドレス。
+        internal ExecStartAddress ExecStartAddress
+        {
+            get { return m_execStartAddress; }
+        }
+
+        internal void SetExportLabel(ExportLabel exportLabel)
+        {
+            m_exportLabel = exportLabel;
+        }
+
+        internal ExportLabel ExportLabel
+        {
+            get { return m_exportLabel; }
+        }
 
         internal IEnumerable<ImportLabel> ImportLabels
         {
@@ -61,7 +85,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             // アセンブラは、未定義ラベル (オペランド欄に記述されたラベルのうち、そのプログラム内で
             // 定義されていないラベル) を、他のプログラムの入口名 (START 命令のラベル) と解釈する。
-            if (lblManager.IsRegistered(label.Name))
+            if (lblManager.IsRegistered(label))
             {
                 AddRelocationWord(lblManager, label);
             }

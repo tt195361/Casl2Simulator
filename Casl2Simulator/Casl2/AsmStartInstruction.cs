@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class AsmStartInstruction : Instruction
     {
         #region Fields
-        private OptionLabel m_execStartAddress;
+        private ExecStartAddress m_execStartAddress;
         #endregion
 
         internal AsmStartInstruction()
@@ -24,7 +24,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return true;
         }
 
-        internal OptionLabel ExecStartAddress
+        internal ExecStartAddress ExecStartAddress
         {
             get { return m_execStartAddress; }
         }
@@ -38,7 +38,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// </returns>
         protected override Operand ParseSpecificOperand(OperandLexer lexer)
         {
-            m_execStartAddress = OptionLabel.Parse(lexer);
+            m_execStartAddress = ExecStartAddress.Parse(lexer);
             return m_execStartAddress;
         }
 
@@ -54,9 +54,25 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal override void GenerateCode(Label label, LabelManager lblManager, RelocatableModule relModule)
         {
-            // TODO: 実装する。
-            // 開始アドレス
-            // Exports: 外部モジュールから参照できるアドレス。
+            if (label == null)
+            {
+                throw new Casl2SimulatorException(Resources.MSG_NoLabelForStart);
+            }
+
+            // 実行開始番地は、そのプログラム内で定義されたラベルで指定する。
+            m_execStartAddress.CalculateCodeOffset(lblManager, relModule);
+            relModule.SetExecStartAddress(m_execStartAddress);
+
+            // また、この命令につけられたラベルは、他のプログラムから入口名として参照できる。
+            ExportLabel exportLabel = new ExportLabel(label, m_execStartAddress.CodeOffset);
+            relModule.SetExportLabel(exportLabel);
+        }
+
+        internal static AsmStartInstruction MakeForUnitTest(ExecStartAddress execStartAddress)
+        {
+            AsmStartInstruction asmStartInstruction = new AsmStartInstruction();
+            asmStartInstruction.m_execStartAddress = execStartAddress;
+            return asmStartInstruction;
         }
     }
 }

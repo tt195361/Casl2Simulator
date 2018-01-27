@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Tt195361.Casl2Simulator;
 using Tt195361.Casl2Simulator.Casl2;
 
 namespace Tt195361.Casl2SimulatorTest.Casl2
@@ -10,6 +11,26 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class AsmStartInstructionTest
     {
+        #region Fields
+        private LabelManager m_lblManager;
+        private RelocatableModule m_relModule;
+        private Label m_execStartLabel;
+        private ExecStartAddress m_execStartAddress;
+
+        private const UInt16 ExecStartOffset = 0xABCD;
+        #endregion
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            m_lblManager = new LabelManager();
+            m_relModule = new RelocatableModule();
+
+            m_execStartLabel = new Label("EXECSTRT");
+            m_lblManager.RegisterForUnitTest(m_execStartLabel, ExecStartOffset);
+            m_execStartAddress = ExecStartAddress.MakeForUnitTest(m_execStartLabel);
+        }
+
         /// <summary>
         /// ReadOperand メソッドのテストです。
         /// </summary>
@@ -49,6 +70,45 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             AsmStartInstruction target = new AsmStartInstruction();
             Boolean result = target.IsStart();
             Assert.IsTrue(result, "START 命令の IsStart() => true");
+        }
+
+        /// <summary>
+        /// GenerateCode メソッドで、ラベルがない場合のテストです。
+        /// </summary>
+        [TestMethod]
+        public void GenerateCode_NoLabel()
+        {
+            CheckGenerateCode(null, false, "ラベルなし => 例外");
+        }
+
+        /// <summary>
+        /// GenerateCode メソッドで、ラベルを指定した場合のテストです。
+        /// </summary>
+        [TestMethod]
+        public void GenerateCode_WithLabel()
+        {
+            Label entryLabel = new Label("ENTRY");
+            CheckGenerateCode(entryLabel, true, "ラベルを指定");
+            ExecStartAddressTest.Check(
+                m_relModule.ExecStartAddress, m_execStartLabel, ExecStartOffset,
+                "ExecStartAddress に 実行開始番地のラベルと開始オフセットが設定される");
+            ExportLabelTest.Check(
+                m_relModule.ExportLabel, entryLabel, ExecStartOffset,
+                "ExportLabel に START 命令のラベルと開始オフセットが設定される");
+        }
+
+        private void CheckGenerateCode(Label entryLabel, Boolean success, String message)
+        {
+            AsmStartInstruction target = AsmStartInstruction.MakeForUnitTest(m_execStartAddress);
+            try
+            {
+                target.GenerateCode(entryLabel, m_lblManager, m_relModule);
+                Assert.IsTrue(success, message);
+            }
+            catch (Casl2SimulatorException)
+            {
+                Assert.IsFalse(success, message);
+            }
         }
     }
 }

@@ -62,6 +62,7 @@
     <Compile Include="Casl2\AssemblerTest.cs" />
     <Compile Include="Casl2\ConstantCollectionTest.cs" />
     <Compile Include="Casl2\ConstantTest.cs" />
+    <Compile Include="Casl2\ExportLabelTest.cs" />
     <Compile Include="Casl2\HexaDecimalConstantTest.cs" />
     <Compile Include="Casl2\ICodeGeneratorTest.cs" />
     <Compile Include="Casl2\ImportLabelTest.cs" />
@@ -79,7 +80,7 @@
     <Compile Include="Casl2\DecimalConstantTest.cs" />
     <Compile Include="Casl2\OffsetCalculatorTest.cs" />
     <Compile Include="Casl2\OperandTest.cs" />
-    <Compile Include="Casl2\OptionLabelTest.cs" />
+    <Compile Include="Casl2\ExecStartAddressTest.cs" />
     <Compile Include="Casl2\ProgramCheckerTest.cs" />
     <Compile Include="Casl2\R1R2OperandTest.cs" />
     <Compile Include="Casl2\RAdrXOperandTest.cs" />

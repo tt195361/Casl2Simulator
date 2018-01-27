@@ -13,8 +13,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         private readonly Dictionary<String, UInt16> m_labelDictionary;
         private Int32 m_literalLabelNumber;
 
-        // 登録されていないラベルに対して返すオフセット。
-        private const UInt16 NotRegisteredOffset = 0x0000;
+        private const UInt16 DefaultOffset = 0x0000;
         #endregion
 
         internal LabelManager()
@@ -36,7 +35,7 @@ namespace Tt195361.Casl2Simulator.Casl2
                 throw new Casl2SimulatorException(message);
             }
 
-            m_labelDictionary.Add(name, NotRegisteredOffset);
+            m_labelDictionary.Add(name, DefaultOffset);
         }
 
         /// <summary>
@@ -49,11 +48,24 @@ namespace Tt195361.Casl2Simulator.Casl2
             String name = label.Name;
             if (!IsRegistered(name))
             {
-                String message = String.Format(Resources.MSG_LabelNotDefined, name);
+                String message = String.Format(Resources.MSG_RegisteringOffsetForNotDefinedLabel, name);
                 throw new Casl2SimulatorException(message);
             }
 
             m_labelDictionary[name] = offset;
+        }
+
+        /// <summary>
+        /// 指定のラベルが登録されているかどうかを返します。
+        /// </summary>
+        /// <param name="label">登録されているかどうかを調べるラベルです。</param>
+        /// <returns>
+        /// 指定のラベルが登録されていれば <see langword="true"/> を、
+        /// 登録されていなければ <see langword="false"/> を返します。
+        /// </returns>
+        internal Boolean IsRegistered(Label label)
+        {
+            return IsRegistered(label.Name);
         }
 
         /// <summary>
@@ -64,7 +76,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// 指定の名前のラベルが登録されていれば <see langword="true"/> を、
         /// 登録されていなければ <see langword="false"/> を返します。
         /// </returns>
-        internal Boolean IsRegistered(String name)
+        private Boolean IsRegistered(String name)
         {
             return m_labelDictionary.ContainsKey(name);
         }
@@ -80,15 +92,13 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal UInt16 GetOffset(Label label)
         {
             String name = label.Name;
-            // TODO: 登録されていないときは例外にする。
             if (!IsRegistered(name))
             {
-                return NotRegisteredOffset;
+                String message = String.Format(Resources.MSG_LabelNotDefined, name);
+                throw new Casl2SimulatorException(message);
             }
-            else
-            {
-                return m_labelDictionary[name];
-            }
+
+            return m_labelDictionary[name];
         }
 
         /// <summary>

@@ -223,7 +223,7 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 定義されていないラベル &quot;{0}&quot; のオフセットを登録しようとしています。プログラムになにか問題があります。.
+        ///   Looks up a localized string similar to 定義されていないラベル &quot;{0}&quot; を参照しています。指定のラベルを定義してください。.
         /// </summary>
         internal static string MSG_LabelNotDefined {
             get {
@@ -304,6 +304,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to START 命令にラベルがありません。START 命令のラベルは、他のプログラムから入口名として参照します。ラベルを指定してください。.
+        /// </summary>
+        internal static string MSG_NoLabelForStart {
+            get {
+                return ResourceManager.GetString("MSG_NoLabelForStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to プログラムに START 命令がありません。プログラムには START 命令を 1 つ指定し、プログラムの先頭を定義してください。.
         /// </summary>
         internal static string MSG_NoStartInstruction {
@@ -372,6 +381,24 @@ namespace Tt195361.Casl2Simulator.Properties {
         internal static string MSG_ProgramTooBig {
             get {
                 return ResourceManager.GetString("MSG_ProgramTooBig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 定義されていないラベル &quot;{0}&quot; のオフセットを登録しようとしています。プログラムになにか問題があります。.
+        /// </summary>
+        internal static string MSG_RegisteringOffsetForNotDefinedLabel {
+            get {
+                return ResourceManager.GetString("MSG_RegisteringOffsetForNotDefinedLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to START 命令のオペランドに指定した実行開始番地のラベル &quot;{0}&quot; が定義されていません。ラベルを定義してください。.
+        /// </summary>
+        internal static string MSG_StartLabelNotDefined {
+            get {
+                return ResourceManager.GetString("MSG_StartLabelNotDefined", resourceCulture);
             }
         }
         

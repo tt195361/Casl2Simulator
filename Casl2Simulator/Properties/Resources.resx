@@ -172,7 +172,7 @@
     <value>ラベル "{0}" の長さ {1} 文字は有効な範囲外です。ラベルの長さは {2} ~ {3} 文字にしてください。</value>
   </data>
   <data name="MSG_LabelNotDefined" xml:space="preserve">
-    <value>定義されていないラベル "{0}" のオフセットを登録しようとしています。プログラムになにか問題があります。</value>
+    <value>定義されていないラベル "{0}" を参照しています。指定のラベルを定義してください。</value>
   </data>
   <data name="MSG_LabelSubsequentCharIsNeitherUppercaseNorDigit" xml:space="preserve">
     <value>ラベル "{0}" の文字 '{1}' が、半角英大文字でも半角数字でもありません。ラベルの 2 文字目以降は、半角英大文字または半角数字にしてください。</value>
@@ -198,6 +198,9 @@
   <data name="MSG_NoLabel" xml:space="preserve">
     <value>ラベルを予期していましたが指定されていませんでした。ラベルを指定してください。</value>
   </data>
+  <data name="MSG_NoLabelForStart" xml:space="preserve">
+    <value>START 命令にラベルがありません。START 命令のラベルは、他のプログラムから入口名として参照します。ラベルを指定してください。</value>
+  </data>
   <data name="MSG_NoStartInstruction" xml:space="preserve">
     <value>プログラムに START 命令がありません。プログラムには START 命令を 1 つ指定し、プログラムの先頭を定義してください。</value>
   </data>
@@ -221,6 +224,12 @@
   </data>
   <data name="MSG_ProgramTooBig" xml:space="preserve">
     <value>プログラムをメモリに格納できません。プログラムの大きさを COMET II の主記憶の容量 {0} 語以下にしてください。</value>
+  </data>
+  <data name="MSG_RegisteringOffsetForNotDefinedLabel" xml:space="preserve">
+    <value>定義されていないラベル "{0}" のオフセットを登録しようとしています。プログラムになにか問題があります。</value>
+  </data>
+  <data name="MSG_StartLabelNotDefined" xml:space="preserve">
+    <value>START 命令のオペランドに指定した実行開始番地のラベル "{0}" が定義されていません。ラベルを定義してください。</value>
   </data>
   <data name="MSG_UndefinedOpcode" xml:space="preserve">
     <value>命令コード 0x{0:x02} は未定義です。</value>

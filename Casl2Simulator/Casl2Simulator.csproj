@@ -74,8 +74,9 @@
     <Compile Include="Casl2\AsmStartInstruction.cs" />
     <Compile Include="Casl2\Constant.cs" />
     <Compile Include="Casl2\ConstantCollection.cs" />
+    <Compile Include="Casl2\ExportLabel.cs" />
     <Compile Include="Casl2\ImportLabel.cs" />
-    <Compile Include="Casl2\OptionLabel.cs" />
+    <Compile Include="Casl2\ExecStartAddress.cs" />
     <Compile Include="Casl2\HexaDecimalConstant.cs" />
     <Compile Include="Casl2\ICodeGenerator.cs" />
     <Compile Include="Casl2\InstructionFactory.cs" />
