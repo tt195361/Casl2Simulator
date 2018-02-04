@@ -421,6 +421,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 語数に指定の値 {0} は有効範囲外です。有効範囲 {1} &lt;= 語数 &lt;= {2} の値を指定してください。.
+        /// </summary>
+        internal static string MSG_WordCountOutOfRange {
+            get {
+                return ResourceManager.GetString("MSG_WordCountOutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 文字列定数の文字数が 0 です。文字列定数には 1 文字以上の文字を指定してください。.
         /// </summary>
         internal static string MSG_ZeroCharsInStringConstant {
@@ -570,6 +579,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         internal static string SYN_RAdrXOrR1R2 {
             get {
                 return ResourceManager.GetString("SYN_RAdrXOrR1R2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 語数.
+        /// </summary>
+        internal static string SYN_WordCount {
+            get {
+                return ResourceManager.GetString("SYN_WordCount", resourceCulture);
             }
         }
     }

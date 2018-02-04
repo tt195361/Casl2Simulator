@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Tt195361.Casl2Simulator;
 using Tt195361.Casl2Simulator.Casl2;
 using Tt195361.Casl2Simulator.Common;
+using Tt195361.Casl2Simulator.Utils;
 using Tt195361.Casl2SimulatorTest.Common;
 
 namespace Tt195361.Casl2SimulatorTest.Casl2
@@ -25,6 +27,30 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             m_relModule = new RelocatableModule();
             m_lblManager = new LabelManager();
             m_label = new Label("LBL001");
+        }
+
+        /// <summary>
+        /// AddWord メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void AddWord()
+        {
+            Enumerable.Repeat(0, 65535)
+                      .ForEach((notUsed) => CheckAddWord(true, "1..65535 語 => OK"));
+            CheckAddWord(false, "65536 語 => 例外");
+        }
+
+        private void CheckAddWord(Boolean success, String message)
+        {
+            try
+            {
+                m_relModule.AddWord(Word.Zero);
+                Assert.IsTrue(success, message);
+            }
+            catch (Casl2SimulatorException)
+            {
+                Assert.IsFalse(success, message);
+            }
         }
 
         /// <summary>

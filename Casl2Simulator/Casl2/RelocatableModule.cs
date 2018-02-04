@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Tt195361.Casl2Simulator.Common;
+using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
@@ -10,6 +12,8 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class RelocatableModule
     {
         #region Fields
+        private UInt16 m_codeOffset;
+
         // このモジュールに含まれるコードの語。
         private readonly List<Word> m_codeWords;
 
@@ -28,6 +32,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal RelocatableModule()
         {
+            m_codeOffset = 0;
             m_codeWords = new List<Word>();
             m_execStartAddress = null;
             m_exportLabel = null;
@@ -65,9 +70,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_relocations; }
         }
 
-        internal UInt16 GetCodeOffset()
+        internal UInt16 CodeOffset
         {
-            return (UInt16)m_codeWords.Count;
+            get { return m_codeOffset; }
         }
 
         /// <summary>
@@ -75,7 +80,17 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// </summary>
         internal void AddWord(Word word)
         {
+            m_codeOffset = OffsetCalculator.Add(m_codeOffset, 1);
             m_codeWords.Add(word);
+        }
+
+        /// <summary>
+        /// 指定の語を指定の数だけコードに追加します。
+        /// </summary>
+        internal void AddWords(Word word, Int32 count)
+        {
+            Enumerable.Range(0, count)
+                      .ForEach((notUsed) => AddWord(word));
         }
 
         /// <summary>

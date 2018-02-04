@@ -57,6 +57,7 @@
     <Compile Include="Casl2\AdrXOperandTest.cs" />
     <Compile Include="Casl2\AreaSpecTest.cs" />
     <Compile Include="Casl2\AsmDcInstructionTest.cs" />
+    <Compile Include="Casl2\AsmDsInstructionTest.cs" />
     <Compile Include="Casl2\AsmEndInstructionTest.cs" />
     <Compile Include="Casl2\AsmStartInstructionTest.cs" />
     <Compile Include="Casl2\AssemblerTest.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Casl2\StringConstantTest.cs" />
     <Compile Include="Casl2\OperandLexerTest.cs" />
     <Compile Include="Casl2\TokenTest.cs" />
+    <Compile Include="Casl2\WordCountTest.cs" />
     <Compile Include="Comet2\AluTest.cs" />
     <Compile Include="Comet2\CpuTest.cs" />
     <Compile Include="Comet2\DecoderTest.cs" />

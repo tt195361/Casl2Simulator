@@ -68,6 +68,7 @@
     <Compile Include="Casl2\AdrXOperand.cs" />
     <Compile Include="Casl2\AreaSpec.cs" />
     <Compile Include="Casl2\AsmDcInstruction.cs" />
+    <Compile Include="Casl2\AsmDsInstruction.cs" />
     <Compile Include="Casl2\AsmEndInstruction.cs" />
     <Compile Include="Casl2\Assembler.cs" />
     <Compile Include="Casl2\Casl2Defs.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Casl2\StringConstant.cs" />
     <Compile Include="Casl2\Token.cs" />
     <Compile Include="Casl2\TokenType.cs" />
+    <Compile Include="Casl2\WordCount.cs" />
     <Compile Include="Comet2\Alu.cs" />
     <Compile Include="Comet2\Comet2EventArgs.cs" />
     <Compile Include="Comet2\Comet2OperatingSystem.cs" />

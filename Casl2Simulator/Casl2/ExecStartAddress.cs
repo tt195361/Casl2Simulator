@@ -62,7 +62,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             // はその番地から、省略した場合は START 命令の次の命令から、実行を開始する。
             if (m_label == null)
             {
-                return relModule.GetCodeOffset();
+                return relModule.CodeOffset;
             }
             else
             {

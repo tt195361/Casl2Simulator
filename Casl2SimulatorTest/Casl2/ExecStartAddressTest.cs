@@ -65,9 +65,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             m_relModule.AddWord(Word.Zero);
             m_relModule.AddWord(Word.Zero);
             m_relModule.AddWord(Word.Zero);
-            UInt16 relModuleCodeOffset = m_relModule.GetCodeOffset();
             CheckCalculateCodeOffset(
-                null, true, relModuleCodeOffset,
+                null, true, m_relModule.CodeOffset,
                 "ラベルなし => 実行開始オフセットは START の次の命令");
         }
 

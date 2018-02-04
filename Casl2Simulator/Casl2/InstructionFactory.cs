@@ -20,6 +20,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             {
                 { MnemonicDef.START, () => new AsmStartInstruction() },
                 { MnemonicDef.END, () => new AsmEndInstruction() },
+                { MnemonicDef.DS, () => new AsmDsInstruction() },
                 { MnemonicDef.DC, () => new AsmDcInstruction() },
 
                 { MnemonicDef.IN, () => new MacroInInstruction() },

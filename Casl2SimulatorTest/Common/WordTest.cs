@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator.Common;
+using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2SimulatorTest.Common
 {
@@ -207,6 +208,14 @@ namespace Tt195361.Casl2SimulatorTest.Common
         {
             return i16Vals.Select((i16Val) => new Word(i16Val))
                           .ToArray();
+        }
+
+        internal static Word[] MakeArray(Word word, Int32 count)
+        {
+            Word[] words = new Word[count];
+            Enumerable.Range(0, count)
+                      .ForEach((index) => words[index] = word);
+            return words;
         }
     }
 }

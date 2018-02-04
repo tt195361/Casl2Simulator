@@ -34,7 +34,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             // 参照先のラベルと再配置可能モジュールのコードの位置を記録する。
             m_label = label;
-            m_codeOffset = relModule.GetCodeOffset();
+            m_codeOffset = relModule.CodeOffset;
 
             // 再配置可能モジュールに、リンク時に値を入れる場所を確保する。
             relModule.AddWord(PlaceHolderValue);

@@ -6,6 +6,7 @@ namespace Tt195361.Casl2Simulator.Common
     {
         internal const String START = "START";
         internal const String END = "END";
+        internal const String DS = "DS";
         internal const String DC = "DC";
 
         internal const String IN = "IN";

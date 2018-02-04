@@ -28,7 +28,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal void AddRelocationWord(RelocatableModule relModule, LabelManager lblManager, Label label)
         {
             // 再配置可能モジュールのコードの位置を記録する。
-            m_codeOffset = relModule.GetCodeOffset();
+            m_codeOffset = relModule.CodeOffset;
 
             // 再配置可能モジュールに、コードの語としてラベルのオフセットを追加する。
             UInt16 codeValue = lblManager.GetOffset(label);

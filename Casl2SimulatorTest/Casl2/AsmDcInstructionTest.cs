@@ -45,7 +45,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             if (success)
             {
                 ConstantCollection actualConstants = target.Constants;
-                TestUtils.CheckEnumerable(expectedConstants, actualConstants, ConstantTest.Check, message);
+                ConstantCollectionTest.Check(expectedConstants, actualConstants, message);
             }
         }
     }

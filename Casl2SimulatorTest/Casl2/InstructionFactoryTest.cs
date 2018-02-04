@@ -19,6 +19,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             CheckMake("START", typeof(AsmStartInstruction), "アセンブラ命令 START");
             CheckMake("END", typeof(AsmEndInstruction), "アセンブラ命令 END");
+            CheckMake("DS", typeof(AsmDsInstruction), "アセンブラ命令 DS");
             CheckMake("DC", typeof(AsmDcInstruction), "アセンブラ命令 DC");
 
             CheckMake("IN", typeof(MacroInInstruction), "マクロ命令 IN");

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator;
 using Tt195361.Casl2Simulator.Casl2;
@@ -145,6 +146,12 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             String actual = m_constants.ToString();
             const String Expected = "12345,#ABCD,LBL001,'ABC'";
             Assert.AreEqual(Expected, actual, "それぞれの Constant が ',' で区切られる");
+        }
+
+        internal static void Check(
+            IEnumerable<Constant> expected, IEnumerable<Constant> actual, String message)
+        {
+            TestUtils.CheckEnumerable(expected, actual, ConstantTest.Check, message);
         }
     }
 }
