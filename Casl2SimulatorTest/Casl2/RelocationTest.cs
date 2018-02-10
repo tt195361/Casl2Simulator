@@ -22,13 +22,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             LabelManager lblManager = new LabelManager();
 
             Label label = new Label("LBL001");
-            const UInt16 LabelOffset = 0xABCD;
+            MemoryOffset LabelOffset = new MemoryOffset(0xABCD);
             lblManager.RegisterForUnitTest(label, LabelOffset);
 
             const UInt16 One = 1;
             const UInt16 Two = 2;
             const UInt16 Three = 3;
-            const UInt16 RelocationCodeOffset = 3;
+            MemoryOffset CodeOffset = new MemoryOffset(3);
 
             // Code の語を追加し、CodeOffset を 0 でない値にして、テストでチェックしやすくする。
             relModule.AddWord(new Word(One));
@@ -38,12 +38,12 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             Relocation relocation = new Relocation();
             relocation.AddRelocationWord(relModule, lblManager, label);
 
-            Assert.AreEqual(
-                RelocationCodeOffset, relocation.CodeOffset,
+            MemoryOffsetTest.Check(
+                CodeOffset, relocation.CodeOffset,
                 "再配置するコードの位置が記録されている");
             RelocatableModuleTest.Check(
                 relModule,
-                WordTest.MakeArray(One, Two, Three, LabelOffset),
+                WordTest.MakeArray(One, Two, Three, LabelOffset.Value),
                 "ラベルのオフセットがコードに追加される");
         }
     }

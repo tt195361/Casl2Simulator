@@ -83,12 +83,12 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         private void SetLabelOffset(IEnumerable<Line> lines)
         {
-            UInt16 offset = 0;
+            MemoryOffset offset = MemoryOffset.Zero;
             foreach (Line line in lines)
             {
                 line.SetLabelOffset(m_lblManager, offset);
                 Int32 wordCount = line.GetCodeWordCount();
-                offset = OffsetCalculator.Add(offset, wordCount);
+                offset = offset.Add(wordCount);
             }
         }
 

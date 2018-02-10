@@ -173,11 +173,11 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             LabelManager lblManager = new LabelManager();
             instructionLine.RegisterLabel(lblManager);
 
-            const UInt16 OffsetSet = 0xABCD;
+            MemoryOffset OffsetSet = new MemoryOffset(0xABCD);
             instructionLine.SetLabelOffset(lblManager, OffsetSet);
 
-            UInt16 offsetGot = lblManager.GetOffset(instructionLine.Label);
-            Assert.AreEqual(OffsetSet, offsetGot, "設定したラベルのオフセットが取得できる");
+            MemoryOffset offsetGot = lblManager.GetOffset(instructionLine.Label);
+            MemoryOffsetTest.Check(OffsetSet, offsetGot, "設定したラベルのオフセットが取得できる");
         }
 
         /// <summary>

@@ -19,8 +19,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private Label m_literal2;
         private Label m_literal3;
 
-        private const UInt16 RegisteredOffset = 0x1234;
-        private const UInt16 DontCare = 0x0000;
+        private readonly MemoryOffset RegisteredOffset = new MemoryOffset(0x1234);
+        private readonly MemoryOffset DontCare = MemoryOffset.Zero;
         #endregion
 
         [TestInitialize]
@@ -95,13 +95,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             CheckGetOffset(m_label2, false, DontCare, "登録されていないラベル => 例外");
         }
 
-        private void CheckGetOffset(Label label, Boolean success, UInt16 expected, String message)
+        private void CheckGetOffset(Label label, Boolean success, MemoryOffset expected, String message)
         {
             try
             {
-                UInt16 actual = m_lblManager.GetOffset(label);
+                MemoryOffset actual = m_lblManager.GetOffset(label);
                 Assert.IsTrue(success, message);
-                Assert.AreEqual(expected, actual, message);
+                MemoryOffsetTest.Check(expected, actual, message);
             }
             catch (Casl2SimulatorException)
             {

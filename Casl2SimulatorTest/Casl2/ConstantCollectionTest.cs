@@ -19,7 +19,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         private const UInt16 DecimalValue = 12345;
         private const UInt16 HexaDecimalValue = 0xABCD;
-        private const UInt16 LabelOffset = 0x2468;
+        private readonly MemoryOffset LabelOffset = new MemoryOffset(0x2468);
         private const String StringValue = "ABC";
         private const UInt16 AValue = 0x0041;
         private const UInt16 BValue = 0x0042;
@@ -132,7 +132,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             ICodeGeneratorTest.CheckGenerateCode(
                 m_constants, m_lblManager,
                 WordTest.MakeArray(
-                    DecimalValue, HexaDecimalValue, LabelOffset,
+                    DecimalValue, HexaDecimalValue, LabelOffset.Value,
                     AValue, BValue, CValue), 
                 "それぞれの Constant のコードが順に生成される");
         }

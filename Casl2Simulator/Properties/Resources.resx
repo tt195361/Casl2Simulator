@@ -180,6 +180,9 @@
   <data name="MSG_LiteralParseError" xml:space="preserve">
     <value>{0} をリテラルとして解釈できませんでした。リテラルは、10 進定数、16 進定数、または文字定数の前に等号 (=) を付けて記述します。</value>
   </data>
+  <data name="MSG_MemoryOffsetOutOfRange" xml:space="preserve">
+    <value>メモリオフセットの値 {0} (= {1} + {2}) が COMET II 主記憶のアドレス範囲 {3} ~ {4} に入りません。プログラムを小さくするなど、主記憶に入るようにしてください。</value>
+  </data>
   <data name="MSG_MoreThanOneEndInstruction" xml:space="preserve">
     <value>プログラムに 2 つ以上の END 命令があります。END 命令は 1 つだけ指定してください。</value>
   </data>
@@ -221,9 +224,6 @@
   </data>
   <data name="MSG_OptionLabelParseError" xml:space="preserve">
     <value>{0} をラベルとして解釈できませんでした。オペランドは、空にするか、ラベルを指定してください。</value>
-  </data>
-  <data name="MSG_ProgramTooBig" xml:space="preserve">
-    <value>プログラムをメモリに格納できません。プログラムの大きさを COMET II の主記憶の容量 {0} 語以下にしてください。</value>
   </data>
   <data name="MSG_RegisteringOffsetForNotDefinedLabel" xml:space="preserve">
     <value>定義されていないラベル "{0}" のオフセットを登録しようとしています。プログラムになにか問題があります。</value>

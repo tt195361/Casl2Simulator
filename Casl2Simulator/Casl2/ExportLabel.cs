@@ -3,16 +3,16 @@
 namespace Tt195361.Casl2Simulator.Casl2
 {
     /// <summary>
-    /// 他のモジュールに公開するラベルの情報を保持します。
+    /// 他のモジュールに公開するラベルを表わします。
     /// </summary>
     internal class ExportLabel
     {
         #region Fields
         private readonly Label m_label;
-        private readonly UInt16 m_codeOffset;
+        private readonly MemoryOffset m_codeOffset;
         #endregion
 
-        internal ExportLabel(Label label, UInt16 codeOffset)
+        internal ExportLabel(Label label, MemoryOffset codeOffset)
         {
             m_label = label;
             m_codeOffset = codeOffset;
@@ -23,14 +23,14 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_label; }
         }
 
-        internal UInt16 CodeOffset
+        internal MemoryOffset CodeOffset
         {
             get { return m_codeOffset; }
         }
 
         public override String ToString()
         {
-            return String.Format("{0}: 0x{1:X04}", m_label, m_codeOffset);
+            return String.Format("{0}: {1}", m_label, m_codeOffset);
         }
     }
 }

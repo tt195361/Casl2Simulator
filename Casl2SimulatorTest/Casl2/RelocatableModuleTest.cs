@@ -59,7 +59,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void AddReferenceWord_RegisteredLabel()
         {
-            const UInt16 DontCareLabelOffset = 0x2468;
+            MemoryOffset DontCareLabelOffset = new MemoryOffset(0x2468);
             m_lblManager.RegisterForUnitTest(m_label, DontCareLabelOffset);
             CheckAddReferenceWord(1, 0, "登録されたラベル => Relocations に追加される");
         }

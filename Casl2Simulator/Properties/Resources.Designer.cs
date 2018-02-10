@@ -250,6 +250,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to メモリオフセットの値 {0} (= {1} + {2}) が COMET II 主記憶のアドレス範囲 {3} ~ {4} に入りません。プログラムを小さくするなど、主記憶に入るようにしてください。.
+        /// </summary>
+        internal static string MSG_MemoryOffsetOutOfRange {
+            get {
+                return ResourceManager.GetString("MSG_MemoryOffsetOutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to プログラムに 2 つ以上の END 命令があります。END 命令は 1 つだけ指定してください。.
         /// </summary>
         internal static string MSG_MoreThanOneEndInstruction {
@@ -372,15 +381,6 @@ namespace Tt195361.Casl2Simulator.Properties {
         internal static string MSG_OptionLabelParseError {
             get {
                 return ResourceManager.GetString("MSG_OptionLabelParseError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to プログラムをメモリに格納できません。プログラムの大きさを COMET II の主記憶の容量 {0} 語以下にしてください。.
-        /// </summary>
-        internal static string MSG_ProgramTooBig {
-            get {
-                return ResourceManager.GetString("MSG_ProgramTooBig", resourceCulture);
             }
         }
         

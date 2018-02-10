@@ -12,7 +12,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class RelocatableModule
     {
         #region Fields
-        private UInt16 m_codeOffset;
+        private MemoryOffset m_codeOffset;
 
         // このモジュールに含まれるコードの語。
         private readonly List<Word> m_codeWords;
@@ -32,7 +32,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal RelocatableModule()
         {
-            m_codeOffset = 0;
+            m_codeOffset = MemoryOffset.Zero;
             m_codeWords = new List<Word>();
             m_execStartAddress = null;
             m_exportLabel = null;
@@ -70,7 +70,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_relocations; }
         }
 
-        internal UInt16 CodeOffset
+        internal MemoryOffset CodeOffset
         {
             get { return m_codeOffset; }
         }
@@ -80,7 +80,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// </summary>
         internal void AddWord(Word word)
         {
-            m_codeOffset = OffsetCalculator.Add(m_codeOffset, 1);
+            m_codeOffset = m_codeOffset.Add(1);
             m_codeWords.Add(word);
         }
 

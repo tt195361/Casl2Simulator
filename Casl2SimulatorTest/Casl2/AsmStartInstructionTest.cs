@@ -17,7 +17,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private Label m_execStartLabel;
         private ExecStartAddress m_execStartAddress;
 
-        private const UInt16 ExecStartOffset = 0xABCD;
+        private readonly MemoryOffset ExecStartOffset = new MemoryOffset(0xABCD);
         #endregion
 
         [TestInitialize]
@@ -89,11 +89,12 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             Label entryLabel = new Label("ENTRY");
             CheckGenerateCode(entryLabel, true, "ラベルを指定");
-            ExecStartAddressTest.Check(
-                m_relModule.ExecStartAddress, m_execStartLabel, ExecStartOffset,
+
+            CheckExecStartAddress(
+                m_execStartLabel, ExecStartOffset,
                 "ExecStartAddress に 実行開始番地のラベルと開始オフセットが設定される");
-            ExportLabelTest.Check(
-                m_relModule.ExportLabel, entryLabel, ExecStartOffset,
+            CheckExportLabel(
+                entryLabel, ExecStartOffset,
                 "ExportLabel に START 命令のラベルと開始オフセットが設定される");
         }
 
@@ -109,6 +110,20 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             {
                 Assert.IsFalse(success, message);
             }
+        }
+
+        private void CheckExecStartAddress(Label expectedLabel, MemoryOffset expectedCodeOffset, String message)
+        {
+            ExecStartAddress expected = ExecStartAddress.MakeForUnitTest(expectedLabel, expectedCodeOffset);
+            ExecStartAddress actual = m_relModule.ExecStartAddress;
+            ExecStartAddressTest.Check(expected, actual, message);
+        }
+
+        private void CheckExportLabel(Label expectedLabel, MemoryOffset expectedCodeOffset, String message)
+        {
+            ExportLabel expected = new ExportLabel(expectedLabel, expectedCodeOffset);
+            ExportLabel actual = m_relModule.ExportLabel;
+            ExportLabelTest.Check(expected, actual, message);
         }
     }
 }

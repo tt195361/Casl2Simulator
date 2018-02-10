@@ -33,7 +33,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         #region Fields
         private readonly Label m_label;
-        private UInt16 m_codeOffset;
+        private MemoryOffset m_codeOffset;
         #endregion
 
         private ExecStartAddress(Label label)
@@ -46,7 +46,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_label; }
         }
 
-        internal UInt16 CodeOffset
+        internal MemoryOffset CodeOffset
         {
             get { return m_codeOffset; }
         }
@@ -56,7 +56,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             m_codeOffset = DoCalculateCodeOffset(lblManager, relModule);
         }
 
-        internal UInt16 DoCalculateCodeOffset(LabelManager lblManager, RelocatableModule relModule)
+        private MemoryOffset DoCalculateCodeOffset(LabelManager lblManager, RelocatableModule relModule)
         {
             // 実行開始番地は、そのプログラム内で定義されたラベルで指定する。指定がある場合
             // はその番地から、省略した場合は START 命令の次の命令から、実行を開始する。
@@ -76,6 +76,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
+        // ExecStartAddress は Operand なので、ToString() はラベルのみ、値は含まない。
         public override String ToString()
         {
             if (m_label == null)
@@ -90,7 +91,14 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal static ExecStartAddress MakeForUnitTest(Label label)
         {
-            return new ExecStartAddress(label);
+            return MakeForUnitTest(label, MemoryOffset.Zero);
+        }
+
+        internal static ExecStartAddress MakeForUnitTest(Label label, MemoryOffset codeOffset)
+        {
+            ExecStartAddress execStartAddr = new ExecStartAddress(label);
+            execStartAddr.m_codeOffset = codeOffset;
+            return execStartAddr;
         }
     }
 }

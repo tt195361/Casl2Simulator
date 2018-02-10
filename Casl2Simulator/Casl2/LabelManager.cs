@@ -10,15 +10,15 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class LabelManager
     {
         #region Fields
-        private readonly Dictionary<String, UInt16> m_labelDictionary;
+        private readonly Dictionary<String, MemoryOffset> m_labelDictionary;
         private Int32 m_literalLabelNumber;
 
-        private const UInt16 DefaultOffset = 0x0000;
+        private readonly MemoryOffset DefaultOffset = MemoryOffset.Zero;
         #endregion
 
         internal LabelManager()
         {
-            m_labelDictionary = new Dictionary<String, UInt16>();
+            m_labelDictionary = new Dictionary<String, MemoryOffset>();
             m_literalLabelNumber = Label.MinLiteralLabelNumber;
         }
 
@@ -43,7 +43,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// </summary>
         /// <param name="label"><see cref="RegisterLabel"/>で登録したラベルです。</param>
         /// <param name="offset">指定のラベルに対して設定するプログラム内のオフセットの値です。</param>
-        internal void SetOffset(Label label, UInt16 offset)
+        internal void SetOffset(Label label, MemoryOffset offset)
         {
             String name = label.Name;
             if (!IsRegistered(name))
@@ -87,9 +87,9 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <param name="label">オフセットを取得するラベルです。</param>
         /// <returns>
         /// 指定のラベルが登録されていれば、登録されたオフセットを返します。
-        /// 登録されていなければ、0 を返します。
+        /// 登録されていなければ、例外を発生します。
         /// </returns>
-        internal UInt16 GetOffset(Label label)
+        internal MemoryOffset GetOffset(Label label)
         {
             String name = label.Name;
             if (!IsRegistered(name))
@@ -126,7 +126,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             throw new Casl2SimulatorException(message);
         }
 
-        internal void RegisterForUnitTest(Label label, UInt16 offset)
+        internal void RegisterForUnitTest(Label label, MemoryOffset offset)
         {
             if (m_labelDictionary.ContainsKey(label.Name))
             {

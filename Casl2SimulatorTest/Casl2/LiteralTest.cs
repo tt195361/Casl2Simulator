@@ -86,13 +86,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void GenerateCode()
         {
-            const UInt16 LabelOffset = 0x1357;
+            MemoryOffset LabelOffset = new MemoryOffset(0x1357);
 
             LabelManager lblManager = new LabelManager();
             m_target.GenerateLiteralDc(lblManager);
             lblManager.SetOffset(m_target.Label, LabelOffset);
 
-            Word[] expectedWords = WordTest.MakeArray(LabelOffset);
+            Word[] expectedWords = WordTest.MakeArray(LabelOffset.Value);
             ICodeGeneratorTest.CheckGenerateCode(
                 m_target, lblManager, expectedWords, "生成したラベルのオフセットがコードになる");
         }

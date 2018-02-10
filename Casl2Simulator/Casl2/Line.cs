@@ -210,7 +210,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        internal void SetLabelOffset(LabelManager lblManager, UInt16 offset)
+        internal void SetLabelOffset(LabelManager lblManager, MemoryOffset offset)
         {
             if (m_label != null)
             {

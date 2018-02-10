@@ -18,8 +18,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private AddressConstant m_notRegistered;
         private LabelManager m_lblManager;
 
-        private const UInt16 RegisteredOffset = 0x1234;
-        private const UInt16 NotRegisteredOffset = 0x0000;
+        private readonly MemoryOffset RegisteredOffset = new MemoryOffset(0x1234);
+        private readonly MemoryOffset NotRegisteredOffset = new MemoryOffset(0x0000);
         #endregion
 
         [TestInitialize]
@@ -49,10 +49,10 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         public void GenerateCode()
         {
             CheckGenerateCode(
-                m_registered, RegisteredOffset,
-                "登録されたラベル => コードはそのラベルのオフセット");
+                m_registered, RegisteredOffset.Value,
+                "登録されたラベル => コードはそのラベルのオフセットの値");
             CheckGenerateCode(
-                m_notRegistered, NotRegisteredOffset,
+                m_notRegistered, NotRegisteredOffset.Value,
                 "登録されていないラベル => コードは 0");
         }
 

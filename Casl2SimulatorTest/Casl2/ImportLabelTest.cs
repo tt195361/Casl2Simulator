@@ -24,7 +24,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             const UInt16 One = 1;
             const UInt16 Two = 2;
             const UInt16 Three = 3;
-            const UInt16 CodeOffset = 3;
+            MemoryOffset CodeOffset = new MemoryOffset(3);
             const UInt16 PlaceHolder = 0;
 
             relModule.AddWord(new Word(One));
@@ -35,7 +35,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             importLabel.AddImportLabelWord(relModule, label);
 
             LabelTest.Check(label, importLabel.Label, "参照先のラベルが記録される");
-            Assert.AreEqual(CodeOffset, importLabel.CodeOffset, "再配置可能モジュールのコードの位置が記録される");
+            MemoryOffsetTest.Check(
+                CodeOffset, importLabel.CodeOffset, "再配置可能モジュールのコードの位置が記録される");
             RelocatableModuleTest.Check(
                 relModule,
                 WordTest.MakeArray(One, Two, Three, PlaceHolder),

@@ -9,7 +9,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class Relocation
     {
         #region Fields
-        private UInt16 m_codeOffset;
+        private MemoryOffset m_codeOffset;
         #endregion
 
         internal Relocation()
@@ -17,7 +17,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             //
         }
 
-        internal UInt16 CodeOffset
+        internal MemoryOffset CodeOffset
         {
             get { return m_codeOffset; }
         }
@@ -31,8 +31,8 @@ namespace Tt195361.Casl2Simulator.Casl2
             m_codeOffset = relModule.CodeOffset;
 
             // 再配置可能モジュールに、コードの語としてラベルのオフセットを追加する。
-            UInt16 codeValue = lblManager.GetOffset(label);
-            Word codeWord = new Word(codeValue);
+            MemoryOffset labelOffset = lblManager.GetOffset(label);
+            Word codeWord = new Word(labelOffset.Value);
             relModule.AddWord(codeWord);
         }
     }

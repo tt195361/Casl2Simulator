@@ -119,10 +119,10 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// Assemble メソッドのテストです。
+        /// Assemble メソッドのコード生成のテストです。
         /// </summary>
         [TestMethod]
-        public void Assemble()
+        public void Assemble_GenerateCode()
         {
             CheckAssemble(
                 TestUtils.MakeArray(
@@ -134,7 +134,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                     0x1067,             // OP: 0x10, r/r1: 6, x/r2: 7 => 0x1067 
                     0x0002,             // LBL001 のオフセット
                     0x1234),            // DC で指定した 16 進定数の値
-                "再配置可能モジュールにコードとシンボル情報が生成される");
+                "再配置可能モジュールにコードとラベル情報が生成される");
 
             CheckAssemble(
                 TestUtils.MakeArray(
@@ -157,12 +157,36 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 "10 進定数, 16 進定数, 文字定数, アドレス定数のそれぞれの定数のコード生成");
         }
 
+        /// <summary>
+        /// Assemble メソッドでコードのサイズが主記憶より大きい場合のテストです。
+        /// </summary>
+        [TestMethod]
+        public void Assemble_ProgramTooBig()
+        {
+            CheckAssemble(
+                TestUtils.MakeArray(
+                    "ENTRY  START",
+                    "       DS 65535",
+                    "       DS 1",
+                    "       END"),
+                null,
+                "コードのサイズが主記憶より大きい => 例外");
+        }
+
         private void CheckAssemble(String[] sourceText, Word[] expectedWords, String message)
         {
             Assembler target = new Assembler();
             Boolean notUsed = target.ProcessSourceText(sourceText);
-            RelocatableModule relModule = target.Assemble();
-            RelocatableModuleTest.Check(relModule, expectedWords, message);
+            try
+            {
+                RelocatableModule relModule = target.Assemble();
+                Assert.IsNotNull(expectedWords, message);
+                RelocatableModuleTest.Check(relModule, expectedWords, message);
+            }
+            catch (Casl2SimulatorException)
+            {
+                Assert.IsNull(expectedWords, message);
+            }
         }
     }
 }

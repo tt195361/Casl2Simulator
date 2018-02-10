@@ -77,7 +77,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         public void CalculateCodeOffset_WithDefinedLabel()
         {
             Label definedLabel = new Label("DEF");
-            const UInt16 DefinedLabelOffset = 0x3579;
+            MemoryOffset DefinedLabelOffset = new MemoryOffset(0x3579);
             m_lblManager.RegisterForUnitTest(definedLabel, DefinedLabelOffset);
             CheckCalculateCodeOffset(
                 definedLabel, true, DefinedLabelOffset,
@@ -91,21 +91,22 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         public void CalculateCodeOffset_WithUndefinedLabel()
         {
             Label undefinedLabel = new Label("UNDEF");
-            const UInt16 DontCare = 0;
+            MemoryOffset DontCare = MemoryOffset.Zero;
             CheckCalculateCodeOffset(
                 undefinedLabel, false, DontCare,
                 "未定義のラベル => 例外");
         }
 
-        private void CheckCalculateCodeOffset(Label label, Boolean success, UInt16 expected, String message)
+        private void CheckCalculateCodeOffset(
+            Label label, Boolean success, MemoryOffset expected, String message)
         {
             ExecStartAddress target = ExecStartAddress.MakeForUnitTest(label);
             try
             {
                 target.CalculateCodeOffset(m_lblManager, m_relModule);
                 Assert.IsTrue(success, message);
-                UInt16 actual = target.CodeOffset;
-                Assert.AreEqual(expected, actual, message);
+                MemoryOffset actual = target.CodeOffset;
+                MemoryOffsetTest.Check(expected, actual, message);
             }
             catch (Casl2SimulatorException)
             {
@@ -113,11 +114,10 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             }
         }
 
-        internal static void Check(
-            ExecStartAddress actual, Label expectedLabel, UInt16 expectedCodeOffset, String message)
+        internal static void Check(ExecStartAddress expected, ExecStartAddress actual, String message)
         {
-            LabelTest.Check(expectedLabel, actual.Label, "Label: " + message);
-            Assert.AreEqual(expectedCodeOffset, actual.CodeOffset, "CodeOffset: " + message);
+            LabelTest.Check(expected.Label, actual.Label, "Label: " + message);
+            MemoryOffsetTest.Check(expected.CodeOffset, actual.CodeOffset, "CodeOffset: " + message);
         }
     }
 }

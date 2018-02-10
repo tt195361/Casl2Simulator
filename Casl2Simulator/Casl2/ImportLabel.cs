@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     {
         #region Fields
         private Label m_label;
-        private UInt16 m_codeOffset;
+        private MemoryOffset m_codeOffset;
 
         private readonly Word PlaceHolderValue = Word.Zero;
         #endregion
@@ -25,7 +25,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_label; }
         }
 
-        internal UInt16 CodeOffset
+        internal MemoryOffset CodeOffset
         {
             get { return m_codeOffset; }
         }
