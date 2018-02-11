@@ -48,6 +48,24 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
+        /// オペランドが r,adr[,x] の機械語命令の ReadOperand メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void ReadOperand_RAdrX()
+        {
+            CheckReadOperand_RAdrX("GR6,#89AB", true, "r,adr の場合 => OK");
+            CheckReadOperand_RAdrX("GR7,LBL001,GR2", true, "r,adr,x の場合 => OK");
+            CheckReadOperand_RAdrX("GR0,GR1", false, "r1,r2 は受け付けない => 例外");
+            CheckReadOperand_RAdrX("GR1,1234,GR2,5678", false, "後ろにまだ文字がある => 例外");
+        }
+
+        private void CheckReadOperand_RAdrX(String text, Boolean success, String message)
+        {
+            MachineInstruction target = MachineInstruction.MakeRAdrX(Mnemonic, Opcode1);
+            InstructionTest.CheckReadOperand(target, text, success, message);
+        }
+
+        /// <summary>
         /// オペランドが adr,x の機械語命令の ReadOperand メソッドのテストです。
         /// </summary>
         [TestMethod]

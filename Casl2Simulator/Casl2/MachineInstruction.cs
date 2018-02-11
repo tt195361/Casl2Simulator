@@ -11,6 +11,13 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class MachineInstruction : Instruction
     {
+        /// <summary>
+        /// オペランドが r,adr,x あるいは r1,r2 のどちらかの機械語命令を作成します。
+        /// </summary>
+        /// <param name="mnemonic">命令のニーモニックを表わす文字列です。</param>
+        /// <param name="opcodeRAdrX">オペランドが r,adr,x の場合のオペコードの値です。</param>
+        /// <param name="opcodeR1R2">オペランドが r1,r2 の場合のオペコードの値です。</param>
+        /// <returns></returns>
         internal static MachineInstruction MakeRAdrXOrR1R2(
             String mnemonic, UInt16 opcodeRAdrX, UInt16 opcodeR1R2)
         {
@@ -19,12 +26,36 @@ namespace Tt195361.Casl2Simulator.Casl2
                 (lexer) => RAdrXOrR1R2Operand.Parse(lexer, opcodeRAdrX, opcodeR1R2));
         }
 
+        /// <summary>
+        /// オペランドが r,adr,x の機械語命令を作成します。
+        /// </summary>
+        /// <param name="mnemonic">命令のニーモニックを表わす文字列です。</param>
+        /// <param name="opcode">この命令のオペコードの値です。</param>
+        /// <returns></returns>
+        internal static MachineInstruction MakeRAdrX(String mnemonic, UInt16 opcode)
+        {
+            return new MachineInstruction(
+                mnemonic, Resources.SYN_RAdrX, (lexer) => RAdrXOperand.Parse(lexer, opcode));
+        }
+
+        /// <summary>
+        /// オペランドが adr,x の機械語命令を作成します。
+        /// </summary>
+        /// <param name="mnemonic">命令のニーモニックを表わす文字列です。</param>
+        /// <param name="opcode">この命令のオペコードの値です。</param>
+        /// <returns></returns>
         internal static MachineInstruction MakeAdrX(String mnemonic, UInt16 opcode)
         {
             return new MachineInstruction(
                 mnemonic, Resources.SYN_AdrX, (lexer) => AdrXOperand.Parse(lexer, opcode));
         }
 
+        /// <summary>
+        /// オペランドがない機械語命令を作成します。
+        /// </summary>
+        /// <param name="mnemonic">命令のニーモニックを表わす文字列です。</param>
+        /// <param name="opcode">この命令のオペコードの値です。</param>
+        /// <returns></returns>
         internal static MachineInstruction MakeNoOperand(String mnemonic, UInt16 opcode)
         {
             return new MachineInstruction(

@@ -182,12 +182,20 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             CheckAssemble(
                 TestUtils.MakeArray(
                     "ENTRY  START",
+                    "; 0x00 ~",
                     "       NOP",
+                    "; 0x10 ~",
                     "       LD  GR1,#1234,GR2",
+                    "       ST  GR3,#2345,GR4",
+                    "       LAD GR5,#3456",
+                    "       LD  GR6,GR7",
                     "       END"),
                 WordTest.MakeArray(
                     0x0000,                 // NOP
-                    0x1012, 0x1234),        // LD  r,adr,x
+                    0x1012, 0x1234,         // LD  r,adr,x
+                    0x1134, 0x2345,         // ST  r,adr,x
+                    0x1250, 0x3456,         // LOD r,adr,x
+                    0x1467),                // LD  r1,r2
                 "それぞれの機械語命令");
         }
 

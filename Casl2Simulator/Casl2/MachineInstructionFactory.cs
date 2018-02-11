@@ -18,6 +18,16 @@ namespace Tt195361.Casl2Simulator.Casl2
                 MnemonicDef.LD, OpcodeDef.LoadEaContents, OpcodeDef.LoadRegister);
         }
 
+        internal static MachineInstruction MakeSt()
+        {
+            return MachineInstruction.MakeRAdrX(MnemonicDef.ST, OpcodeDef.Store);
+        }
+
+        internal static MachineInstruction MakeLad()
+        {
+            return MachineInstruction.MakeRAdrX(MnemonicDef.LAD, OpcodeDef.LoadEffectiveAddress);
+        }
+
         internal static MachineInstruction MakePush()
         {
             return MachineInstruction.MakeAdrX(MnemonicDef.PUSH, OpcodeDef.Push);

@@ -27,6 +27,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
             CheckMake("NOP", typeof(MachineInstruction), "機械語命令 NOP");
             CheckMake("LD", typeof(MachineInstruction), "機械語命令 LD");
+            CheckMake("ST", typeof(MachineInstruction), "機械語命令 ST");
+            CheckMake("LAD", typeof(MachineInstruction), "機械語命令 LAD");
+
             CheckMake("PUSH", typeof(MachineInstruction), "機械語命令 PUSH");
 
             CheckMake(String.Empty, null, "空文字列 => 例外");
