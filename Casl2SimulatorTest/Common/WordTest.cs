@@ -213,8 +213,7 @@ namespace Tt195361.Casl2SimulatorTest.Common
         internal static Word[] MakeArray(Word word, Int32 count)
         {
             Word[] words = new Word[count];
-            Enumerable.Range(0, count)
-                      .ForEach((index) => words[index] = word);
+            count.Times((index) => words[index] = word);
             return words;
         }
     }

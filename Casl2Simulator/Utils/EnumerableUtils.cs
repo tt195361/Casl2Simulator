@@ -40,6 +40,32 @@ namespace Tt195361.Casl2Simulator.Utils
         }
 
         /// <summary>
+        /// 指定の回数だけ指定の引数のない動作を行います。
+        /// </summary>
+        /// <param name="count">動作を行う回数です。</param>
+        /// <param name="action">指定の回数行う引数のない動作です。</param>
+        internal static void Times(this Int32 count, Action action)
+        {
+            for (Int32 index = 0; index < count; index++)
+            {
+                action();
+            }
+        }
+
+        /// <summary>
+        /// 指定の回数だけ指定の何回目かを示すインデックスの値を引数に取る動作を行います。
+        /// </summary>
+        /// <param name="count">動作を行う回数です。</param>
+        /// <param name="action">指定の回数行う何回目かを示すインデックスの値を引数に取る動作です。</param>
+        internal static void Times(this Int32 count, Action<Int32> action)
+        {
+            for (Int32 index = 0; index < count; index++)
+            {
+                action(index);
+            }
+        }
+
+        /// <summary>
         /// それぞれの文字列を <paramref name="delimiter"/> で区切って連結します。
         /// </summary>
         internal static String MakeList(this IEnumerable<String> strEnumerable, String delimiter)

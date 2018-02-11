@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Utils;
 
@@ -89,8 +88,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// </summary>
         internal void AddWords(Word word, Int32 count)
         {
-            Enumerable.Range(0, count)
-                      .ForEach((notUsed) => AddWord(word));
+            count.Times(() => AddWord(word));
         }
 
         /// <summary>

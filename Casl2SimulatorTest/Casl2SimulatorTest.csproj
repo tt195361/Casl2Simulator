@@ -116,6 +116,7 @@
     <Compile Include="TestUtils.cs" />
     <Compile Include="Utils\ArgCheckerTest.cs" />
     <Compile Include="Utils\CharUtilsTest.cs" />
+    <Compile Include="Utils\EnumerableUtilsTest.cs" />
     <Compile Include="Utils\Jisx0201UtilsTest.cs" />
     <Compile Include="Utils\NumberUtilsTest.cs" />
     <Compile Include="Utils\UInt16UtilsTest.cs" />
