@@ -349,11 +349,11 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} 命令のオペランドで、{1} から後ろが解釈できずに残りました。記述形式を確認してください。.
+        ///   Looks up a localized string similar to {0} 命令のオペランド &quot;{1}&quot; で &quot;{2}&quot; が解釈できずに残りました。記述形式を確認してください。.
         /// </summary>
-        internal static string MSG_NotParsedTokenRemainsInOperand {
+        internal static string MSG_NotParsedStringRemainsInOperand {
             get {
-                return ResourceManager.GetString("MSG_NotParsedTokenRemainsInOperand", resourceCulture);
+                return ResourceManager.GetString("MSG_NotParsedStringRemainsInOperand", resourceCulture);
             }
         }
         

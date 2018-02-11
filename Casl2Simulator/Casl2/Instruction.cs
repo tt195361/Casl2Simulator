@@ -70,6 +70,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         private Operand ParseOperand(ReadBuffer buffer)
         {
             OperandLexer lexer = new OperandLexer(buffer);
+            String strToParse = lexer.Remaining;
             lexer.MoveNext();
             Operand operand = ParseSpecificOperand(lexer);
 
@@ -77,7 +78,8 @@ namespace Tt195361.Casl2Simulator.Casl2
             Token token = lexer.CurrentToken;
             if (token.Type != TokenType.EndOfToken)
             {
-                String message = String.Format(Resources.MSG_NotParsedTokenRemainsInOperand, Mnemonic, token);
+                String message = String.Format(
+                    Resources.MSG_NotParsedStringRemainsInOperand, Mnemonic, strToParse, lexer.Remaining);
                 throw new Casl2SimulatorException(message);
             }
 

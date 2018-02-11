@@ -11,11 +11,13 @@ namespace Tt195361.Casl2Simulator.Casl2
         #region Fields
         private readonly ReadBuffer m_buffer;
         private Token m_currentToken;
+        private String m_remaining;
         #endregion
 
         internal OperandLexer(ReadBuffer buffer)
         {
             m_buffer = buffer;
+            m_remaining = buffer.GetRest();
             // ここでは、最初のトークンを読まない。解釈できずに例外になる可能性があるため。
         }
 
@@ -28,10 +30,19 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         /// <summary>
+        /// 解釈していない残りの文字列を取得します。
+        /// </summary>
+        internal String Remaining
+        {
+            get { return m_remaining; }
+        }
+
+        /// <summary>
         /// 次の <see cref="Token"/> を読み込み、<see cref="CurrentToken"/> を更新します。
         /// </summary>
         internal void MoveNext()
         {
+            m_remaining = m_buffer.GetRest();
             m_currentToken = ReadNext();
         }
 

@@ -16,6 +16,10 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private Instruction m_rAdrXOrR1R2_RAdrX;
         private Instruction m_rAdrXOrR1R2_R1R2;
         private LabelManager m_lblManager;
+
+        private const String Mnemonic = "TST";
+        private const UInt16 Opcode1 = 0x01;
+        private const UInt16 Opcode2 = 0x02;
         #endregion
 
         [TestInitialize]
@@ -24,6 +28,55 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             m_rAdrXOrR1R2_RAdrX = InstructionTest.Make(MnemonicDef.LD, "GR1,#ABCD,GR2");
             m_rAdrXOrR1R2_R1R2 = InstructionTest.Make(MnemonicDef.LD, "GR3,GR4");
             m_lblManager = new LabelManager();
+        }
+
+        /// <summary>
+        /// オペランドが r,adr,x か r1,r2 の機械語命令の ReadOperand メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void ReadOperand_RAdrXOrR1R2()
+        {
+            CheckReadOperand_RAdrXOrR1R2("GR3,='ABC',GR5", true, "r,adr,x の場合 => OK");
+            CheckReadOperand_RAdrXOrR1R2("GR4,GR6", true, "r1,r2 の場合 => OK");
+            CheckReadOperand_RAdrXOrR1R2("GR5,GR6,GR7", false, "後ろにまだ文字がある => 例外");
+        }
+
+        private void CheckReadOperand_RAdrXOrR1R2(String text, Boolean success, String message)
+        {
+            MachineInstruction target = MachineInstruction.MakeRAdrXOrR1R2(Mnemonic, Opcode1, Opcode2);
+            InstructionTest.CheckReadOperand(target, text, success, message);
+        }
+
+        /// <summary>
+        /// オペランドが adr,x の機械語命令の ReadOperand メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void ReadOperand_AdrX()
+        {
+            CheckReadOperand_AdrX("='ABC',GR1", true, "adr,x の場合 => OK");
+            CheckReadOperand_AdrX("#1357,GR3,GR4", false, "後ろにまだ文字がある => 例外");
+        }
+
+        private void CheckReadOperand_AdrX(String text, Boolean success, String message)
+        {
+            MachineInstruction target = MachineInstruction.MakeAdrX(Mnemonic, Opcode1);
+            InstructionTest.CheckReadOperand(target, text, success, message);
+        }
+
+        /// <summary>
+        /// オペランドなしの機械語命令の ReadOperand メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void ReadOperand_NoOperand()
+        {
+            CheckReadOperand_NoOperand(String.Empty, true, "空文字列 => OK");
+            CheckReadOperand_NoOperand("OPR", false, "なにか文字がある => 例外");
+        }
+
+        private void CheckReadOperand_NoOperand(String text, Boolean success, String message)
+        {
+            MachineInstruction target = MachineInstruction.MakeNoOperand(Mnemonic, Opcode1);
+            InstructionTest.CheckReadOperand(target, text, success, message);
         }
 
         /// <summary>

@@ -25,6 +25,12 @@ namespace Tt195361.Casl2Simulator.Casl2
                 mnemonic, Resources.SYN_AdrX, (lexer) => AdrXOperand.Parse(lexer, opcode));
         }
 
+        internal static MachineInstruction MakeNoOperand(String mnemonic, UInt16 opcode)
+        {
+            return new MachineInstruction(
+                mnemonic, Resources.SYN_NoOperand, (lexer) => NoOperand.Parse(lexer, opcode));
+        }
+
         #region Fields
         private readonly String m_operandSyntax;
         private readonly OperandParseFunc m_operandParseFunc;

@@ -213,8 +213,8 @@
   <data name="MSG_NotExpectedToken" xml:space="preserve">
     <value>オペランドの字句要素として {0} を予期していましたが、実際は {1} でした。{0} を記述してください。</value>
   </data>
-  <data name="MSG_NotParsedTokenRemainsInOperand" xml:space="preserve">
-    <value>{0} 命令のオペランドで、{1} から後ろが解釈できずに残りました。記述形式を確認してください。</value>
+  <data name="MSG_NotParsedStringRemainsInOperand" xml:space="preserve">
+    <value>{0} 命令のオペランド "{1}" で "{2}" が解釈できずに残りました。記述形式を確認してください。</value>
   </data>
   <data name="MSG_OperandNeitherRAdrXNorR1R2" xml:space="preserve">
     <value>オペランドを r,adr[,x] としても r1,r2 としても解釈できませんでした。オペランドに r,adr[,x] あるいは r1,r2 を指定してください。</value>

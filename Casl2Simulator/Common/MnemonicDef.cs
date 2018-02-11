@@ -2,6 +2,9 @@
 
 namespace Tt195361.Casl2Simulator.Common
 {
+    /// <summary>
+    /// 命令のニーモニックの定義です。
+    /// </summary>
     internal static class MnemonicDef
     {
         internal const String START = "START";
@@ -12,6 +15,7 @@ namespace Tt195361.Casl2Simulator.Common
         internal const String IN = "IN";
         internal const String RPUSH = "RPUSH";
 
+        internal const String NOP = "NOP";
         internal const String LD = "LD";
         internal const String LAD = "LAD";
         internal const String PUSH = "PUSH";

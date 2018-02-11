@@ -173,6 +173,24 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 "コードのサイズが主記憶より大きい => 例外");
         }
 
+        /// <summary>
+        /// Assemble メソッドでそれぞれの機械語命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void Assemble_MachineInstructions()
+        {
+            CheckAssemble(
+                TestUtils.MakeArray(
+                    "ENTRY  START",
+                    "       NOP",
+                    "       LD  GR1,#1234,GR2",
+                    "       END"),
+                WordTest.MakeArray(
+                    0x0000,                 // NOP
+                    0x1012, 0x1234),        // LD  r,adr,x
+                "それぞれの機械語命令");
+        }
+
         private void CheckAssemble(String[] sourceText, Word[] expectedWords, String message)
         {
             Assembler target = new Assembler();

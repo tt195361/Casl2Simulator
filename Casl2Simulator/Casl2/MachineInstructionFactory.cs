@@ -7,6 +7,11 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal static class MachineInstructionFactory
     {
+        internal static MachineInstruction MakeNop()
+        {
+            return MachineInstruction.MakeNoOperand(MnemonicDef.NOP, OpcodeDef.NoOperation);
+        }
+
         internal static MachineInstruction MakeLd()
         {
             return MachineInstruction.MakeRAdrXOrR1R2(
