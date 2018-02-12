@@ -26,9 +26,15 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             CheckMake("RPUSH", typeof(MacroRpushInstruction), "マクロ命令 RPUSH");
 
             CheckMake("NOP", typeof(MachineInstruction), "機械語命令 NOP");
+
             CheckMake("LD", typeof(MachineInstruction), "機械語命令 LD");
             CheckMake("ST", typeof(MachineInstruction), "機械語命令 ST");
             CheckMake("LAD", typeof(MachineInstruction), "機械語命令 LAD");
+
+            CheckMake("ADDA", typeof(MachineInstruction), "機械語命令 ADDA");
+            CheckMake("SUBA", typeof(MachineInstruction), "機械語命令 SUBA");
+            CheckMake("ADDL", typeof(MachineInstruction), "機械語命令 ADDL");
+            CheckMake("SUBL", typeof(MachineInstruction), "機械語命令 SUBL");
 
             CheckMake("PUSH", typeof(MachineInstruction), "機械語命令 PUSH");
 

@@ -185,17 +185,37 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                     "; 0x00 ~",
                     "       NOP",
                     "; 0x10 ~",
-                    "       LD  GR1,#1234,GR2",
-                    "       ST  GR3,#2345,GR4",
-                    "       LAD GR5,#3456",
-                    "       LD  GR6,GR7",
+                    "       LD   GR1,#1234,GR2",
+                    "       ST   GR3,#2345,GR4",
+                    "       LAD  GR5,#3456",
+                    "       LD   GR6,GR7",
+                    "; 0x20 ~",
+                    "       ADDA GR7,#FEDC,GR6",
+                    "       SUBA GR5,#BA98,GR4",
+                    "       ADDL GR3,#7654,GR2",
+                    "       SUBL GR1,#3210,GR7",
+                    "       ADDA GR1,GR2",
+                    "       SUBA GR3,GR4",
+                    "       ADDL GR5,GR6",
+                    "       SUBL GR7,GR1",
                     "       END"),
                 WordTest.MakeArray(
+                    // 0x00 ~
                     0x0000,                 // NOP
-                    0x1012, 0x1234,         // LD  r,adr,x
-                    0x1134, 0x2345,         // ST  r,adr,x
-                    0x1250, 0x3456,         // LOD r,adr,x
-                    0x1467),                // LD  r1,r2
+                    // 0x10 ~
+                    0x1012, 0x1234,         // LD   r,adr,x
+                    0x1134, 0x2345,         // ST   r,adr,x
+                    0x1250, 0x3456,         // LOD  r,adr,x
+                    0x1467,                 // LD   r1,r2
+                    // 0x20 ~
+                    0x2076, 0xFEDC,         // ADDA r,adr,x
+                    0x2154, 0xBA98,         // SUBA r,adr,x
+                    0x2232, 0x7654,         // ADDL r,adr,x
+                    0x2317, 0x3210,         // SUBL r,adr,x
+                    0x2412,                 // ADDA r1,r2
+                    0x2534,                 // SUBA r1,r2
+                    0x2656,                 // ADDL r1,r2
+                    0x2771),                // SUBL r1,r2
                 "それぞれの機械語命令");
         }
 

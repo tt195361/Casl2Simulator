@@ -24,6 +24,11 @@ namespace Tt195361.Casl2Simulator.Common
         internal const String ST = "ST";
         internal const String LAD = "LAD";
 
+        internal const String ADDA = "ADDA";
+        internal const String SUBA = "SUBA";
+        internal const String ADDL = "ADDL";
+        internal const String SUBL = "SUBL";
+
         internal const String PUSH = "PUSH";
         internal const String POP = "POP";
         internal const String SVC = "SVC";
