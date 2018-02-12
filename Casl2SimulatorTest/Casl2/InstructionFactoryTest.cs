@@ -49,6 +49,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 Instruction instruction = InstructionFactory.Make(mnemonic);
                 Assert.IsNotNull(expectedType, message);
                 Assert.IsInstanceOfType(instruction, expectedType, message);
+                Assert.AreEqual(mnemonic, instruction.Mnemonic, "指定のニーモニックと命令のニーモニックが同じ");
             }
             catch (Casl2SimulatorException)
             {

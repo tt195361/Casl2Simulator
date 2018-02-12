@@ -53,11 +53,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             relModule.AddWords(Word.Zero, m_wordCount.Value);
         }
 
-        internal static AsmDsInstruction MakeForUnitTest(Int32 value)
+        internal void SetWordCountValueForUnitTest(Int32 wordCountValue)
         {
-            AsmDsInstruction asmDsInstruction = new AsmDsInstruction();
-            asmDsInstruction.m_wordCount = WordCount.MakeForUnitTest(value);
-            return asmDsInstruction;
+            m_wordCount = WordCount.MakeForUnitTest(wordCountValue);
         }
     }
 }

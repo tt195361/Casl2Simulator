@@ -100,7 +100,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         private void CheckGenerateCode(Label entryLabel, Boolean success, String message)
         {
-            AsmStartInstruction target = AsmStartInstruction.MakeForUnitTest(m_execStartAddress);
+            AsmStartInstruction target = new AsmStartInstruction();
+            target.SetExecStartAddressForUnitTest(m_execStartAddress);
             try
             {
                 target.GenerateCode(entryLabel, m_lblManager, m_relModule);

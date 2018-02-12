@@ -54,11 +54,11 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             CheckGetCodeWordCount(65535, "指定の語数のコードを生成する: 語数 65535");
         }
 
-        private void CheckGetCodeWordCount(Int32 value, String message)
+        private void CheckGetCodeWordCount(Int32 wordCountValue, String message)
         {
-            AsmDsInstruction target = AsmDsInstruction.MakeForUnitTest(value);
+            AsmDsInstruction target = MakeTarget(wordCountValue);
             Int32 actual = target.GetCodeWordCount();
-            Int32 expected = value;
+            Int32 expected = wordCountValue;
             Assert.AreEqual(expected, actual, message);
         }
 
@@ -73,9 +73,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             CheckGenerateCode(65535, "確保する語数分の値が 0 の語が追加される: 語数 65535");
         }
 
-        private void CheckGenerateCode(Int32 value, String message)
+        private void CheckGenerateCode(Int32 wordCountValue, String message)
         {
-            AsmDsInstruction target = AsmDsInstruction.MakeForUnitTest(value);
+            AsmDsInstruction target = MakeTarget(wordCountValue);
             const Label label = null;
             LabelManager lblManager = new LabelManager();
             RelocatableModule relModule = new RelocatableModule();
@@ -83,8 +83,15 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             target.GenerateCode(label, lblManager, relModule);
 
             // 確保する語数分の 0 の語が追加される。
-            Word[] expectedWords = WordTest.MakeArray(Word.Zero, value);
+            Word[] expectedWords = WordTest.MakeArray(Word.Zero, wordCountValue);
             RelocatableModuleTest.Check(relModule, expectedWords, message);
+        }
+
+        private AsmDsInstruction MakeTarget(Int32 wordCountValue)
+        {
+            AsmDsInstruction target = new AsmDsInstruction();
+            target.SetWordCountValueForUnitTest(wordCountValue);
+            return target;
         }
     }
 }

@@ -68,11 +68,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             relModule.SetExportLabel(exportLabel);
         }
 
-        internal static AsmStartInstruction MakeForUnitTest(ExecStartAddress execStartAddress)
+        internal void SetExecStartAddressForUnitTest(ExecStartAddress execStartAddress)
         {
-            AsmStartInstruction asmStartInstruction = new AsmStartInstruction();
-            asmStartInstruction.m_execStartAddress = execStartAddress;
-            return asmStartInstruction;
+            m_execStartAddress = execStartAddress;
         }
     }
 }
