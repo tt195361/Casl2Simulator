@@ -40,6 +40,14 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             CheckMake("OR", typeof(MachineInstruction), "機械語命令 OR");
             CheckMake("XOR", typeof(MachineInstruction), "機械語命令 XOR");
 
+            CheckMake("CPA", typeof(MachineInstruction), "機械語命令 CPA");
+            CheckMake("CPL", typeof(MachineInstruction), "機械語命令 CPL");
+
+            CheckMake("SLA", typeof(MachineInstruction), "機械語命令 SLA");
+            CheckMake("SRA", typeof(MachineInstruction), "機械語命令 SRA");
+            CheckMake("SLL", typeof(MachineInstruction), "機械語命令 SLL");
+            CheckMake("SRL", typeof(MachineInstruction), "機械語命令 SRL");
+
             CheckMake("PUSH", typeof(MachineInstruction), "機械語命令 PUSH");
 
             CheckMake(String.Empty, null, "空文字列 => 例外");

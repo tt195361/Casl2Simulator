@@ -41,6 +41,14 @@ namespace Tt195361.Casl2Simulator.Casl2
                 { MnemonicDef.OR, () => MachineInstructionFactory.MakeOr() },
                 { MnemonicDef.XOR, () => MachineInstructionFactory.MakeXor() },
 
+                { MnemonicDef.CPA, () => MachineInstructionFactory.MakeCpa() },
+                { MnemonicDef.CPL, () => MachineInstructionFactory.MakeCpl() },
+
+                { MnemonicDef.SLA, () => MachineInstructionFactory.MakeSla() },
+                { MnemonicDef.SRA, () => MachineInstructionFactory.MakeSra() },
+                { MnemonicDef.SLL, () => MachineInstructionFactory.MakeSll() },
+                { MnemonicDef.SRL, () => MachineInstructionFactory.MakeSrl() },
+
                 { MnemonicDef.PUSH, () => MachineInstructionFactory.MakePush() },
             };
         }

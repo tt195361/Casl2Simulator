@@ -33,6 +33,14 @@ namespace Tt195361.Casl2Simulator.Common
         internal const String OR = "OR";
         internal const String XOR = "XOR";
 
+        internal const String CPA = "CPA";
+        internal const String CPL = "CPL";
+
+        internal const String SLA = "SLA";
+        internal const String SRA = "SRA";
+        internal const String SLL = "SLL";
+        internal const String SRL = "SRL";
+
         internal const String PUSH = "PUSH";
         internal const String POP = "POP";
         internal const String SVC = "SVC";
