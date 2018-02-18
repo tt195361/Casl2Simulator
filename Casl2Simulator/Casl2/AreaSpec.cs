@@ -16,9 +16,9 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// </returns>
         internal static AreaSpec Parse(OperandLexer lexer)
         {
-            Label buffer = lexer.ReadCurrentAsLabel();
+            Label buffer = Label.Parse(lexer);
             lexer.SkipComma();
-            Label length = lexer.ReadCurrentAsLabel();
+            Label length = Label.Parse(lexer);
             return new AreaSpec(buffer, length);
 
             // 解釈しなかった残りの字句要素は、Instruction.ParseOperand() で取り扱う。

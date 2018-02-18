@@ -21,7 +21,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         #endregion
 
         /// <summary>
-        /// アセンブラ行のラベルを解釈します。
+        /// アセンブラ行のラベルフィールドのラベルを解釈します。
         /// </summary>
         /// <param name="labelField">解釈する文字列です。</param>
         /// <returns>
@@ -38,6 +38,19 @@ namespace Tt195361.Casl2Simulator.Casl2
             {
                 return new Label(labelField);
             }
+        }
+
+        /// <summary>
+        /// オペランドのラベルを解釈します。
+        /// </summary>
+        /// <param name="lexer">オペランドの字句を解析する <see cref="OperandLexer"/> のオブジェクトです。</param>
+        /// <returns>
+        /// 解釈した結果として生成した <see cref="Label"/> オブジェクトを返します。
+        /// </returns>
+        internal static Label Parse(OperandLexer lexer)
+        {
+            Token token = lexer.ReadCurrentAs(TokenType.Label);
+            return new Label(token.StrValue);
         }
 
         /// <summary>

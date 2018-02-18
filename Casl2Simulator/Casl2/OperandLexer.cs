@@ -98,13 +98,6 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        // TODO: Label に移動して、Parse にする。
-        internal Label ReadCurrentAsLabel()
-        {
-            Token token = ReadCurrentAs(TokenType.Label);
-            return new Label(token.StrValue);
-        }
-
         internal void SkipComma()
         {
             Token notUsed = ReadCurrentAs(TokenType.Comma);
