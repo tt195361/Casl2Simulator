@@ -102,9 +102,59 @@ namespace Tt195361.Casl2Simulator.Casl2
             return MachineInstruction.MakeRAdrX(MnemonicDef.SRL, OpcodeDef.ShiftRightLogicalRAdrX);
         }
 
+        internal static MachineInstruction MakeJmi()
+        {
+            return MachineInstruction.MakeAdrX(MnemonicDef.JMI, OpcodeDef.JumpOnMinusAdrX);
+        }
+
+        internal static MachineInstruction MakeJnz()
+        {
+            return MachineInstruction.MakeAdrX(MnemonicDef.JNZ, OpcodeDef.JumpOnNonZeroAdrX);
+        }
+
+        internal static MachineInstruction MakeJze()
+        {
+            return MachineInstruction.MakeAdrX(MnemonicDef.JZE, OpcodeDef.JumpOnZeroAdrX);
+        }
+
+        internal static MachineInstruction MakeJump()
+        {
+            return MachineInstruction.MakeAdrX(MnemonicDef.JUMP, OpcodeDef.UnconditionalJumpAdrX);
+        }
+
+        internal static MachineInstruction MakeJpl()
+        {
+            return MachineInstruction.MakeAdrX(MnemonicDef.JPL, OpcodeDef.JumpOnPlusAdrX);
+        }
+
+        internal static MachineInstruction MakeJov()
+        {
+            return MachineInstruction.MakeAdrX(MnemonicDef.JOV, OpcodeDef.JumpOnOverflowAdrX);
+        }
+
         internal static MachineInstruction MakePush()
         {
             return MachineInstruction.MakeAdrX(MnemonicDef.PUSH, OpcodeDef.PushAdrX);
+        }
+
+        internal static MachineInstruction MakePop()
+        {
+            return MachineInstruction.MakeR(MnemonicDef.POP, OpcodeDef.PopR);
+        }
+
+        internal static MachineInstruction MakeCall()
+        {
+            return MachineInstruction.MakeAdrX(MnemonicDef.CALL, OpcodeDef.CallAdrX);
+        }
+
+        internal static MachineInstruction MakeRet()
+        {
+            return MachineInstruction.MakeNoOperand(MnemonicDef.RET, OpcodeDef.Ret);
+        }
+
+        internal static MachineInstruction MakeSvc()
+        {
+            return MachineInstruction.MakeAdrX(MnemonicDef.SVC, OpcodeDef.SupervisorCallAdrX);
         }
     }
 }

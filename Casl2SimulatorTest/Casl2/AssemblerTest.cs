@@ -311,6 +311,84 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 "オペコードが 5x の機械語命令");
         }
 
+        /// <summary>
+        /// Assemble メソッドでオペコードが 6x の機械語命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void Assemble_MachineInstructions_6x()
+        {
+            CheckAssemble(
+                TestUtils.MakeArray(
+                    "ENTRY  START",
+                    "       JMI  #1111,GR2",
+                    "       JNZ  #2222,GR3",
+                    "       JZE  #3333,GR4",
+                    "       JUMP #4444,GR5",
+                    "       JPL  #5555,GR6",
+                    "       JOV  #6666,GR7",
+                    "       END"),
+                WordTest.MakeArray(
+                    0x6102, 0x1111,         // JMI  adr,x
+                    0x6203, 0x2222,         // JNZ  adr,x
+                    0x6304, 0x3333,         // JZE  adr,x
+                    0x6405, 0x4444,         // JUMP adr,x
+                    0x6506, 0x5555,         // JPL  adr,x
+                    0x6607, 0x6666),        // JOV  adr,x
+                "オペコードが 6x の機械語命令");
+        }
+
+        /// <summary>
+        /// Assemble メソッドでオペコードが 7x の機械語命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void Assemble_MachineInstructions_7x()
+        {
+            CheckAssemble(
+                TestUtils.MakeArray(
+                    "ENTRY  START",
+                    "       PUSH #89AB,GR5",
+                    "       POP  GR6",
+                    "       END"),
+                WordTest.MakeArray(
+                    0x7005, 0x89AB,         // PUSH adr,x
+                    0x7160),                // POP  r
+                "オペコードが 7x の機械語命令");
+        }
+
+        /// <summary>
+        /// Assemble メソッドでオペコードが 8x の機械語命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void Assemble_MachineInstructions_8x()
+        {
+            CheckAssemble(
+                TestUtils.MakeArray(
+                    "ENTRY  START",
+                    "       CALL #9ABC,GR2",
+                    "       RET",
+                    "       END"),
+                WordTest.MakeArray(
+                    0x8002, 0x9ABC,         // CALL adr,x
+                    0x8100),                // RET
+                "オペコードが 8x の機械語命令");
+        }
+
+        /// <summary>
+        /// Assemble メソッドでオペコードが Fx の機械語命令のテストです。
+        /// </summary>
+        [TestMethod]
+        public void Assemble_MachineInstructions_Fx()
+        {
+            CheckAssemble(
+                TestUtils.MakeArray(
+                    "ENTRY  START",
+                    "       SVC  #ABCD,GR3",
+                    "       END"),
+                WordTest.MakeArray(
+                    0xF003, 0xABCD),        // CALL adr,x
+                "オペコードが Fx の機械語命令");
+        }
+
         private void CheckAssemble(String[] sourceText, Word[] expectedWords, String message)
         {
             Assembler target = new Assembler();

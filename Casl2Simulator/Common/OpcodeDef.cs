@@ -40,7 +40,20 @@ namespace Tt195361.Casl2Simulator.Common
         internal const UInt16 ShiftLeftLogicalRAdrX = 0x52;
         internal const UInt16 ShiftRightLogicalRAdrX = 0x53;
 
+        internal const UInt16 JumpOnMinusAdrX = 0x61;
+        internal const UInt16 JumpOnNonZeroAdrX = 0x62;
+        internal const UInt16 JumpOnZeroAdrX = 0x63;
+        internal const UInt16 UnconditionalJumpAdrX = 0x64;
+        internal const UInt16 JumpOnPlusAdrX = 0x65;
+        internal const UInt16 JumpOnOverflowAdrX = 0x66;
+
         internal const UInt16 PushAdrX = 0x70;
+        internal const UInt16 PopR = 0x71;
+
+        internal const UInt16 CallAdrX = 0x80;
+        internal const UInt16 Ret = 0x81;
+
+        internal const UInt16 SupervisorCallAdrX = 0xF0;
 
         internal const UInt16 Dummy = 0xff;
     }

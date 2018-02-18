@@ -51,6 +51,18 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         /// <summary>
+        /// オペランドが r の機械語命令を作成します。
+        /// </summary>
+        /// <param name="mnemonic">命令のニーモニックを表わす文字列です。</param>
+        /// <param name="opcode">この命令のオペコードの値です。</param>
+        /// <returns></returns>
+        internal static MachineInstruction MakeR(String mnemonic, UInt16 opcode)
+        {
+            return new MachineInstruction(
+                mnemonic, Resources.SYN_R, (lexer) => RegisterOperand.Parse(lexer, opcode));
+        }
+
+        /// <summary>
         /// オペランドがない機械語命令を作成します。
         /// </summary>
         /// <param name="mnemonic">命令のニーモニックを表わす文字列です。</param>

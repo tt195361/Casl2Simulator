@@ -48,7 +48,20 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             CheckMake("SLL", typeof(MachineInstruction), "機械語命令 SLL");
             CheckMake("SRL", typeof(MachineInstruction), "機械語命令 SRL");
 
+            CheckMake("JMI", typeof(MachineInstruction), "機械語命令 JMI");
+            CheckMake("JNZ", typeof(MachineInstruction), "機械語命令 JNZ");
+            CheckMake("JZE", typeof(MachineInstruction), "機械語命令 JZE");
+            CheckMake("JUMP", typeof(MachineInstruction), "機械語命令 JUMP");
+            CheckMake("JPL", typeof(MachineInstruction), "機械語命令 JPL");
+            CheckMake("JOV", typeof(MachineInstruction), "機械語命令 JOV");
+
             CheckMake("PUSH", typeof(MachineInstruction), "機械語命令 PUSH");
+            CheckMake("POP", typeof(MachineInstruction), "機械語命令 POP");
+
+            CheckMake("CALL", typeof(MachineInstruction), "機械語命令 CALL");
+            CheckMake("RET", typeof(MachineInstruction), "機械語命令 RET");
+
+            CheckMake("SVC", typeof(MachineInstruction), "機械語命令 SVC");
 
             CheckMake(String.Empty, null, "空文字列 => 例外");
             CheckMake("UNDEF", null, "未定義命令 => 例外");

@@ -41,8 +41,19 @@ namespace Tt195361.Casl2Simulator.Common
         internal const String SLL = "SLL";
         internal const String SRL = "SRL";
 
+        internal const String JMI = "JMI";
+        internal const String JNZ = "JNZ";
+        internal const String JZE = "JZE";
+        internal const String JUMP = "JUMP";
+        internal const String JPL = "JPL";
+        internal const String JOV = "JOV";
+
         internal const String PUSH = "PUSH";
         internal const String POP = "POP";
+
+        internal const String CALL = "CALL";
+        internal const String RET = "RET";
+
         internal const String SVC = "SVC";
 
         // その他
