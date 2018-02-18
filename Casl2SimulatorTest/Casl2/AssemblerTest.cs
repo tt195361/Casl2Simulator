@@ -198,6 +198,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                     "       SUBA GR3,GR4",
                     "       ADDL GR5,GR6",
                     "       SUBL GR7,GR1",
+                    "; 0x30 ~",
+                    "       AND  GR1,#1357,GR3",
+                    "       OR   GR5,#9BDF,GR7",
+                    "       XOR  GR2,#2468,GR4",
+                    "       AND  GR0,GR2",
+                    "       OR   GR4,GR6",
+                    "       XOR  GR3,GR5",
                     "       END"),
                 WordTest.MakeArray(
                     // 0x00 ~
@@ -215,7 +222,14 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                     0x2412,                 // ADDA r1,r2
                     0x2534,                 // SUBA r1,r2
                     0x2656,                 // ADDL r1,r2
-                    0x2771),                // SUBL r1,r2
+                    0x2771,                 // SUBL r1,r2
+                    // 0x30 ~
+                    0x3013, 0x1357,         // AND  r,adr,x
+                    0x3157, 0x9BDF,         // OR   r,adr,x
+                    0x3224, 0x2468,         // XOR  r,adr,x
+                    0x3402,                 // AND  r1,r2
+                    0x3546,                 // OR   r1,r2
+                    0x3635),                // XOR  r1,r2
                 "それぞれの機械語命令");
         }
 

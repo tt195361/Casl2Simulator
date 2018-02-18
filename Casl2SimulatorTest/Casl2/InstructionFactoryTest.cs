@@ -36,6 +36,10 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             CheckMake("ADDL", typeof(MachineInstruction), "機械語命令 ADDL");
             CheckMake("SUBL", typeof(MachineInstruction), "機械語命令 SUBL");
 
+            CheckMake("AND", typeof(MachineInstruction), "機械語命令 AND");
+            CheckMake("OR", typeof(MachineInstruction), "機械語命令 OR");
+            CheckMake("XOR", typeof(MachineInstruction), "機械語命令 XOR");
+
             CheckMake("PUSH", typeof(MachineInstruction), "機械語命令 PUSH");
 
             CheckMake(String.Empty, null, "空文字列 => 例外");

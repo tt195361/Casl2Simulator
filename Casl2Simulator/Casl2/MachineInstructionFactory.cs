@@ -52,6 +52,24 @@ namespace Tt195361.Casl2Simulator.Casl2
                 MnemonicDef.SUBL, OpcodeDef.SubtractLogicalRAdrX, OpcodeDef.SubtractLogicalR1R2);
         }
 
+        internal static MachineInstruction MakeAnd()
+        {
+            return MachineInstruction.MakeRAdrXOrR1R2(
+                MnemonicDef.AND, OpcodeDef.AndRAdrX, OpcodeDef.AndR1R2);
+        }
+
+        internal static MachineInstruction MakeOr()
+        {
+            return MachineInstruction.MakeRAdrXOrR1R2(
+                MnemonicDef.OR, OpcodeDef.OrRAdrX, OpcodeDef.OrR1R2);
+        }
+
+        internal static MachineInstruction MakeXor()
+        {
+            return MachineInstruction.MakeRAdrXOrR1R2(
+                MnemonicDef.XOR, OpcodeDef.XorRAdrX, OpcodeDef.XorR1R2);
+        }
+
         internal static MachineInstruction MakePush()
         {
             return MachineInstruction.MakeAdrX(MnemonicDef.PUSH, OpcodeDef.PushAdrX);

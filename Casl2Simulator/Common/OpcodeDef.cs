@@ -23,6 +23,13 @@ namespace Tt195361.Casl2Simulator.Common
         internal const UInt16 AddLogicalR1R2 = 0x26;
         internal const UInt16 SubtractLogicalR1R2 = 0x27;
 
+        internal const UInt16 AndRAdrX = 0x30;
+        internal const UInt16 OrRAdrX = 0x31;
+        internal const UInt16 XorRAdrX = 0x32;
+        internal const UInt16 AndR1R2 = 0x34;
+        internal const UInt16 OrR1R2 = 0x35;
+        internal const UInt16 XorR1R2 = 0x36;
+
         internal const UInt16 PushAdrX = 0x70;
 
         internal const UInt16 Dummy = 0xff;

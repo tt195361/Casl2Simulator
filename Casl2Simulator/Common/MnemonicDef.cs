@@ -29,6 +29,10 @@ namespace Tt195361.Casl2Simulator.Common
         internal const String ADDL = "ADDL";
         internal const String SUBL = "SUBL";
 
+        internal const String AND = "AND";
+        internal const String OR = "OR";
+        internal const String XOR = "XOR";
+
         internal const String PUSH = "PUSH";
         internal const String POP = "POP";
         internal const String SVC = "SVC";
