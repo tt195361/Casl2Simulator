@@ -43,6 +43,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 "GR0#GR1", false, DontCare,
                 "区切りが ',' でない場合 => 例外、'GR#GR1' は項目の区切りまでラベルとして読み込まれる");
             CheckParse(
+                "GR1,#CDEF,GR0", false, DontCare,
+                "x に GR0 は使えない => 例外");
+            CheckParse(
                 "GR0,'abc'", false, DontCare,
                 "2 つめのオペランドがレジスタでもアドレスでもない場合 => 例外");
         }

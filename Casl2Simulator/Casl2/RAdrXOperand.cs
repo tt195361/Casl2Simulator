@@ -8,20 +8,6 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class RAdrXOperand : MachineInstructionOperand
     {
-        internal static Boolean TryParse(OperandLexer lexer, UInt16 opcode, out RAdrXOperand rAdrX)
-        {
-            try
-            {
-                rAdrX = Parse(lexer, opcode);
-                return true;
-            }
-            catch (Exception)
-            {
-                rAdrX = null;
-                return false;
-            }
-        }
-
         /// <summary>
         /// r,adr[,x] のオペランドを解釈します。
         /// </summary>
@@ -36,6 +22,37 @@ namespace Tt195361.Casl2Simulator.Casl2
             lexer.SkipComma();
             AdrXOperand adrX = AdrXOperand.Parse(lexer);
             return new RAdrXOperand(opcode, r, adrX);
+        }
+
+        /// <summary>
+        /// r,adr[,x] のオペランドの adr[,x] の部分を解釈します。戻り値は、解釈が成功したかどうかを示します。
+        /// </summary>
+        /// <param name="lexer">オペランドの字句を解析する <see cref="OperandLexer"/> のオブジェクトです。</param>
+        /// <param name="opcode">このオペラントの命令の第 1 語のオペコードの値です。</param>
+        /// <param name="r">
+        /// r,adr[,x] のオペランドの最初の r の内容を保持する <see cref="RegisterOperand"/> のオブジェクトです。
+        /// </param>
+        /// <param name="rAdrX">
+        /// 解釈が成功したとき、結果として生成した <see cref="RAdrXOperand"/> のオブジェクトを格納します。
+        /// 失敗した場合は <see langword="null"/> を格納します。
+        /// </param>
+        /// <returns>
+        /// 解釈に成功した場合は <see langword="true"/> を、失敗した場合は <see langword="false"/> を返します。
+        /// </returns>
+        internal static Boolean TryParseAdrX(
+            OperandLexer lexer, UInt16 opcode, RegisterOperand r, out RAdrXOperand rAdrX)
+        {
+            AdrXOperand adrX;
+            if (!AdrXOperand.TryParse(lexer, out adrX))
+            {
+                rAdrX = null;
+                return false;
+            }
+            else
+            {
+                rAdrX = new RAdrXOperand(opcode, r, adrX);
+                return true;
+            }
         }
 
         #region Fields

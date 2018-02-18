@@ -50,9 +50,16 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         internal static void Check(Token expected, Token actual, String message)
         {
-            Assert.AreEqual(expected.Type, actual.Type, "Type: " + message);
-            Assert.AreEqual(expected.I32Value, actual.I32Value, "I32Value: " + message);
-            Assert.AreEqual(expected.StrValue, actual.StrValue, "StrValue: " + message);
+            if (expected == null)
+            {
+                Assert.IsNull(actual, message);
+            }
+            else
+            {
+                Assert.AreEqual(expected.Type, actual.Type, "Type: " + message);
+                Assert.AreEqual(expected.I32Value, actual.I32Value, "I32Value: " + message);
+                Assert.AreEqual(expected.StrValue, actual.StrValue, "StrValue: " + message);
+            }
         }
     }
 }

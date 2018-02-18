@@ -51,7 +51,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         internal static void Check(RegisterOperand expected, RegisterOperand actual, String message)
         {
-            RegisterTest.Check(expected.R, actual.R, message);
+            RegisterTest.Check(expected.Register, actual.Register, message);
         }
     }
 }

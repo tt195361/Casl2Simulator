@@ -70,6 +70,77 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             }
         }
 
+        /// <summary>
+        /// ReadCurrentAs メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void ReadCurrentAs()
+        {
+            const Token DontCare = null;
+
+            CheckReadCurrentAs(
+                "GR5", TokenType.RegisterName, true,
+                Token.MakeRegisterName("GR5"), Token.MakeEndOfToken(),
+                "現在のトークンが予期するトークンタイプである => 現在のトークンを返し、次のトークンへ移動");
+            CheckReadCurrentAs(
+                "12345", TokenType.RegisterName, false,
+                DontCare, DontCare,
+                "現在のトークンが予期するトークンタイプでない => 例外");
+        }
+
+        private void CheckReadCurrentAs(
+            String str, TokenType expectedType, Boolean success,
+            Token expectedResult, Token expectedCurrent, String message)
+        {
+            OperandLexer lexer = MakeFrom(str);
+            lexer.MoveNext();
+            try
+            {
+                Token actualResult = lexer.ReadCurrentAs(expectedType);
+                Assert.IsTrue(success, message);
+
+                TokenTest.Check(expectedResult, actualResult, "Result: " + message);
+                CheckCurrentToken(expectedCurrent, lexer, "Current: " + message);
+            }
+            catch (Casl2SimulatorException)
+            {
+                Assert.IsFalse(success, message);
+            }
+        }
+
+        /// <summary>
+        /// ReadCurrentIf メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void ReadCurrentIf()
+        {
+            CheckReadCurrentIf(
+                "GR5", TokenType.RegisterName, 
+                Token.MakeRegisterName("GR5"), Token.MakeEndOfToken(),
+                "現在のトークンが予期するトークンタイプである => 現在のトークンを返し、次のトークンへ移動");
+            CheckReadCurrentIf(
+                "12345", TokenType.RegisterName,
+                null, Token.MakeDecimalConstant(12345),
+                "現在のトークンが予期するトークンタイプでない => null を返し、現在のトークンはそのまま");
+        }
+
+        private void CheckReadCurrentIf(
+            String str, TokenType expectedType, Token expectedResult, Token expectedCurrent, String message)
+        {
+            OperandLexer lexer = MakeFrom(str);
+            lexer.MoveNext();
+
+            Token actualResult = lexer.ReadCurrentIf(expectedType);
+            TokenTest.Check(expectedResult, actualResult, "Result: " + message);
+            CheckCurrentToken(expectedCurrent, lexer, "Current: " + message);
+        }
+
+        private void CheckCurrentToken(Token expected, OperandLexer lexer, String message)
+        {
+            Token actual = lexer.CurrentToken;
+            TokenTest.Check(expected, actual, message);
+        }
+
         internal static OperandLexer MakeFrom(String str)
         {
             ReadBuffer buffer = new ReadBuffer(str);

@@ -12,7 +12,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </remarks>
     internal class AdrXOperand : MachineInstructionOperand
     {
-        #region Fields
+        #region Static Fields
         // 指標レジスタとして指定できる GR は GR1 ~ 7。
         private const Int32 MinIndexReg = 1;
         private const Int32 MaxIndexReg = 7;
@@ -48,35 +48,78 @@ namespace Tt195361.Casl2Simulator.Casl2
             return new AdrXOperand(opcode, adr, x);
         }
 
+        /// <summary>
+        /// adr[,x] のオペランドを解釈します。戻り値は、解釈が成功したかどうかを示します。
+        /// </summary>
+        /// <param name="lexer">オペランドの字句を解析する <see cref="OperandLexer"/> のオブジェクトです。</param>
+        /// <param name="adrX">
+        /// 解釈が成功したとき、結果として生成した <see cref="AdrXOperand"/> のオブジェクトを格納します。
+        /// 失敗した場合は <see langword="null"/> を格納します。
+        /// </param>
+        /// <returns>
+        /// 解釈に成功した場合は <see langword="true"/> を、失敗した場合は <see langword="false"/> を返します。
+        /// </returns>
+        internal static Boolean TryParse(OperandLexer lexer, out AdrXOperand adrX)
+        {
+            IAdrCodeGenerator adr;
+            if (!TryParseAdr(lexer, out adr))
+            {
+                adrX = null;
+                return false;
+            }
+            else
+            {
+                RegisterOperand x = ParseX(lexer);
+                adrX = new AdrXOperand(OpcodeDef.Dummy, adr, x);
+                return true;
+            }
+        }
+
         private static IAdrCodeGenerator ParseAdr(OperandLexer lexer)
+        {
+            IAdrCodeGenerator adr;
+            if (!TryParseAdr(lexer, out adr))
+            {
+                String message = String.Format(Resources.MSG_CouldNotParseAsAdr, lexer.CurrentToken);
+                throw new Casl2SimulatorException(message);
+            }
+
+            return adr;
+        }
+
+        private static Boolean TryParseAdr(OperandLexer lexer, out IAdrCodeGenerator adr)
         {
             Token token = lexer.CurrentToken;
 
             if (token.Type == TokenType.DecimalConstant)
             {
                 lexer.MoveNext();
-                return new DecimalConstant(token.I32Value);
+                adr = new DecimalConstant(token.I32Value);
+                return true;
             }
             else if (token.Type == TokenType.HexaDecimalConstant)
             {
                 lexer.MoveNext();
-                return new HexaDecimalConstant(token.I32Value);
+                adr = new HexaDecimalConstant(token.I32Value);
+                return true;
             }
             else if (token.Type == TokenType.Label)
             {
                 lexer.MoveNext();
-                return new AddressConstant(token.StrValue);
+                adr = new AddressConstant(token.StrValue);
+                return true;
             }
             else if (token.Type == TokenType.EqualSign)
             {
                 // リテラルは、一つの 10 進定数、16 進定数又は文字定数の前に等号 (=) を付けて記述する。
                 lexer.MoveNext();
-                return Literal.Parse(lexer);
+                adr = Literal.Parse(lexer);
+                return true;
             }
             else
             {
-                String message = String.Format(Resources.MSG_CouldNotParseAsAdr, token);
-                throw new Casl2SimulatorException(message);
+                adr = null;
+                return false;
             }
         }
 
@@ -111,7 +154,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return MinIndexReg <= x.Number && x.Number <= MaxIndexReg;
         }
 
-        #region Fields
+        #region Instance Fields
         private readonly IAdrCodeGenerator m_adr;
         private readonly RegisterOperand m_x;
         #endregion

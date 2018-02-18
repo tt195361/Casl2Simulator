@@ -20,20 +20,24 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal static MachineInstructionOperand Parse(
             OperandLexer lexer, UInt16 opcodeRAdrX, UInt16 opcodeR1R2)
         {
+            // r,adr[,x] と r1,r2 の両方とも最初は "r," なので、そこまで解釈する。
+            RegisterOperand rOrR1 = RegisterOperand.Parse(lexer);
+            lexer.SkipComma();
+
             // lexer の状態を保存する。
             OperandLexerState savedLexerState = lexer.GetState();
 
-            // r,adr[,x] をパースしてみる。
+            // adr[,x] を解釈してみる。
             RAdrXOperand rAdrX;
-            if (RAdrXOperand.TryParse(lexer, opcodeRAdrX, out rAdrX))
+            if (RAdrXOperand.TryParseAdrX(lexer, opcodeRAdrX, rOrR1, out rAdrX))
             {
                 return rAdrX;
             }
 
-            // r,adr[,x] でなければ、lexer の状態を元に戻して、r1,r2 をパースしてみる。
-            R1R2Operand r1R2;
+            // adr[,x] でなければ、lexer の状態を元に戻して r2 を解釈してみる。
             lexer.SetState(savedLexerState);
-            if (R1R2Operand.TryParse(lexer, opcodeR1R2, out r1R2))
+            R1R2Operand r1R2;
+            if (R1R2Operand.TryParseR2(lexer, opcodeR1R2, rOrR1, out r1R2))
             {
                 return r1R2;
             }

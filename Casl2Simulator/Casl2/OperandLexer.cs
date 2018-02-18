@@ -112,16 +112,29 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal Token ReadCurrentAs(TokenType expectedType)
         {
-            TokenType actualType = CurrentToken.Type;
-            if (expectedType != actualType)
+            Token token = ReadCurrentIf(expectedType);
+            if (token == null)
             {
                 String message = String.Format(Resources.MSG_NotExpectedToken, expectedType, CurrentToken);
                 throw new Casl2SimulatorException(message);
             }
 
-            Token expectedToken = CurrentToken;
-            MoveNext();
-            return expectedToken;
+            return token;
+        }
+
+        internal Token ReadCurrentIf(TokenType expectedType)
+        {
+            TokenType actualType = CurrentToken.Type;
+            if (expectedType != actualType)
+            {
+                return null;
+            }
+            else
+            {
+                Token expectedToken = CurrentToken;
+                MoveNext();
+                return expectedToken;
+            }
         }
 
         internal Boolean SkipIf(TokenType type)
