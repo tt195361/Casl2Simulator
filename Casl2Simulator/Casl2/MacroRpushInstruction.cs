@@ -8,7 +8,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// マクロ命令の RPUSH です。
     /// RPUSH 命令は、GR の内容を、GR1, GR2, ..., GR7 の順序でスタックに格納します。
     /// </summary>
-    internal class MacroRpushInstruction : Instruction
+    internal class MacroRpushInstruction : ProgramInstruction
     {
         internal MacroRpushInstruction()
             : base(MnemonicDef.RPUSH)

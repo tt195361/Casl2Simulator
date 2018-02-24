@@ -7,7 +7,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <summary>
     /// アセンブラ命令の START です。
     /// </summary>
-    internal class AsmStartInstruction : Instruction
+    internal class AsmStartInstruction : ProgramInstruction
     {
         #region Fields
         private ExecStartAddress m_execStartAddress;

@@ -8,7 +8,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// マクロ命令の IN です。
     /// IN 命令は、あらかじめ割り当てた入力装置から、1 レコードの文字データを読み込みます。
     /// </summary>
-    internal class MacroInInstruction : Instruction
+    internal class MacroInInstruction : ProgramInstruction
     {
         #region Fields
         private AreaSpec m_inputArea;

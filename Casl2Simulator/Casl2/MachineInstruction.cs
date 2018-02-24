@@ -9,7 +9,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <summary>
     /// 機械語命令を表わします。
     /// </summary>
-    internal class MachineInstruction : Instruction
+    internal class MachineInstruction : ProgramInstruction
     {
         /// <summary>
         /// オペランドが r,adr,x あるいは r1,r2 のどちらかの機械語命令を作成します。

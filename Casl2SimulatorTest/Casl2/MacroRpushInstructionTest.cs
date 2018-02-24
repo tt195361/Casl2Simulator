@@ -25,7 +25,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private void CheckReadOperand(String text, Boolean success, String message)
         {
             MacroRpushInstruction target = new MacroRpushInstruction();
-            InstructionTest.CheckReadOperand(target, text, success, message);
+            ProgramInstructionTest.CheckReadOperand(target, text, success, message);
         }
 
         /// <summary>

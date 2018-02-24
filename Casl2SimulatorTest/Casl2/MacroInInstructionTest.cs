@@ -33,7 +33,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             Label expectedInputLengthArea, String message)
         {
             MacroInInstruction actual = new MacroInInstruction();
-            InstructionTest.CheckReadOperand(actual, text, success, message);
+            ProgramInstructionTest.CheckReadOperand(actual, text, success, message);
             if (success)
             {
                 LabelTest.Check(expectedInputBufferArea, actual.InputArea.Buffer, message);

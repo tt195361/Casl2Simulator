@@ -53,7 +53,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private void CheckReadOperand(String text, Boolean success, Label expected, String message)
         {
             AsmStartInstruction target = new AsmStartInstruction();
-            InstructionTest.CheckReadOperand(target, text, success, message);
+            ProgramInstructionTest.CheckReadOperand(target, text, success, message);
             if (success)
             {
                 Label actual = target.ExecStartAddress.Label;

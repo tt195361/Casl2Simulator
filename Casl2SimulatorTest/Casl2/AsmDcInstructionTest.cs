@@ -41,7 +41,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             String text, Boolean success, Constant[] expectedConstants, String message)
         {
             AsmDcInstruction target = new AsmDcInstruction();
-            InstructionTest.CheckReadOperand(target, text, success, message);
+            ProgramInstructionTest.CheckReadOperand(target, text, success, message);
             if (success)
             {
                 ConstantCollection actualConstants = target.Constants;

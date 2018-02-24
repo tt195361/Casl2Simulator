@@ -58,7 +58,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             ReadBuffer buffer = new ReadBuffer(text);
 
             Label label = ParseLabel(buffer);
-            Instruction instruction = ParseInstruction(buffer);
+            ProgramInstruction instruction = ParseInstruction(buffer);
             ReadOperand(instruction, buffer);
 
             return MakeInstructionLine(text, label, instruction);
@@ -70,14 +70,14 @@ namespace Tt195361.Casl2Simulator.Casl2
             return Label.Parse(labelField);
         }
 
-        private static Instruction ParseInstruction(ReadBuffer buffer)
+        private static ProgramInstruction ParseInstruction(ReadBuffer buffer)
         {
             buffer.SkipSpace();
             String instructionField = ReadField(buffer);
-            return Instruction.Parse(instructionField);
+            return ProgramInstruction.Parse(instructionField);
         }
 
-        private static void ReadOperand(Instruction instruction, ReadBuffer buffer)
+        private static void ReadOperand(ProgramInstruction instruction, ReadBuffer buffer)
         {
             buffer.SkipSpace();
             // ';' ならば、そのあとはコメントなので、オペランドとして解釈しない。
@@ -111,7 +111,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return new Line(text, null, NullInstruction.Instance, null);
         }
 
-        private static Line MakeInstructionLine(String text, Label label, Instruction instruction)
+        private static Line MakeInstructionLine(String text, Label label, ProgramInstruction instruction)
         {
             return new Line(text, label, instruction, null);
         }
@@ -125,11 +125,11 @@ namespace Tt195361.Casl2Simulator.Casl2
         // 行は、ラベル、オペランドを含む命令コード、およびエラーメッセージを持つ。
         private readonly String m_text;
         private readonly Label m_label;
-        private readonly Instruction m_instruction;
+        private readonly ProgramInstruction m_instruction;
         private readonly String m_errorMessage;
         #endregion
 
-        private Line(String text, Label label, Instruction instruction, String errorMessage)
+        private Line(String text, Label label, ProgramInstruction instruction, String errorMessage)
         {
             m_text = text;
             m_label = label;
@@ -147,7 +147,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_label; }
         }
 
-        internal Instruction Instruction
+        internal ProgramInstruction Instruction
         {
             get { return m_instruction; }
         }

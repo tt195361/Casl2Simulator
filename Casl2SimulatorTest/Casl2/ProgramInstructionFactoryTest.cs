@@ -6,10 +6,10 @@ using Tt195361.Casl2Simulator.Casl2;
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
     /// <summary>
-    /// InstructionFactory クラスの単体テストです。
+    /// ProgramInstructionFactory クラスの単体テストです。
     /// </summary>
     [TestClass]
-    public class InstructionFactoryTest
+    public class ProgramInstructionFactoryTest
     {
         /// <summary>
         /// Make メソッドのテストです。
@@ -71,7 +71,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             try
             {
-                Instruction instruction = InstructionFactory.Make(mnemonic);
+                ProgramInstruction instruction = ProgramInstructionFactory.Make(mnemonic);
                 Assert.IsNotNull(expectedType, message);
                 Assert.IsInstanceOfType(instruction, expectedType, message);
                 Assert.AreEqual(mnemonic, instruction.Mnemonic, "指定のニーモニックと命令のニーモニックが同じ");

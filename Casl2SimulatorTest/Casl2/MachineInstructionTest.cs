@@ -13,8 +13,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     public class MachineInstructionTest
     {
         #region Fields
-        private Instruction m_rAdrXOrR1R2_RAdrX;
-        private Instruction m_rAdrXOrR1R2_R1R2;
+        private ProgramInstruction m_rAdrXOrR1R2_RAdrX;
+        private ProgramInstruction m_rAdrXOrR1R2_R1R2;
         private LabelManager m_lblManager;
 
         private const String Mnemonic = "TST";
@@ -25,8 +25,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestInitialize]
         public void TestInitialize()
         {
-            m_rAdrXOrR1R2_RAdrX = InstructionTest.Make(MnemonicDef.LD, "GR1,#ABCD,GR2");
-            m_rAdrXOrR1R2_R1R2 = InstructionTest.Make(MnemonicDef.LD, "GR3,GR4");
+            m_rAdrXOrR1R2_RAdrX = ProgramInstructionTest.Make(MnemonicDef.LD, "GR1,#ABCD,GR2");
+            m_rAdrXOrR1R2_R1R2 = ProgramInstructionTest.Make(MnemonicDef.LD, "GR3,GR4");
             m_lblManager = new LabelManager();
         }
 
@@ -44,7 +44,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private void CheckReadOperand_RAdrXOrR1R2(String text, Boolean success, String message)
         {
             MachineInstruction target = MachineInstruction.MakeRAdrXOrR1R2(Mnemonic, Opcode1, Opcode2);
-            InstructionTest.CheckReadOperand(target, text, success, message);
+            ProgramInstructionTest.CheckReadOperand(target, text, success, message);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private void CheckReadOperand_RAdrX(String text, Boolean success, String message)
         {
             MachineInstruction target = MachineInstruction.MakeRAdrX(Mnemonic, Opcode1);
-            InstructionTest.CheckReadOperand(target, text, success, message);
+            ProgramInstructionTest.CheckReadOperand(target, text, success, message);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private void CheckReadOperand_AdrX(String text, Boolean success, String message)
         {
             MachineInstruction target = MachineInstruction.MakeAdrX(Mnemonic, Opcode1);
-            InstructionTest.CheckReadOperand(target, text, success, message);
+            ProgramInstructionTest.CheckReadOperand(target, text, success, message);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private void CheckReadOperand_NoOperand(String text, Boolean success, String message)
         {
             MachineInstruction target = MachineInstruction.MakeNoOperand(Mnemonic, Opcode1);
-            InstructionTest.CheckReadOperand(target, text, success, message);
+            ProgramInstructionTest.CheckReadOperand(target, text, success, message);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void GenerateLiteralDc()
         {
-            Instruction target = InstructionTest.Make(MnemonicDef.LD, "GR1,=1234,GR2");
+            ProgramInstruction target = ProgramInstructionTest.Make(MnemonicDef.LD, "GR1,=1234,GR2");
             LabelManager lblManager = new LabelManager();
             String actual = target.GenerateLiteralDc(lblManager);
             const String Expected = "LTRL0001\tDC\t1234";
@@ -124,7 +124,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 "r,adr,x or r1,r2 で r1,r2 の場合: opcode=0x14, r/r1=3, x/r2=4, adr=なし");
         }
 
-        private void CheckGenerateCode(Instruction target, Word[] expectedWords, String message)
+        private void CheckGenerateCode(ProgramInstruction target, Word[] expectedWords, String message)
         {
             RelocatableModule relModule = new RelocatableModule();
             target.GenerateCode(null, m_lblManager, relModule);

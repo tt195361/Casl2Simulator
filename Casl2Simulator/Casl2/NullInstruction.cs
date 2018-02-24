@@ -7,7 +7,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <summary>
     /// コメント行などの命令がない行のための命令を表わします。
     /// </summary>
-    internal class NullInstruction : Instruction
+    internal class NullInstruction : ProgramInstruction
     {
         private static NullInstruction m_instance = new NullInstruction();
 

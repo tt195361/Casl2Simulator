@@ -34,7 +34,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             String text, Boolean success, Int32 expectedValue, String message)
         {
             AsmDsInstruction target = new AsmDsInstruction();
-            InstructionTest.CheckReadOperand(target, text, success, message);
+            ProgramInstructionTest.CheckReadOperand(target, text, success, message);
             if (success)
             {
                 WordCount expected = WordCount.MakeForUnitTest(expectedValue);

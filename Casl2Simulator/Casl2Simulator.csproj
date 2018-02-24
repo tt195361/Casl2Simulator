@@ -80,7 +80,7 @@
     <Compile Include="Casl2\ExecStartAddress.cs" />
     <Compile Include="Casl2\HexaDecimalConstant.cs" />
     <Compile Include="Casl2\ICodeGenerator.cs" />
-    <Compile Include="Casl2\InstructionFactory.cs" />
+    <Compile Include="Casl2\ProgramInstructionFactory.cs" />
     <Compile Include="Casl2\LineCollection.cs" />
     <Compile Include="Casl2\MachineInstruction.cs" />
     <Compile Include="Casl2\MachineInstructionFactory.cs" />
@@ -100,7 +100,7 @@
     <Compile Include="Casl2\RAdrXOperand.cs" />
     <Compile Include="Casl2\RAdrXOrR1R2Operand.cs" />
     <Compile Include="Casl2\ReadBuffer.cs" />
-    <Compile Include="Casl2\Instruction.cs" />
+    <Compile Include="Casl2\ProgramInstruction.cs" />
     <Compile Include="Casl2\MacroInInstruction.cs" />
     <Compile Include="Casl2\Register.cs" />
     <Compile Include="Casl2\RegisterOperand.cs" />

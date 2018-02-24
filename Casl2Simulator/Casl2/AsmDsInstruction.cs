@@ -7,7 +7,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <summary>
     /// アセンブラ命令の DS です。
     /// </summary>
-    internal class AsmDsInstruction : Instruction
+    internal class AsmDsInstruction : ProgramInstruction
     {
         #region Fields
         private WordCount m_wordCount;

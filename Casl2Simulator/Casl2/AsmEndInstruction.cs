@@ -7,7 +7,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <summary>
     /// アセンブラ命令の END です。
     /// </summary>
-    internal class AsmEndInstruction : Instruction
+    internal class AsmEndInstruction : ProgramInstruction
     {
         internal AsmEndInstruction()
             : base(MnemonicDef.END)

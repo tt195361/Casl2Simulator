@@ -4,20 +4,20 @@ using Tt195361.Casl2Simulator.Properties;
 namespace Tt195361.Casl2Simulator.Casl2
 {
     /// <summary>
-    /// CASL II アセンブラ言語の命令を表わす抽象クラスです。
+    /// CASL II アセンブラ言語のプログラムに記述する命令を表わす抽象クラスです。
     /// </summary>
-    internal abstract class Instruction
+    internal abstract class ProgramInstruction
     {
         /// <summary>
         /// 命令コードの文字列を解釈します。
         /// </summary>
         /// <param name="instructionField">解釈する文字列です。</param>
         /// <returns>
-        /// 解釈した文字列から生成した <see cref="Instruction"/> クラスのオブジェクトを返します。
+        /// 解釈した文字列から生成した <see cref="ProgramInstruction"/> クラスのオブジェクトを返します。
         /// </returns>
-        internal static Instruction Parse(String instructionField)
+        internal static ProgramInstruction Parse(String instructionField)
         {
-            return InstructionFactory.Make(instructionField);
+            return ProgramInstructionFactory.Make(instructionField);
         }
 
         #region Fields
@@ -25,7 +25,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         private Operand m_operand;
         #endregion
 
-        protected Instruction(String mnemonic)
+        protected ProgramInstruction(String mnemonic)
         {
             m_mnemonic = mnemonic;
         }

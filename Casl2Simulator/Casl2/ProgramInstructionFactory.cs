@@ -6,17 +6,17 @@ using Tt195361.Casl2Simulator.Properties;
 namespace Tt195361.Casl2Simulator.Casl2
 {
     /// <summary>
-    /// <see cref="Instruction"/> のオブジェクトを生成します。
+    /// <see cref="ProgramInstruction"/> のオブジェクトを生成します。
     /// </summary>
-    internal class InstructionFactory
+    internal class ProgramInstructionFactory
     {
         #region Fields
-        private static readonly Dictionary<String, Func<Instruction>> m_factoryMethodDictionary;
+        private static readonly Dictionary<String, Func<ProgramInstruction>> m_factoryMethodDictionary;
         #endregion
 
-        static InstructionFactory()
+        static ProgramInstructionFactory()
         {
-            m_factoryMethodDictionary = new Dictionary<String, Func<Instruction>>()
+            m_factoryMethodDictionary = new Dictionary<String, Func<ProgramInstruction>>()
             {
                 { MnemonicDef.START, () => new AsmStartInstruction() },
                 { MnemonicDef.END, () => new AsmEndInstruction() },
@@ -66,7 +66,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             };
         }
 
-        internal static Instruction Make(String instructionField)
+        internal static ProgramInstruction Make(String instructionField)
         {
             if (instructionField.Length == 0)
             {
@@ -80,8 +80,8 @@ namespace Tt195361.Casl2Simulator.Casl2
                 throw new Casl2SimulatorException(message);
             }
 
-            Func<Instruction> factoryMethod = m_factoryMethodDictionary[instructionField];
-            Instruction instruction = factoryMethod();
+            Func<ProgramInstruction> factoryMethod = m_factoryMethodDictionary[instructionField];
+            ProgramInstruction instruction = factoryMethod();
             return instruction;
         }
     }

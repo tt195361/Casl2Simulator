@@ -7,7 +7,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <summary>
     /// アセンブラ命令の DC です。
     /// </summary>
-    internal class AsmDcInstruction : Instruction
+    internal class AsmDcInstruction : ProgramInstruction
     {
         internal static String Generate(Label label, params Constant[] constants)
         {
