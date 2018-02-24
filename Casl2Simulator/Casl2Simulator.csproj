@@ -121,7 +121,7 @@
     <Compile Include="Comet2\FlagRegister.cs" />
     <Compile Include="Comet2\GeneralRegisters.cs" />
     <Compile Include="Comet2\Cpu.cs" />
-    <Compile Include="Comet2\Instruction.cs" />
+    <Compile Include="Comet2\CpuInstruction.cs" />
     <Compile Include="Comet2\Operator.cs" />
     <Compile Include="Comet2\Register.cs" />
     <Compile Include="Comet2\RegisterHandler.cs" />

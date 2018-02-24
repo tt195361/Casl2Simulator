@@ -87,7 +87,7 @@ namespace Tt195361.Casl2Simulator.Comet2
             // PR レジスタが指すアドレスから命令語をフェッチし、デコードします。
             Word firstWord = Fetcher.Fetch(m_registerSet.PR, m_memory);
             UInt16 opcode = InstructionWord.GetOpcode(firstWord);
-            Instruction instruction = Decoder.Decode(opcode);
+            CpuInstruction instruction = Decoder.Decode(opcode);
 
             // 命令語から r/r1 フィールドと x/r2 フィールドを取得し、命令を実行します。
             UInt16 rR1Field = InstructionWord.GetRR1(firstWord);
@@ -97,14 +97,14 @@ namespace Tt195361.Casl2Simulator.Comet2
 
         private void AddHandlers()
         {
-            Instruction.ReturningFromSubroutine += OnReturningFromSubroutine;
-            Instruction.CallingSuperVisor += OnCallingSuperVisor;
+            CpuInstruction.ReturningFromSubroutine += OnReturningFromSubroutine;
+            CpuInstruction.CallingSuperVisor += OnCallingSuperVisor;
         }
 
         private void RemoveHandlers()
         {
-            Instruction.ReturningFromSubroutine -= OnReturningFromSubroutine;
-            Instruction.CallingSuperVisor -= OnCallingSuperVisor;
+            CpuInstruction.ReturningFromSubroutine -= OnReturningFromSubroutine;
+            CpuInstruction.CallingSuperVisor -= OnCallingSuperVisor;
         }
 
         private void OnReturningFromSubroutine(Object sender, ReturningFromSubroutineEventArgs e)
