@@ -6,7 +6,7 @@ using Tt195361.Casl2Simulator.Comet2;
 namespace Tt195361.Casl2SimulatorTest.Comet2
 {
     /// <summary>
-    /// RegisterHandler クラスの単体テストです。
+    /// <see cref="RegisterHandler"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
     public class RegisterHandlerTest

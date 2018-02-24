@@ -8,7 +8,7 @@ using Tt195361.Casl2SimulatorTest.Common;
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
     /// <summary>
-    /// MachineInstructionOperand クラスの単体テストです。
+    /// <see cref="MachineInstructionOperand"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
     public class MachineInstructionOperandTest

@@ -5,7 +5,7 @@ using Tt195361.Casl2Simulator.Casl2;
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
     /// <summary>
-    /// MacroInInstruction クラスの単体テストです。
+    /// <see cref="MacroInInstruction"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
     public class MacroInInstructionTest

@@ -7,7 +7,7 @@ using Tt195361.Casl2Simulator.Utils;
 namespace Tt195361.Casl2SimulatorTest.Common
 {
     /// <summary>
-    /// Word クラスの単体テストです。
+    /// <see cref="Word"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
     public class WordTest

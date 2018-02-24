@@ -6,7 +6,7 @@ using Tt195361.Casl2Simulator.Casl2;
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
     /// <summary>
-    /// Constant クラスの単体テストです。
+    /// <see cref="Constant"/> クラスの単体テストです。
     /// </summary>
     internal class ConstantTest
     {

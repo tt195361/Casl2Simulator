@@ -7,7 +7,7 @@ using Tt195361.Casl2SimulatorTest.Common;
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
     /// <summary>
-    /// AsmDsInstruction クラスの単体テストです。
+    /// <see cref="AsmDsInstruction"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
     public class AsmDsInstructionTest

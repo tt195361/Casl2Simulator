@@ -8,7 +8,7 @@ using Tt195361.Casl2SimulatorTest.Common;
 namespace Tt195361.Casl2SimulatorTest.Comet2
 {
     /// <summary>
-    /// Cpu クラスの単体テストです。
+    /// <see cref="Cpu"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
     public class CpuTest

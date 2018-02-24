@@ -8,7 +8,7 @@ using Tt195361.Casl2SimulatorTest.Common;
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
     /// <summary>
-    /// Line クラスの単体テストです。
+    /// <see cref="Line"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
     public class LineTest

@@ -6,7 +6,7 @@ using Tt195361.Casl2Simulator.Utils;
 namespace Tt195361.Casl2SimulatorTest.Utils
 {
     /// <summary>
-    /// ArgChecker クラスの単体テストです。
+    /// <see cref="ArgChecker"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
     public class ArgCheckerTest

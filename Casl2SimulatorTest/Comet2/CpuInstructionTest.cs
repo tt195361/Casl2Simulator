@@ -5,7 +5,7 @@ using Tt195361.Casl2Simulator.Comet2;
 namespace Tt195361.Casl2SimulatorTest.Comet2
 {
     /// <summary>
-    /// CpuInstruction クラスの単体テストです。
+    /// <see cref="CpuInstruction"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
     public class CpuInstructionTest

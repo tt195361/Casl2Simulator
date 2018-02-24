@@ -6,7 +6,7 @@ using Tt195361.Casl2Simulator.Comet2;
 namespace Tt195361.Casl2SimulatorTest.Comet2
 {
     /// <summary>
-    /// GeneralRegisters クラスの単体テストです。
+    /// <see cref="GeneralRegisters"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
     public class GeneralRegistersTest

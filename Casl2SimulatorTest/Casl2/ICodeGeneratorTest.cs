@@ -6,7 +6,7 @@ using Tt195361.Casl2Simulator.Common;
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
     /// <summary>
-    /// ICodeGenerator インタフェースの単体テストで共通に使用するメソッドです。
+    /// <see cref="ICodeGenerator"/> インタフェースの単体テストで共通に使用するメソッドです。
     /// </summary>
     internal class ICodeGeneratorTest
     {

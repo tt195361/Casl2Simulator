@@ -7,7 +7,7 @@ using Tt195361.Casl2Simulator.Utils;
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
     /// <summary>
-    /// OperandLexer クラスの単体テストです。
+    /// <see cref="OperandLexer"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
     public class OperandLexerTest

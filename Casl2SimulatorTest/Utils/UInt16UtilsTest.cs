@@ -6,7 +6,7 @@ using Tt195361.Casl2Simulator.Utils;
 namespace Tt195361.Casl2SimulatorTest.Utils
 {
     /// <summary>
-    /// UInt16Utils クラスの単体テストです。
+    /// <see cref="UInt16Utils"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
     public class UInt16UtilsTest

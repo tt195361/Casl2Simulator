@@ -5,7 +5,7 @@ using Tt195361.Casl2Simulator.Casl2;
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
     /// <summary>
-    /// R1R2Operand クラスの単体テストです。
+    /// <see cref="R1R2Operand"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
     public class R1R2OperandTest

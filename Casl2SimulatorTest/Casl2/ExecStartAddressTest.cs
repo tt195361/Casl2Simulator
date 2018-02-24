@@ -7,7 +7,7 @@ using Tt195361.Casl2Simulator.Common;
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
     /// <summary>
-    /// ExecStartAddress クラスの単体テストです。
+    /// <see cref="ExecStartAddress"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
     public class ExecStartAddressTest

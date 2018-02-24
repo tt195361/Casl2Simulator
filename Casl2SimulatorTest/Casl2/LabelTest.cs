@@ -6,7 +6,7 @@ using Tt195361.Casl2Simulator.Casl2;
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
     /// <summary>
-    /// Label クラスの単体テストです。
+    /// <see cref="Label"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
     public class LabelTest
