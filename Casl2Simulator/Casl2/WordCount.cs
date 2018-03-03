@@ -23,7 +23,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return new WordCount(token.I32Value);
         }
 
-        #region Fields
+        #region Instance Fields
         private readonly Int32 m_value;
 
         private const Int32 MinValue = 0;

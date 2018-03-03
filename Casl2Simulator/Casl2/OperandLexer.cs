@@ -8,7 +8,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class OperandLexer
     {
-        #region Fields
+        #region Instance Fields
         private readonly ReadBuffer m_buffer;
         private Token m_currentToken;
         private String m_remaining;
@@ -168,7 +168,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class OperandLexerState
     {
-        #region Fields
+        #region Instance Fields
         private readonly Token m_currentToken;
         private readonly ReadBufferState m_readBufferState;
         #endregion

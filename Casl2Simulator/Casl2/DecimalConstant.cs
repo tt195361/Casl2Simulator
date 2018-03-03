@@ -76,7 +76,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        #region Fields
+        #region Instance Fields
         private const Int32 MinValue = Int16.MinValue;
         private const Int32 MaxValue = Int16.MaxValue;
 

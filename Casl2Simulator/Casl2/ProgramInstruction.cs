@@ -20,7 +20,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return ProgramInstructionFactory.Make(instructionField);
         }
 
-        #region Fields
+        #region Instance Fields
         private readonly String m_mnemonic;
         private Operand m_operand;
         #endregion

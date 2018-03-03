@@ -55,7 +55,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        #region Fields
+        #region Instance Fields
         private readonly RegisterOperand m_r1;
         private readonly RegisterOperand m_r2;
         #endregion

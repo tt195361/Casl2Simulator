@@ -10,9 +10,11 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal struct MemoryOffset
     {
-        #region Fields
+        #region Static Fields
         internal static readonly MemoryOffset Zero = new MemoryOffset(0);
+	    #endregion
 
+	    #region Instance Fields
         private readonly UInt16 m_value;
         #endregion
 

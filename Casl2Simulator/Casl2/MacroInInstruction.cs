@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class MacroInInstruction : ProgramInstruction
     {
-        #region Fields
+        #region Instance Fields
         private AreaSpec m_inputArea;
         #endregion
 

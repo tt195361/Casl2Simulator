@@ -7,7 +7,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal abstract class MachineInstructionOperand : Operand, IAdrCodeGenerator
     {
-        #region Fields
+        #region Instance Fields
         private readonly UInt16 m_opcode;
         #endregion
 

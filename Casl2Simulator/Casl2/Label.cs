@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class Label
     {
-        #region Fields
+        #region Static Fields
         internal const Int32 MinLiteralLabelNumber = 1;
         internal const Int32 MaxLiteralLabelNumber = 9999;
         internal const String LiteralLabelPrefix = "LTRL";
@@ -78,7 +78,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return String.Format(LiteralLabelFormat, number);
         }
 
-        #region Fields
+        #region Instance Fields
         private readonly String m_name;
         #endregion
 

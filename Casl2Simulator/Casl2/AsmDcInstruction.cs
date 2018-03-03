@@ -14,7 +14,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return Line.Generate(label, MnemonicDef.DC, constants);
         }
 
-        #region Fields
+        #region Instance Fields
         private ConstantCollection m_constants;
         #endregion
 

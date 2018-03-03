@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class ReservedWord
     {
-        #region Fields
+        #region Static Fields
         private static readonly HashSet<String> m_reservedWords = new HashSet<String>()
         {
             RegisterDef.GR0,

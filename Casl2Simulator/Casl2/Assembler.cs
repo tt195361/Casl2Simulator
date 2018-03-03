@@ -6,11 +6,11 @@ using Tt195361.Casl2Simulator.Utils;
 namespace Tt195361.Casl2Simulator.Casl2
 {
     /// <summary>
-    /// ソーステキストをアセンブルし再配置可能コードを生成します。
+    /// ソーステキストをアセンブルし再配置可能モジュールを生成します。
     /// </summary>
     internal class Assembler
     {
-        #region Fields
+        #region Instance Fields
         private readonly LabelManager m_lblManager;
         private LineCollection m_processedLines;
         #endregion

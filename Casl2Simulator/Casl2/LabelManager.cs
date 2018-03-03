@@ -9,7 +9,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class LabelManager
     {
-        #region Fields
+        #region Instance Fields
         private readonly Dictionary<String, MemoryOffset> m_labelDictionary;
         private Int32 m_literalLabelNumber;
 

@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class RelocatableModule
     {
-        #region Fields
+        #region Instance Fields
         private MemoryOffset m_codeOffset;
 
         // このモジュールに含まれるコードの語。

@@ -8,7 +8,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class ImportLabel
     {
-        #region Fields
+        #region Instance Fields
         private Label m_label;
         private MemoryOffset m_codeOffset;
 

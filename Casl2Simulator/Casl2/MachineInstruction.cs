@@ -74,7 +74,7 @@ namespace Tt195361.Casl2Simulator.Casl2
                 mnemonic, Resources.SYN_NoOperand, (lexer) => NoOperand.Parse(lexer, opcode));
         }
 
-        #region Fields
+        #region Instance Fields
         private readonly String m_operandSyntax;
         private readonly OperandParseFunc m_operandParseFunc;
         private MachineInstructionOperand m_operand;

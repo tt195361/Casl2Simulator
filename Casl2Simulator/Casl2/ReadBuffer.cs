@@ -9,7 +9,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class ReadBuffer
     {
-        #region Fields
+        #region Instance Fields
         internal const Char EndOfStr = '\xffff';
 
         private readonly String m_str;

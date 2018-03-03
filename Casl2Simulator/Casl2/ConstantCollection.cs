@@ -37,7 +37,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return new ConstantCollection(constantList.ToArray());
         }
 
-        #region Fields
+        #region Instance Fields
         private readonly Constant[] m_constants;
         #endregion
 

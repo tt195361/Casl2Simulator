@@ -59,7 +59,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return String.Format("{0}: {1}", token.Type, token.StrValue);
         }
 
-        #region Fields
+        #region Instance Fields
         private readonly String m_description;
         private readonly Func<Token, String> m_tokenToStringFunc;
         #endregion

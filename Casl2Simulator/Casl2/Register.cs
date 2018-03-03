@@ -47,7 +47,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return m_registerDictionary[name];
         }
 
-        #region Fields
+        #region Instance Fields
         private readonly String m_name;
         private readonly UInt16 m_number;
         #endregion

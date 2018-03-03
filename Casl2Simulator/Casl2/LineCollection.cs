@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class LineCollection : IEnumerable<Line>
     {
-        #region Fields
+        #region Instance Fields
         private readonly Line[] m_lines;
         #endregion
 

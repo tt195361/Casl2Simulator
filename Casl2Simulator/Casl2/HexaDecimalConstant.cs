@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class HexaDecimalConstant : Constant, IAdrCodeGenerator
     {
-        #region Fields
+        #region Static Fields
         private const Int32 DigitCount = 4;
         private const String PrintFormat = "{0}{1:X04}";
         #endregion
@@ -73,7 +73,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        #region Fields
+        #region Instance Fields
         private const Int32 MinValue = UInt16.MinValue;
         private const Int32 MaxValue = UInt16.MaxValue;
 

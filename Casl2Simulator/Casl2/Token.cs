@@ -7,7 +7,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class Token
     {
-        #region Fields
+        #region Static Fields
         private const Int32 DontCareInt32 = 0;
         private const String DontCareString = null;
         #endregion
@@ -52,7 +52,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return new Token(TokenType.EqualSign, DontCareInt32, DontCareString);
         }
 
-        #region Fields
+        #region Instance Fields
         private readonly TokenType m_type;
         private readonly Int32 m_i32Value;
         private readonly String m_strValue;

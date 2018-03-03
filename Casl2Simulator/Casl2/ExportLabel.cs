@@ -7,7 +7,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class ExportLabel
     {
-        #region Fields
+        #region Instance Fields
         private readonly Label m_label;
         private readonly MemoryOffset m_codeOffset;
         #endregion

@@ -31,7 +31,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             // 解釈しなかった残りの字句要素は、Instruction.ParseOperand() で取り扱う。
         }
 
-        #region Fields
+        #region Instance Fields
         private readonly Label m_label;
         private MemoryOffset m_codeOffset;
         #endregion

@@ -51,7 +51,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        #region Fields
+        #region Instance Fields
         private readonly Constant m_constant;
         private Label m_label;
         #endregion

@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class ProgramInstructionFactory
     {
-        #region Fields
+        #region Static Fields
         private static readonly Dictionary<String, Func<ProgramInstruction>> m_factoryMethodDictionary;
         #endregion
 

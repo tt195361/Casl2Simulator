@@ -121,7 +121,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return new Line(text, null, NullInstruction.Instance, errorMessage);
         }
 
-        #region Fields
+        #region Instance Fields
         // 行は、ラベル、オペランドを含む命令コード、およびエラーメッセージを持つ。
         private readonly String m_text;
         private readonly Label m_label;

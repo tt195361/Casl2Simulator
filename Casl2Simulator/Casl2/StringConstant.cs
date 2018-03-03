@@ -89,7 +89,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return result;
         }
 
-        #region Fields
+        #region Instance Fields
         private readonly String m_value;
         private readonly Byte[] m_jisx0201Bytes;
         #endregion
