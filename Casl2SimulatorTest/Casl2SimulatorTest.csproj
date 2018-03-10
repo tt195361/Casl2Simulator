@@ -67,6 +67,7 @@
     <Compile Include="Casl2\HexaDecimalConstantTest.cs" />
     <Compile Include="Casl2\ICodeGeneratorTest.cs" />
     <Compile Include="Casl2\ImportLabelTest.cs" />
+    <Compile Include="Casl2\MacroRpopInstructionTest.cs" />
     <Compile Include="Casl2\ProgramInstructionFactoryTest.cs" />
     <Compile Include="Casl2\LabelManagerTest.cs" />
     <Compile Include="Casl2\LineCollectionTest.cs" />

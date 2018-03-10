@@ -26,6 +26,7 @@ namespace Tt195361.Casl2Simulator.Casl2
                 { MnemonicDef.IN, () => MacroInOutInstruction.MakeIn() },
                 { MnemonicDef.OUT, () => MacroInOutInstruction.MakeOut() },
                 { MnemonicDef.RPUSH, () => new MacroRpushInstruction() },
+                { MnemonicDef.RPOP, () => new MacroRpopInstruction() },
 
                 { MnemonicDef.NOP, () => MachineInstructionFactory.MakeNop() },
 

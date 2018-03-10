@@ -80,6 +80,7 @@
     <Compile Include="Casl2\ExecStartAddress.cs" />
     <Compile Include="Casl2\HexaDecimalConstant.cs" />
     <Compile Include="Casl2\ICodeGenerator.cs" />
+    <Compile Include="Casl2\MacroRpopInstruction.cs" />
     <Compile Include="Casl2\ProgramInstructionFactory.cs" />
     <Compile Include="Casl2\LineCollection.cs" />
     <Compile Include="Casl2\MachineInstruction.cs" />

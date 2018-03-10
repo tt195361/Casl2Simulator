@@ -17,6 +17,7 @@ namespace Tt195361.Casl2Simulator.Common
         internal const String IN = "IN";
         internal const String OUT = "OUT";
         internal const String RPUSH = "RPUSH";
+        internal const String RPOP = "RPOP";
 
         // 機械語命令
         internal const String NOP = "NOP";
