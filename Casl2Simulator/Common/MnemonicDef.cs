@@ -15,6 +15,7 @@ namespace Tt195361.Casl2Simulator.Common
 
         // マクロ命令
         internal const String IN = "IN";
+        internal const String OUT = "OUT";
         internal const String RPUSH = "RPUSH";
 
         // 機械語命令

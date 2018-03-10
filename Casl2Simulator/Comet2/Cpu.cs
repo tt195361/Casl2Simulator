@@ -12,7 +12,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         #region Instance Fields
         private readonly RegisterSet m_registerSet;
         private readonly Memory m_memory;
-        private readonly Comet2OperatingSystem m_os;
+        private readonly Os m_os;
 
         private Boolean m_continueToExecute;
         #endregion
@@ -22,7 +22,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// </summary>
         /// <param name="memory">COMET II の主記憶です。</param>
         /// <param name="os">COMET II のオペレーティングシステムです。</param>
-        internal Cpu(Memory memory, Comet2OperatingSystem os)
+        internal Cpu(Memory memory, Os os)
         {
             m_registerSet = new RegisterSet();
             m_memory = memory;

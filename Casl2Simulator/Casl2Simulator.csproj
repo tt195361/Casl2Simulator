@@ -101,7 +101,7 @@
     <Compile Include="Casl2\RAdrXOrR1R2Operand.cs" />
     <Compile Include="Casl2\ReadBuffer.cs" />
     <Compile Include="Casl2\ProgramInstruction.cs" />
-    <Compile Include="Casl2\MacroInInstruction.cs" />
+    <Compile Include="Casl2\MacroInOutInstruction.cs" />
     <Compile Include="Casl2\Register.cs" />
     <Compile Include="Casl2\RegisterOperand.cs" />
     <Compile Include="Casl2\RelocatableModule.cs" />
@@ -114,7 +114,7 @@
     <Compile Include="Casl2\WordCount.cs" />
     <Compile Include="Comet2\Alu.cs" />
     <Compile Include="Comet2\Comet2EventArgs.cs" />
-    <Compile Include="Comet2\Comet2OperatingSystem.cs" />
+    <Compile Include="Comet2\Os.cs" />
     <Compile Include="Comet2\Decoder.cs" />
     <Compile Include="Comet2\Fetcher.cs" />
     <Compile Include="Comet2\OperandHandler.cs" />
@@ -130,6 +130,7 @@
     <Compile Include="Common\InstructionWord.cs" />
     <Compile Include="Common\MnemonicDef.cs" />
     <Compile Include="Common\OpcodeDef.cs" />
+    <Compile Include="Common\SvcDef.cs" />
     <Compile Include="Common\RegisterDef.cs" />
     <Compile Include="Utils\ArgChecker.cs" />
     <Compile Include="Utils\CharUtils.cs" />

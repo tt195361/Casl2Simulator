@@ -279,6 +279,9 @@
   <data name="SYN_NoOperand" xml:space="preserve">
     <value>オペランドなし</value>
   </data>
+  <data name="SYN_OutputArea" xml:space="preserve">
+    <value>"出力領域,出力文字長領域"</value>
+  </data>
   <data name="SYN_R" xml:space="preserve">
     <value>r</value>
   </data>

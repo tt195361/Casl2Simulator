@@ -21,7 +21,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         public void TestInitialize()
         {
             Memory memory = new Memory();
-            Comet2OperatingSystem os = new Comet2OperatingSystem();
+            Os os = new Os();
             m_cpu = new Cpu(memory, os);
         }
 

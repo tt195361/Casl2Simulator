@@ -547,6 +547,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &quot;出力領域,出力文字長領域&quot;.
+        /// </summary>
+        internal static string SYN_OutputArea {
+            get {
+                return ResourceManager.GetString("SYN_OutputArea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to r.
         /// </summary>
         internal static string SYN_R {

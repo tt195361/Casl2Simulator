@@ -6,12 +6,12 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// <summary>
     /// COMET II の Operating System (OS) です。
     /// </summary>
-    internal class Comet2OperatingSystem
+    internal class Os
     {
         private const UInt16 ProgramStartAddress = 0x0000;
         private const UInt16 InitialSp = 0x0000;
 
-        internal Comet2OperatingSystem()
+        internal Os()
         {
             //
         }

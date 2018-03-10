@@ -22,7 +22,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             CheckMake("DS", typeof(AsmDsInstruction), "アセンブラ命令 DS");
             CheckMake("DC", typeof(AsmDcInstruction), "アセンブラ命令 DC");
 
-            CheckMake("IN", typeof(MacroInInstruction), "マクロ命令 IN");
+            CheckMake("IN", typeof(MacroInOutInstruction), "マクロ命令 IN");
+            CheckMake("OUT", typeof(MacroInOutInstruction), "マクロ命令 OUT");
             CheckMake("RPUSH", typeof(MacroRpushInstruction), "マクロ命令 RPUSH");
 
             CheckMake("NOP", typeof(MachineInstruction), "機械語命令 NOP");

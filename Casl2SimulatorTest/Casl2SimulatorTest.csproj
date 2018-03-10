@@ -76,7 +76,7 @@
     <Compile Include="Casl2\ProgramInstructionTest.cs" />
     <Compile Include="Casl2\LineTest.cs" />
     <Compile Include="Casl2\MachineInstructionTest.cs" />
-    <Compile Include="Casl2\MacroInInstructionTest.cs" />
+    <Compile Include="Casl2\MacroInOutInstructionTest.cs" />
     <Compile Include="Casl2\MacroRpushInstructionTest.cs" />
     <Compile Include="Casl2\DecimalConstantTest.cs" />
     <Compile Include="Casl2\MemoryOffsetTest.cs" />
