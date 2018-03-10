@@ -37,16 +37,14 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             MacroRpushInstruction target = new MacroRpushInstruction();
             String[] actual = target.ExpandMacro(new Label("LBL001"));
 
-            String[] expected = new String[]
-            {
-                "LBL001\t" + "PUSH\t" + "0,GR1",
-                "\t" +       "PUSH\t" + "0,GR2",
-                "\t" +       "PUSH\t" + "0,GR3",
-                "\t" +       "PUSH\t" + "0,GR4",
-                "\t" +       "PUSH\t" + "0,GR5",
-                "\t" +       "PUSH\t" + "0,GR6",
-                "\t" +       "PUSH\t" + "0,GR7",
-            };
+            String[] expected = TestUtils.MakeArray(
+                LineTest.MakeGeneratedLine("LBL001", "PUSH", "0,GR1"),
+                LineTest.MakeGeneratedLine("", "PUSH", "0,GR2"),
+                LineTest.MakeGeneratedLine("", "PUSH", "0,GR3"),
+                LineTest.MakeGeneratedLine("", "PUSH", "0,GR4"),
+                LineTest.MakeGeneratedLine("", "PUSH", "0,GR5"),
+                LineTest.MakeGeneratedLine("", "PUSH", "0,GR6"),
+                LineTest.MakeGeneratedLine("", "PUSH", "0,GR7"));
             TestUtils.CheckEnumerable(expected, actual, "マクロ命令 RPUSH の展開結果");
         }
     }

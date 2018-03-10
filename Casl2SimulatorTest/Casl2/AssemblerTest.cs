@@ -28,13 +28,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                     "       END"),
                 TestUtils.MakeArray(
                     "ENTRY  START",
-                    "LBL001\tPUSH\t0,GR1",
-                    "\tPUSH\t0,GR2",
-                    "\tPUSH\t0,GR3",
-                    "\tPUSH\t0,GR4",
-                    "\tPUSH\t0,GR5",
-                    "\tPUSH\t0,GR6",
-                    "\tPUSH\t0,GR7",
+                    LineTest.MakeGeneratedLine("LBL001", "PUSH", "0,GR1"),
+                    LineTest.MakeGeneratedLine("", "PUSH", "0,GR2"),
+                    LineTest.MakeGeneratedLine("", "PUSH", "0,GR3"),
+                    LineTest.MakeGeneratedLine("", "PUSH", "0,GR4"),
+                    LineTest.MakeGeneratedLine("", "PUSH", "0,GR5"),
+                    LineTest.MakeGeneratedLine("", "PUSH", "0,GR6"),
+                    LineTest.MakeGeneratedLine("", "PUSH", "0,GR7"),
                     "       DC 123  ; マクロでない命令",
                     "; コメント行",
                     "       END"),
@@ -59,9 +59,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                     "       LD GR0,=1234,GR1",
                     "       LD GR2,=#ABCD,GR3",
                     "       PUSH ='!@#$%',GR4",
-                    "LTRL0001\tDC\t1234",
-                    "LTRL0002\tDC\t#ABCD",
-                    "LTRL0003\tDC\t'!@#$%'",
+                    LineTest.MakeGeneratedLine("LTRL0001", "DC", "1234"),
+                    LineTest.MakeGeneratedLine("LTRL0002", "DC", "#ABCD"),
+                    LineTest.MakeGeneratedLine("LTRL0003", "DC", "'!@#$%'"),
                     "       END"),
                 "リテラルの定数をオペランドとする DC 命令が生成され、END 命令の直前に配置される");
         }
@@ -80,7 +80,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 TestUtils.MakeArray(
                     "LTRL0001 START",
                     "         LD GR0,=-9876,GR1",
-                    "LTRL0002\tDC\t-9876",
+                    LineTest.MakeGeneratedLine("LTRL0002", "DC", "-9876"),
                     "         END"),
                 "リテラルの DC 命令のラベルはプログラムのものと重ならない一意のものが生成される");
         }

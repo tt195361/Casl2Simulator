@@ -98,13 +98,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             CheckExpandMacro(
                 "LBL001 RPUSH",
                 TestUtils.MakeArray(
-                    "LBL001\tPUSH\t0,GR1",
-                    "\tPUSH\t0,GR2",
-                    "\tPUSH\t0,GR3",
-                    "\tPUSH\t0,GR4",
-                    "\tPUSH\t0,GR5",
-                    "\tPUSH\t0,GR6",
-                    "\tPUSH\t0,GR7"),
+                    MakeGeneratedLine("LBL001", "PUSH", "0,GR1"),
+                    MakeGeneratedLine("", "PUSH", "0,GR2"),
+                    MakeGeneratedLine("", "PUSH", "0,GR3"),
+                    MakeGeneratedLine("", "PUSH", "0,GR4"),
+                    MakeGeneratedLine("", "PUSH", "0,GR5"),
+                    MakeGeneratedLine("", "PUSH", "0,GR6"),
+                    MakeGeneratedLine("", "PUSH", "0,GR7")),
                 "マクロ命令 => 内容が展開される");
 
             const String DcInstructionText = " DC 123";
@@ -135,7 +135,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             CheckGenerateLiteralDc(
                 " LD GR0,='ABC',GR1",
-                "LTRL0001\tDC\t'ABC'",
+                MakeGeneratedLine("LTRL0001", "DC", "'ABC'"),
                 "オペランドにリテラルを含む命令 => リテラルの定数をオペランドとする DC 命令が生成される");
             CheckGenerateLiteralDc(
                 " LD GR0,1234,GR1",
@@ -208,6 +208,12 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             RelocatableModule relModule = new RelocatableModule();
             target.GenerateCode(lblManager, relModule);
             RelocatableModuleTest.Check(relModule, expectedWords, message);
+        }
+
+        internal static String MakeGeneratedLine(
+            String labelField, String instructionField, String operandField)
+        {
+            return String.Format("{0}\t{1}\t{2}", labelField, instructionField, operandField);
         }
     }
 }

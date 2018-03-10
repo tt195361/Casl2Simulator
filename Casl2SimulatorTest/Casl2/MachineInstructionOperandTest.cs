@@ -62,13 +62,15 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 m_GR3_1111_GR4, null,
                 "r,adr[,x] で adr がリテラルでない => DC 命令は生成されない");
             CheckGenerateLiteralDc(
-                m_GR3_Eq1234_GR4, "LTRL0001\tDC\t1234",
+                m_GR3_Eq1234_GR4,
+                LineTest.MakeGeneratedLine("LTRL0001", "DC", "1234"),
                 "r,adr[,x] で adr がリテラル => DC 命令が生成される");
             CheckGenerateLiteralDc(
                 m_3333_GR6, null,
                 "adr[,x] で adr がリテラルでない => DC 命令は生成されない");
             CheckGenerateLiteralDc(
-                m_EqSTR_GR6, "LTRL0001\tDC\t'STR'",
+                m_EqSTR_GR6,
+                LineTest.MakeGeneratedLine("LTRL0001", "DC", "'STR'"),
                 "adr[,x] で adr がリテラル => DC 命令が生成される");
         }
 
