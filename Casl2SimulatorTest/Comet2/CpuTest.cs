@@ -13,7 +13,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
     [TestClass]
     public class CpuTest
     {
-        #region Fields
+        #region Instance Fields
         private Cpu m_cpu;
         #endregion
 

@@ -12,7 +12,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class ExecStartAddressTest
     {
-        #region Fields
+        #region Instance Fields
         private LabelManager m_lblManager;
         private RelocatableModule m_relModule;
         #endregion

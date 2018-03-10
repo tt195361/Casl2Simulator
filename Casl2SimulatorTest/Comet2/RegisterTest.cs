@@ -11,7 +11,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
     [TestClass]
     public class RegisterTest
     {
-        #region Fields
+        #region Instance Fields
         private Register m_register;
         #endregion
 

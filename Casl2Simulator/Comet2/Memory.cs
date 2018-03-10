@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// </summary>
     internal class Memory
     {
-        #region Fields
+        #region Instance Fields
         private readonly Word[] m_contents;
         #endregion
 

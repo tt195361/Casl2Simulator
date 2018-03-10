@@ -12,7 +12,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
     [TestClass]
     public class MemoryTest
     {
-        #region Fields
+        #region Instance Fields
         private Memory m_memory;
         #endregion
 

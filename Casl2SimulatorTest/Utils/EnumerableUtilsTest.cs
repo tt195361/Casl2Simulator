@@ -12,7 +12,7 @@ namespace Tt195361.Casl2SimulatorTest.Utils
     [TestClass]
     public class EnumerableUtilsTest
     {
-        #region Fields
+        #region Instance Fields
         private StringBuilder m_builder;
 
         private const String ABC = "ABC";

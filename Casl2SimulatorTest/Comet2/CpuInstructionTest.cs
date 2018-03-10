@@ -10,7 +10,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
     [TestClass]
     public class CpuInstructionTest
     {
-        #region Fields
+        #region Instance Fields
         private RegisterSet m_registerSet;
         private Memory m_memory;
         private TestLogger m_logger;
@@ -526,6 +526,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Assert.AreEqual(expectedLog, actualLog, "ReturningFromSubroutine イベントが発生する");
         }
         #endregion // Call/Ret
+
+        #region Others
         /// <summary>
         /// SuperVisorCall 命令のテストです。
         /// </summary>
@@ -548,8 +550,6 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             ExecuteRegisterInstruction(CpuInstruction.NoOperation, DontCareUInt16, DontCareUInt16);
             // 何もしない。
         }
-        #region Others
-
         #endregion // Others
 
         #region Check

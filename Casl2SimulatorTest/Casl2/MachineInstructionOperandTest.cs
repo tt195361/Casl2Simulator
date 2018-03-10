@@ -13,7 +13,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class MachineInstructionOperandTest
     {
-        #region Fields
+        #region Instance Fields
         private MachineInstructionOperand m_GR1_GR2;
         private MachineInstructionOperand m_GR3_1111_GR4;
         private MachineInstructionOperand m_GR3_Eq1234_GR4;

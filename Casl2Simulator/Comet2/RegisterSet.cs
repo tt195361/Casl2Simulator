@@ -5,7 +5,7 @@
     /// </summary>
     internal class RegisterSet
     {
-        #region Fields
+        #region Instance Fields
         private readonly GeneralRegisters m_generalRegisters;
         private readonly Register m_stackPointer;
         private readonly Register m_programRegister;

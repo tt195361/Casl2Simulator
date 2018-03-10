@@ -9,7 +9,7 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// </summary>
     internal class Cpu
     {
-        #region Fields
+        #region Instance Fields
         private readonly RegisterSet m_registerSet;
         private readonly Memory m_memory;
         private readonly Comet2OperatingSystem m_os;

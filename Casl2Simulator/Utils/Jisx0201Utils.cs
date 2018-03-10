@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Utils
     /// </summary>
     internal static class Jisx0201Utils
     {
-        #region Fields
+        #region Static Fields
         // csISO2022JP -- Japanese (JIS-Allow 1 byte Kana)
         private static readonly Encoding m_jisEncoding = Encoding.GetEncoding("csISO2022JP");
 

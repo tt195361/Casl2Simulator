@@ -10,7 +10,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class R1R2OperandTest
     {
-        #region Fields
+        #region Static Fields
         private const UInt16 Opcode = 0x5A;
         #endregion
 

@@ -11,7 +11,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class LabelManagerTest
     {
-        #region Fields
+        #region Instance Fields
         private LabelManager m_lblManager;
         private Label m_label1;
         private Label m_label2;

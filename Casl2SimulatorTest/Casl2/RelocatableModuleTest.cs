@@ -15,7 +15,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class RelocatableModuleTest
     {
-        #region Fields
+        #region Instance Fields
         private RelocatableModule m_relModule;
         private LabelManager m_lblManager;
         private Label m_label;

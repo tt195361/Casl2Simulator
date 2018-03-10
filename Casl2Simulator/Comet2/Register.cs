@@ -24,7 +24,7 @@ namespace Tt195361.Casl2Simulator.Comet2
             return new Register("SP");
         }
 
-        #region Fields
+        #region Instance Fields
         private readonly String m_name;
         private Word m_value;
         #endregion

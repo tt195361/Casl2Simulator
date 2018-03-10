@@ -9,7 +9,9 @@ namespace Tt195361.Casl2SimulatorTest
     /// </summary>
     internal class TestLogger
     {
+        #region Instance Fields
         private readonly StringBuilder m_log;
+        #endregion
 
         internal TestLogger()
         {

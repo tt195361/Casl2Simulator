@@ -30,7 +30,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         /// <summary>
         /// 16 進定数を読み込みます。16 進定数は #h の形式で記述し、h は 4 桁の 16 進数
-        /// (16 新数字は 0 ~ 9, A ~ F) です。
+        /// (16 進数字は 0 ~ 9, A ~ F) です。
         /// </summary>
         /// <param name="buffer">読み込む文字列が入った <see cref="ReadBuffer"/> のオブジェクトです。</param>
         /// <returns>読み込んだ <see cref="Int32"/> の値を返します。</returns>

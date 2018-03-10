@@ -12,7 +12,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
     [TestClass]
     public class AluTest
     {
-        #region Fields
+        #region Instance Fields
         private Alu.OperationMethod m_operationMethodToTest;
         #endregion
 

@@ -8,6 +8,7 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// </summary>
     internal class Operator
     {
+        #region Events
         /// <summary>
         /// ReturnFromSubroutine 命令を実行しようとすると発生します。
         /// </summary>
@@ -17,9 +18,12 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// スーパーバイザーを呼び出そうとすると発生します。
         /// </summary>
         internal static event EventHandler<CallingSuperVisorEventArgs> CallingSuperVisor;
+        #endregion
 
+        #region Delegates
         private delegate void OperateAction(
             Register r, Word operand, RegisterSet registerSet, Memory memory);
+        #endregion
 
         #region Load/Store
         /// <summary>
@@ -454,7 +458,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         }
         #endregion // Others
 
-        #region Fields
+        #region Instance Fields
         private readonly OperateAction m_operateAction;
         #endregion
 

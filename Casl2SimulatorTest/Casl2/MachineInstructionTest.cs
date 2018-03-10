@@ -12,7 +12,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class MachineInstructionTest
     {
-        #region Fields
+        #region Instance Fields
         private ProgramInstruction m_rAdrXOrR1R2_RAdrX;
         private ProgramInstruction m_rAdrXOrR1R2_R1R2;
         private LabelManager m_lblManager;

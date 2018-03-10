@@ -11,7 +11,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class ReadBufferTest
     {
-        #region Fields
+        #region Instance Fields
         private ReadBuffer m_target;
         #endregion
 

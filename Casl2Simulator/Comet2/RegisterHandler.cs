@@ -36,7 +36,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         }
         #endregion
 
-        #region Fields
+        #region Instance Fields
         private readonly GetRegisterAction m_getRegisterAction;
         #endregion
 

@@ -12,7 +12,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
     [TestClass]
     public class FetcherTest
     {
-        #region Fields
+        #region Instance Fields
         private Register m_pr;
         private Memory m_memory;
         #endregion

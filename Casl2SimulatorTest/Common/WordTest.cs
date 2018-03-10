@@ -12,7 +12,7 @@ namespace Tt195361.Casl2SimulatorTest.Common
     [TestClass]
     public class WordTest
     {
-        #region Fields
+        #region Instance Fields
         private Word m_word_0000;
         private Word m_word_7fff;
         private Word m_word_8000;
@@ -159,19 +159,6 @@ namespace Tt195361.Casl2SimulatorTest.Common
             Word word = new Word(i16Val);
             Boolean actual = word.IsZero();
             Assert.AreEqual(expected, actual, message);
-        }
-
-        internal static void Check(Word? expected, Word? actual, String message)
-        {
-            if (expected == null)
-            {
-                Assert.IsNull(actual, message);
-            }
-            else
-            {
-                Assert.IsNotNull(actual, message);
-                Check(expected.Value, actual.Value, message);
-            }
         }
 
         internal static void Check(Word actual, UInt16 expectedValue, String message)

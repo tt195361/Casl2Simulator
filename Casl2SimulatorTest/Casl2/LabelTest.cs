@@ -11,7 +11,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class LabelTest
     {
-        #region Fields
+        #region Static Fields
         internal const String ValidLabelName = "LBL001";
         internal const String InvalidLabelName = "不正なラベル";
 

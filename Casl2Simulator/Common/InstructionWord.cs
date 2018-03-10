@@ -8,7 +8,7 @@ namespace Tt195361.Casl2Simulator.Common
     /// </summary>
     internal static class InstructionWord
     {
-        #region Fields
+        #region Static Fields
         // 命令の第 1 語の構成。
         private const Int32 OpcodeMSB = 15;
         private const Int32 OpcodeLSB = 8;

@@ -11,7 +11,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
     [TestClass]
     public class OperatorTest
     {
-        #region Fields
+        #region Instance Fields
         private RegisterSet m_registerSet;
         private Memory m_memory;
         private Register m_gr;

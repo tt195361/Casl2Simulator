@@ -7,7 +7,7 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// </summary>
     internal class FlagRegister
     {
-        #region Fields
+        #region Instance Fields
         // 各フラグの型は Boolean にしました。enum の Flags よりも簡単に値を設定できそうだと考えました。
         private Boolean m_overflowFlag;
         private Boolean m_signFlag;

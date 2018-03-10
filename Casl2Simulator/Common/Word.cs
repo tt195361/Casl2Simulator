@@ -8,7 +8,7 @@ namespace Tt195361.Casl2Simulator.Common
     /// </summary>
     internal struct Word
     {
-        #region Fields
+        #region Static Fields
         /// <summary>
         /// 値が 0 の語です。
         /// </summary>
@@ -18,7 +18,9 @@ namespace Tt195361.Casl2Simulator.Common
         /// 値が 1 の語です。
         /// </summary>
         internal static readonly Word One = new Word(1);
+        #endregion
 
+        #region Instance Fields
         // 1 語は 16 ビット。符号なしで格納します。
         private readonly UInt16 m_ui16Val;
         #endregion

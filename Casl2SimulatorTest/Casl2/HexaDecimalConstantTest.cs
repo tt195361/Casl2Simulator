@@ -13,7 +13,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class HexaDecimalConstantTest
     {
-        #region Fields
+        #region Instance Fields
         private HexaDecimalConstant m_target;
 
         private const Int32 DontCare = 0;

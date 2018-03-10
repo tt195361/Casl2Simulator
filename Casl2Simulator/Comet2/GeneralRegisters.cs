@@ -8,7 +8,7 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// </summary>
     internal class GeneralRegisters
     {
-        #region Fields
+        #region Instance Fields
         // GR (汎用レジスタ、General Register) は、GR0 ~ GR7 の 8 個。
         internal const Int32 Count = 8;
 

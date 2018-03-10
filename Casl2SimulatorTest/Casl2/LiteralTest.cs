@@ -12,7 +12,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class LiteralTest
     {
-        #region Fields
+        #region Instance Fields
         private Literal m_target;
         #endregion
 

@@ -12,7 +12,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class AddressConstantTest
     {
-        #region Fields
+        #region Instance Fields
         private AddressConstant m_target;
         private AddressConstant m_registered;
         private AddressConstant m_notRegistered;

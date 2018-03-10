@@ -13,7 +13,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class ConstantCollectionTest
     {
-        #region Fields
+        #region Instance Fields
         private ConstantCollection m_constants;
         private LabelManager m_lblManager;
 

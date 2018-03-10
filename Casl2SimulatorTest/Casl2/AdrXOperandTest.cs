@@ -12,7 +12,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class AdrXOperandTest
     {
-        #region Fields
+        #region Instance Fields
         private AdrXOperand m_adrOnly;
         private AdrXOperand m_adrWithX;
 
