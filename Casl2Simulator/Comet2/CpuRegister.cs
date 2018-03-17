@@ -4,35 +4,19 @@ using Tt195361.Casl2Simulator.Common;
 namespace Tt195361.Casl2Simulator.Comet2
 {
     /// <summary>
-    /// COMET II のレジスタを表わします。
+    /// COMET II CPU のレジスタを表わします。
     /// </summary>
-    internal class Register
+    internal class CpuRegister
     {
-        internal static Register MakeGR(Int32 number)
-        {
-            String name = "GR" + number;
-            return new Register(name);
-        }
-
-        internal static Register MakePR()
-        {
-            return new Register("PR");
-        }
-
-        internal static Register MakeSP()
-        {
-            return new Register("SP");
-        }
-
         #region Instance Fields
         private readonly String m_name;
         private Word m_value;
         #endregion
 
         /// <summary>
-        /// <see cref="Register"/> のインスタンスを初期化します。
+        /// <see cref="CpuRegister"/> のインスタンスを初期化します。
         /// </summary>
-        private Register(String name)
+        internal CpuRegister(String name)
         {
             m_name = name;
 

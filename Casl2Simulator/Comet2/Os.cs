@@ -22,7 +22,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <param name="registerSet">実行を準備する COMET II CPU のレジスタです。</param>
         /// <param name="memory">実行を準備する COMET II の主記憶です。</param>
         /// <param name="program">実行するプログラムです。</param>
-        internal void PrepareExecution(RegisterSet registerSet, Memory memory, UInt16[] program)
+        internal void PrepareExecution(CpuRegisterSet registerSet, Memory memory, UInt16[] program)
         {
             PrepareMemory(memory, program);
             PrepareRegisterSet(registerSet);
@@ -35,7 +35,7 @@ namespace Tt195361.Casl2Simulator.Comet2
             memory.WriteRange(ProgramStartAddress, program);
         }
 
-        private void PrepareRegisterSet(RegisterSet registerSet)
+        private void PrepareRegisterSet(CpuRegisterSet registerSet)
         {
             // PR をプログラムの開始アドレスに、SP をスタック領域の最後のアドレス + 1 に、それぞれ設定する。
             registerSet.Reset();
@@ -43,7 +43,7 @@ namespace Tt195361.Casl2Simulator.Comet2
             registerSet.SP.SetValue(InitialSp);
         }
 
-        internal Boolean OnReturingFromSubroutine(Register sp)
+        internal Boolean OnReturingFromSubroutine(CpuRegister sp)
         {
             // RET 命令で、SP が初期値でなければ、実行を継続する。SP が初期値ならば、実行を終了する。
             UInt16 spValue = sp.Value.GetAsUnsigned();
@@ -51,7 +51,7 @@ namespace Tt195361.Casl2Simulator.Comet2
             return continueToExecute;
         }
 
-        internal void OnCallingSuperVisor(Word operand, RegisterSet registerSet, Memory memory)
+        internal void OnCallingSuperVisor(Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             //
         }

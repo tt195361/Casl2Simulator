@@ -6,23 +6,23 @@ using Tt195361.Casl2Simulator.Common;
 namespace Tt195361.Casl2SimulatorTest.Comet2
 {
     /// <summary>
-    /// <see cref="Register"/> クラスの単体テストです。
+    /// <see cref="CpuRegister"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
-    public class RegisterTest
+    public class CpuRegisterTest
     {
         #region Instance Fields
-        private Register m_register;
+        private CpuRegister m_register;
         #endregion
 
         [TestInitialize]
         public void TestInitialize()
         {
-            m_register = Register.MakeGR(0);
+            m_register = new CpuRegister(RegisterDef.GR0);
         }
 
         /// <summary>
-        /// Increment メソッドの単体テストです。
+        /// <see cref="CpuRegister.Increment"/> メソッドの単体テストです。
         /// </summary>
         [TestMethod]
         public void Increment()
@@ -39,7 +39,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// Decrement メソッドの単体テストです。
+        /// <see cref="CpuRegister.Decrement"/> メソッドの単体テストです。
         /// </summary>
         [TestMethod]
         public void Decrement()
@@ -56,7 +56,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// ToString メソッドの単体テストです。
+        /// <see cref="CpuRegister.ToString"/> メソッドの単体テストです。
         /// </summary>
         [TestMethod]
         public void TestToString()
@@ -78,7 +78,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             Check(m_register, expected, message);
         }
 
-        internal static void Check(Register reg, UInt16 expected, String message)
+        internal static void Check(CpuRegister reg, UInt16 expected, String message)
         {
             UInt16 actual = reg.Value.GetAsUnsigned();
             Assert.AreEqual(expected, actual, message);

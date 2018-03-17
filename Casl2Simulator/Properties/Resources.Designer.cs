@@ -412,7 +412,7 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 指定の文字列 &quot;{0}&quot; はレジスタ名ではありません。レジスタ名は、記号 GR0~GR7 で指定してください。.
+        ///   Looks up a localized string similar to 指定の文字列 &quot;{0}&quot; はレジスタ名ではありません。レジスタ名は、記号 {1}~{2} で指定してください。.
         /// </summary>
         internal static string MSG_UndefinedRegisterName {
             get {

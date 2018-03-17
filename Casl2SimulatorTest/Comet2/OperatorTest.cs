@@ -12,10 +12,10 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
     public class OperatorTest
     {
         #region Instance Fields
-        private RegisterSet m_registerSet;
+        private CpuRegisterSet m_registerSet;
         private Memory m_memory;
-        private Register m_gr;
-        private Register m_pr;
+        private CpuRegister m_gr;
+        private CpuRegister m_pr;
         private FlagRegister m_fr;
         private TestLogger m_logger;
         private Boolean m_cancelRet;
@@ -32,7 +32,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         [TestInitialize]
         public void TestInitialize()
         {
-            m_registerSet = new RegisterSet();
+            m_registerSet = new CpuRegisterSet();
             m_memory = new Memory();
             m_gr = m_registerSet.GR[1];
             m_pr = m_registerSet.PR;
@@ -53,7 +53,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Load/Store
         /// <summary>
-        /// LoadWithFr の単体テストです。
+        /// <see cref="Operator.LoadWithFr"/> のテストです。
         /// </summary>
         [TestMethod]
         public void LoadWithFr()
@@ -72,7 +72,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// Store の単体テストです。
+        /// <see cref="Operator.Store"/> のテストです。
         /// </summary>
         [TestMethod]
         public void Store()
@@ -83,7 +83,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// LoadWithoutFr の単体テストです。
+        /// <see cref="Operator.LoadWithoutFr"/> のテストです。
         /// </summary>
         [TestMethod]
         public void LoadWithoutFr()
@@ -105,7 +105,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Arithmetic/Logical Operation
         /// <summary>
-        /// AddArithmetic の単体テストです。
+        /// <see cref="Operator.AddArithmetic"/> のテストです。
         /// </summary>
         [TestMethod]
         public void AddArithmetic()
@@ -125,7 +125,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// SubtractArithmetic の単体テストです。
+        /// <see cref="Operator.SubtractArithmetic"/> のテストです。
         /// </summary>
         [TestMethod]
         public void SubtractArithmetic()
@@ -145,7 +145,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// AddLogical の単体テストです。
+        /// <see cref="Operator.AddLogical"/> のテストです。
         /// </summary>
         [TestMethod]
         public void AddLogical()
@@ -165,7 +165,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// SubtractLogical の単体テストです。
+        /// <see cref="Operator.SubtractLogical"/> のテストです。
         /// </summary>
         [TestMethod]
         public void SubtractLogical()
@@ -187,7 +187,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Logic
         /// <summary>
-        /// And の単体テストです。
+        /// <see cref="Operator.And"/> のテストです。
         /// </summary>
         [TestMethod]
         public void And()
@@ -206,7 +206,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// Or の単体テストです。
+        /// <see cref="Operator.Or"/> のテストです。
         /// </summary>
         [TestMethod]
         public void Or()
@@ -225,7 +225,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// Xor の単体テストです。
+        /// <see cref="Operator.Xor"/> のテストです。
         /// </summary>
         [TestMethod]
         public void Xor()
@@ -246,7 +246,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Comparison
         /// <summary>
-        /// CompareArithmetic の単体テストです。
+        /// <see cref="Operator.CompareArithmetic"/> のテストです。
         /// </summary>
         [TestMethod]
         public void CompareArithmetic()
@@ -266,7 +266,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// CompareLogical の単体テストです。
+        /// <see cref="Operator.CompareLogical"/> のテストです。
         /// </summary>
         [TestMethod]
         public void CompareLogical()
@@ -288,7 +288,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Shift
         /// <summary>
-        /// ShiftLeftArithmetic の単体テストです。
+        /// <see cref="Operator.ShiftLeftArithmetic"/> のテストです。
         /// </summary>
         [TestMethod]
         public void ShiftLeftArithmetic()
@@ -308,7 +308,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// ShiftRightArithmetic の単体テストです。
+        /// <see cref="Operator.ShiftRightArithmetic"/> のテストです。
         /// </summary>
         [TestMethod]
         public void ShiftRightArithmetic()
@@ -328,7 +328,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// ShiftLeftLogical の単体テストです。
+        /// <see cref="Operator.ShiftLeftLogical"/> のテストです。
         /// </summary>
         [TestMethod]
         public void ShiftLeftLogical()
@@ -348,7 +348,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// ShiftRightLogical の単体テストです。
+        /// <see cref="Operator.ShiftRightLogical"/> のテストです。
         /// </summary>
         [TestMethod]
         public void ShiftRightLogical()
@@ -370,7 +370,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Jump
         /// <summary>
-        /// JumpOnMinus の単体テストです。
+        /// <see cref="Operator.JumpOnMinus"/> のテストです。
         /// </summary>
         [TestMethod]
         public void JumpOnMinus()
@@ -382,7 +382,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// JumpOnNonZero の単体テストです。
+        /// <see cref="Operator.JumpOnNonZero"/> のテストです。
         /// </summary>
         [TestMethod]
         public void JumpOnNonZero()
@@ -394,7 +394,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// JumpOnZero の単体テストです。
+        /// <see cref="Operator.JumpOnZero"/> のテストです。
         /// </summary>
         [TestMethod]
         public void JumpOnZero()
@@ -406,7 +406,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// UnconditionalJump の単体テストです。
+        /// <see cref="Operator.UnconditionalJump"/> のテストです。
         /// </summary>
         [TestMethod]
         public void UnconditionalJump()
@@ -417,7 +417,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// JumpOnPlus の単体テストです。
+        /// <see cref="Operator.JumpOnPlus"/> のテストです。
         /// </summary>
         [TestMethod]
         public void JumpOnPlus()
@@ -430,7 +430,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// JumpOnOverflow の単体テストです。
+        /// <see cref="Operator.JumpOnOverflow"/> のテストです。
         /// </summary>
         [TestMethod]
         public void JumpOnOverflow()
@@ -444,7 +444,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Stack Operation
         /// <summary>
-        /// Push の単体テストです。
+        /// <see cref="Operator.Push"/> のテストです。
         /// </summary>
         [TestMethod]
         public void Push()
@@ -455,7 +455,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         private void CheckPush(UInt16 spValue, UInt16 oprValue, UInt16 expectedSp, String message)
         {
-            Register sp = m_registerSet.SP;
+            CpuRegister sp = m_registerSet.SP;
             sp.SetValue(spValue);
 
             Operate(Operator.Push, DontCareUInt16, oprValue);
@@ -465,7 +465,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// Pop の単体テストです。
+        /// <see cref="Operator.Pop"/> のテストです。
         /// </summary>
         [TestMethod]
         public void Pop()
@@ -476,7 +476,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         private void CheckPop(UInt16 spValue, UInt16 memValue, UInt16 expectedSp, String message)
         {
-            Register sp = m_registerSet.SP;
+            CpuRegister sp = m_registerSet.SP;
             sp.SetValue(spValue);
             m_memory.Write(spValue, memValue);
 
@@ -489,7 +489,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Call/Return
         /// <summary>
-        /// CallSubroutine の単体テストです。
+        /// <see cref="Operator.CallSubroutine"/> のテストです。
         /// </summary>
         [TestMethod]
         public void CallSubroutine()
@@ -501,9 +501,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
             Operate(Operator.CallSubroutine, DontCareUInt16, OprValue);
 
-            RegisterTest.Check(SP, SpValueMinusOne, "SP の値が 1 減る");
+            CpuRegisterTest.Check(SP, SpValueMinusOne, "SP の値が 1 減る");
             MemoryTest.Check(m_memory, SpValueMinusOne, PrValue, "(SP - 1) に PR の値が書き込まれる");
-            RegisterTest.Check(PR, OprValue, "PR にオペランドの値が設定される");
+            CpuRegisterTest.Check(PR, OprValue, "PR にオペランドの値が設定される");
         }
 
         /// <summary>
@@ -519,8 +519,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
             Operate(Operator.ReturnFromSubroutine, DontCareUInt16, DontCareUInt16);
 
-            RegisterTest.Check(PR, MemValue, "PR に SP の指すアドレスの値が設定される");
-            RegisterTest.Check(SP, SpValuePlusOne, "SP の値が 1 増える");
+            CpuRegisterTest.Check(PR, MemValue, "PR に SP の指すアドレスの値が設定される");
+            CpuRegisterTest.Check(SP, SpValuePlusOne, "SP の値が 1 増える");
 
             String expectedLog = TestLogger.ExpectedLog("OnReturningFromSubroutine: 'SP: 9320 (0x2468)'");
             String actualLog = m_logger.Log;
@@ -540,8 +540,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
             Operate(Operator.ReturnFromSubroutine, DontCareUInt16, DontCareUInt16);
 
-            RegisterTest.Check(PR, PrValue, "PR の値はそのまま");
-            RegisterTest.Check(SP, SpValue, "SP の値はそのまま");
+            CpuRegisterTest.Check(PR, PrValue, "PR の値はそのまま");
+            CpuRegisterTest.Check(SP, SpValue, "SP の値はそのまま");
 
             String expectedLog = TestLogger.ExpectedLog("OnReturningFromSubroutine: 'SP: 9320 (0x2468)'");
             String actualLog = m_logger.Log;
@@ -551,7 +551,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Others
         /// <summary>
-        /// SuperVisorCall の単体テストです。
+        /// <see cref="Operator.SuperVisorCall"/> のテストです。
         /// </summary>
         [TestMethod]
         public void SuperVisorCall()
@@ -565,7 +565,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// NoOperation の単体テストです。
+        /// <see cref="Operator.NoOperation"/> のテストです。
         /// </summary>
         [TestMethod]
         public void NoOperation()
@@ -629,9 +629,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CheckRegister(m_pr, expected, message);
         }
 
-        private void CheckRegister(Register reg, UInt16 expected, String message)
+        private void CheckRegister(CpuRegister reg, UInt16 expected, String message)
         {
-            RegisterTest.Check(reg, expected, message);
+            CpuRegisterTest.Check(reg, expected, message);
         }
 
         private void CheckMemory(UInt16 address, UInt16 expected, String message)
@@ -646,12 +646,12 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             op.Operate(m_gr, operand, m_registerSet, m_memory);
         }
 
-        private Register SP
+        private CpuRegister SP
         {
             get { return m_registerSet.SP; }
         }
 
-        private Register PR
+        private CpuRegister PR
         {
             get { return m_registerSet.PR; }
         }

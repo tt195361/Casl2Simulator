@@ -1,4 +1,5 @@
 ﻿using System;
+using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2Simulator.Comet2
@@ -8,7 +9,7 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// </summary>
     internal class RegisterHandler
     {
-        private delegate Register GetRegisterAction(UInt16 rR1Field, RegisterSet registerSet);
+        private delegate CpuRegister GetRegisterAction(UInt16 rR1Field, CpuRegisterSet registerSet);
 
         #region Register
         /// <summary>
@@ -16,9 +17,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// </summary>
         internal static readonly RegisterHandler Register = new RegisterHandler(GetSpecifiedRegister);
 
-        private static Register GetSpecifiedRegister(UInt16 rR1Field, RegisterSet registerSet)
+        private static CpuRegister GetSpecifiedRegister(UInt16 rR1Field, CpuRegisterSet registerSet)
         {
-            ArgChecker.CheckRange(rR1Field, 0, GeneralRegisters.Count - 1, "r/r1");
+            ArgChecker.CheckRange(rR1Field, 0, RegisterDef.GrCount - 1, "r/r1");
 
             return registerSet.GR[rR1Field];
         }
@@ -30,7 +31,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// </summary>
         internal static readonly RegisterHandler NoRegister = new RegisterHandler(GetNoRegister);
 
-        private static Register GetNoRegister(UInt16 rR1Field, RegisterSet registerSet)
+        private static CpuRegister GetNoRegister(UInt16 rR1Field, CpuRegisterSet registerSet)
         {
             return null;
         }
@@ -51,10 +52,13 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// </summary>
         /// <param name="rR1Field">命令語の中の r/r1 フィールドの値です。</param>
         /// <param name="registerSet">COMET II の一そろいのレジスタです。</param>
-        /// <returns>命令で指定するレジスタを返します。</returns>
-        internal Register GetRegister(UInt16 rR1Field, RegisterSet registerSet)
+        /// <returns>
+        /// 命令で指定するレジスタを返します。
+        /// 指定するレジスタがない場合は <see langword="null"/> を返します。
+        /// </returns>
+        internal CpuRegister GetRegister(UInt16 rR1Field, CpuRegisterSet registerSet)
         {
-            Register r = m_getRegisterAction(rR1Field, registerSet);
+            CpuRegister r = m_getRegisterAction(rR1Field, registerSet);
             return r;
         }
     }

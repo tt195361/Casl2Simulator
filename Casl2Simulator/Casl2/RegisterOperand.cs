@@ -61,22 +61,22 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         #region Instance Fields
-        private readonly Register m_register;
+        private readonly ProgramRegister m_register;
         #endregion
 
         private RegisterOperand(UInt16 opcode, String name)
-            : this(opcode, Register.GetFor(name))
+            : this(opcode, ProgramRegister.GetFor(name))
         {
             //
         }
 
-        private RegisterOperand(UInt16 opcode, Register register)
+        private RegisterOperand(UInt16 opcode, ProgramRegister register)
             : base(opcode)
         {
             m_register = register;
         }
 
-        internal Register Register
+        internal ProgramRegister Register
         {
             get { return m_register; }
         }
@@ -101,12 +101,12 @@ namespace Tt195361.Casl2Simulator.Casl2
             return Name;
         }
 
-        internal static RegisterOperand MakeForUnitTest(Register register)
+        internal static RegisterOperand MakeForUnitTest(ProgramRegister register)
         {
             return MakeForUnitTest(OpcodeDef.Dummy, register);
         }
 
-        internal static RegisterOperand MakeForUnitTest(UInt16 opcode, Register register)
+        internal static RegisterOperand MakeForUnitTest(UInt16 opcode, ProgramRegister register)
         {
             return new RegisterOperand(opcode, register);
         }

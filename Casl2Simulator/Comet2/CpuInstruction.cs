@@ -183,7 +183,7 @@ namespace Tt195361.Casl2Simulator.Comet2
             "NOP", Operator.NoOperation, RegisterHandler.NoRegister, OperandHandler.NoOperand);
         #endregion // Others
 
-        #region Fields
+        #region Instance Fields
         private readonly String m_str;
         private readonly Operator m_operator;
         private readonly RegisterHandler m_registerHandler;
@@ -206,9 +206,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <param name="xR2Field">命令語の中の x/r2 フィールドの値です。</param>
         /// <param name="registerSet">COMET II の一そろいのレジスタです。</param>
         /// <param name="memory">COMET II の主記憶です。</param>
-        internal void Execute(UInt16 rR1Field, UInt16 xR2Field, RegisterSet registerSet, Memory memory)
+        internal void Execute(UInt16 rR1Field, UInt16 xR2Field, CpuRegisterSet registerSet, Memory memory)
         {
-            Register r = m_registerHandler.GetRegister(rR1Field, registerSet);
+            CpuRegister r = m_registerHandler.GetRegister(rR1Field, registerSet);
             Word operand = m_operandHandler.GetOperand(xR2Field, registerSet, memory);
             m_operator.Operate(r, operand, registerSet, memory);
         }

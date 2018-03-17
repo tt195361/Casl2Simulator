@@ -1,25 +1,27 @@
-﻿namespace Tt195361.Casl2Simulator.Comet2
+﻿using Tt195361.Casl2Simulator.Common;
+
+namespace Tt195361.Casl2Simulator.Comet2
 {
     /// <summary>
-    /// COMET II の一そろいのレジスタを表わします。
+    /// COMET II CPU の一そろいのレジスタを表わします。
     /// </summary>
-    internal class RegisterSet
+    internal class CpuRegisterSet
     {
         #region Instance Fields
         private readonly GeneralRegisters m_generalRegisters;
-        private readonly Register m_stackPointer;
-        private readonly Register m_programRegister;
+        private readonly CpuRegister m_stackPointer;
+        private readonly CpuRegister m_programRegister;
         private readonly FlagRegister m_flagRegister;
         #endregion
 
         /// <summary>
-        /// <see cref="RegisterSet"/> のインスタンスを初期化します。
+        /// <see cref="CpuRegisterSet"/> のインスタンスを初期化します。
         /// </summary>
-        internal RegisterSet()
+        internal CpuRegisterSet()
         {
             m_generalRegisters = new GeneralRegisters();
-            m_stackPointer = Register.MakeSP();
-            m_programRegister = Register.MakePR();
+            m_stackPointer = new CpuRegister(RegisterDef.SP);
+            m_programRegister = new CpuRegister(RegisterDef.PR);
             m_flagRegister = new FlagRegister();
 
             Reset();
@@ -36,7 +38,7 @@
         /// <summary>
         /// スタックポインタを取得します。
         /// </summary>
-        internal Register SP
+        internal CpuRegister SP
         {
             get { return m_stackPointer; }
         }
@@ -44,7 +46,7 @@
         /// <summary>
         /// プログラムレジスタを取得します。
         /// </summary>
-        internal Register PR
+        internal CpuRegister PR
         {
             get { return m_programRegister; }
         }

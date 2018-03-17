@@ -13,19 +13,19 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
     public class FetcherTest
     {
         #region Instance Fields
-        private Register m_pr;
+        private CpuRegister m_pr;
         private Memory m_memory;
         #endregion
 
         [TestInitialize]
         public void TestInitialize()
         {
-            m_pr = Register.MakePR();
+            m_pr = new CpuRegister(RegisterDef.PR);
             m_memory = new Memory();
         }
 
         /// <summary>
-        /// Fetch メソッドの単体テストです。
+        /// <see cref="Fetcher.Fetch"/> メソッドの単体テストです。
         /// </summary>
         [TestMethod]
         public void Fetch()
@@ -47,7 +47,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         {
             Word word = Fetcher.Fetch(m_pr, m_memory);
             WordTest.Check(word, expectedContents, "Contents: " + message);
-            RegisterTest.Check(m_pr, expectedPr, "PR: " + message);
+            CpuRegisterTest.Check(m_pr, expectedPr, "PR: " + message);
         }
     }
 }

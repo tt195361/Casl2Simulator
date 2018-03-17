@@ -14,7 +14,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
     public class OperandHandlerTest
     {
         #region Instance Fields
-        private RegisterSet m_registerSet;
+        private CpuRegisterSet m_registerSet;
         private Memory m_memory;
 
         // 命令語の次のアドレス。
@@ -26,12 +26,12 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         [TestInitialize]
         public void TestInitialize()
         {
-            m_registerSet = new RegisterSet();
+            m_registerSet = new CpuRegisterSet();
             m_memory = new Memory();
         }
 
         /// <summary>
-        /// EffectiveAddress の単体テストです。
+        /// <see cref="OperandHandler.EffectiveAddress"/> の単体テストです。
         /// </summary>
         [TestMethod]
         public void EffectiveAddress()
@@ -70,7 +70,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// EaContents の単体テストです。
+        /// <see cref="OperandHandler.EaContents"/> の単体テストです。
         /// </summary>
         [TestMethod]
         public void EaContents()
@@ -94,7 +94,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// Register の単体テストです。
+        /// <see cref="OperandHandler.Register"/> の単体テストです。
         /// </summary>
         [TestMethod]
         public void Register()

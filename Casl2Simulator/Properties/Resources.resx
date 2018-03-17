@@ -235,7 +235,7 @@
     <value>命令コード 0x{0:x02} は未定義です。</value>
   </data>
   <data name="MSG_UndefinedRegisterName" xml:space="preserve">
-    <value>指定の文字列 "{0}" はレジスタ名ではありません。レジスタ名は、記号 GR0~GR7 で指定してください。</value>
+    <value>指定の文字列 "{0}" はレジスタ名ではありません。レジスタ名は、記号 {1}~{2} で指定してください。</value>
   </data>
   <data name="MSG_WordCountOutOfRange" xml:space="preserve">
     <value>語数に指定の値 {0} は有効範囲外です。有効範囲 {1} &lt;= 語数 &lt;= {2} の値を指定してください。</value>

@@ -89,7 +89,7 @@
     <Compile Include="Casl2\RAdrXOrR1R2OperandTest.cs" />
     <Compile Include="Casl2\ReadBufferTest.cs" />
     <Compile Include="Casl2\RegisterOperandTest.cs" />
-    <Compile Include="Casl2\RegisterTest.cs" />
+    <Compile Include="Casl2\ProgramRegisterTest.cs" />
     <Compile Include="Casl2\RelocatableModuleTest.cs" />
     <Compile Include="Casl2\RelocationTest.cs" />
     <Compile Include="Casl2\ReservedWordTest.cs" />
@@ -107,7 +107,8 @@
     <Compile Include="Comet2\OperandHandlerTest.cs" />
     <Compile Include="Comet2\OperatorTest.cs" />
     <Compile Include="Comet2\RegisterHandlerTest.cs" />
-    <Compile Include="Comet2\RegisterTest.cs" />
+    <Compile Include="Comet2\CpuRegisterTest.cs" />
+    <Compile Include="Common\RegisterDefTest.cs" />
     <Compile Include="Common\WordTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="..\SharedAssemblyInfo.cs">

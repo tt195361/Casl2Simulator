@@ -10,14 +10,14 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// </summary>
     internal class ReturningFromSubroutineEventArgs : CancelEventArgs
     {
-        private readonly Register m_sp;
+        private readonly CpuRegister m_sp;
 
-        internal ReturningFromSubroutineEventArgs(Register sp)
+        internal ReturningFromSubroutineEventArgs(CpuRegister sp)
         {
             m_sp = sp;
         }
 
-        internal Register SP
+        internal CpuRegister SP
         {
             get { return m_sp; }
         }

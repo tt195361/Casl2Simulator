@@ -22,7 +22,7 @@ namespace Tt195361.Casl2Simulator.Comet2
 
         #region Delegates
         private delegate void OperateAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory);
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory);
         #endregion
 
         #region Load/Store
@@ -32,7 +32,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator LoadWithFr = new Operator(LoadWithFrAction);
 
         private static void LoadWithFrAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             r.Value = operand;
             const Boolean OverflowFlag = false;
@@ -45,7 +45,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator Store = new Operator(StoreAction);
 
         private static void StoreAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             memory.Write(operand, r.Value);
         }
@@ -56,7 +56,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator LoadWithoutFr = new Operator(LoadWithoutFrAction);
 
         private static void LoadWithoutFrAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             r.Value = operand;
         }
@@ -69,9 +69,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator AddArithmetic = new Operator(AddArithmeticAction);
 
         private static void AddArithmeticAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
-            DoOperation(Alu.AddArithmetic, r, operand, registerSet, memory);
+            DoOperation(Alu.AddArithmetic, r, operand, registerSet.FR, memory);
         }
 
         /// <summary>
@@ -80,9 +80,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator SubtractArithmetic = new Operator(SubtractArithmeticAction);
 
         private static void SubtractArithmeticAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
-            DoOperation(Alu.SubtractArithmetic, r, operand, registerSet, memory);
+            DoOperation(Alu.SubtractArithmetic, r, operand, registerSet.FR, memory);
         }
 
         /// <summary>
@@ -91,9 +91,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator AddLogical = new Operator(AddLogicalAction);
 
         private static void AddLogicalAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
-            DoOperation(Alu.AddLogical, r, operand, registerSet, memory);
+            DoOperation(Alu.AddLogical, r, operand, registerSet.FR, memory);
         }
 
         /// <summary>
@@ -102,18 +102,17 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator SubtractLogical = new Operator(SubtractLogicalAction);
 
         private static void SubtractLogicalAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
-            DoOperation(Alu.SubtractLogical, r, operand, registerSet, memory);
+            DoOperation(Alu.SubtractLogical, r, operand, registerSet.FR, memory);
         }
 
         private static void DoOperation(
-            Alu.OperationMethod operationMethod, Register r, Word operand,
-            RegisterSet registerSet, Memory memory)
+            Alu.OperationMethod operationMethod, CpuRegister r, Word operand, FlagRegister fr, Memory memory)
         {
             Boolean overflowFlag;
             r.Value = operationMethod(r.Value, operand, out overflowFlag);
-            registerSet.FR.SetFlags(r, overflowFlag);
+            fr.SetFlags(r, overflowFlag);
         }
         #endregion // Arithmetic/Logical Operation
 
@@ -124,9 +123,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator And = new Operator(AndAction);
 
         private static void AndAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
-            DoLogic(Alu.And, r, operand, registerSet, memory);
+            DoLogic(Alu.And, r, operand, registerSet.FR, memory);
         }
 
         /// <summary>
@@ -135,9 +134,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator Or = new Operator(OrAction);
 
         private static void OrAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
-            DoLogic(Alu.Or, r, operand, registerSet, memory);
+            DoLogic(Alu.Or, r, operand, registerSet.FR, memory);
         }
 
         /// <summary>
@@ -146,20 +145,19 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator Xor = new Operator(XorAction);
 
         private static void XorAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
-            DoLogic(Alu.Xor, r, operand, registerSet, memory);
+            DoLogic(Alu.Xor, r, operand, registerSet.FR, memory);
         }
 
         private static void DoLogic(
-            Alu.OperationMethod operationMethod, Register r, Word operand,
-            RegisterSet registerSet, Memory memory)
+            Alu.OperationMethod operationMethod, CpuRegister r, Word operand, FlagRegister fr, Memory memory)
         {
             Boolean notUsed;
             r.Value = operationMethod(r.Value, operand, out notUsed);
 
             const Boolean OverflowFlag = false;
-            registerSet.FR.SetFlags(r, OverflowFlag);
+            fr.SetFlags(r, OverflowFlag);
         }
         #endregion // Logic
 
@@ -170,7 +168,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator CompareArithmetic = new Operator(CompareArithmeticAction);
 
         private static void CompareArithmeticAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             DoCompare(Alu.CompareArithmetic, r, operand, registerSet.FR);
         }
@@ -181,13 +179,13 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator CompareLogical = new Operator(CompareLogicalAction);
 
         private static void CompareLogicalAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             DoCompare(Alu.CompareLogical, r, operand, registerSet.FR);
         }
 
         private static void DoCompare(
-            Alu.CompareMethod compareMethod, Register r, Word operand, FlagRegister fr)
+            Alu.CompareMethod compareMethod, CpuRegister r, Word operand, FlagRegister fr)
         {
             Boolean signFlag;
             Boolean zeroFlag;
@@ -206,7 +204,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator ShiftLeftArithmetic = new Operator(ShiftLeftArithmeticAction);
 
         private static void ShiftLeftArithmeticAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             DoShift(Alu.ShiftLeftArithmetic, r, operand, registerSet.FR);
         }
@@ -219,7 +217,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator ShiftRightArithmetic = new Operator(ShiftRightArithmeticAction);
 
         private static void ShiftRightArithmeticAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             DoShift(Alu.ShiftRightArithmetic, r, operand, registerSet.FR);
         }
@@ -232,7 +230,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator ShiftLeftLogical = new Operator(ShiftLeftLogicalAction);
 
         private static void ShiftLeftLogicalAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             DoShift(Alu.ShiftLeftLogical, r, operand, registerSet.FR);
         }
@@ -245,13 +243,13 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator ShiftRightLogical = new Operator(ShiftRightLogicalAction);
 
         private static void ShiftRightLogicalAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             DoShift(Alu.ShiftRightLogical, r, operand, registerSet.FR);
         }
 
         private static void DoShift(
-            Alu.ShiftMethod shiftMethod, Register r, Word operand, FlagRegister fr)
+            Alu.ShiftMethod shiftMethod, CpuRegister r, Word operand, FlagRegister fr)
         {
             UInt16 lastShiftedOutBit;
             r.Value = shiftMethod(r.Value, operand, out lastShiftedOutBit);
@@ -267,7 +265,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator JumpOnMinus = new Operator(JumpOnMinusAction);
 
         private static void JumpOnMinusAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             Boolean condition = registerSet.FR.SF;
             DoJump(condition, operand, registerSet.PR);
@@ -279,7 +277,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator JumpOnNonZero = new Operator(JumpOnNonZeroAction);
 
         private static void JumpOnNonZeroAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             Boolean condition = !registerSet.FR.ZF;
             DoJump(condition, operand, registerSet.PR);
@@ -291,7 +289,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator JumpOnZero = new Operator(JumpOnZeroAction);
 
         private static void JumpOnZeroAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             Boolean condition = registerSet.FR.ZF;
             DoJump(condition, operand, registerSet.PR);
@@ -303,7 +301,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator UnconditionalJump = new Operator(UnconditionalJumpAction);
 
         private static void UnconditionalJumpAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             const Boolean Condition = true;
             DoJump(Condition, operand, registerSet.PR);
@@ -315,7 +313,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator JumpOnPlus = new Operator(JumpOnPlusAction);
 
         private static void JumpOnPlusAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             FlagRegister fr = registerSet.FR;
             Boolean condition = (!fr.SF && !fr.ZF);
@@ -328,13 +326,13 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator JumpOnOverflow = new Operator(JumpOnOverflowAction);
 
         private static void JumpOnOverflowAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             Boolean condition = registerSet.FR.OF;
             DoJump(condition, operand, registerSet.PR);
         }
 
-        private static void DoJump(Boolean condition, Word operand, Register pr)
+        private static void DoJump(Boolean condition, Word operand, CpuRegister pr)
         {
             if (condition)
             {
@@ -350,12 +348,12 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator Push = new Operator(PushAction);
 
         private static void PushAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             PushValue(registerSet.SP, memory, operand);
         }
 
-        private static void PushValue(Register sp, Memory memory, Word value)
+        private static void PushValue(CpuRegister sp, Memory memory, Word value)
         {
             sp.Decrement();
             memory.Write(sp.Value, value);
@@ -367,12 +365,12 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator Pop = new Operator(PopAction);
 
         private static void PopAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             r.Value = PopValue(registerSet.SP, memory);
         }
 
-        private static Word PopValue(Register sp, Memory memory)
+        private static Word PopValue(CpuRegister sp, Memory memory)
         {
             Word value = memory.Read(sp.Value);
             sp.Increment();
@@ -387,9 +385,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator CallSubroutine = new Operator(CallSubroutineAction);
 
         private static void CallSubroutineAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
-            Register pr = registerSet.PR;
+            CpuRegister pr = registerSet.PR;
             PushValue(registerSet.SP, memory, pr.Value);
             pr.Value = operand;
         }
@@ -400,17 +398,17 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator ReturnFromSubroutine = new Operator(ReturnFromSubroutineAction);
 
         private static void ReturnFromSubroutineAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             Boolean cancel = OnReturningFromSubroutine(registerSet.SP);
             if (!cancel)
             {
-                Register pr = registerSet.PR;
+                CpuRegister pr = registerSet.PR;
                 pr.Value = PopValue(registerSet.SP, memory);
             }
         }
 
-        private static Boolean OnReturningFromSubroutine(Register sp)
+        private static Boolean OnReturningFromSubroutine(CpuRegister sp)
         {
             Boolean cancel = false;
 
@@ -432,7 +430,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator SuperVisorCall = new Operator(SuperVisorCallAction);
 
         private static void SuperVisorCallAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             OnCallingSuperVisor(operand);
         }
@@ -452,7 +450,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         internal static readonly Operator NoOperation = new Operator(NoOperationAction);
 
         private static void NoOperationAction(
-            Register r, Word operand, RegisterSet registerSet, Memory memory)
+            CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             //
         }
@@ -475,7 +473,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <param name="operand">演算対象の値を保持する語です。</param>
         /// <param name="registerSet">COMET II の一そろいのレジスタです。</param>
         /// <param name="memory">COMET II の主記憶です。</param>
-        internal void Operate(Register r, Word operand, RegisterSet registerSet, Memory memory)
+        internal void Operate(CpuRegister r, Word operand, CpuRegisterSet registerSet, Memory memory)
         {
             m_operateAction(r, operand, registerSet, memory);
         }

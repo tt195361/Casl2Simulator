@@ -22,7 +22,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// インデクサの引数 grNumber の値の範囲のテストです。
+        /// <see cref="GeneralRegisters.this[Int32]"/> の引数 grNumber の値の範囲のテストです。
         /// </summary>
         [TestMethod]
         public void IndexerGrNumberRange()
@@ -37,7 +37,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         {
             try
             {
-                Register notUsed = m_gr[grNumber];
+                CpuRegister notUsed = m_gr[grNumber];
                 Assert.IsTrue(success, message);
             }
             catch (Casl2SimulatorException)

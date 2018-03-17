@@ -82,7 +82,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             {
                 // ラベルはレジスタ名の場合もある。オペランドの字句要素の区切りまで読み込む。
                 String strValue = Operand.ReadItem(m_buffer);
-                if (Register.IsRegisterName(strValue))
+                if (ProgramRegister.IsRegisterName(strValue))
                 {
                     return Token.MakeRegisterName(strValue);
                 }

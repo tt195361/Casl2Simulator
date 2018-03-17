@@ -12,23 +12,23 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
     public class RegisterHandlerTest
     {
         #region Instance Fields
-        private RegisterSet m_registerSet;
+        private CpuRegisterSet m_registerSet;
         #endregion
 
         [TestInitialize]
         public void TestInitialize()
         {
-            m_registerSet = new RegisterSet();
+            m_registerSet = new CpuRegisterSet();
         }
 
         /// <summary>
-        /// Register のテストです。
+        /// <see cref="RegisterHandler.Register"/> のテストです。
         /// </summary>
         [TestMethod]
         public void Register()
         {
             RegisterHandler handler = RegisterHandler.Register;
-            const Register DontCare = null;
+            const CpuRegister DontCare = null;
 
             CheckRegister(handler, 0, true, m_registerSet.GR[0], "r/r1=0 => GR0");
             CheckRegister(handler, 7, true, m_registerSet.GR[7], "r/r1=7 => GR7");
@@ -36,7 +36,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// NoRegister のテストです。
+        /// <see cref="RegisterHandler.NoRegister"/> のテストです。
         /// </summary>
         [TestMethod]
         public void NoRegister()
@@ -48,11 +48,11 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         private void CheckRegister(
-            RegisterHandler handler, UInt16 rR1Field, Boolean success, Register expected, String message)
+            RegisterHandler handler, UInt16 rR1Field, Boolean success, CpuRegister expected, String message)
         {
             try
             {
-                Register actual = handler.GetRegister(rR1Field, m_registerSet);
+                CpuRegister actual = handler.GetRegister(rR1Field, m_registerSet);
                 Assert.IsTrue(success, message);
                 Assert.AreSame(expected, actual, message);
             }

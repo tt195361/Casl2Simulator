@@ -11,7 +11,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
     public class CpuInstructionTest
     {
         #region Instance Fields
-        private RegisterSet m_registerSet;
+        private CpuRegisterSet m_registerSet;
         private Memory m_memory;
         private TestLogger m_logger;
 
@@ -38,7 +38,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         [TestInitialize]
         public void TestInitialize()
         {
-            m_registerSet = new RegisterSet();
+            m_registerSet = new CpuRegisterSet();
             m_memory = new Memory();
             m_logger = new TestLogger();
 
@@ -56,7 +56,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Load/Store
         /// <summary>
-        /// LoadEaContents 命令のテストです。
+        /// <see cref="CpuInstruction.LoadEaContents"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void LoadEaContents()
@@ -67,7 +67,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// Store 命令のテストです。
+        /// <see cref="CpuInstruction.Store"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void Store()
@@ -80,7 +80,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// LoadEffectiveAddress 命令のテストです。
+        /// <see cref="CpuInstruction.LoadEffectiveAddress"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void LoadEffectiveAddress()
@@ -91,7 +91,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// LoadRegister 命令のテストです。
+        /// <see cref="CpuInstruction.LoadRegister"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void LoadRegister()
@@ -106,7 +106,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Arithmetic/Logical Operation
         /// <summary>
-        /// AddArithmeticEaContents 命令のテストです。
+        /// <see cref="CpuInstruction.AddArithmeticEaContents"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void AddArithmeticEaContents()
@@ -118,7 +118,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// SubtractArithmeticEaContents 命令のテストです。
+        /// <see cref="CpuInstruction.SubtractArithmeticEaContents"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void SubtractArithmeticEaContents()
@@ -130,7 +130,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// AddLogicalEaContents 命令のテストです。
+        /// <see cref="CpuInstruction.AddLogicalEaContents"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void AddLogicalEaContents()
@@ -142,7 +142,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// SubtractLogicalEaContents 命令のテストです。
+        /// <see cref="CpuInstruction.SubtractLogicalEaContents"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void SubtractLogicalEaContents()
@@ -154,7 +154,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// AddArithmeticRegister 命令のテストです。
+        /// <see cref="CpuInstruction.AddArithmeticRegister"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void AddArithmeticRegister()
@@ -166,7 +166,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// SubtractArithmeticRegister 命令のテストです。
+        /// <see cref="CpuInstruction.SubtractArithmeticRegister"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void SubtractArithmeticRegister()
@@ -178,7 +178,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// AddLogicalRegister 命令のテストです。
+        /// <see cref="CpuInstruction.AddLogicalRegister"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void AddLogicalRegister()
@@ -190,7 +190,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// SubtractLogicalRegister 命令のテストです。
+        /// <see cref="CpuInstruction.SubtractLogicalRegister"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void SubtractLogicalRegister()
@@ -204,7 +204,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Logic
         /// <summary>
-        /// AndEaContents 命令のテストです。
+        /// <see cref="CpuInstruction.AndEaContents"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void AndEaContents()
@@ -215,7 +215,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// OrEaContents 命令のテストです。
+        /// <see cref="CpuInstruction.OrEaContents"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void OrEaContents()
@@ -226,7 +226,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// XorEaContents 命令のテストです。
+        /// <see cref="CpuInstruction.XorEaContents"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void XorEaContents()
@@ -237,7 +237,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// AndRegister 命令のテストです。
+        /// <see cref="CpuInstruction.AndRegister"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void AndRegister()
@@ -248,7 +248,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// OrRegister 命令のテストです。
+        /// <see cref="CpuInstruction.OrRegister"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void OrRegister()
@@ -259,7 +259,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// XorRegister 命令のテストです。
+        /// <see cref="CpuInstruction.XorRegister"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void XorRegister()
@@ -272,7 +272,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Comparison
         /// <summary>
-        /// CompareArithmeticEaContents 命令のテストです。
+        /// <see cref="CpuInstruction.CompareArithmeticEaContents"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void CompareArithmeticEaContents()
@@ -284,7 +284,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// CompareLogicalEaContents 命令のテストです。
+        /// <see cref="CpuInstruction.CompareLogicalEaContents"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void CompareLogicalEaContents()
@@ -296,7 +296,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// CompareArithmeticRegister 命令のテストです。
+        /// <see cref="CpuInstruction.CompareArithmeticRegister"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void CompareArithmeticRegister()
@@ -308,7 +308,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// CompareLogicalRegister 命令のテストです。
+        /// <see cref="CpuInstruction.CompareLogicalRegister"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void CompareLogicalRegister()
@@ -322,7 +322,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Shift
         /// <summary>
-        /// ShiftLeftArithmeticEaContents 命令のテストです。
+        /// <see cref="CpuInstruction.ShiftLeftArithmeticEaContents"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void ShiftLeftArithmeticEaContents()
@@ -333,7 +333,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// ShiftRightArithmeticEaContents 命令のテストです。
+        /// <see cref="CpuInstruction.ShiftRightArithmeticEaContents"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void ShiftRightArithmeticEaContents()
@@ -344,7 +344,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// ShiftLeftLogicalEaContents 命令のテストです。
+        /// <see cref="CpuInstruction.ShiftLeftLogicalEaContents"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void ShiftLeftLogicalEaContents()
@@ -355,7 +355,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// ShiftRightLogicalEaContents 命令のテストです。
+        /// <see cref="CpuInstruction.ShiftRightLogicalEaContents"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void ShiftRightLogicalEaContents()
@@ -368,7 +368,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Jump
         /// <summary>
-        /// JumpOnMinus 命令のテストです。
+        /// <see cref="CpuInstruction.JumpOnMinus"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void JumpOnMinus()
@@ -382,7 +382,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// JumpOnNonZero 命令のテストです。
+        /// <see cref="CpuInstruction.JumpOnNonZero"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void JumpOnNonZero()
@@ -396,7 +396,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// JumpOnZero 命令のテストです。
+        /// <see cref="CpuInstruction.JumpOnZero"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void JumpOnZero()
@@ -410,7 +410,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// UnconditionalJump 命令のテストです。
+        /// <see cref="CpuInstruction.UnconditionalJump"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void UnconditionalJump()
@@ -421,7 +421,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// JumpOnPlus 命令のテストです。
+        /// <see cref="CpuInstruction.JumpOnPlus"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void JumpOnPlus()
@@ -435,7 +435,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// JumpOnOverflow 命令のテストです。
+        /// <see cref="CpuInstruction.JumpOnOverflow"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void JumpOnOverflow()
@@ -451,7 +451,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Stack Operation
         /// <summary>
-        /// Push 命令のテストです。
+        /// <see cref="CpuInstruction.Push"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void Push()
@@ -460,7 +460,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
             ExecuteEaContentsInstruction(CpuInstruction.Push, DontCareUInt16, DontCareUInt16);
 
-            RegisterTest.Check(
+            CpuRegisterTest.Check(
                 SP, SpValueMinusOne, "SP の値が 1 減る");
             MemoryTest.Check(
                 m_memory, SpValueMinusOne, EffectiveAddress,
@@ -468,7 +468,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// Pop 命令のテストです。
+        /// <see cref="CpuInstruction.Pop"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void Pop()
@@ -479,16 +479,16 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
             ExecuteRegisterInstruction(CpuInstruction.Pop, DontCareUInt16, DontCareUInt16);
 
-            RegisterTest.Check(
+            CpuRegisterTest.Check(
                 m_registerSet.GR[R1], PopValue, "SP の指すアドレスの値がレジスタに読み込まれる");
-            RegisterTest.Check(
+            CpuRegisterTest.Check(
                 SP, SpValuePlusOne, "SP の値が 1 増える");
         }
         #endregion // Stack Operation
 
         #region Call/Ret
         /// <summary>
-        /// CallSubroutine 命令のテストです。
+        /// <see cref="CpuInstruction.CallSubroutine"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void CallSubroutine()
@@ -496,16 +496,16 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             SP.SetValue(SpValue);
             ExecuteEaContentsInstruction(CpuInstruction.CallSubroutine, DontCareUInt16, DontCareUInt16);
 
-            RegisterTest.Check(
+            CpuRegisterTest.Check(
                 SP, SpValueMinusOne, "SP の値が 1 減る");
             MemoryTest.Check(
                 m_memory, SpValueMinusOne, NextAddressPlusOne,　"SP の指すアドレスに PR の値を書き込む");
-            RegisterTest.Check(
+            CpuRegisterTest.Check(
                 PR, EffectiveAddress, "PR に実効アドレスの値が設定される");
         }
 
         /// <summary>
-        /// ReturnFromSubroutine 命令のテストです。
+        /// <see cref="CpuInstruction.ReturnFromSubroutine"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void ReturnFromSubroutine()
@@ -516,9 +516,9 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
             ExecuteRegisterInstruction(CpuInstruction.ReturnFromSubroutine, DontCareUInt16, DontCareUInt16);
 
-            RegisterTest.Check(
+            CpuRegisterTest.Check(
                 PR, MemValue, "SP の指すアドレスの値が PR に読み込まれる");
-            RegisterTest.Check(
+            CpuRegisterTest.Check(
                 SP, SpValuePlusOne, "SP の値が 1 増える");
 
             String expectedLog = TestLogger.ExpectedLog("OnReturningFromSubroutine: 'SP: 30874 (0x789a)'");
@@ -529,7 +529,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         #region Others
         /// <summary>
-        /// SuperVisorCall 命令のテストです。
+        /// <see cref="CpuInstruction.SuperVisorCall"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void SuperVisorCall()
@@ -542,7 +542,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// NoOperation 命令のテストです。
+        /// <see cref="CpuInstruction.NoOperation"/> 命令のテストです。
         /// </summary>
         [TestMethod]
         public void NoOperation()
@@ -557,7 +557,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CpuInstruction instruction, UInt16 regValue, UInt16 eaContents, UInt16 expected, String message)
         {
             ExecuteEaContentsInstruction(instruction, regValue, eaContents);
-            RegisterTest.Check(m_registerSet.GR[R], expected, message);
+            CpuRegisterTest.Check(m_registerSet.GR[R], expected, message);
         }
 
         private void CheckEaContentsMemory(
@@ -605,7 +605,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             ExecuteEaContentsInstruction(instruction, DontCareUInt16, DontCareUInt16);
 
             UInt16 expected = jump ? EffectiveAddress : NextAddressPlusOne;
-            RegisterTest.Check(m_registerSet.PR, expected, message);
+            CpuRegisterTest.Check(m_registerSet.PR, expected, message);
         }
 
         private void ExecuteEaContentsInstruction(CpuInstruction instruction, UInt16 regValue, UInt16 eaContents)
@@ -625,7 +625,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             CpuInstruction instruction, UInt16 reg1Value, UInt16 reg2Value, UInt16 expected, String message)
         {
             ExecuteRegisterInstruction(instruction, reg1Value, reg2Value);
-            RegisterTest.Check(m_registerSet.GR[R1], expected, message);
+            CpuRegisterTest.Check(m_registerSet.GR[R1], expected, message);
         }
 
         private void ExecuteRegisterInstruction(CpuInstruction instruction, UInt16 reg1Value, UInt16 reg2Value)
@@ -636,12 +636,12 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             instruction.Execute(R1, R2, m_registerSet, m_memory);
         }
 
-        private Register SP
+        private CpuRegister SP
         {
             get { return m_registerSet.SP; }
         }
 
-        private Register PR
+        private CpuRegister PR
         {
             get { return m_registerSet.PR; }
         }

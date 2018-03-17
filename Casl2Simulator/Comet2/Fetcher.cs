@@ -15,7 +15,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <param name="pr">Program Register (PR) です。</param>
         /// <param name="memory">COMET II の主記憶です。</param>
         /// <returns>PR レジスタが指すアドレスの内容を返します。</returns>
-        internal static Word Fetch(Register pr, Memory memory)
+        internal static Word Fetch(CpuRegister pr, Memory memory)
         {
             Word word = memory.Read(pr.Value);
             pr.Increment();

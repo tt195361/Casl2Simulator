@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2Simulator.Comet2
@@ -9,10 +11,7 @@ namespace Tt195361.Casl2Simulator.Comet2
     internal class GeneralRegisters
     {
         #region Instance Fields
-        // GR (汎用レジスタ、General Register) は、GR0 ~ GR7 の 8 個。
-        internal const Int32 Count = 8;
-
-        private readonly Register[] m_grArray;
+        private readonly CpuRegister[] m_grArray;
         #endregion
 
         /// <summary>
@@ -20,8 +19,9 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// </summary>
         internal GeneralRegisters()
         {
-            m_grArray = new Register[Count];
-            m_grArray.ForEach((index, gr) => m_grArray[index] = Register.MakeGR(index));
+            m_grArray = RegisterDef.GrNames
+                                   .Select((name) => new CpuRegister(name))
+                                   .ToArray();
         }
 
         /// <summary>
@@ -29,11 +29,11 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// </summary>
         /// <param name="grNumber">取得する GR を指定する値です。</param>
         /// <returns>指定の GR を返します。</returns>
-        internal Register this[Int32 grNumber]
+        internal CpuRegister this[Int32 grNumber]
         {
             get
             {
-                ArgChecker.CheckRange(grNumber, 0, Count - 1, nameof(grNumber));
+                ArgChecker.CheckRange(grNumber, 0, RegisterDef.GrCount - 1, nameof(grNumber));
                 return m_grArray[grNumber];
             }
         }

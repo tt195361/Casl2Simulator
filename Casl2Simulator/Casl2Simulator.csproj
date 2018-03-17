@@ -103,7 +103,7 @@
     <Compile Include="Casl2\ReadBuffer.cs" />
     <Compile Include="Casl2\ProgramInstruction.cs" />
     <Compile Include="Casl2\MacroInOutInstruction.cs" />
-    <Compile Include="Casl2\Register.cs" />
+    <Compile Include="Casl2\ProgramRegister.cs" />
     <Compile Include="Casl2\RegisterOperand.cs" />
     <Compile Include="Casl2\RelocatableModule.cs" />
     <Compile Include="Casl2\Relocation.cs" />
@@ -124,9 +124,9 @@
     <Compile Include="Comet2\Cpu.cs" />
     <Compile Include="Comet2\CpuInstruction.cs" />
     <Compile Include="Comet2\Operator.cs" />
-    <Compile Include="Comet2\Register.cs" />
+    <Compile Include="Comet2\CpuRegister.cs" />
     <Compile Include="Comet2\RegisterHandler.cs" />
-    <Compile Include="Comet2\RegisterSet.cs" />
+    <Compile Include="Comet2\CpuRegisterSet.cs" />
     <Compile Include="Common\Comet2Defs.cs" />
     <Compile Include="Common\InstructionWord.cs" />
     <Compile Include="Common\MnemonicDef.cs" />

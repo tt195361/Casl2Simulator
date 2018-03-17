@@ -10,7 +10,7 @@ namespace Tt195361.Casl2Simulator.Comet2
     internal class Cpu
     {
         #region Instance Fields
-        private readonly RegisterSet m_registerSet;
+        private readonly CpuRegisterSet m_registerSet;
         private readonly Memory m_memory;
         private readonly Os m_os;
 
@@ -24,7 +24,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <param name="os">COMET II のオペレーティングシステムです。</param>
         internal Cpu(Memory memory, Os os)
         {
-            m_registerSet = new RegisterSet();
+            m_registerSet = new CpuRegisterSet();
             m_memory = memory;
             m_os = os;
         }
@@ -32,7 +32,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <summary>
         /// CPU のレジスタを取得します。
         /// </summary>
-        internal RegisterSet RegisterSet
+        internal CpuRegisterSet RegisterSet
         {
             get { return m_registerSet; }
         }
