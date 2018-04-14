@@ -173,11 +173,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             LabelManager lblManager = new LabelManager();
             instructionLine.RegisterLabel(lblManager);
 
-            MemoryOffset OffsetSet = new MemoryOffset(0xABCD);
-            instructionLine.SetLabelOffset(lblManager, OffsetSet);
+            MemoryOffset offsetSet = new MemoryOffset(0xABCD);
+            instructionLine.SetLabelOffset(lblManager, offsetSet);
 
-            MemoryOffset offsetGot = lblManager.GetOffset(instructionLine.Label);
-            MemoryOffsetTest.Check(OffsetSet, offsetGot, "設定したラベルのオフセットが取得できる");
+            LabelDefinition labelDef = lblManager.GetDefinitionFor(instructionLine.Label);
+            MemoryOffset offsetGot = labelDef.RelOffset;
+            MemoryOffsetTest.Check(
+                offsetSet, offsetGot, "SetLabelOffset() で設定したラベルのオフセットが取得できる");
         }
 
         /// <summary>
@@ -207,7 +209,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             LabelManager lblManager = new LabelManager();
             RelocatableModule relModule = new RelocatableModule();
             target.GenerateCode(lblManager, relModule);
-            RelocatableModuleTest.Check(relModule, expectedWords, message);
+            RelocatableModuleTest.CheckWords(relModule, expectedWords, message);
         }
 
         internal static String MakeGeneratedLine(

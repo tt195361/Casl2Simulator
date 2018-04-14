@@ -27,7 +27,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             RelocatableModule relModule = new RelocatableModule();
             target.GenerateCode(lblManager, relModule);
-            RelocatableModuleTest.Check(relModule, expectedWords, message);
+            RelocatableModuleTest.CheckWords(relModule, expectedWords, message);
         }
 
         internal static void CheckGenerateLiteralDc(IAdrCodeGenerator target, String expected, String message)

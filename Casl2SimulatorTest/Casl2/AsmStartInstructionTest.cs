@@ -14,10 +14,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         #region Instance Fields
         private LabelManager m_lblManager;
         private RelocatableModule m_relModule;
+        private Label m_definedLabel;
         private Label m_execStartLabel;
-        private ExecStartAddress m_execStartAddress;
-
-        private readonly MemoryOffset ExecStartOffset = new MemoryOffset(0xABCD);
         #endregion
 
         [TestInitialize]
@@ -26,9 +24,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             m_lblManager = new LabelManager();
             m_relModule = new RelocatableModule();
 
+            m_definedLabel = new Label("ENTRY");
             m_execStartLabel = new Label("EXECSTRT");
-            m_lblManager.RegisterForUnitTest(m_execStartLabel, ExecStartOffset);
-            m_execStartAddress = ExecStartAddress.MakeForUnitTest(m_execStartLabel);
         }
 
         /// <summary>
@@ -62,7 +59,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// IsStart メソッドのテストです。
+        /// <see cref="AsmStartInstruction.IsStart"/> メソッドのテストです。
         /// </summary>
         [TestMethod]
         public void IsStart()
@@ -73,38 +70,52 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// GenerateCode メソッドで、ラベルがない場合のテストです。
+        /// <see cref="AsmStartInstruction.GenerateCode"/> メソッドで、
+        /// その行に定義されたラベルがない場合のテストです。
         /// </summary>
         [TestMethod]
-        public void GenerateCode_NoLabel()
+        public void GenerateCode_NoDefinedLabel()
         {
-            CheckGenerateCode(null, false, "ラベルなし => 例外");
+            ExecStartAddress dontCare = ExecStartAddress.MakeForUnitTest(m_execStartLabel);
+            CheckGenerateCode(null, dontCare, false, "定義されたラベルなし => 例外");
         }
 
         /// <summary>
-        /// GenerateCode メソッドで、ラベルを指定した場合のテストです。
+        /// <see cref="AsmStartInstruction.GenerateCode"/> メソッドで、
+        /// その行に定義されたラベルがあり、実行開始番地のラベルが空の場合のテストです。
         /// </summary>
         [TestMethod]
-        public void GenerateCode_WithLabel()
+        public void GenerateCode_WithDefinedLabel_NoExecStartLabel()
         {
-            Label entryLabel = new Label("ENTRY");
-            CheckGenerateCode(entryLabel, true, "ラベルを指定");
-
-            CheckExecStartAddress(
-                m_execStartLabel, ExecStartOffset,
-                "ExecStartAddress に 実行開始番地のラベルと開始オフセットが設定される");
-            CheckExportLabel(
-                entryLabel, ExecStartOffset,
-                "ExportLabel に START 命令のラベルと開始オフセットが設定される");
+            ExecStartAddress execStartAddress = ExecStartAddress.MakeForUnitTest(null);
+            CheckGenerateCode(m_definedLabel, execStartAddress, true, "実行開始番地のラベルが空");
+            CheckEntryPoint(
+                m_definedLabel, m_definedLabel,
+                "ExecStartLabel と ExportLabel の両方に START 命令に定義したラベルが設定される");
         }
 
-        private void CheckGenerateCode(Label entryLabel, Boolean success, String message)
+        /// <summary>
+        /// <see cref="AsmStartInstruction.GenerateCode"/> メソッドで、
+        /// その行に定義されたラベルがあり、実行開始番地のラベルを指定した場合のテストです。
+        /// </summary>
+        [TestMethod]
+        public void GenerateCode_WithDefinedLabel_WithExecStartLabel()
+        {
+            ExecStartAddress execStartAddress = ExecStartAddress.MakeForUnitTest(m_execStartLabel);
+            CheckGenerateCode(m_definedLabel, execStartAddress, true, "実行開始番地のラベルを指定");
+            CheckEntryPoint(
+                m_execStartLabel, m_definedLabel,
+                "ExecStartLabel に 実行開始番地のラベルが、ExportLabel に START 命令に定義したラベルが設定される");
+        }
+
+        private void CheckGenerateCode(
+            Label definedLabel, ExecStartAddress execStartAddress, Boolean success, String message)
         {
             AsmStartInstruction target = new AsmStartInstruction();
-            target.SetExecStartAddressForUnitTest(m_execStartAddress);
+            target.SetExecStartAddressForUnitTest(execStartAddress);
             try
             {
-                target.GenerateCode(entryLabel, m_lblManager, m_relModule);
+                target.GenerateCode(definedLabel, m_lblManager, m_relModule);
                 Assert.IsTrue(success, message);
             }
             catch (Casl2SimulatorException)
@@ -113,18 +124,11 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             }
         }
 
-        private void CheckExecStartAddress(Label expectedLabel, MemoryOffset expectedCodeOffset, String message)
+        private void CheckEntryPoint(Label expectedExecStartLabel, Label expectedExportLabel, String message)
         {
-            ExecStartAddress expected = ExecStartAddress.MakeForUnitTest(expectedLabel, expectedCodeOffset);
-            ExecStartAddress actual = m_relModule.ExecStartAddress;
-            ExecStartAddressTest.Check(expected, actual, message);
-        }
-
-        private void CheckExportLabel(Label expectedLabel, MemoryOffset expectedCodeOffset, String message)
-        {
-            ExportLabel expected = new ExportLabel(expectedLabel, expectedCodeOffset);
-            ExportLabel actual = m_relModule.ExportLabel;
-            ExportLabelTest.Check(expected, actual, message);
+            EntryPoint expected = new EntryPoint(expectedExecStartLabel, expectedExportLabel);
+            EntryPoint actual = m_relModule.EntryPoint;
+            EntryPointTest.Check(expected, actual, message);
         }
     }
 }

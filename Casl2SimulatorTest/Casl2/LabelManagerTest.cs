@@ -13,42 +13,37 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     {
         #region Instance Fields
         private LabelManager m_lblManager;
-        private Label m_label1;
-        private Label m_label2;
         private Label m_literal1;
         private Label m_literal2;
         private Label m_literal3;
-
-        private readonly MemoryOffset RegisteredOffset = new MemoryOffset(0x1234);
-        private readonly MemoryOffset DontCare = MemoryOffset.Zero;
         #endregion
 
         [TestInitialize]
         public void TestInitialize()
         {
             m_lblManager = new LabelManager();
-            m_label1 = new Label("LBL001");
-            m_label2 = new Label("LBL002");
             m_literal1 = new Label("LTRL0001");
             m_literal2 = new Label("LTRL0002");
             m_literal3 = new Label("LTRL0003");
         }
 
         /// <summary>
-        /// RegisterLabel メソッドのテストです。
+        /// <see cref="LabelManager.Register"/> メソッドのテストです。
         /// </summary>
         [TestMethod]
-        public void RegisterLabel()
+        public void Register()
         {
-            CheckRegisterLabel(m_label1, true, "まだ登録されていないラベル => OK");
-            CheckRegisterLabel(m_label1, false, "すでに登録されているラベル => 例外");
+            Label label = new Label("LBL001");
+
+            CheckRegister(label, true, "まだ登録されていないラベル => 登録できる");
+            CheckRegister(label, false, "すでに登録されているラベル => 例外");
         }
 
-        private void CheckRegisterLabel(Label label, Boolean success, String message)
+        private void CheckRegister(Label label, Boolean success, String message)
         {
             try
             {
-                m_lblManager.RegisterLabel(label);
+                m_lblManager.Register(label);
                 Assert.IsTrue(success, message);
             }
             catch (Casl2SimulatorException)
@@ -58,22 +53,24 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// SetOffset メソッドのテストです。
+        /// <see cref="LabelManager.GetDefinitionFor"/> メソッドのテストです。
         /// </summary>
         [TestMethod]
-        public void SetOffset()
+        public void GetDefinitionFor()
         {
-            m_lblManager.RegisterLabel(m_label1);
+            Label registeredLabel = new Label("REGED");
+            Label notRegisteredLabel = new Label("NOTREGED");
+            m_lblManager.Register(registeredLabel);
 
-            CheckSetOffset(m_label1, true, "登録されたラベル => オフセットを設定できる");
-            CheckSetOffset(m_label2, false, "登録されていないラベル => 例外");
+            CheckGetDefinitionFor(registeredLabel, true, "登録したラベル => 取得できる");
+            CheckGetDefinitionFor(notRegisteredLabel, false, "登録していないラベル => 例外");
         }
 
-        private void CheckSetOffset(Label label, Boolean success, String message)
+        private void CheckGetDefinitionFor(Label label, Boolean success, String message)
         {
             try
             {
-                m_lblManager.SetOffset(label, RegisteredOffset);
+                LabelDefinition labelDef = m_lblManager.GetDefinitionFor(label);
                 Assert.IsTrue(success, message);
             }
             catch (Casl2SimulatorException)
@@ -83,34 +80,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// GetOffset メソッドのテストです。
-        /// </summary>
-        [TestMethod]
-        public void GetOffset()
-        {
-            m_lblManager.RegisterLabel(m_label1);
-            m_lblManager.SetOffset(m_label1, RegisteredOffset);
-
-            CheckGetOffset(m_label1, true, RegisteredOffset, "登録されたラベル => 設定したオフセット");
-            CheckGetOffset(m_label2, false, DontCare, "登録されていないラベル => 例外");
-        }
-
-        private void CheckGetOffset(Label label, Boolean success, MemoryOffset expected, String message)
-        {
-            try
-            {
-                MemoryOffset actual = m_lblManager.GetOffset(label);
-                Assert.IsTrue(success, message);
-                MemoryOffsetTest.Check(expected, actual, message);
-            }
-            catch (Casl2SimulatorException)
-            {
-                Assert.IsFalse(success, message);
-            }
-        }
-
-        /// <summary>
-        /// MakeLiteralLabel メソッドで、重複するラベルが登録されていない場合のテストです。
+        /// <see cref="LabelManager.MakeLiteralLabel"/> メソッドで、
+        /// 重複するラベルが登録されていない場合のテストです。
         /// </summary>
         [TestMethod]
         public void MakeLiteralLabel_NoDuplicateLabel()
@@ -122,17 +93,19 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// MakeLiteralLabel メソッドで、重複するラベルが登録されている場合のテストです。
+        /// <see cref="LabelManager.MakeLiteralLabel"/> メソッドで、
+        /// 重複するラベルが登録されている場合のテストです。
         /// </summary>
         [TestMethod]
         public void MakeLiteralLabel_SomeDuplicateLabel()
         {
-            m_lblManager.RegisterLabel(m_literal1);
+            m_lblManager.Register(m_literal1);
             CheckMakeLiteralLabel(m_literal2, "重複しないラベル名が生成される");
         }
 
         /// <summary>
-        /// MakeLiteralLabel メソッドで、リテラルで使用するラベル名がすべて登録されている場合のテストです。
+        /// <see cref="LabelManager.MakeLiteralLabel"/> メソッドで、
+        /// リテラルで使用するラベル名がすべて登録されている場合のテストです。
         /// </summary>
         [TestMethod]
         public void MakeLiteralLabel_AllNamesRegistered()
@@ -147,7 +120,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             {
                 String name = String.Format("LTRL{0:d04}", number);
                 Label label = new Label(name);
-                m_lblManager.RegisterLabel(label);
+                m_lblManager.Register(label);
             }
         }
 

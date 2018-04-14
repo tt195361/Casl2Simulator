@@ -33,7 +33,6 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         #region Instance Fields
         private readonly Label m_label;
-        private MemoryOffset m_codeOffset;
         #endregion
 
         private ExecStartAddress(Label label)
@@ -46,37 +45,6 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_label; }
         }
 
-        internal MemoryOffset CodeOffset
-        {
-            get { return m_codeOffset; }
-        }
-
-        internal void CalculateCodeOffset(LabelManager lblManager, RelocatableModule relModule)
-        {
-            m_codeOffset = DoCalculateCodeOffset(lblManager, relModule);
-        }
-
-        private MemoryOffset DoCalculateCodeOffset(LabelManager lblManager, RelocatableModule relModule)
-        {
-            // 実行開始番地は、そのプログラム内で定義されたラベルで指定する。指定がある場合
-            // はその番地から、省略した場合は START 命令の次の命令から、実行を開始する。
-            if (m_label == null)
-            {
-                return relModule.CodeOffset;
-            }
-            else
-            {
-                if (!lblManager.IsRegistered(m_label))
-                {
-                    String message = String.Format(Resources.MSG_StartLabelNotDefined, m_label.Name);
-                    throw new Casl2SimulatorException(message);
-                }
-
-                return lblManager.GetOffset(m_label);
-            }
-        }
-
-        // ExecStartAddress は Operand なので、ToString() はラベルのみ、値は含まない。
         public override String ToString()
         {
             if (m_label == null)
@@ -91,14 +59,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal static ExecStartAddress MakeForUnitTest(Label label)
         {
-            return MakeForUnitTest(label, MemoryOffset.Zero);
-        }
-
-        internal static ExecStartAddress MakeForUnitTest(Label label, MemoryOffset codeOffset)
-        {
-            ExecStartAddress execStartAddr = new ExecStartAddress(label);
-            execStartAddr.m_codeOffset = codeOffset;
-            return execStartAddr;
+            return new ExecStartAddress(label);
         }
     }
 }

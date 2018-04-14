@@ -52,7 +52,8 @@ namespace Tt195361.Casl2Simulator.Casl2
             return m_constants.GetCodeWordCount();
         }
 
-        internal override void GenerateCode(Label label, LabelManager lblManager, RelocatableModule relModule)
+        internal override void GenerateCode(
+            Label definedLabel, LabelManager lblManager, RelocatableModule relModule)
         {
             m_constants.GenerateCode(lblManager, relModule);
         }

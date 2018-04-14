@@ -132,7 +132,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                     "       END"),
                 WordTest.MakeArray(
                     0x1067,             // OP: 0x10, r/r1: 6, x/r2: 7 => 0x1067 
-                    0x0002,             // LBL001 のオフセット
+                    0x0000,             // あとで LBL001 のアドレスを入れるための場所取り
                     0x1234),            // DC で指定した 16 進定数の値
                 "再配置可能モジュールにコードとラベル情報が生成される");
 
@@ -153,8 +153,19 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                     0x00B1,             // 'ｱ' => 0x00B1
                     0x00B2,             // 'ｲ' => 0x00B2
                     0x00B3,             // 'ｳ' => 0x00B3
-                    0x0001),            // LBL002 のオフセット
+                    0x0000),            //  あとで LBL002 のアドレスを入れるための場所取り
                 "10 進定数, 16 進定数, 文字定数, アドレス定数のそれぞれの定数のコード生成");
+
+            CheckAssemble(
+                TestUtils.MakeArray(
+                    "ENTRY  START",
+                    "       LD GR1,=#2468",
+                    "       END"),
+                WordTest.MakeArray(
+                    0x1010,             // OP: 0x10, r/r1: 1, x/r2: 0 => 0x1010 
+                    0x0000,             // あとでリテラルのアドレスを入れるための場所取り
+                    0x2468),            // 16 進定数 #2468 の値
+                "リテラルの値を定義する DC 命令が作成されコードが生成される");
         }
 
         /// <summary>
@@ -397,7 +408,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             {
                 RelocatableModule relModule = target.Assemble();
                 Assert.IsNotNull(expectedWords, message);
-                RelocatableModuleTest.Check(relModule, expectedWords, message);
+                RelocatableModuleTest.CheckWords(relModule, expectedWords, message);
             }
             catch (Casl2SimulatorException)
             {

@@ -194,7 +194,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             if (m_label != null)
             {
-                lblManager.RegisterLabel(m_label);
+                lblManager.Register(m_label);
             }
         }
 
@@ -215,7 +215,8 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             if (m_label != null)
             {
-                lblManager.SetOffset(m_label, offset);
+                LabelDefinition labelDef = lblManager.GetDefinitionFor(m_label);
+                labelDef.SetRelOffset(offset);
             }
         }
 

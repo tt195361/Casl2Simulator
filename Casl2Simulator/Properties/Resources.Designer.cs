@@ -70,7 +70,7 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} の値 {1} が範囲外です。{0} の値は、&quot;{2} &lt;= {0} &lt;= {3}&quot; の範囲でなければなりません。.
+        ///   Looks up a localized string similar to {0} として指定の値 {1} は、{2} ~ {3} の範囲外です。範囲内の値を指定してください。.
         /// </summary>
         internal static string MSG_ArgRangeError {
             get {
@@ -102,6 +102,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         internal static string MSG_ConstantParseError {
             get {
                 return ResourceManager.GetString("MSG_ConstantParseError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 語のコレクションに語を追加できませんでした。語のコレクションの最大サイズ {0} を超える語を追加しようとしています。.
+        /// </summary>
+        internal static string MSG_CouldNotAddToWordCollection {
+            get {
+                return ResourceManager.GetString("MSG_CouldNotAddToWordCollection", resourceCulture);
             }
         }
         
@@ -250,11 +259,11 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to メモリオフセットの値 {0} (= {1} + {2}) が COMET II 主記憶のアドレス範囲 {3} ~ {4} に入りません。プログラムを小さくするなど、主記憶に入るようにしてください。.
+        ///   Looks up a localized string similar to メモリアドレスの値 {0} (= {1} ({2}) + {3} ({4}) が COMET II 主記憶のアドレス範囲 {5} ~ {6} に入りません。プログラムを小さくするなど、主記憶に入るようにしてください。.
         /// </summary>
-        internal static string MSG_MemoryOffsetOutOfRange {
+        internal static string MSG_MemoryAddressOutOfRange {
             get {
-                return ResourceManager.GetString("MSG_MemoryOffsetOutOfRange", resourceCulture);
+                return ResourceManager.GetString("MSG_MemoryAddressOutOfRange", resourceCulture);
             }
         }
         
@@ -471,6 +480,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         internal static string STR_HexaDecimalConstant {
             get {
                 return ResourceManager.GetString("STR_HexaDecimalConstant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} のインデクサーの引数 {1}.
+        /// </summary>
+        internal static string STR_IndexerArgDscr {
+            get {
+                return ResourceManager.GetString("STR_IndexerArgDscr", resourceCulture);
             }
         }
         

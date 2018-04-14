@@ -128,7 +128,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             RelocatableModule relModule = new RelocatableModule();
             target.GenerateCode(null, m_lblManager, relModule);
-            RelocatableModuleTest.Check(relModule, expectedWords, message);
+            RelocatableModuleTest.CheckWords(relModule, expectedWords, message);
         }
     }
 }

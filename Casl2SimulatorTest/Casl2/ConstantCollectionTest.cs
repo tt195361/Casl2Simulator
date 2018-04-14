@@ -19,7 +19,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         private const UInt16 DecimalValue = 12345;
         private const UInt16 HexaDecimalValue = 0xABCD;
-        private readonly MemoryOffset LabelOffset = new MemoryOffset(0x2468);
         private const String StringValue = "ABC";
         private const UInt16 AValue = 0x0041;
         private const UInt16 BValue = 0x0042;
@@ -39,7 +38,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 decimalConstant, hexaDecimalConstant, addressConstant, stringConstant);
 
             m_lblManager = new LabelManager();
-            m_lblManager.RegisterForUnitTest(addressConstant.Label, LabelOffset);
         }
 
         /// <summary>
@@ -129,10 +127,12 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void GenerateCode()
         {
+            const UInt16 LabelPlaceHolder = 0x0000;
+
             ICodeGeneratorTest.CheckGenerateCode(
                 m_constants, m_lblManager,
                 WordTest.MakeArray(
-                    DecimalValue, HexaDecimalValue, LabelOffset.Value,
+                    DecimalValue, HexaDecimalValue, LabelPlaceHolder,
                     AValue, BValue, CValue), 
                 "それぞれの Constant のコードが順に生成される");
         }

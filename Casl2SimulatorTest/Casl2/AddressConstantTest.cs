@@ -14,8 +14,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     {
         #region Instance Fields
         private AddressConstant m_target;
-        private AddressConstant m_registered;
-        private AddressConstant m_notRegistered;
         private LabelManager m_lblManager;
 
         private readonly MemoryOffset RegisteredOffset = new MemoryOffset(0x1234);
@@ -26,15 +24,11 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         public void TestInitialize()
         {
             m_target = new AddressConstant("LBL001");
-            m_registered = new AddressConstant("REGED");
-            m_notRegistered = new AddressConstant("NOTREGED");
-
             m_lblManager = new LabelManager();
-            m_lblManager.RegisterForUnitTest(m_registered.Label, RegisteredOffset);
         }
 
         /// <summary>
-        /// GetCodeWordCount メソッドのテストです。
+        /// <see cref="AddressConstant.GetCodeWordCount"/> メソッドのテストです。
         /// </summary>
         [TestMethod]
         public void GetCodeWordCount()
@@ -43,27 +37,19 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// GenerateCode メソッドのテストです。
+        /// <see cref="AddressConstant.GenerateCode"/> メソッドのテストです。
         /// </summary>
         [TestMethod]
         public void GenerateCode()
         {
-            CheckGenerateCode(
-                m_registered, RegisteredOffset.Value,
-                "登録されたラベル => コードはそのラベルのオフセットの値");
-            CheckGenerateCode(
-                m_notRegistered, NotRegisteredOffset.Value,
-                "登録されていないラベル => コードは 0");
-        }
-
-        private void CheckGenerateCode(AddressConstant target, UInt16 expected, String message)
-        {
-            Word[] expectedWords = WordTest.MakeArray(expected);
-            ICodeGeneratorTest.CheckGenerateCode(target, m_lblManager, expectedWords, message);
+            Word[] expectedWords = WordTest.MakeArray(0x0000);
+            ICodeGeneratorTest.CheckGenerateCode(
+                m_target, m_lblManager, expectedWords,
+                "あどでラベルのアドレスに置き換えるために、値が 0x0000 の語が追加される");
         }
 
         /// <summary>
-        /// GenerateLiteralDc メソッドのテストです。
+        /// <see cref="AddressConstant.GenerateLiteralDc"/> メソッドのテストです。
         /// </summary>
         [TestMethod]
         public void GenerateLiteralDc()

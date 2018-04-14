@@ -76,15 +76,15 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private void CheckGenerateCode(Int32 wordCountValue, String message)
         {
             AsmDsInstruction target = MakeTarget(wordCountValue);
-            const Label label = null;
+            const Label DefinedLabel = null;
             LabelManager lblManager = new LabelManager();
             RelocatableModule relModule = new RelocatableModule();
 
-            target.GenerateCode(label, lblManager, relModule);
+            target.GenerateCode(DefinedLabel, lblManager, relModule);
 
             // 確保する語数分の 0 の語が追加される。
             Word[] expectedWords = WordTest.MakeArray(Word.Zero, wordCountValue);
-            RelocatableModuleTest.Check(relModule, expectedWords, message);
+            RelocatableModuleTest.CheckWords(relModule, expectedWords, message);
         }
 
         private AsmDsInstruction MakeTarget(Int32 wordCountValue)

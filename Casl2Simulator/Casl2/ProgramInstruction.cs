@@ -143,7 +143,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <summary>
         /// この命令のコードを生成します。
         /// </summary>
-        /// <param name="label">
+        /// <param name="definedLabel">
         /// この命令行に定義されたラベルです。
         /// ラベルが定義されていない場合は、<see langword="null"/> を渡します。
         /// </param>
@@ -153,7 +153,8 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <param name="relModule">
         /// 生成したコードを格納する <see cref="RelocatableModule"/> のオブジェクトです。
         /// </param>
-        internal virtual void GenerateCode(Label label, LabelManager lblManager, RelocatableModule relModule)
+        internal virtual void GenerateCode(
+            Label definedLabel, LabelManager lblManager, RelocatableModule relModule)
         {
             // デフォルトは、コードを生成しない。
         }

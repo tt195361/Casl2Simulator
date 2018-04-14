@@ -1,7 +1,4 @@
 ﻿using System;
-using Tt195361.Casl2Simulator.Common;
-using Tt195361.Casl2Simulator.Properties;
-using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
@@ -30,22 +27,13 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal MemoryOffset Add(Int32 addend)
         {
-            Int32 i32Val = m_value + addend;
-            if (i32Val < Comet2Defs.MinAddress || Comet2Defs.MaxAddress < i32Val)
-            {
-                String message = String.Format(
-                    Resources.MSG_MemoryOffsetOutOfRange, i32Val, this, addend,
-                    Comet2Defs.MinAddress, Comet2Defs.MaxAddress);
-                throw new Casl2SimulatorException(message);
-            }
-
-            UInt16 ui16Val = NumberUtils.ToUInt16(i32Val);
-            return new MemoryOffset(ui16Val);
+            UInt16 ui16Result = MemoryUtils.Add(m_value, addend);
+            return new MemoryOffset(ui16Result);
         }
 
         public override String ToString()
         {
-            return String.Format("0x{0:X04}", m_value);
+            return String.Format("#{0:X04}", m_value);
         }
     }
 }

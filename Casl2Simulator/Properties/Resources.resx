@@ -121,7 +121,7 @@
     <value>{0} の値 {1} が {2} の値 {3} より小さいです。{0} の値は {2} の値より大きいか、等しくなければなりません。</value>
   </data>
   <data name="MSG_ArgRangeError" xml:space="preserve">
-    <value>{0} の値 {1} が範囲外です。{0} の値は、"{2} &lt;= {0} &lt;= {3}" の範囲でなければなりません。</value>
+    <value>{0} として指定の値 {1} は、{2} ~ {3} の範囲外です。範囲内の値を指定してください。</value>
   </data>
   <data name="MSG_CanNotBeIndexRegister" xml:space="preserve">
     <value>指定のレジスタ {0} は指標レジスタとして使えません。指標レジスタとして用いる GR は、記号 GR{1}～GR{2} で指定してください。</value>
@@ -131,6 +131,9 @@
   </data>
   <data name="MSG_ConstantParseError" xml:space="preserve">
     <value>{0} を定数として解釈できませんでした。10 進定数 (n)、16 進定数 (#h)、文字定数 ('文字列')、アドレス定数 (ラベル) のいずれかを記述してください。</value>
+  </data>
+  <data name="MSG_CouldNotAddToWordCollection" xml:space="preserve">
+    <value>語のコレクションに語を追加できませんでした。語のコレクションの最大サイズ {0} を超える語を追加しようとしています。</value>
   </data>
   <data name="MSG_CouldNotMakeLiteralLabel" xml:space="preserve">
     <value>リテラルで使用する DC 命令のラベルを作成できませんでした。"{0}" で始まる名前のラベルを減らしてください。</value>
@@ -180,8 +183,8 @@
   <data name="MSG_LiteralParseError" xml:space="preserve">
     <value>{0} をリテラルとして解釈できませんでした。リテラルは、10 進定数、16 進定数、または文字定数の前に等号 (=) を付けて記述します。</value>
   </data>
-  <data name="MSG_MemoryOffsetOutOfRange" xml:space="preserve">
-    <value>メモリオフセットの値 {0} (= {1} + {2}) が COMET II 主記憶のアドレス範囲 {3} ~ {4} に入りません。プログラムを小さくするなど、主記憶に入るようにしてください。</value>
+  <data name="MSG_MemoryAddressOutOfRange" xml:space="preserve">
+    <value>メモリアドレスの値 {0} (= {1} ({2}) + {3} ({4}) が COMET II 主記憶のアドレス範囲 {5} ~ {6} に入りません。プログラムを小さくするなど、主記憶に入るようにしてください。</value>
   </data>
   <data name="MSG_MoreThanOneEndInstruction" xml:space="preserve">
     <value>プログラムに 2 つ以上の END 命令があります。END 命令は 1 つだけ指定してください。</value>
@@ -254,6 +257,9 @@
   </data>
   <data name="STR_HexaDecimalConstant" xml:space="preserve">
     <value>16 進定数</value>
+  </data>
+  <data name="STR_IndexerArgDscr" xml:space="preserve">
+    <value>{0} のインデクサーの引数 {1}</value>
   </data>
   <data name="STR_Label" xml:space="preserve">
     <value>ラベル</value>

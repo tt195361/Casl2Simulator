@@ -1,10 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tt195361.Casl2Simulator;
 using Tt195361.Casl2Simulator.Casl2;
 using Tt195361.Casl2Simulator.Common;
-using Tt195361.Casl2Simulator.Utils;
 using Tt195361.Casl2SimulatorTest.Common;
 
 namespace Tt195361.Casl2SimulatorTest.Casl2
@@ -30,65 +29,39 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// AddWord メソッドのテストです。
+        /// <see cref="RelocatableModule.AddReferenceWord"/> メソッドのテストです。
         /// </summary>
         [TestMethod]
-        public void AddWord()
+        public void AddReferenceWord()
         {
-            Enumerable.Repeat(0, 65535)
-                      .ForEach((notUsed) => CheckAddWord(true, "1..65535 語 => OK"));
-            CheckAddWord(false, "65536 語 => 例外");
-        }
+            Word word1 = new Word(0x1234);
+            Word word2 = new Word(0x5678);
+            m_relModule.AddWord(word1);
+            m_relModule.AddWord(word2);
+            MemoryOffset wordOffset = new MemoryOffset(2);
 
-        private void CheckAddWord(Boolean success, String message)
-        {
-            try
-            {
-                m_relModule.AddWord(Word.Zero);
-                Assert.IsTrue(success, message);
-            }
-            catch (Casl2SimulatorException)
-            {
-                Assert.IsFalse(success, message);
-            }
-        }
-
-        /// <summary>
-        /// AddReferenceWord メソッドで指定のラベルが登録されている場合のテストです。
-        /// </summary>
-        [TestMethod]
-        public void AddReferenceWord_RegisteredLabel()
-        {
-            MemoryOffset DontCareLabelOffset = new MemoryOffset(0x2468);
-            m_lblManager.RegisterForUnitTest(m_label, DontCareLabelOffset);
-            CheckAddReferenceWord(1, 0, "登録されたラベル => Relocations に追加される");
-        }
-
-        /// <summary>
-        /// AddReferenceWord メソッドで指定のラベルが登録されていない場合のテストです。
-        /// </summary>
-        [TestMethod]
-        public void AddReferenceWord_NotRegisteredLabel()
-        {
-            CheckAddReferenceWord(0, 1, "登録されていないラベル => ImportLabels に追加される");
-        }
-
-        private void CheckAddReferenceWord(
-            Int32 expectedRelocationsCount, Int32 expectedImpotLabelsCount, String message)
-        {
             m_relModule.AddReferenceWord(m_lblManager, m_label);
 
-            Int32 actualRelocationsCount = m_relModule.Relocations.Count();
-            Assert.AreEqual(expectedRelocationsCount, actualRelocationsCount, "Relocations: " + message);
+            IEnumerable<Word> actualWords = m_relModule.Words;
+            Word[] expectedWords = TestUtils.MakeArray(word1, word2, Word.Zero);
+            TestUtils.CheckEnumerable(
+                expectedWords, actualWords,
+                "語のコレクションに、リンク時にラベルのアドレスと置き換わる値が 0 の語が追加される");
 
-            Int32 actualImpotLabelsCount = m_relModule.ImportLabels.Count();
-            Assert.AreEqual(expectedImpotLabelsCount, actualImpotLabelsCount, "ImportLabels: " + message);
+            Int32 labelRefsCount = m_relModule.LabelRefs.Count();
+            Assert.AreEqual(1, labelRefsCount, "ラベル参照のコレクションに、ラベルへの参照が 1 つ追加される");
+
+            LabelReference expectedLabelRef = LabelReference.MakeForUnitTest(m_label, wordOffset);
+            LabelReference actualLabelRef = m_relModule.LabelRefs.First();
+            LabelReferenceTest.Check(
+                expectedLabelRef, actualLabelRef,
+                "ラベルへの参照には、参照するラベルとそのラベルのアドレスが入る語のオフセットが記録される");
         }
 
-        internal static void Check(RelocatableModule relModule, Word[] expectedCodeWords, String message)
+        internal static void CheckWords(RelocatableModule relModule, Word[] expectedWords, String message)
         {
-            Word[] actualCodeWords = relModule.GetCodeWords();
-            TestUtils.CheckEnumerable(expectedCodeWords, actualCodeWords, WordTest.Check, message);
+            IEnumerable<Word> actualWords = relModule.Words;
+            TestUtils.CheckEnumerable(expectedWords, actualWords, WordTest.Check, message);
         }
     }
 }

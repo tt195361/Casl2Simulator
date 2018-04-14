@@ -30,7 +30,8 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return Resources.SYN_NoOperand; }
         }
 
-        internal override void GenerateCode(Label label, LabelManager lblManager, RelocatableModule relModule)
+        internal override void GenerateCode(
+            Label definedLabel, LabelManager lblManager, RelocatableModule relModule)
         {
             // END 命令はラベルを指定できないことになっている。
             // 指定しても特に問題はないので、ラベルはチェックしない。
