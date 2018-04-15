@@ -66,7 +66,6 @@
     <Compile Include="Casl2\EntryPointTest.cs" />
     <Compile Include="Casl2\HexaDecimalConstantTest.cs" />
     <Compile Include="Casl2\ICodeGeneratorTest.cs" />
-    <Compile Include="Casl2\LabelDefinitionTest.cs" />
     <Compile Include="Casl2\LabelReferenceTest.cs" />
     <Compile Include="Casl2\MacroRpopInstructionTest.cs" />
     <Compile Include="Casl2\MemoryAddressTest.cs" />
