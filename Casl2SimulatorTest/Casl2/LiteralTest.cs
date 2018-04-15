@@ -91,7 +91,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
             Word[] expectedWords = TestUtils.MakeArray(Word.Zero);
             ICodeGeneratorTest.CheckGenerateCode(
-                m_target, lblManager, expectedWords,
+                m_target, expectedWords,
                 "オブジェクトコードにラベルのアドレスが入る場所を確保する値 0 の語が追加される");
 
             // RelocatableModule に LabelReference が追加されることは、RelocatableModule のテストで確認する。

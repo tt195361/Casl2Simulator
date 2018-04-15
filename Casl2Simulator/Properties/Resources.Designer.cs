@@ -367,6 +367,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 指定のオブジェクト {0} の値が null です。{0} には null でない値を指定してください。.
+        /// </summary>
+        internal static string MSG_ObjectIsNull {
+            get {
+                return ResourceManager.GetString("MSG_ObjectIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to オペランドを r,adr[,x] としても r1,r2 としても解釈できませんでした。オペランドに r,adr[,x] あるいは r1,r2 を指定してください。.
         /// </summary>
         internal static string MSG_OperandNeitherRAdrXNorR1R2 {

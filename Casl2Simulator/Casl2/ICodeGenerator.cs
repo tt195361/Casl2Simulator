@@ -8,7 +8,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal interface ICodeGenerator
     {
         Int32 GetCodeWordCount();
-        void GenerateCode(LabelManager lblManager, RelocatableModule relModule);
+        void GenerateCode(RelocatableModule relModule);
     }
 
     /// <summary>

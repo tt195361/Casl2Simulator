@@ -26,9 +26,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             return 1;
         }
 
-        public override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        public override void GenerateCode(RelocatableModule relModule)
         {
-            relModule.AddReferenceWord(lblManager, m_label);
+            relModule.AddReferenceWord(m_label);
         }
 
         public String GenerateLiteralDc(LabelManager lblManager)

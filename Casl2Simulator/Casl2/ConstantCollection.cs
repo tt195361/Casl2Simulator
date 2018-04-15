@@ -63,9 +63,9 @@ namespace Tt195361.Casl2Simulator.Casl2
                               .Sum();
         }
 
-        public override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        public override void GenerateCode(RelocatableModule relModule)
         {
-            m_constants.ForEach((constant) => constant.GenerateCode(lblManager, relModule));
+            m_constants.ForEach((constant) => constant.GenerateCode(relModule));
         }
 
         public override String ToString()

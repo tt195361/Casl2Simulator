@@ -42,7 +42,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <summary>
         /// このオペランドのコードを生成します。
         /// </summary>
-        public virtual void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        public virtual void GenerateCode(RelocatableModule relModule)
         {
             // デフォルトは、コードを生成しない。
         }

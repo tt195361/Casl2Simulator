@@ -52,8 +52,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return 0;
         }
 
-        internal override void GenerateCode(
-            Label definedLabel, LabelManager lblManager, RelocatableModule relModule)
+        internal override void GenerateCode(Label definedLabel, RelocatableModule relModule)
         {
             if (definedLabel == null)
             {

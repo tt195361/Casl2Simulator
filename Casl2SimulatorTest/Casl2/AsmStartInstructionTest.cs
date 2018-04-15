@@ -12,7 +12,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     public class AsmStartInstructionTest
     {
         #region Instance Fields
-        private LabelManager m_lblManager;
         private RelocatableModule m_relModule;
         private Label m_definedLabel;
         private Label m_execStartLabel;
@@ -21,9 +20,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestInitialize]
         public void TestInitialize()
         {
-            m_lblManager = new LabelManager();
             m_relModule = new RelocatableModule();
-
             m_definedLabel = new Label("ENTRY");
             m_execStartLabel = new Label("EXECSTRT");
         }
@@ -115,7 +112,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             target.SetExecStartAddressForUnitTest(execStartAddress);
             try
             {
-                target.GenerateCode(definedLabel, m_lblManager, m_relModule);
+                target.GenerateCode(definedLabel, m_relModule);
                 Assert.IsTrue(success, message);
             }
             catch (Casl2SimulatorException)

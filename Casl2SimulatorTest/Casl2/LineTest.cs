@@ -206,9 +206,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         private void CheckGenerateCode(Line target, Word[] expectedWords, String message)
         {
-            LabelManager lblManager = new LabelManager();
             RelocatableModule relModule = new RelocatableModule();
-            target.GenerateCode(lblManager, relModule);
+            target.GenerateCode(relModule);
             RelocatableModuleTest.CheckWords(relModule, expectedWords, message);
         }
 

@@ -106,7 +106,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return 1;
         }
 
-        public override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        public override void GenerateCode(RelocatableModule relModule)
         {
             Word word = new Word(m_value);
             relModule.AddWord(word);

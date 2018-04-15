@@ -77,10 +77,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             AsmDsInstruction target = MakeTarget(wordCountValue);
             const Label DefinedLabel = null;
-            LabelManager lblManager = new LabelManager();
             RelocatableModule relModule = new RelocatableModule();
 
-            target.GenerateCode(DefinedLabel, lblManager, relModule);
+            target.GenerateCode(DefinedLabel, relModule);
 
             // 確保する語数分の 0 の語が追加される。
             Word[] expectedWords = WordTest.MakeArray(Word.Zero, wordCountValue);

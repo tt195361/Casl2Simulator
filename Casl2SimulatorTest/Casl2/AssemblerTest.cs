@@ -14,10 +14,10 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     public class AssemblerTest
     {
         /// <summary>
-        /// ProcessSourceText で、マクロ命令の展開の確認。
+        /// Assemble のソーステキスト処理で、マクロ命令の展開の確認。
         /// </summary>
         [TestMethod]
-        public void ProcessSourceText_ExpandMacro()
+        public void Assemble_ProcessSourceText_ExpandMacro()
         {
             CheckProcessSourceText(
                 TestUtils.MakeArray(
@@ -42,10 +42,10 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// ProcessSourceText で、リテラルの DC 命令生成の確認。
+        /// Assemble のソーステキスト処理で、リテラルの DC 命令生成の確認。
         /// </summary>
         [TestMethod]
-        public void ProcessSourceText_GenerateLiteralDc()
+        public void Assemble_ProcessSourceText_GenerateLiteralDc()
         {
             CheckProcessSourceText(
                 TestUtils.MakeArray(
@@ -67,10 +67,10 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// ProcessSourceText で、リテラルの DC 命令のラベルがプログラムのものと重ならず一意になる。
+        /// Assemble のソーステキスト処理で、リテラルの DC 命令のラベルがプログラムのものと重なる場合。
         /// </summary>
         [TestMethod]
-        public void ProcessSourceText_LiteralDcUniqueLabel()
+        public void Assemble_ProcessSourceText_LiteralDcUniqueLabel()
         {
             CheckProcessSourceText(
                 TestUtils.MakeArray(
@@ -86,10 +86,10 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// ProcessSourceText で、重複したラベルが定義されている場合。
+        /// Assemble のソーステキスト処理で、重複したラベルが定義されている場合。
         /// </summary>
         [TestMethod]
-        public void ProcessSourceText_DuplicateLabels()
+        public void Assemble_ProcessSourceText_DuplicateLabels()
         {
             CheckProcessSourceText(
                 TestUtils.MakeArray(
@@ -107,8 +107,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             Assembler target = new Assembler();
             try
             {
-                Boolean result = target.ProcessSourceText(sourceText);
-                Assert.IsTrue(result, "処理に成功する");
+                Boolean succeeded = target.Assemble(sourceText);
+                Assert.IsTrue(succeeded, "処理に成功する: " + message);
                 Assert.IsNotNull(expectedProcessedText, message);
                 LineCollectionTest.Check(target.ProcessedLines, expectedProcessedText, message);
             }
@@ -124,7 +124,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Assemble_GenerateCode()
         {
-            CheckAssemble(
+            CheckGenerateCode(
                 TestUtils.MakeArray(
                     "ENTRY  START",
                     "       LD GR6,LBL001,GR7",
@@ -136,7 +136,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                     0x1234),            // DC で指定した 16 進定数の値
                 "再配置可能モジュールにコードとラベル情報が生成される");
 
-            CheckAssemble(
+            CheckGenerateCode(
                 TestUtils.MakeArray(
                     "ENTRY  START",
                     "LBL001 DC -9876",
@@ -156,7 +156,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                     0x0000),            //  あとで LBL002 のアドレスを入れるための場所取り
                 "10 進定数, 16 進定数, 文字定数, アドレス定数のそれぞれの定数のコード生成");
 
-            CheckAssemble(
+            CheckGenerateCode(
                 TestUtils.MakeArray(
                     "ENTRY  START",
                     "       LD GR1,=#2468",
@@ -174,7 +174,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Assemble_ProgramTooBig()
         {
-            CheckAssemble(
+            CheckGenerateCode(
                 TestUtils.MakeArray(
                     "ENTRY  START",
                     "       DS 65535",
@@ -190,7 +190,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Assemble_MachineInstructions_0x()
         {
-            CheckAssemble(
+            CheckGenerateCode(
                 TestUtils.MakeArray(
                     "ENTRY  START",
                     "       NOP",
@@ -206,7 +206,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Assemble_MachineInstructions_1x()
         {
-            CheckAssemble(
+            CheckGenerateCode(
                 TestUtils.MakeArray(
                     "ENTRY  START",
                     "       LD   GR1,#1234,GR2",
@@ -228,7 +228,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Assemble_MachineInstructions_2x()
         {
-            CheckAssemble(
+            CheckGenerateCode(
                 TestUtils.MakeArray(
                     "ENTRY  START",
                     "       ADDA GR7,#FEDC,GR6",
@@ -258,7 +258,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Assemble_MachineInstructions_3x()
         {
-            CheckAssemble(
+            CheckGenerateCode(
                 TestUtils.MakeArray(
                     "ENTRY  START",
                     "       AND  GR1,#1357,GR3",
@@ -284,7 +284,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Assemble_MachineInstructions_4x()
         {
-            CheckAssemble(
+            CheckGenerateCode(
                 TestUtils.MakeArray(
                     "ENTRY  START",
                     "       CPA  GR0,#01EF,GR7",
@@ -306,7 +306,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Assemble_MachineInstructions_5x()
         {
-            CheckAssemble(
+            CheckGenerateCode(
                 TestUtils.MakeArray(
                     "ENTRY  START",
                     "       SLA  GR7,#7654,GR6",
@@ -328,7 +328,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Assemble_MachineInstructions_6x()
         {
-            CheckAssemble(
+            CheckGenerateCode(
                 TestUtils.MakeArray(
                     "ENTRY  START",
                     "       JMI  #1111,GR2",
@@ -354,7 +354,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Assemble_MachineInstructions_7x()
         {
-            CheckAssemble(
+            CheckGenerateCode(
                 TestUtils.MakeArray(
                     "ENTRY  START",
                     "       PUSH #89AB,GR5",
@@ -372,7 +372,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Assemble_MachineInstructions_8x()
         {
-            CheckAssemble(
+            CheckGenerateCode(
                 TestUtils.MakeArray(
                     "ENTRY  START",
                     "       CALL #9ABC,GR2",
@@ -390,7 +390,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Assemble_MachineInstructions_Fx()
         {
-            CheckAssemble(
+            CheckGenerateCode(
                 TestUtils.MakeArray(
                     "ENTRY  START",
                     "       SVC  #ABCD,GR3",
@@ -400,15 +400,15 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 "オペコードが Fx の機械語命令");
         }
 
-        private void CheckAssemble(String[] sourceText, Word[] expectedWords, String message)
+        private void CheckGenerateCode(String[] sourceText, Word[] expectedWords, String message)
         {
             Assembler target = new Assembler();
-            Boolean notUsed = target.ProcessSourceText(sourceText);
             try
             {
-                RelocatableModule relModule = target.Assemble();
+                Boolean succeeded = target.Assemble(sourceText);
                 Assert.IsNotNull(expectedWords, message);
-                RelocatableModuleTest.CheckWords(relModule, expectedWords, message);
+                Assert.IsTrue(succeeded, message);
+                RelocatableModuleTest.CheckWords(target.RelModule, expectedWords, message);
             }
             catch (Casl2SimulatorException)
             {

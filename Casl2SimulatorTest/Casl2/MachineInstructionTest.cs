@@ -15,7 +15,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         #region Instance Fields
         private ProgramInstruction m_rAdrXOrR1R2_RAdrX;
         private ProgramInstruction m_rAdrXOrR1R2_R1R2;
-        private LabelManager m_lblManager;
 
         private const String Mnemonic = "TST";
         private const UInt16 Opcode1 = 0x01;
@@ -27,7 +26,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             m_rAdrXOrR1R2_RAdrX = ProgramInstructionTest.Make(MnemonicDef.LD, "GR1,#ABCD,GR2");
             m_rAdrXOrR1R2_R1R2 = ProgramInstructionTest.Make(MnemonicDef.LD, "GR3,GR4");
-            m_lblManager = new LabelManager();
         }
 
         /// <summary>
@@ -127,7 +125,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private void CheckGenerateCode(ProgramInstruction target, Word[] expectedWords, String message)
         {
             RelocatableModule relModule = new RelocatableModule();
-            target.GenerateCode(null, m_lblManager, relModule);
+            target.GenerateCode(null, relModule);
             RelocatableModuleTest.CheckWords(relModule, expectedWords, message);
         }
     }

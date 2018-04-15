@@ -15,7 +15,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     {
         #region Instance Fields
         private ConstantCollection m_constants;
-        private LabelManager m_lblManager;
 
         private const UInt16 DecimalValue = 12345;
         private const UInt16 HexaDecimalValue = 0xABCD;
@@ -36,8 +35,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             StringConstant stringConstant = new StringConstant(StringValue);
             m_constants = ConstantCollection.MakeForUnitTest(
                 decimalConstant, hexaDecimalConstant, addressConstant, stringConstant);
-
-            m_lblManager = new LabelManager();
         }
 
         /// <summary>
@@ -130,7 +127,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             const UInt16 LabelPlaceHolder = 0x0000;
 
             ICodeGeneratorTest.CheckGenerateCode(
-                m_constants, m_lblManager,
+                m_constants,
                 WordTest.MakeArray(
                     DecimalValue, HexaDecimalValue, LabelPlaceHolder,
                     AValue, BValue, CValue), 

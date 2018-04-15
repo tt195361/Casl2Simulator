@@ -12,7 +12,7 @@ namespace Tt195361.Casl2SimulatorTest.Utils
     public class ArgCheckerTest
     {
         /// <summary>
-        /// CheckRange メソッドの単体テストです。
+        /// <see cref="ArgChecker.CheckRange"/> メソッドの単体テストです。
         /// </summary>
         [TestMethod]
         public void CheckRange()
@@ -25,19 +25,13 @@ namespace Tt195361.Casl2SimulatorTest.Utils
 
         private void CheckCheckRange(Int32 value, Int32 min, Int32 max, Boolean success, String message)
         {
-            try
-            {
-                ArgChecker.CheckRange(value, min, max, nameof(value));
-                Assert.IsTrue(success, message);
-            }
-            catch (Casl2SimulatorException)
-            {
-                Assert.IsFalse(success, message);
-            }
+            Check(
+                () => ArgChecker.CheckRange(value, min, max, nameof(value)),
+                success, message);
         }
 
         /// <summary>
-        /// CheckGreaterEqual メソッドの単体テストです。
+        /// <see cref="ArgChecker.CheckGreaterEqual メソッドの単体テストです。
         /// </summary>
         [TestMethod]
         public void CheckGreaterEqual()
@@ -50,10 +44,36 @@ namespace Tt195361.Casl2SimulatorTest.Utils
         private void CheckCheckGreaterEqual(
             Int32 greaterValue, Int32 lesserValue, Boolean success, String message)
         {
+            Check(
+                () => ArgChecker.CheckGreaterEqual(
+                        greaterValue, lesserValue, nameof(greaterValue), nameof(lesserValue)),
+                success, message);
+        }
+
+        /// <summary>
+        /// <see cref="ArgChecker.CheckNotNull メソッドの単体テストです。
+        /// </summary>
+        [TestMethod]
+        public void CheckNotNull()
+        {
+            Object noneNullObj = new Object();
+
+            CheckCheckNotNull(noneNullObj, true, "null でないオブジェクト => OK");
+            CheckCheckNotNull(null, false, "null => 例外");
+        }
+
+        private void CheckCheckNotNull(Object obj, Boolean success, String message)
+        {
+            Check(
+                () => ArgChecker.CheckNotNull(obj, nameof(obj)),
+                success, message);
+        }
+
+        private void Check(Action checkAction, Boolean success, String message)
+        {
             try
             {
-                ArgChecker.CheckGreaterEqual(
-                    greaterValue, lesserValue, nameof(greaterValue), nameof(lesserValue));
+                checkAction();
                 Assert.IsTrue(success, message);
             }
             catch (Casl2SimulatorException)

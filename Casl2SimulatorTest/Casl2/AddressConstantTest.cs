@@ -14,8 +14,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     {
         #region Instance Fields
         private AddressConstant m_target;
-        private LabelManager m_lblManager;
-
         private readonly MemoryOffset RegisteredOffset = new MemoryOffset(0x1234);
         private readonly MemoryOffset NotRegisteredOffset = new MemoryOffset(0x0000);
         #endregion
@@ -24,7 +22,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         public void TestInitialize()
         {
             m_target = new AddressConstant("LBL001");
-            m_lblManager = new LabelManager();
         }
 
         /// <summary>
@@ -44,7 +41,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             Word[] expectedWords = WordTest.MakeArray(0x0000);
             ICodeGeneratorTest.CheckGenerateCode(
-                m_target, m_lblManager, expectedWords,
+                m_target, expectedWords,
                 "あどでラベルのアドレスに置き換えるために、値が 0x0000 の語が追加される");
         }
 

@@ -41,5 +41,19 @@ namespace Tt195361.Casl2Simulator.Utils
                 throw new Casl2SimulatorException(message);
             }
         }
+
+        /// <summary>
+        /// 指定のオブジェクトが <see langword="null"/> でないことを検査します。
+        /// </summary>
+        /// <param name="obj"><see langword="null"/> でないことを検査するオブジェクトです。</param>
+        /// <param name="name">検査するオブジェクトの名前を表わす文字列です。</param>
+        internal static void CheckNotNull(Object obj, String name)
+        {
+            if (obj == null)
+            {
+                String message = String.Format(Resources.MSG_ObjectIsNull, name);
+                throw new Casl2SimulatorException(message);
+            }
+        }
     }
 }

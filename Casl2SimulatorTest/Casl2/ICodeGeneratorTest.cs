@@ -18,15 +18,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         internal static void CheckGenerateCode(ICodeGenerator target, Word[] expectedWords, String message)
         {
-            LabelManager lblManager = new LabelManager();
-            CheckGenerateCode(target, lblManager, expectedWords, message);
-        }
-
-        internal static void CheckGenerateCode(
-            ICodeGenerator target, LabelManager lblManager, Word[] expectedWords, String message)
-        {
             RelocatableModule relModule = new RelocatableModule();
-            target.GenerateCode(lblManager, relModule);
+            target.GenerateCode(relModule);
             RelocatableModuleTest.CheckWords(relModule, expectedWords, message);
         }
 

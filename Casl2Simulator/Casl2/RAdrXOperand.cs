@@ -92,9 +92,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             return m_adrX.GetCodeWordCount();
         }
 
-        public override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        public override void GenerateCode(RelocatableModule relModule)
         {
-            m_adrX.GenerateCode(lblManager, relModule);
+            m_adrX.GenerateCode(relModule);
         }
 
         public override String GenerateLiteralDc(LabelManager lblManager)

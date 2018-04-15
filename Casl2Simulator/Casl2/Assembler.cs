@@ -11,32 +11,61 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class Assembler
     {
         #region Instance Fields
-        private readonly LabelManager m_lblManager;
+        private readonly RelocatableModule m_relModule;
         private LineCollection m_processedLines;
         #endregion
 
         internal Assembler()
         {
-            m_lblManager = new LabelManager();
+            m_relModule = new RelocatableModule();
         }
 
+        /// <summary>
+        /// ソーステキストをアセンブルして生成した再配置可能モジュールを取得します。
+        /// </summary>
+        internal RelocatableModule RelModule
+        {
+            get { return m_relModule; }
+        }
+
+        /// <summary>
+        /// ソーステキストを処理したテキスト行のコレクションを取得します。
+        /// 実施する処理は、マクロ展開とリテラルの DC 命令の生成です。
+        /// </summary>
         internal LineCollection ProcessedLines
         {
             get { return m_processedLines; }
         }
 
-        internal Boolean ProcessSourceText(String[] sourceText)
+        internal Boolean Assemble(String[] sourceText)
         {
-            IEnumerable<Line> parsedLines = ParseLines(sourceText);
+            m_processedLines = ProcessSourceText(sourceText);
+            if (!m_processedLines.NoErrorLine())
+            {
+                // ソーステキストの処理でエラーなら、ここで終了。
+                return false;
+            }
+            else
+            {
+                // ソーステキストの処理に成功すれば、ラベルのオフセットを設定し、コードを生成する。
+                SetLabelOffset(m_processedLines);
+                GenerateCode(m_processedLines);
+                return true;
+            }
+        }
+
+        private LineCollection ProcessSourceText(String[] sourceText)
+        {
+            // ここで ToArray() して内容を実行させる。IEnumerable<Line> のままにしておくと、
+            // 遅延評価で必要になるたびに実行される。
+            Line[] parsedLines = ParseLines(sourceText).ToArray();
             ProgramChecker.Check(parsedLines);
             IEnumerable<Line> macroExpandedLines = ExpandMacro(parsedLines);
 
             // プログラムのラベルを先に登録し、リテラルで生成する DC 命令のラベルと重複しないようにする。
             RegisterLabels(macroExpandedLines);
             IEnumerable<Line> literalDcGeneratedLines = GenerateLiteralDc(macroExpandedLines);
-            m_processedLines = new LineCollection(literalDcGeneratedLines);
-
-            return m_processedLines.NoErrorLine();
+            return new LineCollection(literalDcGeneratedLines);
         }
 
         private IEnumerable<Line> ParseLines(String[] sourceText)
@@ -55,7 +84,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         private void RegisterLabels(IEnumerable<Line> lines)
         {
-            lines.ForEach((line) => line.RegisterLabel(m_lblManager));
+            lines.ForEach((line) => line.RegisterLabel(m_relModule.LabelManager));
         }
 
         private IEnumerable<Line> GenerateLiteralDc(IEnumerable<Line> lines)
@@ -69,16 +98,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             // END 命令の前までに続いて、生成された DC 命令を出力し、その後に END 命令以降を出力する。
             Func<Line, Boolean> notEnd = (line) => !line.IsEnd();
             yield return lines.TakeWhile(notEnd);
-            yield return lines.Select((line) => line.GenerateLiteralDc(m_lblManager))
+            yield return lines.Select((line) => line.GenerateLiteralDc(m_relModule.LabelManager))
                                                     .Where((generatedLine) => generatedLine != null);
             yield return lines.SkipWhile(notEnd);
-        }
-
-        internal RelocatableModule Assemble()
-        {
-            SetLabelOffset(m_processedLines);
-            RelocatableModule relModule = GenerateCode(m_processedLines);
-            return relModule;
         }
 
         private void SetLabelOffset(IEnumerable<Line> lines)
@@ -86,17 +108,15 @@ namespace Tt195361.Casl2Simulator.Casl2
             MemoryOffset offset = MemoryOffset.Zero;
             foreach (Line line in lines)
             {
-                line.SetLabelOffset(m_lblManager, offset);
+                line.SetLabelOffset(m_relModule.LabelManager, offset);
                 Int32 wordCount = line.GetCodeWordCount();
                 offset = offset.Add(wordCount);
             }
         }
 
-        private RelocatableModule GenerateCode(IEnumerable<Line> lines)
+        private void GenerateCode(IEnumerable<Line> lines)
         {
-            RelocatableModule relModule = new RelocatableModule();
-            lines.ForEach((line) => line.GenerateCode(m_lblManager, relModule));
-            return relModule;
+            lines.ForEach((line) => line.GenerateCode(m_relModule));
         }
     }
 }

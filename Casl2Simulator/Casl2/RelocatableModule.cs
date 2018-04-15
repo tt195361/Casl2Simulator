@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tt195361.Casl2Simulator.Common;
-using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
@@ -12,6 +11,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     {
         #region Instance Fields
         private readonly WordCollection m_words;
+        private readonly LabelManager m_labelManager;
         private EntryPoint m_entryPoint;
         private readonly List<LabelReference> m_labelRefs;
         #endregion
@@ -19,6 +19,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal RelocatableModule()
         {
             m_words = new WordCollection();
+            m_labelManager = new LabelManager();
             m_entryPoint = null;
             m_labelRefs = new List<LabelReference>();
         }
@@ -29,6 +30,14 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal IEnumerable<Word> Words
         {
             get { return m_words; }
+        }
+
+        /// <summary>
+        /// この再配置可能モジュールで定義されたラベルを管理するラベルマネージャを取得します。
+        /// </summary>
+        internal LabelManager LabelManager
+        {
+            get { return m_labelManager; }
         }
 
         /// <summary>
@@ -71,7 +80,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <summary>
         /// 指定のラベルを参照する語を追加します。
         /// </summary>
-        internal void AddReferenceWord(LabelManager lblManager, Label referringlabel)
+        internal void AddReferenceWord(Label referringlabel)
         {
             LabelReference labelRef = LabelReference.Make(referringlabel, m_words);
             m_labelRefs.Add(labelRef);

@@ -47,8 +47,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return m_wordCount.Value;
         }
 
-        internal override void GenerateCode(
-            Label definedLabel, LabelManager lblManager, RelocatableModule relModule)
+        internal override void GenerateCode(Label definedLabel, RelocatableModule relModule)
         {
             // 指定した語数の領域を確保する。指定の語数分の 0 を追加する。
             relModule.AddWords(Word.Zero, m_wordCount.Value);

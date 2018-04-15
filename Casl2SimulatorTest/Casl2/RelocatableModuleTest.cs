@@ -16,7 +16,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     {
         #region Instance Fields
         private RelocatableModule m_relModule;
-        private LabelManager m_lblManager;
         private Label m_label;
         #endregion
 
@@ -24,7 +23,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         public void TestInitialize()
         {
             m_relModule = new RelocatableModule();
-            m_lblManager = new LabelManager();
             m_label = new Label("LBL001");
         }
 
@@ -40,7 +38,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             m_relModule.AddWord(word2);
             MemoryOffset wordOffset = new MemoryOffset(2);
 
-            m_relModule.AddReferenceWord(m_lblManager, m_label);
+            m_relModule.AddReferenceWord(m_label);
 
             IEnumerable<Word> actualWords = m_relModule.Words;
             Word[] expectedWords = TestUtils.MakeArray(word1, word2, Word.Zero);

@@ -109,12 +109,12 @@ namespace Tt195361.Casl2Simulator.Casl2
             return 1 + m_operand.GetCodeWordCount();
         }
 
-        internal override void GenerateCode(Label label, LabelManager lblManager, RelocatableModule relModule)
+        internal override void GenerateCode(Label definedLabel, RelocatableModule relModule)
         {
             Word firstWord = MakeFirstWord();
             relModule.AddWord(firstWord);
 
-            m_operand.GenerateCode(lblManager, relModule);
+            m_operand.GenerateCode(relModule);
         }
 
         private Word MakeFirstWord()

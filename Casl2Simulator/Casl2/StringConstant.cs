@@ -115,7 +115,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return m_jisx0201Bytes.Length;
         }
 
-        public override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        public override void GenerateCode(RelocatableModule relModule)
         {
             // 文字列の文字数 (> 0) 分の連続する領域を確保し、
             // 最初の文字は第 1 語の下位 8 ビットに、2 番目の文字は第 2 語の下位 8 ビットに、···

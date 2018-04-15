@@ -193,9 +193,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             return m_adr.GetCodeWordCount();
         }
 
-        public override void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        public override void GenerateCode(RelocatableModule relModule)
         {
-            m_adr.GenerateCode(lblManager, relModule);
+            m_adr.GenerateCode(relModule);
         }
 
         public override String GenerateLiteralDc(LabelManager lblManager)

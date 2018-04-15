@@ -225,9 +225,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             return m_instruction.GetCodeWordCount();
         }
 
-        internal void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        internal void GenerateCode(RelocatableModule relModule)
         {
-            m_instruction.GenerateCode(m_label, lblManager, relModule);
+            m_instruction.GenerateCode(m_label, relModule);
         }
 
         public override String ToString()

@@ -53,13 +53,10 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <summary>
         /// この定数のコードを生成します。
         /// </summary>
-        /// <param name="lblManager">
-        /// ラベルを管理する <see cref="LabelManager"/> のオブジェクトです。
-        /// </param>
         /// <param name="relModule">
         /// 生成したコードを格納する <see cref="RelocatableModule"/> のオブジェクトです。
         /// </param>
-        public abstract void GenerateCode(LabelManager lblManager, RelocatableModule relModule);
+        public abstract void GenerateCode(RelocatableModule relModule);
 
         public override String ToString()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using Tt195361.Casl2Simulator.Common;
+using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
@@ -26,6 +27,8 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         private LabelReference(Label referringLabel, MemoryOffset wordOffset)
         {
+            ArgChecker.CheckNotNull(referringLabel, nameof(referringLabel));
+
             m_referringLabel = referringLabel;
             m_wordOffset = wordOffset;
         }

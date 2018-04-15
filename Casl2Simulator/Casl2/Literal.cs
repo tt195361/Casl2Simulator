@@ -12,6 +12,8 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </remarks>
     internal class Literal : IAdrCodeGenerator
     {
+        private static System.Collections.Generic.List<Literal> m_instances = new System.Collections.Generic.List<Literal>();
+
         /// <summary>
         /// リテラルを解釈します。
         /// </summary>
@@ -59,6 +61,8 @@ namespace Tt195361.Casl2Simulator.Casl2
         private Literal(Constant constant)
         {
             m_constant = constant;
+
+            m_instances.Add(this);
         }
 
         internal Constant Constant
@@ -82,9 +86,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             return AsmDcInstruction.Generate(m_label, m_constant);
         }
 
-        public void GenerateCode(LabelManager lblManager, RelocatableModule relModule)
+        public void GenerateCode(RelocatableModule relModule)
         {
-            relModule.AddReferenceWord(lblManager, m_label);
+            relModule.AddReferenceWord(m_label);
         }
 
         public override String ToString()

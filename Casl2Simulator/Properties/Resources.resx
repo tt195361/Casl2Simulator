@@ -219,6 +219,9 @@
   <data name="MSG_NotParsedStringRemainsInOperand" xml:space="preserve">
     <value>{0} 命令のオペランド "{1}" で "{2}" が解釈できずに残りました。記述形式を確認してください。</value>
   </data>
+  <data name="MSG_ObjectIsNull" xml:space="preserve">
+    <value>指定のオブジェクト {0} の値が null です。{0} には null でない値を指定してください。</value>
+  </data>
   <data name="MSG_OperandNeitherRAdrXNorR1R2" xml:space="preserve">
     <value>オペランドを r,adr[,x] としても r1,r2 としても解釈できませんでした。オペランドに r,adr[,x] あるいは r1,r2 を指定してください。</value>
   </data>

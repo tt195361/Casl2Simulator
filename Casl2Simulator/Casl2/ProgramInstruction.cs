@@ -147,14 +147,10 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// この命令行に定義されたラベルです。
         /// ラベルが定義されていない場合は、<see langword="null"/> を渡します。
         /// </param>
-        /// <param name="lblManager">
-        /// ラベルを管理する <see cref="LabelManager"/> のオブジェクトです。
-        /// </param>
         /// <param name="relModule">
         /// 生成したコードを格納する <see cref="RelocatableModule"/> のオブジェクトです。
         /// </param>
-        internal virtual void GenerateCode(
-            Label definedLabel, LabelManager lblManager, RelocatableModule relModule)
+        internal virtual void GenerateCode(Label definedLabel, RelocatableModule relModule)
         {
             // デフォルトは、コードを生成しない。
         }
