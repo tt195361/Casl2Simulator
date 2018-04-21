@@ -5,16 +5,16 @@ using Tt195361.Casl2Simulator.Utils;
 namespace Tt195361.Casl2Simulator.Casl2
 {
     /// <summary>
-    /// CASL II アセンブラ言語の行を表わします。
+    /// CASL II アセンブラ言語プログラムの行を表わします。
     /// </summary>
-    internal class Line
+    internal class ProgramLine
     {
         /// <summary>
-        /// CASL II アセンブラ言語の行を解釈します。
+        /// CASL II アセンブラ言語プログラムの行を解釈します。
         /// </summary>
         /// <param name="text">解釈する行の文字列です。</param>
-        /// <returns>解釈した結果として生成した <see cref="Line"/> のオブジェクトを返します。</returns>
-        internal static Line Parse(String text)
+        /// <returns>解釈した結果として生成した <see cref="ProgramLine"/> のオブジェクトを返します。</returns>
+        internal static ProgramLine Parse(String text)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        private static Line DoParse(String text)
+        private static ProgramLine DoParse(String text)
         {
             // CASL II の行は、注釈行か命令行のどちらか。
             if (DecideCommentLine(text))
@@ -53,7 +53,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         // 命令行
         //   オペランドあり: [ラベル] {空白} {命令コード} {空白} {オペランド} [ {空白} [コメント]]
         //   オペランドなし: [ラベル] {空白} {命令コード} [ {空白} [ {;} [コメント]]]
-        private static Line ParseInstructionLine(String text)
+        private static ProgramLine ParseInstructionLine(String text)
         {
             ReadBuffer buffer = new ReadBuffer(text);
 
@@ -107,30 +107,30 @@ namespace Tt195361.Casl2Simulator.Casl2
             return fields.MakeList("\t");
         }
 
-        private static Line MakeCommentLine(String text)
+        private static ProgramLine MakeCommentLine(String text)
         {
-            return new Line(text, null, NullInstruction.Instance, null);
+            return new ProgramLine(text, null, NullInstruction.Instance, null);
         }
 
-        private static Line MakeInstructionLine(String text, Label label, ProgramInstruction instruction)
+        private static ProgramLine MakeInstructionLine(String text, Label label, ProgramInstruction instruction)
         {
-            return new Line(text, label, instruction, null);
+            return new ProgramLine(text, label, instruction, null);
         }
 
-        private static Line MakeErrorLine(String text, String errorMessage)
+        private static ProgramLine MakeErrorLine(String text, String errorMessage)
         {
-            return new Line(text, null, NullInstruction.Instance, errorMessage);
+            return new ProgramLine(text, null, NullInstruction.Instance, errorMessage);
         }
 
         #region Instance Fields
-        // 行は、ラベル、オペランドを含む命令コード、およびエラーメッセージを持つ。
+        // アセンブラプログラムの行は、ラベル、オペランドを含む命令コード、およびエラーメッセージを持つ。
         private readonly String m_text;
         private readonly Label m_label;
         private readonly ProgramInstruction m_instruction;
         private readonly String m_errorMessage;
         #endregion
 
-        private Line(String text, Label label, ProgramInstruction instruction, String errorMessage)
+        private ProgramLine(String text, Label label, ProgramInstruction instruction, String errorMessage)
         {
             m_text = text;
             m_label = label;
@@ -173,7 +173,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             return m_instruction.IsEnd();
         }
 
-        internal IEnumerable<Line> ExpandMacro()
+        internal IEnumerable<ProgramLine> ExpandMacro()
         {
             String[] expandedText = m_instruction.ExpandMacro(m_label);
             if (expandedText == null)
@@ -184,7 +184,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             {
                 foreach (String text in expandedText)
                 {
-                    Line parsedLine = Parse(text);
+                    ProgramLine parsedLine = Parse(text);
                     yield return parsedLine;
                 }
             }
@@ -198,7 +198,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        internal Line GenerateLiteralDc(LabelTable lblTable)
+        internal ProgramLine GenerateLiteralDc(LabelTable lblTable)
         {
             String generatedText = m_instruction.GenerateLiteralDc(lblTable);
             if (generatedText == null)

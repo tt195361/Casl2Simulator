@@ -10,14 +10,14 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal static class ProgramChecker
     {
-        internal static void Check(IEnumerable<Line> lines)
+        internal static void Check(IEnumerable<ProgramLine> lines)
         {
             CheckStartCount(lines);
             CheckEndCount(lines);
             CheckInstructionAfterEnd(lines);
         }
 
-        private static void CheckStartCount(IEnumerable<Line> lines)
+        private static void CheckStartCount(IEnumerable<ProgramLine> lines)
         {
             Int32 startCount = lines.Count((line) => line.IsStart());
             if (startCount == 0)
@@ -30,7 +30,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        private static void CheckEndCount(IEnumerable<Line> lines)
+        private static void CheckEndCount(IEnumerable<ProgramLine> lines)
         {
             Int32 endCount = lines.Count((line) => line.IsEnd());
             if (endCount == 0)
@@ -43,7 +43,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        private static void CheckInstructionAfterEnd(IEnumerable<Line> lines)
+        private static void CheckInstructionAfterEnd(IEnumerable<ProgramLine> lines)
         {
             // END 命令までと END 命令自身をスキップし、そのあとに null でない有効な命令があるかチェックする。
             Int32 afterEndInstructionCount = lines.SkipWhile((line) => !line.IsEnd())

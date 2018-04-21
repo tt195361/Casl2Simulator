@@ -22,7 +22,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         private static Boolean EndOfItem(Char current)
         {
-            return Line.EndOfField(current) || current == Casl2Defs.Comma;
+            return ProgramLine.EndOfField(current) || current == Casl2Defs.Comma;
         }
 
         protected Operand()

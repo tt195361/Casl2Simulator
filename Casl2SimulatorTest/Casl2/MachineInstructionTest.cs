@@ -104,7 +104,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             ProgramInstruction target = ProgramInstructionTest.Make(MnemonicDef.LD, "GR1,=1234,GR2");
             LabelTable lblTable = new LabelTable();
             String actual = target.GenerateLiteralDc(lblTable);
-            String expected = LineTest.MakeGeneratedLine("LTRL0001", "DC", "1234");
+            String expected = ProgramLineTest.MakeGeneratedLine("LTRL0001", "DC", "1234");
             Assert.AreEqual(expected, actual, "リテラルの DC 命令が生成される");
         }
 

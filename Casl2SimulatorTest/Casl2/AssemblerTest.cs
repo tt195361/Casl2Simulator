@@ -28,13 +28,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                     "       END"),
                 TestUtils.MakeArray(
                     "ENTRY  START",
-                    LineTest.MakeGeneratedLine("LBL001", "PUSH", "0,GR1"),
-                    LineTest.MakeGeneratedLine("", "PUSH", "0,GR2"),
-                    LineTest.MakeGeneratedLine("", "PUSH", "0,GR3"),
-                    LineTest.MakeGeneratedLine("", "PUSH", "0,GR4"),
-                    LineTest.MakeGeneratedLine("", "PUSH", "0,GR5"),
-                    LineTest.MakeGeneratedLine("", "PUSH", "0,GR6"),
-                    LineTest.MakeGeneratedLine("", "PUSH", "0,GR7"),
+                    ProgramLineTest.MakeGeneratedLine("LBL001", "PUSH", "0,GR1"),
+                    ProgramLineTest.MakeGeneratedLine("", "PUSH", "0,GR2"),
+                    ProgramLineTest.MakeGeneratedLine("", "PUSH", "0,GR3"),
+                    ProgramLineTest.MakeGeneratedLine("", "PUSH", "0,GR4"),
+                    ProgramLineTest.MakeGeneratedLine("", "PUSH", "0,GR5"),
+                    ProgramLineTest.MakeGeneratedLine("", "PUSH", "0,GR6"),
+                    ProgramLineTest.MakeGeneratedLine("", "PUSH", "0,GR7"),
                     "       DC 123  ; マクロでない命令",
                     "; コメント行",
                     "       END"),
@@ -59,9 +59,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                     "       LD GR0,=1234,GR1",
                     "       LD GR2,=#ABCD,GR3",
                     "       PUSH ='!@#$%',GR4",
-                    LineTest.MakeGeneratedLine("LTRL0001", "DC", "1234"),
-                    LineTest.MakeGeneratedLine("LTRL0002", "DC", "#ABCD"),
-                    LineTest.MakeGeneratedLine("LTRL0003", "DC", "'!@#$%'"),
+                    ProgramLineTest.MakeGeneratedLine("LTRL0001", "DC", "1234"),
+                    ProgramLineTest.MakeGeneratedLine("LTRL0002", "DC", "#ABCD"),
+                    ProgramLineTest.MakeGeneratedLine("LTRL0003", "DC", "'!@#$%'"),
                     "       END"),
                 "リテラルの定数をオペランドとする DC 命令が生成され、END 命令の直前に配置される");
         }
@@ -80,7 +80,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 TestUtils.MakeArray(
                     "LTRL0001 START",
                     "         LD GR0,=-9876,GR1",
-                    LineTest.MakeGeneratedLine("LTRL0002", "DC", "-9876"),
+                    ProgramLineTest.MakeGeneratedLine("LTRL0002", "DC", "-9876"),
                     "         END"),
                 "リテラルの DC 命令のラベルはプログラムのものと重ならない一意のものが生成される");
         }
@@ -110,7 +110,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 Boolean succeeded = target.Assemble(sourceText);
                 Assert.IsTrue(succeeded, "処理に成功する: " + message);
                 Assert.IsNotNull(expectedProcessedText, message);
-                LineCollectionTest.Check(target.ProcessedLines, expectedProcessedText, message);
+                ProgramLineCollectionTest.Check(target.ProcessedLines, expectedProcessedText, message);
             }
             catch (Casl2SimulatorException)
             {

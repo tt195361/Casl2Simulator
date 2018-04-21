@@ -71,12 +71,12 @@
     <Compile Include="Casl2\MemoryAddressTest.cs" />
     <Compile Include="Casl2\ProgramInstructionFactoryTest.cs" />
     <Compile Include="Casl2\LabelTableTest.cs" />
-    <Compile Include="Casl2\LineCollectionTest.cs" />
+    <Compile Include="Casl2\ProgramLineCollectionTest.cs" />
     <Compile Include="Casl2\LiteralTest.cs" />
     <Compile Include="Casl2\MachineInstructionOperandTest.cs" />
     <Compile Include="Casl2\LabelTest.cs" />
     <Compile Include="Casl2\ProgramInstructionTest.cs" />
-    <Compile Include="Casl2\LineTest.cs" />
+    <Compile Include="Casl2\ProgramLineTest.cs" />
     <Compile Include="Casl2\MachineInstructionTest.cs" />
     <Compile Include="Casl2\MacroInOutInstructionTest.cs" />
     <Compile Include="Casl2\MacroRpushInstructionTest.cs" />

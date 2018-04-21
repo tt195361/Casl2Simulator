@@ -66,13 +66,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             String[] actual = target.ExpandMacro(label);
 
             String[] expected = TestUtils.MakeArray(
-                LineTest.MakeGeneratedLine(LabelName, "PUSH", "0,GR1"),
-                LineTest.MakeGeneratedLine("", "PUSH", "0,GR2"),
-                LineTest.MakeGeneratedLine("", "LAD", "GR1," + BufferName),
-                LineTest.MakeGeneratedLine("", "LAD", "GR2," + LengthName),
-                LineTest.MakeGeneratedLine("", "SVC", svcOperand.ToString()),
-                LineTest.MakeGeneratedLine("", "POP", "GR2"),
-                LineTest.MakeGeneratedLine("", "POP", "GR1"));
+                ProgramLineTest.MakeGeneratedLine(LabelName, "PUSH", "0,GR1"),
+                ProgramLineTest.MakeGeneratedLine("", "PUSH", "0,GR2"),
+                ProgramLineTest.MakeGeneratedLine("", "LAD", "GR1," + BufferName),
+                ProgramLineTest.MakeGeneratedLine("", "LAD", "GR2," + LengthName),
+                ProgramLineTest.MakeGeneratedLine("", "SVC", svcOperand.ToString()),
+                ProgramLineTest.MakeGeneratedLine("", "POP", "GR2"),
+                ProgramLineTest.MakeGeneratedLine("", "POP", "GR1"));
             TestUtils.CheckEnumerable(expected, actual, message);
         }
     }

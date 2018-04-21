@@ -6,22 +6,22 @@ using System.Linq;
 namespace Tt195361.Casl2Simulator.Casl2
 {
     /// <summary>
-    /// <see cref="Line"/> のコレクションです。
+    /// <see cref="ProgramLine"/> のコレクションです。
     /// </summary>
-    internal class LineCollection : IEnumerable<Line>
+    internal class ProgramLineCollection : IEnumerable<ProgramLine>
     {
         #region Instance Fields
-        private readonly Line[] m_lines;
+        private readonly ProgramLine[] m_lines;
         #endregion
 
-        internal LineCollection(IEnumerable<Line> lineEnumerable)
+        internal ProgramLineCollection(IEnumerable<ProgramLine> lineEnumerable)
         {
             m_lines = lineEnumerable.ToArray();
         }
 
-        public IEnumerator<Line> GetEnumerator()
+        public IEnumerator<ProgramLine> GetEnumerator()
         {
-            return m_lines.Cast<Line>().GetEnumerator();
+            return m_lines.Cast<ProgramLine>().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

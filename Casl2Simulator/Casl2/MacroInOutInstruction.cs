@@ -68,13 +68,13 @@ namespace Tt195361.Casl2Simulator.Casl2
             //          SVC     1 or 2
             //          POP     GR2
             //          POP     GR1
-            result[0] = Line.Generate(label, MnemonicDef.PUSH, 0, SvcDef.BufferAddrRegister);
-            result[1] = Line.Generate(null, MnemonicDef.PUSH, 0, SvcDef.LengthRegister);
-            result[2] = Line.Generate(null, MnemonicDef.LAD, SvcDef.BufferAddrRegister, AreaSpec.Buffer.Name);
-            result[3] = Line.Generate(null, MnemonicDef.LAD, SvcDef.LengthRegister, AreaSpec.Length.Name);
-            result[4] = Line.Generate(null, MnemonicDef.SVC, m_svcOperand);
-            result[5] = Line.Generate(null, MnemonicDef.POP, SvcDef.LengthRegister);
-            result[6] = Line.Generate(null, MnemonicDef.POP, SvcDef.BufferAddrRegister);
+            result[0] = ProgramLine.Generate(label, MnemonicDef.PUSH, 0, SvcDef.BufferAddrRegister);
+            result[1] = ProgramLine.Generate(null, MnemonicDef.PUSH, 0, SvcDef.LengthRegister);
+            result[2] = ProgramLine.Generate(null, MnemonicDef.LAD, SvcDef.BufferAddrRegister, AreaSpec.Buffer.Name);
+            result[3] = ProgramLine.Generate(null, MnemonicDef.LAD, SvcDef.LengthRegister, AreaSpec.Length.Name);
+            result[4] = ProgramLine.Generate(null, MnemonicDef.SVC, m_svcOperand);
+            result[5] = ProgramLine.Generate(null, MnemonicDef.POP, SvcDef.LengthRegister);
+            result[6] = ProgramLine.Generate(null, MnemonicDef.POP, SvcDef.BufferAddrRegister);
 
             return result;
         }

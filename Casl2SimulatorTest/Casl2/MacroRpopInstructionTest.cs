@@ -38,13 +38,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             String[] actual = target.ExpandMacro(new Label("LBL001"));
 
             String[] expected = TestUtils.MakeArray(
-                LineTest.MakeGeneratedLine("LBL001", "POP", "GR7"),
-                LineTest.MakeGeneratedLine("", "POP", "GR6"),
-                LineTest.MakeGeneratedLine("", "POP", "GR5"),
-                LineTest.MakeGeneratedLine("", "POP", "GR4"),
-                LineTest.MakeGeneratedLine("", "POP", "GR3"),
-                LineTest.MakeGeneratedLine("", "POP", "GR2"),
-                LineTest.MakeGeneratedLine("", "POP", "GR1"));
+                ProgramLineTest.MakeGeneratedLine("LBL001", "POP", "GR7"),
+                ProgramLineTest.MakeGeneratedLine("", "POP", "GR6"),
+                ProgramLineTest.MakeGeneratedLine("", "POP", "GR5"),
+                ProgramLineTest.MakeGeneratedLine("", "POP", "GR4"),
+                ProgramLineTest.MakeGeneratedLine("", "POP", "GR3"),
+                ProgramLineTest.MakeGeneratedLine("", "POP", "GR2"),
+                ProgramLineTest.MakeGeneratedLine("", "POP", "GR1"));
             TestUtils.CheckEnumerable(expected, actual, "マクロ命令 RPOP の展開結果");
         }
     }

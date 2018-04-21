@@ -63,7 +63,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         private void DoCheck(String[] sourceText, Boolean success, String message)
         {
-            IEnumerable<Line> parsedLines = sourceText.Select((text) => Line.Parse(text));
+            IEnumerable<ProgramLine> parsedLines = sourceText.Select((text) => ProgramLine.Parse(text));
             try
             {
                 ProgramChecker.Check(parsedLines);

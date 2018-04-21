@@ -36,13 +36,13 @@ namespace Tt195361.Casl2Simulator.Casl2
             //          PUSH    0,GR5
             //          PUSH    0,GR6
             //          PUSH    0,GR7
-            result[0] = Line.Generate(label, MnemonicDef.PUSH, 0, RegisterDef.GR1);
-            result[1] = Line.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR2);
-            result[2] = Line.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR3);
-            result[3] = Line.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR4);
-            result[4] = Line.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR5);
-            result[5] = Line.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR6);
-            result[6] = Line.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR7);
+            result[0] = ProgramLine.Generate(label, MnemonicDef.PUSH, 0, RegisterDef.GR1);
+            result[1] = ProgramLine.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR2);
+            result[2] = ProgramLine.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR3);
+            result[3] = ProgramLine.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR4);
+            result[4] = ProgramLine.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR5);
+            result[5] = ProgramLine.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR6);
+            result[6] = ProgramLine.Generate(null, MnemonicDef.PUSH, 0, RegisterDef.GR7);
 
             return result;
         }

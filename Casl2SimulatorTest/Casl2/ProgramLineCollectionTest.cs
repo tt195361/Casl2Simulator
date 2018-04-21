@@ -6,11 +6,11 @@ using Tt195361.Casl2Simulator.Casl2;
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
     /// <summary>
-    /// <see cref="LineCollection"/> クラスの単体テストです。
+    /// <see cref="ProgramLineCollection"/> クラスの単体テストです。
     /// </summary>
-    internal class LineCollectionTest
+    internal class ProgramLineCollectionTest
     {
-        internal static void Check(IEnumerable<Line> lines, IEnumerable<String> expectedText, String message)
+        internal static void Check(IEnumerable<ProgramLine> lines, IEnumerable<String> expectedText, String message)
         {
             IEnumerable<String> actualText = lines.Select((line) => line.Text);
             TestUtils.CheckEnumerable(expectedText, actualText, message);

@@ -8,10 +8,10 @@ using Tt195361.Casl2SimulatorTest.Common;
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
     /// <summary>
-    /// <see cref="Line"/> クラスの単体テストです。
+    /// <see cref="ProgramLine"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
-    public class LineTest
+    public class ProgramLineTest
     {
         /// <summary>
         /// Parse メソッドのテストです。
@@ -68,7 +68,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private void CheckParse(
             String text, Boolean success, Label expectedLabel, String expectedMnemonic, String message)
         {
-            Line actual = Line.Parse(text);
+            ProgramLine actual = ProgramLine.Parse(text);
 
             if (!success)
             {
@@ -84,7 +84,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             CheckInstruction(actual, expectedMnemonic, "Instruction: " + message);
         }
 
-        private void CheckInstruction(Line actual, String expectedMnemonic, String message)
+        private void CheckInstruction(ProgramLine actual, String expectedMnemonic, String message)
         {
             Assert.AreEqual(expectedMnemonic, actual.Instruction.Mnemonic, message);
         }
@@ -122,9 +122,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         private void CheckExpandMacro(String text, String[] expected, String message)
         {
-            Line target = Line.Parse(text);
-            IEnumerable<Line> result = target.ExpandMacro();
-            LineCollectionTest.Check(result, expected, message);
+            ProgramLine target = ProgramLine.Parse(text);
+            IEnumerable<ProgramLine> result = target.ExpandMacro();
+            ProgramLineCollectionTest.Check(result, expected, message);
         }
 
         /// <summary>
@@ -149,9 +149,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         private void CheckGenerateLiteralDc(String text, String expected, String message)
         {
-            Line target = Line.Parse(text);
+            ProgramLine target = ProgramLine.Parse(text);
             LabelTable lblTable = new LabelTable();
-            Line generatedLine = target.GenerateLiteralDc(lblTable);
+            ProgramLine generatedLine = target.GenerateLiteralDc(lblTable);
             if (generatedLine == null)
             {
                 Assert.IsNull(expected, message);
@@ -169,7 +169,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void SetLabelOffset()
         {
-            Line instructionLine = Line.Parse("LBL001 LD GR1,GR2");
+            ProgramLine instructionLine = ProgramLine.Parse("LBL001 LD GR1,GR2");
             LabelTable lblTable = new LabelTable();
             instructionLine.RegisterLabel(lblTable);
 
@@ -188,23 +188,23 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void GenerateCode()
         {
-            Line instructionLine = Line.Parse(" LD GR1,GR2");
+            ProgramLine instructionLine = ProgramLine.Parse(" LD GR1,GR2");
             CheckGenerateCode(
                 instructionLine, WordTest.MakeArray(0x1412),
                 "命令行 => その命令のコードを生成する");
 
-            Line commentLine = Line.Parse("; コメント行");
+            ProgramLine commentLine = ProgramLine.Parse("; コメント行");
             CheckGenerateCode(
                 commentLine, WordTest.MakeArray(),
                 "コメント行 => コードを生成しない");
 
-            Line errorLine = Line.Parse(" 未定義命令");
+            ProgramLine errorLine = ProgramLine.Parse(" 未定義命令");
             CheckGenerateCode(
                 errorLine, WordTest.MakeArray(),
                 "エラー行 => コードを生成しない");
         }
 
-        private void CheckGenerateCode(Line target, Word[] expectedWords, String message)
+        private void CheckGenerateCode(ProgramLine target, Word[] expectedWords, String message)
         {
             RelocatableModule relModule = new RelocatableModule();
             target.GenerateCode(relModule);

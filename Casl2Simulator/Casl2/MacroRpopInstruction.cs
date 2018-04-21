@@ -36,13 +36,13 @@ namespace Tt195361.Casl2Simulator.Casl2
             //          POP     0,GR3
             //          POP     0,GR2
             //          POP     0,GR1
-            result[0] = Line.Generate(label, MnemonicDef.POP, RegisterDef.GR7);
-            result[1] = Line.Generate(null, MnemonicDef.POP, RegisterDef.GR6);
-            result[2] = Line.Generate(null, MnemonicDef.POP, RegisterDef.GR5);
-            result[3] = Line.Generate(null, MnemonicDef.POP, RegisterDef.GR4);
-            result[4] = Line.Generate(null, MnemonicDef.POP, RegisterDef.GR3);
-            result[5] = Line.Generate(null, MnemonicDef.POP, RegisterDef.GR2);
-            result[6] = Line.Generate(null, MnemonicDef.POP, RegisterDef.GR1);
+            result[0] = ProgramLine.Generate(label, MnemonicDef.POP, RegisterDef.GR7);
+            result[1] = ProgramLine.Generate(null, MnemonicDef.POP, RegisterDef.GR6);
+            result[2] = ProgramLine.Generate(null, MnemonicDef.POP, RegisterDef.GR5);
+            result[3] = ProgramLine.Generate(null, MnemonicDef.POP, RegisterDef.GR4);
+            result[4] = ProgramLine.Generate(null, MnemonicDef.POP, RegisterDef.GR3);
+            result[5] = ProgramLine.Generate(null, MnemonicDef.POP, RegisterDef.GR2);
+            result[6] = ProgramLine.Generate(null, MnemonicDef.POP, RegisterDef.GR1);
 
             return result;
         }

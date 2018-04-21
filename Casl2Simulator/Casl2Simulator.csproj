@@ -85,12 +85,12 @@
     <Compile Include="Casl2\MemoryAddress.cs" />
     <Compile Include="Casl2\MemoryUtils.cs" />
     <Compile Include="Casl2\ProgramInstructionFactory.cs" />
-    <Compile Include="Casl2\LineCollection.cs" />
+    <Compile Include="Casl2\ProgramLineCollection.cs" />
     <Compile Include="Casl2\MachineInstruction.cs" />
     <Compile Include="Casl2\MachineInstructionFactory.cs" />
     <Compile Include="Casl2\MachineInstructionOperand.cs" />
     <Compile Include="Casl2\Label.cs" />
-    <Compile Include="Casl2\Line.cs" />
+    <Compile Include="Casl2\ProgramLine.cs" />
     <Compile Include="Casl2\Literal.cs" />
     <Compile Include="Casl2\MacroRpushInstruction.cs" />
     <Compile Include="Casl2\DecimalConstant.cs" />

@@ -49,7 +49,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         private Token ReadNext()
         {
             Char firstChar = m_buffer.Current;
-            if (Line.EndOfField(firstChar))
+            if (ProgramLine.EndOfField(firstChar))
             {
                 return Token.MakeEndOfToken();
             }

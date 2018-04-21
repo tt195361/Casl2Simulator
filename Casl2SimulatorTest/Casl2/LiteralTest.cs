@@ -63,15 +63,15 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             CheckGenerateLiteralDc(
                 Literal.MakeForUnitTest(new DecimalConstant(12345)),
-                LineTest.MakeGeneratedLine("LTRL0001", "DC", "12345"),
+                ProgramLineTest.MakeGeneratedLine("LTRL0001", "DC", "12345"),
                 "10 進定数 => 10 進定数の DC 命令が生成される。");
             CheckGenerateLiteralDc(
                 Literal.MakeForUnitTest(new HexaDecimalConstant(0xFEDC)),
-                LineTest.MakeGeneratedLine("LTRL0001", "DC", "#FEDC"),
+                ProgramLineTest.MakeGeneratedLine("LTRL0001", "DC", "#FEDC"),
                 "16 進定数 => 16 進定数の DC 命令が生成される。");
             CheckGenerateLiteralDc(
                 Literal.MakeForUnitTest(new StringConstant("!@#$%")),
-                LineTest.MakeGeneratedLine("LTRL0001", "DC", "'!@#$%'"),
+                ProgramLineTest.MakeGeneratedLine("LTRL0001", "DC", "'!@#$%'"),
                 "文字定数 => 文字定数の DC 命令が生成される。");
         }
 

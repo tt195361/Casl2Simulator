@@ -11,7 +11,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     {
         internal static String Generate(Label label, params Constant[] constants)
         {
-            return Line.Generate(label, MnemonicDef.DC, constants);
+            return ProgramLine.Generate(label, MnemonicDef.DC, constants);
         }
 
         #region Instance Fields
