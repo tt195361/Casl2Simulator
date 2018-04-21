@@ -150,8 +150,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private void CheckGenerateLiteralDc(String text, String expected, String message)
         {
             Line target = Line.Parse(text);
-            LabelManager lblManager = new LabelManager();
-            Line generatedLine = target.GenerateLiteralDc(lblManager);
+            LabelTable lblTable = new LabelTable();
+            Line generatedLine = target.GenerateLiteralDc(lblTable);
             if (generatedLine == null)
             {
                 Assert.IsNull(expected, message);
@@ -170,13 +170,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         public void SetLabelOffset()
         {
             Line instructionLine = Line.Parse("LBL001 LD GR1,GR2");
-            LabelManager lblManager = new LabelManager();
-            instructionLine.RegisterLabel(lblManager);
+            LabelTable lblTable = new LabelTable();
+            instructionLine.RegisterLabel(lblTable);
 
             MemoryOffset offsetSet = new MemoryOffset(0xABCD);
-            instructionLine.SetLabelOffset(lblManager, offsetSet);
+            instructionLine.SetLabelOffset(lblTable, offsetSet);
 
-            LabelDefinition labelDef = lblManager.GetDefinitionFor(instructionLine.Label);
+            LabelDefinition labelDef = lblTable.GetDefinitionFor(instructionLine.Label);
             MemoryOffset offsetGot = labelDef.RelOffset;
             MemoryOffsetTest.Check(
                 offsetSet, offsetGot, "SetLabelOffset() で設定したラベルのオフセットが取得できる");

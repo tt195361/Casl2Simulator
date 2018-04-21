@@ -98,9 +98,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             return m_operand;
         }
 
-        internal override String GenerateLiteralDc(LabelManager lblManager)
+        internal override String GenerateLiteralDc(LabelTable lblTable)
         {
-            return m_operand.GenerateLiteralDc(lblManager);
+            return m_operand.GenerateLiteralDc(lblTable);
         }
 
         internal override Int32 GetCodeWordCount()

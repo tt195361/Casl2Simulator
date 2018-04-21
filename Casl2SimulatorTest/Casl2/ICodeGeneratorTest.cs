@@ -25,8 +25,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         internal static void CheckGenerateLiteralDc(IAdrCodeGenerator target, String expected, String message)
         {
-            LabelManager lblManager = new LabelManager();
-            String actual = target.GenerateLiteralDc(lblManager);
+            LabelTable lblTable = new LabelTable();
+            String actual = target.GenerateLiteralDc(lblTable);
             Assert.AreEqual(expected, actual, message);
         }
 

@@ -190,17 +190,17 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        internal void RegisterLabel(LabelManager lblManager)
+        internal void RegisterLabel(LabelTable lblTable)
         {
             if (m_label != null)
             {
-                lblManager.Register(m_label);
+                lblTable.Register(m_label);
             }
         }
 
-        internal Line GenerateLiteralDc(LabelManager lblManager)
+        internal Line GenerateLiteralDc(LabelTable lblTable)
         {
-            String generatedText = m_instruction.GenerateLiteralDc(lblManager);
+            String generatedText = m_instruction.GenerateLiteralDc(lblTable);
             if (generatedText == null)
             {
                 return null;
@@ -211,11 +211,11 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        internal void SetLabelOffset(LabelManager lblManager, MemoryOffset offset)
+        internal void SetLabelOffset(LabelTable lblTable, MemoryOffset offset)
         {
             if (m_label != null)
             {
-                LabelDefinition labelDef = lblManager.GetDefinitionFor(m_label);
+                LabelDefinition labelDef = lblTable.GetDefinitionFor(m_label);
                 labelDef.SetRelOffset(offset);
             }
         }

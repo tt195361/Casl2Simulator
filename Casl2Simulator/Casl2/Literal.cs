@@ -80,9 +80,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             return 1;
         }
 
-        public String GenerateLiteralDc(LabelManager lblManager)
+        public String GenerateLiteralDc(LabelTable lblTable)
         {
-            m_label = lblManager.MakeLiteralLabel();
+            m_label = lblTable.MakeLiteralLabel();
             return AsmDcInstruction.Generate(m_label, m_constant);
         }
 

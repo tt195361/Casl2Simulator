@@ -31,7 +31,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             relModule.AddReferenceWord(m_label);
         }
 
-        public String GenerateLiteralDc(LabelManager lblManager)
+        public String GenerateLiteralDc(LabelTable lblTable)
         {
             return null;
         }

@@ -7,14 +7,14 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <summary>
     /// 定義したラベルの一覧を管理します。
     /// </summary>
-    internal class LabelManager
+    internal class LabelTable
     {
         #region Instance Fields
         private readonly Dictionary<String, LabelDefinition> m_labelDictionary;
         private Int32 m_literalLabelNumber;
         #endregion
 
-        internal LabelManager()
+        internal LabelTable()
         {
             m_labelDictionary = new Dictionary<String, LabelDefinition>();
             m_literalLabelNumber = Label.MinLiteralLabelNumber;

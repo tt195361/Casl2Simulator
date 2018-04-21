@@ -117,14 +117,14 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <summary>
         /// リテラルのための DC 命令を生成します。
         /// </summary>
-        /// <param name="lblManager">
-        /// ラベルを管理する <see cref="LabelManager"/> のオブジェクトです。
+        /// <param name="lblTable">
+        /// ラベルを管理する <see cref="LabelTable"/> のオブジェクトです。
         /// </param>
         /// <returns>
         /// 生成した DC 命令の命令行を返します。
         /// DC 命令を生成しない場合は <see langword="null"/> を返します。
         /// </returns>
-        internal virtual String GenerateLiteralDc(LabelManager lblManager)
+        internal virtual String GenerateLiteralDc(LabelTable lblTable)
         {
             // デフォルトでは、リテラルを生成しない。
             return null;

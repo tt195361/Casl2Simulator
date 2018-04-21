@@ -84,7 +84,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         private void RegisterLabels(IEnumerable<Line> lines)
         {
-            lines.ForEach((line) => line.RegisterLabel(m_relModule.LabelManager));
+            lines.ForEach((line) => line.RegisterLabel(m_relModule.LabelTable));
         }
 
         private IEnumerable<Line> GenerateLiteralDc(IEnumerable<Line> lines)
@@ -98,7 +98,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             // END 命令の前までに続いて、生成された DC 命令を出力し、その後に END 命令以降を出力する。
             Func<Line, Boolean> notEnd = (line) => !line.IsEnd();
             yield return lines.TakeWhile(notEnd);
-            yield return lines.Select((line) => line.GenerateLiteralDc(m_relModule.LabelManager))
+            yield return lines.Select((line) => line.GenerateLiteralDc(m_relModule.LabelTable))
                                                     .Where((generatedLine) => generatedLine != null);
             yield return lines.SkipWhile(notEnd);
         }
@@ -108,7 +108,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             MemoryOffset offset = MemoryOffset.Zero;
             foreach (Line line in lines)
             {
-                line.SetLabelOffset(m_relModule.LabelManager, offset);
+                line.SetLabelOffset(m_relModule.LabelTable, offset);
                 Int32 wordCount = line.GetCodeWordCount();
                 offset = offset.Add(wordCount);
             }

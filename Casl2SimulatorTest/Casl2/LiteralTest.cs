@@ -86,8 +86,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void GenerateCode()
         {
-            LabelManager lblManager = new LabelManager();
-            m_target.GenerateLiteralDc(lblManager);
+            LabelTable lblTable = new LabelTable();
+            m_target.GenerateLiteralDc(lblTable);
 
             Word[] expectedWords = TestUtils.MakeArray(Word.Zero);
             ICodeGeneratorTest.CheckGenerateCode(

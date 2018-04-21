@@ -97,9 +97,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             m_adrX.GenerateCode(relModule);
         }
 
-        public override String GenerateLiteralDc(LabelManager lblManager)
+        public override String GenerateLiteralDc(LabelTable lblTable)
         {
-            return m_adrX.GenerateLiteralDc(lblManager);
+            return m_adrX.GenerateLiteralDc(lblTable);
         }
 
         public override String ToString()

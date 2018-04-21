@@ -70,7 +70,7 @@
     <Compile Include="Casl2\MacroRpopInstructionTest.cs" />
     <Compile Include="Casl2\MemoryAddressTest.cs" />
     <Compile Include="Casl2\ProgramInstructionFactoryTest.cs" />
-    <Compile Include="Casl2\LabelManagerTest.cs" />
+    <Compile Include="Casl2\LabelTableTest.cs" />
     <Compile Include="Casl2\LineCollectionTest.cs" />
     <Compile Include="Casl2\LiteralTest.cs" />
     <Compile Include="Casl2\MachineInstructionOperandTest.cs" />

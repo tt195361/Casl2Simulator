@@ -16,6 +16,6 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal interface IAdrCodeGenerator : ICodeGenerator
     {
-        String GenerateLiteralDc(LabelManager lblManager);
+        String GenerateLiteralDc(LabelTable lblTable);
     }
 }

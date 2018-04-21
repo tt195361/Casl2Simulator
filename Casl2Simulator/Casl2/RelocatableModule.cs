@@ -11,7 +11,7 @@ namespace Tt195361.Casl2Simulator.Casl2
     {
         #region Instance Fields
         private readonly WordCollection m_words;
-        private readonly LabelManager m_labelManager;
+        private readonly LabelTable m_labelTable;
         private EntryPoint m_entryPoint;
         private readonly List<LabelReference> m_labelRefs;
         #endregion
@@ -19,7 +19,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal RelocatableModule()
         {
             m_words = new WordCollection();
-            m_labelManager = new LabelManager();
+            m_labelTable = new LabelTable();
             m_entryPoint = null;
             m_labelRefs = new List<LabelReference>();
         }
@@ -33,11 +33,11 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         /// <summary>
-        /// この再配置可能モジュールで定義されたラベルを管理するラベルマネージャを取得します。
+        /// この再配置可能モジュールで定義されたラベルを管理する <see cref="LabelTable"/> のオブジェクトを取得します。
         /// </summary>
-        internal LabelManager LabelManager
+        internal LabelTable LabelTable
         {
-            get { return m_labelManager; }
+            get { return m_labelTable; }
         }
 
         /// <summary>

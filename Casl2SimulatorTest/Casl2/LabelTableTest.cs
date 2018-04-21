@@ -6,13 +6,13 @@ using Tt195361.Casl2Simulator.Casl2;
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
     /// <summary>
-    /// <see cref="LabelManager"/> クラスの単体テストです。
+    /// <see cref="LabelTable"/> クラスの単体テストです。
     /// </summary>
     [TestClass]
-    public class LabelManagerTest
+    public class LabelTableTest
     {
         #region Instance Fields
-        private LabelManager m_lblManager;
+        private LabelTable m_lblTable;
         private Label m_literal1;
         private Label m_literal2;
         private Label m_literal3;
@@ -21,14 +21,14 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestInitialize]
         public void TestInitialize()
         {
-            m_lblManager = new LabelManager();
+            m_lblTable = new LabelTable();
             m_literal1 = new Label("LTRL0001");
             m_literal2 = new Label("LTRL0002");
             m_literal3 = new Label("LTRL0003");
         }
 
         /// <summary>
-        /// <see cref="LabelManager.Register"/> メソッドのテストです。
+        /// <see cref="LabelTable.Register"/> メソッドのテストです。
         /// </summary>
         [TestMethod]
         public void Register()
@@ -43,7 +43,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             try
             {
-                m_lblManager.Register(label);
+                m_lblTable.Register(label);
                 Assert.IsTrue(success, message);
             }
             catch (Casl2SimulatorException)
@@ -53,14 +53,14 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// <see cref="LabelManager.GetDefinitionFor"/> メソッドのテストです。
+        /// <see cref="LabelTable.GetDefinitionFor"/> メソッドのテストです。
         /// </summary>
         [TestMethod]
         public void GetDefinitionFor()
         {
             Label registeredLabel = new Label("REGED");
             Label notRegisteredLabel = new Label("NOTREGED");
-            m_lblManager.Register(registeredLabel);
+            m_lblTable.Register(registeredLabel);
 
             CheckGetDefinitionFor(registeredLabel, true, "登録したラベル => 取得できる");
             CheckGetDefinitionFor(notRegisteredLabel, false, "登録していないラベル => 例外");
@@ -70,7 +70,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             try
             {
-                LabelDefinition labelDef = m_lblManager.GetDefinitionFor(label);
+                LabelDefinition labelDef = m_lblTable.GetDefinitionFor(label);
                 Assert.IsTrue(success, message);
             }
             catch (Casl2SimulatorException)
@@ -80,7 +80,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// <see cref="LabelManager.MakeLiteralLabel"/> メソッドで、
+        /// <see cref="LabelTable.MakeLiteralLabel"/> メソッドで、
         /// 重複するラベルが登録されていない場合のテストです。
         /// </summary>
         [TestMethod]
@@ -93,18 +93,18 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// <see cref="LabelManager.MakeLiteralLabel"/> メソッドで、
+        /// <see cref="LabelTable.MakeLiteralLabel"/> メソッドで、
         /// 重複するラベルが登録されている場合のテストです。
         /// </summary>
         [TestMethod]
         public void MakeLiteralLabel_SomeDuplicateLabel()
         {
-            m_lblManager.Register(m_literal1);
+            m_lblTable.Register(m_literal1);
             CheckMakeLiteralLabel(m_literal2, "重複しないラベル名が生成される");
         }
 
         /// <summary>
-        /// <see cref="LabelManager.MakeLiteralLabel"/> メソッドで、
+        /// <see cref="LabelTable.MakeLiteralLabel"/> メソッドで、
         /// リテラルで使用するラベル名がすべて登録されている場合のテストです。
         /// </summary>
         [TestMethod]
@@ -120,7 +120,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             {
                 String name = String.Format("LTRL{0:d04}", number);
                 Label label = new Label(name);
-                m_lblManager.Register(label);
+                m_lblTable.Register(label);
             }
         }
 
@@ -128,7 +128,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             try
             {
-                Label actual = m_lblManager.MakeLiteralLabel();
+                Label actual = m_lblTable.MakeLiteralLabel();
                 Assert.IsNotNull(expected, message);
                 LabelTest.Check(expected, actual, message);
             }
