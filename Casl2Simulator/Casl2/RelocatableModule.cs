@@ -85,5 +85,27 @@ namespace Tt195361.Casl2Simulator.Casl2
             LabelReference labelRef = LabelReference.Make(referringlabel, m_words);
             m_labelRefs.Add(labelRef);
         }
+
+        /// <summary>
+        /// この再配置可能モジュールに含まれる語のサイズを取得します。
+        /// </summary>
+        /// <returns>
+        /// この再配置可能モジュールに含まれる語のサイズを表わす <see cref="MemorySize"/> のオブジェクトを返します。
+        /// </returns>
+        internal MemorySize GetWordsSize()
+        {
+            return m_words.GetSize();
+        }
+
+        /// <summary>
+        /// この再配置可能モジュールで定義されたラベルに絶対アドレスを割り当てます。
+        /// </summary>
+        /// <param name="baseAddress">
+        /// この再配置可能モジュールが実行可能モジュールで配置されるアドレスです。
+        /// </param>
+        internal void AssignLabelAddress(MemoryAddress baseAddress)
+        {
+            m_labelTable.AssignLabelAddress(baseAddress);
+        }
     }
 }

@@ -3,7 +3,7 @@
 namespace Tt195361.Casl2Simulator.Casl2
 {
     /// <summary>
-    /// メモリのアドレスの値です。
+    /// メモリのアドレスを表わします。
     /// </summary>
     internal struct MemoryAddress
     {
@@ -20,19 +20,33 @@ namespace Tt195361.Casl2Simulator.Casl2
             m_value = value;
         }
 
+        /// <summary>
+        /// アドレスの値を取得します。
+        /// </summary>
         internal UInt16 Value
         {
             get { return m_value; }
         }
 
         /// <summary>
-        /// アドレスに指定のオフセットの値を加算し、その結果のアドレスの値を返します。
+        /// アドレスに指定のオフセットを加算し、その結果のアドレスを返します。
         /// </summary>
-        /// <param name="offset">このアドレスに加算するオフセットの値です。</param>
-        /// <returns>加算した結果のアドレスの値を返します。</returns>
+        /// <param name="offset">このアドレスに加算するオフセットです。</param>
+        /// <returns>加算した結果のアドレスを返します。</returns>
         internal MemoryAddress Add(MemoryOffset offset)
         {
             UInt16 ui16Result = MemoryUtils.Add(m_value, offset.Value);
+            return new MemoryAddress(ui16Result);
+        }
+
+        /// <summary>
+        /// アドレスに指定のサイズを加算し、その結果のアドレスを返します。
+        /// </summary>
+        /// <param name="size">このアドレスに加算するサイズです。</param>
+        /// <returns>加算した結果のアドレスを返します。</returns>
+        internal MemoryAddress Add(MemorySize size)
+        {
+            UInt16 ui16Result = MemoryUtils.Add(m_value, size.Value);
             return new MemoryAddress(ui16Result);
         }
 

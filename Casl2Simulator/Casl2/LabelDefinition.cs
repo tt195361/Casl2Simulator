@@ -14,10 +14,16 @@ namespace Tt195361.Casl2Simulator.Casl2
         #endregion
 
         internal LabelDefinition(Label label)
+            : this(label, MemoryOffset.Zero, MemoryAddress.Zero)
+        {
+            //
+        }
+
+        private LabelDefinition(Label label, MemoryOffset relOffset, MemoryAddress absAddress)
         {
             m_label = label;
-            m_relOffset = MemoryOffset.Zero;
-            m_absAddress = MemoryAddress.Zero;
+            m_relOffset = relOffset;
+            m_absAddress = absAddress;
         }
 
         /// <summary>
@@ -36,6 +42,10 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_relOffset; }
         }
 
+        /// <summary>
+        /// 定義したラベルの再配置可能モジュール内のオフセットを設定します。
+        /// </summary>
+        /// <param name="relOffset">設定する再配置可能モジュール内のオフセットです。</param>
         internal void SetRelOffset(MemoryOffset relOffset)
         {
             m_relOffset = relOffset;
@@ -49,7 +59,13 @@ namespace Tt195361.Casl2Simulator.Casl2
             get { return m_absAddress; }
         }
 
-        internal void Relocate(MemoryAddress baseAddress)
+        /// <summary>
+        /// 定義したラベルに実行可能モジュールでの絶対アドレスを割り当てます。
+        /// </summary>
+        /// <param name="baseAddress">
+        /// ラベルが定義された再配置可能モジュールが実行可能モジュールで配置されるアドレスです。
+        /// </param>
+        internal void AssignAbsAddress(MemoryAddress baseAddress)
         {
             m_absAddress = baseAddress.Add(m_relOffset);
         }
@@ -57,6 +73,15 @@ namespace Tt195361.Casl2Simulator.Casl2
         public override String ToString()
         {
             return String.Format("{0}: Rel={1}, Abs={2}", m_label, m_relOffset, m_absAddress);
+        }
+
+        internal static LabelDefinition MakeForUnitTest(
+            String name, UInt16 relOffsetValue, UInt16 absAddressValue)
+        {
+            Label label = new Label(name);
+            MemoryOffset relOffset = new MemoryOffset(relOffsetValue);
+            MemoryAddress absAddress = new MemoryAddress(absAddressValue);
+            return new LabelDefinition(label, relOffset, absAddress);
         }
     }
 }

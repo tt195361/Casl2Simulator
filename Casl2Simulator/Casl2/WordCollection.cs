@@ -88,6 +88,18 @@ namespace Tt195361.Casl2Simulator.Casl2
             return new MemoryOffset(ui16Count);
         }
 
+        /// <summary>
+        /// このコレクションに含まれる語のサイズを取得します。
+        /// </summary>
+        /// <returns>
+        /// このコレクションに含まれる語のサイズを表わす <see cref="MemorySize"/> のオブジェクトを返します。
+        /// </returns>
+        internal MemorySize GetSize()
+        {
+            UInt16 ui16Count = NumberUtils.ToUInt16(I32Count);
+            return new MemorySize(ui16Count);
+        }
+
         private Int32 I32Count
         {
             get { return m_wordList.Count; }

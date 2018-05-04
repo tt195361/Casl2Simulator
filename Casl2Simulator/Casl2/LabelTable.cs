@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tt195361.Casl2Simulator.Properties;
+using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
@@ -18,6 +19,14 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             m_labelDictionary = new Dictionary<String, LabelDefinition>();
             m_literalLabelNumber = Label.MinLiteralLabelNumber;
+        }
+
+        /// <summary>
+        /// 定義したラベルの一覧を取得します。
+        /// </summary>
+        internal IEnumerable<LabelDefinition> LabelDefinitions
+        {
+            get { return m_labelDictionary.Values; }
         }
 
         /// <summary>
@@ -80,6 +89,17 @@ namespace Tt195361.Casl2Simulator.Casl2
 
             String message = String.Format(Resources.MSG_CouldNotMakeLiteralLabel, Label.LiteralLabelPrefix);
             throw new Casl2SimulatorException(message);
+        }
+
+        /// <summary>
+        /// それぞれのラベルの定義に絶対アドレスを割り当てます。
+        /// </summary>
+        /// <param name="baseAddress">
+        /// ラベルが定義された再配置可能モジュールが実行可能モジュールで配置されるアドレスです。
+        /// </param>
+        internal void AssignLabelAddress(MemoryAddress baseAddress)
+        {
+            LabelDefinitions.ForEach((labelDef) => labelDef.AssignAbsAddress(baseAddress));
         }
     }
 }

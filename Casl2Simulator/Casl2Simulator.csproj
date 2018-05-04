@@ -77,12 +77,15 @@
     <Compile Include="Casl2\ConstantCollection.cs" />
     <Compile Include="Casl2\EntryPoint.cs" />
     <Compile Include="Casl2\ExecStartAddress.cs" />
+    <Compile Include="Casl2\ExecutableModule.cs" />
     <Compile Include="Casl2\HexaDecimalConstant.cs" />
     <Compile Include="Casl2\ICodeGenerator.cs" />
     <Compile Include="Casl2\LabelDefinition.cs" />
     <Compile Include="Casl2\LabelReference.cs" />
+    <Compile Include="Casl2\Linker.cs" />
     <Compile Include="Casl2\MacroRpopInstruction.cs" />
     <Compile Include="Casl2\MemoryAddress.cs" />
+    <Compile Include="Casl2\MemorySize.cs" />
     <Compile Include="Casl2\MemoryUtils.cs" />
     <Compile Include="Casl2\ProgramInstructionFactory.cs" />
     <Compile Include="Casl2\ProgramLineCollection.cs" />
