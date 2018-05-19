@@ -135,6 +135,9 @@
   <data name="MSG_CouldNotAddToWordCollection" xml:space="preserve">
     <value>語のコレクションに語を追加できませんでした。語のコレクションの最大サイズ {0} を超える語を追加しようとしています。</value>
   </data>
+  <data name="MSG_CouldNotGetExecStartLabelDefinition" xml:space="preserve">
+    <value>実行開始番地を指定するラベル "{0}" の定義を取得できませんでした。詳細は InnerException を参照してください。</value>
+  </data>
   <data name="MSG_CouldNotMakeLiteralLabel" xml:space="preserve">
     <value>リテラルで使用する DC 命令のラベルを作成できませんでした。"{0}" で始まる名前のラベルを減らしてください。</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="MSG_CpuExecutionError" xml:space="preserve">
     <value>アドレス #{0:x04} の命令 #{1:x04} の実行でエラーが発生しました。詳細は InnerException を参照してください。</value>
+  </data>
+  <data name="MSG_EntryNameAlreadyDefined" xml:space="preserve">
+    <value>入口名 "{0}" はすでに定義されています。入口名はすべてのプログラムの中で一意にしてください。</value>
   </data>
   <data name="MSG_FailedToParseR2OrAdrX" xml:space="preserve">
     <value>オペランド "r1,r2" 又は "r,adr[,x]" で、r2 あるいは adr を解釈できませんでした。レジスタ名かアドレスを指定してください。詳細は InnerException を参照してください。</value>
@@ -163,7 +169,7 @@
     <value>16 進定数として指定の文字列 "{0}" の桁数が {1} 桁ではなく {2} 桁です。16 進定数は #h の形式で、h は {1} 桁の 16 進数 (0~9, A~F) で指定します。</value>
   </data>
   <data name="MSG_LabelAlreadyDefined" xml:space="preserve">
-    <value>ラベル "{0}" はすでに定義されています。ラベルの名前はプログラムの中で一意にしてください。</value>
+    <value>ラベル "{0}" はすでに定義されています。ラベルの名前は一つのプログラムの中で一意にしてください。</value>
   </data>
   <data name="MSG_LabelFirstCharIsNotUppercase" xml:space="preserve">
     <value>ラベル "{0}" の先頭の文字 '{1}' が半角英大文字ではありません。ラベルの先頭の文字は半角英大文字にしてください。</value>

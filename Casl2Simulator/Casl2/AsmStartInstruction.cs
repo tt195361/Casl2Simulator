@@ -62,9 +62,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             // 実行開始番地は、そのプログラム内で定義されたラベルで指定する。
             // また、この命令につけられたラベルは、他のプログラムから入口名として参照できる。
             Label execStartLabel = GetExecStartLabel(definedLabel);
-            Label exportLabel = definedLabel;
+            Label entryLabel = definedLabel;
 
-            EntryPoint entryPoint = new EntryPoint(execStartLabel, exportLabel);
+            EntryPoint entryPoint = new EntryPoint(execStartLabel, entryLabel);
             relModule.SetEntryPoint(entryPoint);
         }
 

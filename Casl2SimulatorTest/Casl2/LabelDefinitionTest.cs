@@ -62,5 +62,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             MemoryOffsetTest.Check(expected.RelOffset, actual.RelOffset, "RelOffset: " + message);
             MemoryAddressTest.Check(expected.AbsAddress, actual.AbsAddress, "AbsAddress: " + message);
         }
+
+        internal static LabelDefinition Make(String name, UInt16 relOffsetValue, UInt16 absAddressValue)
+        {
+            Label label = new Label(name);
+            MemoryOffset relOffset = new MemoryOffset(relOffsetValue);
+            MemoryAddress absAddress = new MemoryAddress(absAddressValue);
+            return LabelDefinition.MakeForUnitTest(label, relOffset, absAddress);
+        }
     }
 }

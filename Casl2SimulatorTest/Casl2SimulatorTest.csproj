@@ -63,6 +63,7 @@
     <Compile Include="Casl2\AssemblerTest.cs" />
     <Compile Include="Casl2\ConstantCollectionTest.cs" />
     <Compile Include="Casl2\ConstantTest.cs" />
+    <Compile Include="Casl2\EntryPointTableTest.cs" />
     <Compile Include="Casl2\EntryPointTest.cs" />
     <Compile Include="Casl2\HexaDecimalConstantTest.cs" />
     <Compile Include="Casl2\ICodeGeneratorTest.cs" />

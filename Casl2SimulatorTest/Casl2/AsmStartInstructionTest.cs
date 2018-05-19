@@ -121,9 +121,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             }
         }
 
-        private void CheckEntryPoint(Label expectedExecStartLabel, Label expectedExportLabel, String message)
+        private void CheckEntryPoint(Label expectedExecStartLabel, Label expectedEntryLabel, String message)
         {
-            EntryPoint expected = new EntryPoint(expectedExecStartLabel, expectedExportLabel);
+            EntryPoint expected = new EntryPoint(expectedExecStartLabel, expectedEntryLabel);
             EntryPoint actual = m_relModule.EntryPoint;
             EntryPointTest.Check(expected, actual, message);
         }

@@ -101,5 +101,11 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             LabelDefinitions.ForEach((labelDef) => labelDef.AssignAbsAddress(baseAddress));
         }
+
+        internal void RegisterForUnitTest(LabelDefinition labelDef)
+        {
+            String name = labelDef.Label.Name;
+            m_labelDictionary.Add(name, labelDef);
+        }
     }
 }

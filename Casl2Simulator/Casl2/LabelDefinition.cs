@@ -76,11 +76,8 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         internal static LabelDefinition MakeForUnitTest(
-            String name, UInt16 relOffsetValue, UInt16 absAddressValue)
+            Label label, MemoryOffset relOffset, MemoryAddress absAddress)
         {
-            Label label = new Label(name);
-            MemoryOffset relOffset = new MemoryOffset(relOffsetValue);
-            MemoryAddress absAddress = new MemoryAddress(absAddressValue);
             return new LabelDefinition(label, relOffset, absAddress);
         }
     }

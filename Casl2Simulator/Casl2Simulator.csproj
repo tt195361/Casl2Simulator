@@ -76,6 +76,7 @@
     <Compile Include="Casl2\Constant.cs" />
     <Compile Include="Casl2\ConstantCollection.cs" />
     <Compile Include="Casl2\EntryPoint.cs" />
+    <Compile Include="Casl2\EntryPointTable.cs" />
     <Compile Include="Casl2\ExecStartAddress.cs" />
     <Compile Include="Casl2\ExecutableModule.cs" />
     <Compile Include="Casl2\HexaDecimalConstant.cs" />

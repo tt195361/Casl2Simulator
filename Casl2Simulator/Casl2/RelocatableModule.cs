@@ -107,5 +107,17 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             m_labelTable.AssignLabelAddress(baseAddress);
         }
+
+        /// <summary>
+        /// 指定の実行開始点の一覧にこの再配置可能モジュールの実行開始点を登録します。
+        /// </summary>
+        /// <param name="entryPointTable">
+        /// この再配置可能モジュールの実行開始点を登録する実行開始点の一覧です。
+        /// </param>
+        internal void RegisterEntryPointTo(EntryPointTable entryPointTable)
+        {
+            m_entryPoint.ResolveExecStartAddress(m_labelTable);
+            entryPointTable.Register(m_entryPoint);
+        }
     }
 }

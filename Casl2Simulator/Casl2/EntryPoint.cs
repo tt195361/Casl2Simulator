@@ -1,21 +1,24 @@
 ﻿using System;
+using Tt195361.Casl2Simulator.Properties;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
     /// <summary>
-    /// 実行開始番地についての情報を保持します。
+    /// プログラムの実行開始点についての情報を保持します。
     /// </summary>
     internal class EntryPoint
     {
         #region Instance Fields
         private readonly Label m_execStartLabel;
-        private readonly Label m_exportLabel;
+        private readonly Label m_entryLabel;
+        private MemoryAddress m_execStartAddress;
         #endregion
 
-        internal EntryPoint(Label execStartLabel, Label exportLabel)
+        internal EntryPoint(Label execStartLabel, Label entryLabel)
         {
             m_execStartLabel = execStartLabel;
-            m_exportLabel = exportLabel;
+            m_entryLabel = entryLabel;
+            m_execStartAddress = MemoryAddress.Zero;
         }
 
         /// <summary>
@@ -29,14 +32,54 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <summary>
         /// 他のプログラムから入口名として参照できるラベルを取得します。
         /// </summary>
-        internal Label ExportLabel
+        internal Label EntryLabel
         {
-            get { return m_exportLabel; }
+            get { return m_entryLabel; }
+        }
+
+        /// <summary>
+        /// 実行開始アドレスを取得します。
+        /// </summary>
+        internal MemoryAddress ExecStartAddress
+        {
+            get { return m_execStartAddress; }
+        }
+
+        /// <summary>
+        /// 実行開始番地を参照するラベルのアドレスを解決し、実行開始アドレスを設定します。
+        /// </summary>
+        /// <param name="lblTable">
+        /// 再配置可能モジュールで定義されたラベルを管理する <see cref="LabelTable"/> のオブジェクトです。
+        /// </param>
+        internal void ResolveExecStartAddress(LabelTable lblTable)
+        {
+            LabelDefinition labelDef = GetExecStartLabelDefinition(lblTable);
+            m_execStartAddress = labelDef.AbsAddress;
+        }
+
+        private LabelDefinition GetExecStartLabelDefinition(LabelTable lblTable)
+        {
+            try
+            {
+                return lblTable.GetDefinitionFor(m_execStartLabel);
+            }
+            catch (Exception innerEx)
+            {
+                String message = String.Format(
+                    Resources.MSG_CouldNotGetExecStartLabelDefinition, m_execStartLabel);
+                throw new Casl2SimulatorException(message, innerEx);
+            }
         }
 
         public override String ToString()
         {
-            return String.Format("ExecStart={0}, Export={1}", m_execStartLabel, m_exportLabel);
+            return String.Format(
+                "ExecStart={0}: {1}, Entry={2}", m_execStartLabel, m_execStartAddress, m_entryLabel);
+        }
+
+        internal void SetExecStartAddressForUnitTest(MemoryAddress execStartAddress)
+        {
+            m_execStartAddress = execStartAddress;
         }
     }
 }
