@@ -39,6 +39,27 @@ namespace Tt195361.Casl2Simulator.Casl2
             m_entryPointDictionary.Add(entryName, entryPoint);
         }
 
+        /// <summary>
+        /// 指定の入口名のラベルを持つ実行開始点を探します。
+        /// </summary>
+        /// <param name="entryLabel">見つける実行開始点の入口名を指定するラベルです。</param>
+        /// <returns>
+        /// 指定の入口名のラベルを持つ実行開始点が見つかった場合は、その実行開始点を返します。
+        /// 見つからなければ <see langword="null"/> を返します。
+        /// </returns>
+        internal EntryPoint Find(Label entryLabel)
+        {
+            String entryName = entryLabel.Name;
+            if (!IsRegistered(entryName))
+            {
+                return null;
+            }
+            else
+            {
+                return m_entryPointDictionary[entryName];
+            }
+        }
+
         private Boolean IsRegistered(String name)
         {
             return m_entryPointDictionary.ContainsKey(name);

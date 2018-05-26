@@ -30,7 +30,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Indexer_Value()
         {
-            const Int32 Index = 0;
+            MemoryOffset Index = MemoryOffset.Zero;
             m_words.Add(Word.Zero);
 
             Word wordSet = new Word(0x1234);
@@ -51,30 +51,29 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             CheckIndexer_Index(emptyWords, 1, false, "emptyWords[1] => 上限より大きい => 例外");
 
             WordCollection threeWords = MakeWords(3);
-            CheckIndexer_Index(threeWords, -1, false, "threeWords[-1] => 下限より小さい => 例外");
             CheckIndexer_Index(threeWords, 0, true, "threeWords[0] => ちょうど下限 => OK");
             CheckIndexer_Index(threeWords, 2, true, "threeWords[2] => ちょうど上限 => OK");
             CheckIndexer_Index(threeWords, 3, false, "threeWords[3] => 上限より大きい => 例外");
 
             WordCollection fullWords = MakeWords(65536);
-            CheckIndexer_Index(fullWords, -1, false, "fullWords[-1] => 下限より小さい => 例外");
             CheckIndexer_Index(fullWords, 0, true, "fullWords[0] => ちょうど下限 => OK");
             CheckIndexer_Index(fullWords, 65535, true, "fullWords[65535] => ちょうど上限 => OK");
-            CheckIndexer_Index(fullWords, 65536, false, "fullWords[65536] => 上限より大きい => 例外");
         }
 
-        private void CheckIndexer_Index(WordCollection words, Int32 index, Boolean success, String message)
+        private void CheckIndexer_Index(
+            WordCollection words, UInt16 ui16Index, Boolean success, String message)
         {
-            DoCheckIndexer_Index((i) => IndexerGet(words, i), words, index, success, message);
-            DoCheckIndexer_Index((i) => IndexerSet(words, i), words, index, success, message);
+            MemoryOffset index = new MemoryOffset(ui16Index);
+            CheckGetIndexer_Index(words, index, success, message);
+            CheckSetIndexer_Index(words, index, success, message);
         }
 
-        private void DoCheckIndexer_Index(
-            Action<Int32> checkAction, WordCollection words, Int32 index, Boolean success, String message)
+        private void CheckGetIndexer_Index(
+                WordCollection words, MemoryOffset index, Boolean success, String message)
         {
             try
             {
-                checkAction(index);
+                Word notUsed = words[index];
                 Assert.IsTrue(success, message);
             }
             catch (Casl2SimulatorException)
@@ -83,14 +82,18 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             }
         }
 
-        private void IndexerGet(WordCollection words, Int32 index)
+        private void CheckSetIndexer_Index(
+                WordCollection words, MemoryOffset index, Boolean success, String message)
         {
-            Word notUsed = words[index];
-        }
-
-        private void IndexerSet(WordCollection words, Int32 index)
-        {
-            words[index] = Word.Zero;
+            try
+            {
+                words[index] = Word.Zero;
+                Assert.IsTrue(success, message);
+            }
+            catch (Casl2SimulatorException)
+            {
+                Assert.IsFalse(success, message);
+            }
         }
 
         /// <summary>
@@ -161,7 +164,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             MemoryOffsetTest.Check(expectedOffset, actualOffset, message);
         }
 
-        private WordCollection MakeWords(Int32 count)
+        internal static WordCollection MakeWords(Int32 count)
         {
             WordCollection words = new WordCollection();
             words.Add(Word.Zero, count);

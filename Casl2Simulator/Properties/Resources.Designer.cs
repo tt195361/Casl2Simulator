@@ -259,6 +259,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   ラベル &quot;{0}&quot; がプログラム内でも他のプログラムの入口名としても定義されていません。プログラム内あるいは他のプログラムの入口名として定義してください。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MSG_LabelOrEntryNameNotDefined {
+            get {
+                return ResourceManager.GetString("MSG_LabelOrEntryNameNotDefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ラベル &quot;{0}&quot; の文字 &apos;{1}&apos; が、半角英大文字でも半角数字でもありません。ラベルの 2 文字目以降は、半角英大文字または半角数字にしてください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MSG_LabelSubsequentCharIsNeitherUppercaseNorDigit {

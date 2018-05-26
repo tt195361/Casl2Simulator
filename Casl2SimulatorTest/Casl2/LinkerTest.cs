@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator.Casl2;
+using Tt195361.Casl2Simulator.Common;
+using Tt195361.Casl2SimulatorTest.Common;
 
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
@@ -96,6 +98,33 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             TestUtils.CheckEnumerable(
                 expected, actual, EntryPointTest.Check,
                 "各再配置可能モジュールの EntryPoint にアドレスが設定され、EntryPointTable に登録される");
+        }
+
+        /// <summary>
+        /// <see cref="Linker.Link"/> メソッドで各再配置可能モジュールのラベルを参照する語に
+        /// ラベルのアドレスが入ること。
+        /// </summary>
+        [TestMethod]
+        public void Link_ResolveLabelReferencesFor()
+        {
+            ExecutableModule notUsed = m_linker.Link(m_relModules);
+
+            Word[] expectedSubWords = WordTest.MakeArray(
+                0x1234,                     // ADDEND     DC    #1234
+                0x2010, ADDEND_Address,     // ADD1234    ADDA  GR1,ADDEND
+                0x8100);                    //            RET
+            IEnumerable<Word> actualSubWords = m_subRelModule.Words;
+            TestUtils.CheckEnumerable(
+                expectedSubWords, actualSubWords, "ラベルを参照する語にラベルのアドレスが入る: Sub");
+
+            Word[] expectedMainWords = WordTest.MakeArray(
+                0x1010, LTRL0001_Address,   // LBL101    LD    GR1,=3456
+                0x8000, ADD1234_Address,    //           CALL  SUB
+                0x8100,                     //           RET
+                3456);                      // LTRL0001  DC    3456
+            IEnumerable<Word> actualMainWords = m_mainRelModule.Words;
+            TestUtils.CheckEnumerable(
+                expectedMainWords, actualMainWords, "ラベルを参照する語にラベルのアドレスが入る: Main");
         }
 
         private RelocatableModule MakeRelModule(String[] sourceText)

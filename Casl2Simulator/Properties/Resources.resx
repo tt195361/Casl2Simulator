@@ -183,6 +183,9 @@
   <data name="MSG_LabelNotDefined" xml:space="preserve">
     <value>定義されていないラベル "{0}" を参照しています。指定のラベルを定義してください。</value>
   </data>
+  <data name="MSG_LabelOrEntryNameNotDefined" xml:space="preserve">
+    <value>ラベル "{0}" がプログラム内でも他のプログラムの入口名としても定義されていません。プログラム内あるいは他のプログラムの入口名として定義してください。</value>
+  </data>
   <data name="MSG_LabelSubsequentCharIsNeitherUppercaseNorDigit" xml:space="preserve">
     <value>ラベル "{0}" の文字 '{1}' が、半角英大文字でも半角数字でもありません。ラベルの 2 文字目以降は、半角英大文字または半角数字にしてください。</value>
   </data>

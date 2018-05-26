@@ -1,4 +1,5 @@
 ﻿using System;
+using Tt195361.Casl2Simulator.Common;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
@@ -48,6 +49,15 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             UInt16 ui16Result = MemoryUtils.Add(m_value, size.Value);
             return new MemoryAddress(ui16Result);
+        }
+
+        /// <summary>
+        /// アドレスの値を <see cref="Word"/> として取得します。
+        /// </summary>
+        /// <returns>アドレスの値が入った <see cref="Word"/> のオブジェクトを返します。</returns>
+        internal Word GetValueAsWord()
+        {
+            return new Word(m_value);
         }
 
         public override String ToString()

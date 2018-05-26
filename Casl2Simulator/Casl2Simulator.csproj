@@ -83,6 +83,7 @@
     <Compile Include="Casl2\ICodeGenerator.cs" />
     <Compile Include="Casl2\LabelDefinition.cs" />
     <Compile Include="Casl2\LabelReference.cs" />
+    <Compile Include="Casl2\LabelAddressResolver.cs" />
     <Compile Include="Casl2\Linker.cs" />
     <Compile Include="Casl2\MacroRpopInstruction.cs" />
     <Compile Include="Casl2\MemoryAddress.cs" />

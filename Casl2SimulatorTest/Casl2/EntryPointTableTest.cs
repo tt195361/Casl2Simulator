@@ -45,5 +45,29 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
                 Assert.IsFalse(success, message);
             }
         }
+
+        /// <summary>
+        /// <see cref="EntryPointTable.Find"/> メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void Find()
+        {
+            EntryPoint registered = EntryPointTest.Make("START1", "REGED");
+            EntryPoint unregistered = EntryPointTest.Make("START2", "UNREGED");
+            m_entryPointTable.Register(registered);
+
+            CheckFind(
+                registered.EntryLabel, registered,
+                "登録された入口名 => その入口名の実行開始点が返される");
+            CheckFind(
+                unregistered.EntryLabel, null,
+                "登録されていない入口名 => null が返される");
+        }
+
+        private void CheckFind(Label entryLabel, EntryPoint expected, String message)
+        {
+            EntryPoint actual = m_entryPointTable.Find(entryLabel);
+            Assert.AreSame(expected, actual, message);
+        }
     }
 }

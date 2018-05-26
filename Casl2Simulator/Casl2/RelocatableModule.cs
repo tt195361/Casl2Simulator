@@ -119,5 +119,17 @@ namespace Tt195361.Casl2Simulator.Casl2
             m_entryPoint.ResolveExecStartAddress(m_labelTable);
             entryPointTable.Register(m_entryPoint);
         }
+
+        /// <summary>
+        /// ラベルを参照する語のラベルのアドレスを解決し、語の値をそのアドレスに置き換えます。
+        /// </summary>
+        /// <param name="entryPointTable">
+        /// それぞれのプログラムで定義された実行開始点の一覧です。
+        /// </param>
+        internal void ResolveLabelReferences(EntryPointTable entryPointTable)
+        {
+            LabelAddressResolver labelAddrResolver = new LabelAddressResolver(m_labelTable, entryPointTable);
+            m_labelRefs.ForEach((labelRef) => labelRef.ResolveReferringAddress(labelAddrResolver, m_words));
+        }
     }
 }

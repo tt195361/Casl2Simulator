@@ -31,6 +31,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             AssignLabelAddress(relModules);
             RegisterEntryPointsIn(relModules);
+            ResolveLabelReferencesFor(relModules);
 
             return null;
         }
@@ -50,6 +51,11 @@ namespace Tt195361.Casl2Simulator.Casl2
         private void RegisterEntryPointsIn(IEnumerable<RelocatableModule> relModules)
         {
             relModules.ForEach((relModule) => relModule.RegisterEntryPointTo(m_entryPointTable));
+        }
+
+        private void ResolveLabelReferencesFor(IEnumerable<RelocatableModule> relModules)
+        {
+            relModules.ForEach((relModule) => relModule.ResolveLabelReferences(m_entryPointTable));
         }
     }
 }

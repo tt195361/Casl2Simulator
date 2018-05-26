@@ -25,21 +25,23 @@ namespace Tt195361.Casl2Simulator.Casl2
             m_wordList = new List<Word>();
         }
 
-        internal Word this[Int32 index]
+        internal Word this[MemoryOffset offset]
         {
             get
             {
+                UInt16 index = offset.Value;
                 CheckIndex(index);
                 return m_wordList[index];
             }
             set
             {
+                UInt16 index = offset.Value;
                 CheckIndex(index);
                 m_wordList[index] = value;
             }
         }
 
-        private void CheckIndex(Int32 index)
+        private void CheckIndex(UInt16 index)
         {
             if (m_indexerArgDscr == null)
             {

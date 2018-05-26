@@ -49,18 +49,39 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <summary>
         /// 指定のラベルに対応するラベルの定義を取得します。
         /// </summary>
-        /// <param name="label">定義を取得するラベルです。</param>
+        /// <param name="label">取得する定義を指定するラベルです。</param>
         /// <returns>指定のラベルに対応するラベルの定義を返します。</returns>
         internal LabelDefinition GetDefinitionFor(Label label)
+        {
+            LabelDefinition labelDef = FindDefinitionFor(label);
+            if (labelDef == null)
+            {
+                String message = String.Format(Resources.MSG_LabelNotDefined, label.Name);
+                throw new Casl2SimulatorException(message);
+            }
+
+            return labelDef;
+        }
+
+        /// <summary>
+        /// 指定のラベルに対応するラベルの定義を探します。
+        /// </summary>
+        /// <param name="label">探し出す定義を指定するラベルです。</param>
+        /// <returns>
+        /// ラベルの定義が見つかった場合は、そのラベルの定義を返します。
+        /// 見つからなかった場合は <see langword="null"/> を返します。
+        /// </returns>
+        internal LabelDefinition FindDefinitionFor(Label label)
         {
             String name = label.Name;
             if (!IsRegistered(name))
             {
-                String message = String.Format(Resources.MSG_LabelNotDefined, name);
-                throw new Casl2SimulatorException(message);
+                return null;
             }
-
-            return m_labelDictionary[name];
+            else
+            {
+                return m_labelDictionary[name];
+            }
         }
 
         private Boolean IsRegistered(String name)

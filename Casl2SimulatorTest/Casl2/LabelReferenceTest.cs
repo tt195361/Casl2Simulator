@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator.Casl2;
 using Tt195361.Casl2Simulator.Common;
+using Tt195361.Casl2SimulatorTest.Common;
 
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {
@@ -36,6 +37,31 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             Check(
                 expectedLabelRef, actualLabelRef,
                 "作成された labelRef には、参照するラベルとそのアドレスを入れるオフセットが入る");
+        }
+
+        /// <summary>
+        /// <see cref="LabelReference.ResolveReferringAddress"/> メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void ResolveReferringAddress()
+        {
+            LabelAddressResolver labelAddrResolver = LabelAddressResolverTest.Make();
+            const UInt16 LabelAddress = 0x2468;
+            LabelDefinition labelDef = LabelDefinitionTest.Make("LBL001", 0, LabelAddress);
+            labelAddrResolver.LabelTable.RegisterForUnitTest(labelDef);
+
+            const Int32 WordCount = 4;
+            WordCollection actualWords = WordCollectionTest.MakeWords(WordCount);
+            MemoryOffset wordOffset = new MemoryOffset(1);
+            LabelReference labelRef = LabelReference.MakeForUnitTest(labelDef.Label, wordOffset);
+
+            labelRef.ResolveReferringAddress(labelAddrResolver, actualWords);
+
+            WordCollection expectedWords = WordCollectionTest.MakeWords(WordCount);
+            expectedWords[wordOffset] = new Word(LabelAddress);
+            TestUtils.CheckEnumerable(
+                expectedWords, actualWords, 
+                "ラベルを参照する語の値がそのラベルのアドレスに置き換えられる");
         }
 
         internal static void Check(LabelReference expected, LabelReference actual, String message)

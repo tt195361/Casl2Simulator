@@ -13,6 +13,11 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     {
         #region Instance Fields
         private LabelTable m_lblTable;
+
+        private Label m_registeredLabel;
+        private Label m_unregisteredLabel;
+        private LabelDefinition m_registeredLabelDef;
+
         private Label m_literal1;
         private Label m_literal2;
         private Label m_literal3;
@@ -22,6 +27,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         public void TestInitialize()
         {
             m_lblTable = new LabelTable();
+
             m_literal1 = new Label("LTRL0001");
             m_literal2 = new Label("LTRL0002");
             m_literal3 = new Label("LTRL0003");
@@ -58,12 +64,10 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void GetDefinitionFor()
         {
-            Label registeredLabel = new Label("REGED");
-            Label notRegisteredLabel = new Label("NOTREGED");
-            m_lblTable.Register(registeredLabel);
+            PrepareRegisteredLabel();
 
-            CheckGetDefinitionFor(registeredLabel, true, "登録したラベル => 取得できる");
-            CheckGetDefinitionFor(notRegisteredLabel, false, "登録していないラベル => 例外");
+            CheckGetDefinitionFor(m_registeredLabel, true, "登録したラベル => 取得できる");
+            CheckGetDefinitionFor(m_unregisteredLabel, false, "登録していないラベル => 例外");
         }
 
         private void CheckGetDefinitionFor(Label label, Boolean success, String message)
@@ -77,6 +81,26 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             {
                 Assert.IsFalse(success, message);
             }
+        }
+
+        /// <summary>
+        /// <see cref="LabelTable.FindDefinitionFor"/> メソッドのテストです。
+        /// </summary>
+        [TestMethod]
+        public void FindDefinitionFor()
+        {
+            PrepareRegisteredLabel();
+
+            CheckFindDefinitionFor(
+                m_registeredLabel, m_registeredLabelDef, "登録したラベル => 定義が取得できる");
+            CheckFindDefinitionFor(
+                m_unregisteredLabel, null, "登録していないラベル => null が返される");
+        }
+
+        private void CheckFindDefinitionFor(Label label, LabelDefinition expected, String message)
+        {
+            LabelDefinition actual = m_lblTable.FindDefinitionFor(label);
+            Assert.AreSame(expected, actual, message);
         }
 
         /// <summary>
@@ -136,6 +160,16 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             {
                 Assert.IsNull(expected, message);
             }
+        }
+
+        private void PrepareRegisteredLabel()
+        {
+            m_registeredLabel = new Label("REGED");
+            m_unregisteredLabel = new Label("UNREGED");
+
+            m_registeredLabelDef = LabelDefinition.MakeForUnitTest(
+                m_registeredLabel, MemoryOffset.Zero, MemoryAddress.Zero);
+            m_lblTable.RegisterForUnitTest(m_registeredLabelDef);
         }
     }
 }
