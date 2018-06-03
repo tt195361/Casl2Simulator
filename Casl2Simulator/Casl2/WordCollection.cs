@@ -64,12 +64,17 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal void Add(Word word)
         {
-            Add(word, 1);
+            DoAdd(word);
         }
 
         internal void Add(Word word, Int32 count)
         {
             count.Times(() => DoAdd(word));
+        }
+
+        internal void Add(IEnumerable<Word> words)
+        {
+            words.ForEach((word) => DoAdd(word));
         }
 
         private void DoAdd(Word word)

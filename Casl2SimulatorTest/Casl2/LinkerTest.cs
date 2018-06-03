@@ -17,7 +17,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private Linker m_linker;
         private RelocatableModule m_subRelModule;
         private RelocatableModule m_mainRelModule;
-        private RelocatableModule[] m_relModules;
+        private ItemSelectableCollection<RelocatableModule> m_relModules;
 
         private static readonly String[] SubProgramSourceText = TestUtils.MakeArray(
             "SUB     START ADD1234",
@@ -41,6 +41,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private const UInt16 MAIN_Address = MainProgramBaseAddress + 0;
         private const UInt16 LBL101_Address = MainProgramBaseAddress + 0;
         private const UInt16 LTRL0001_Address = MainProgramBaseAddress + 5;
+
+        private const Int32 MainRelModuleIndex = 1;
         #endregion
 
         [TestInitialize]
@@ -49,7 +51,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             m_linker = new Linker();
             m_subRelModule = MakeRelModule(SubProgramSourceText);
             m_mainRelModule = MakeRelModule(MainProgramSourceText);
-            m_relModules = new RelocatableModule[] { m_subRelModule, m_mainRelModule };
+            m_relModules = ItemSelectableCollectionTest.Make(m_subRelModule, m_mainRelModule);
         }
 
         /// <summary>
@@ -125,6 +127,57 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             IEnumerable<Word> actualMainWords = m_mainRelModule.Words;
             TestUtils.CheckEnumerable(
                 expectedMainWords, actualMainWords, "ラベルを参照する語にラベルのアドレスが入る: Main");
+        }
+
+        /// <summary>
+        /// <see cref="Linker.Link"/> メソッドで実行可能モジュールにロードアドレスが設定されること。
+        /// </summary>
+        [TestMethod]
+        public void Link_LoadAddress()
+        {
+            ExecutableModule exeModule = m_linker.Link(m_relModules);
+            MemoryAddress expected = MemoryAddress.Zero;
+            MemoryAddress actual = exeModule.LoadAddress;
+            MemoryAddressTest.Check(expected, actual, "LoadAddress は 0 番地");
+        }
+
+        /// <summary>
+        /// <see cref="Linker.Link"/> メソッドで実行可能モジュールに実行開始アドレスが設定されること。
+        /// </summary>
+        [TestMethod]
+        public void Link_ExecStartAddress()
+        {
+            m_relModules.SelectItem(MainRelModuleIndex);
+            ExecutableModule exeModule = m_linker.Link(m_relModules);
+
+            MemoryAddress expected = new MemoryAddress(MAIN_Address);
+            MemoryAddress actual = exeModule.ExecStartAddress;
+            MemoryAddressTest.Check(
+                expected, actual,
+                "選択された再配置可能モジュールの実行開始アドレスが実行可能モジュールに設定される");
+        }
+
+        /// <summary>
+        /// <see cref="Linker.Link"/> メソッドで各再配置可能モジュールの語が結合されること。
+        /// </summary>
+        [TestMethod]
+        public void Link_LinkedWords()
+        {
+            ExecutableModule exeModule = m_linker.Link(m_relModules);
+
+            Word[] expected = WordTest.MakeArray(
+                // Sub
+                0x1234,                     // ADDEND     DC    #1234
+                0x2010, ADDEND_Address,     // ADD1234    ADDA  GR1,ADDEND
+                0x8100,                     //            RET
+                // Main
+                0x1010, LTRL0001_Address,   // LBL101    LD    GR1,=3456
+                0x8000, ADD1234_Address,    //           CALL  SUB
+                0x8100,                     //           RET
+                3456);                      // LTRL0001  DC    3456
+            IEnumerable<Word> actual = exeModule.Words;
+            TestUtils.CheckEnumerable(
+                expected, actual, "各再配置可能モジュールの語が結合される");
         }
 
         private RelocatableModule MakeRelModule(String[] sourceText)

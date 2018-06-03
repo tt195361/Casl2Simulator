@@ -97,7 +97,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// <see cref="WordCollection.Add"/> メソッドで指定の語が追加されることのテストです。
+        /// <see cref="WordCollection.Add(Word)"/> メソッドで指定の語が追加されることのテストです。
         /// </summary>
         [TestMethod]
         public void Add_Value()
@@ -119,7 +119,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// <see cref="WordCollection.Add"/> メソッドのコレクションのサイズのテストです。
+        /// <see cref="WordCollection.Add(Word)"/> メソッドのコレクションのサイズのテストです。
         /// </summary>
         [TestMethod]
         public void Add_CollectionSize()

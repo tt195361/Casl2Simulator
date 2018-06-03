@@ -79,6 +79,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   {0} クラスのオブジェクトの作成には 1 つ以上の項目が必要です。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MSG_AtLeastOneItemForTheClass {
+            get {
+                return ResourceManager.GetString("MSG_AtLeastOneItemForTheClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   指定のレジスタ {0} は指標レジスタとして使えません。指標レジスタとして用いる GR は、記号 GR{1}～GR{2} で指定してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MSG_CanNotBeIndexRegister {

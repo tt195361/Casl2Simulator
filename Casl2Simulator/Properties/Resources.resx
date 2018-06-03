@@ -123,6 +123,9 @@
   <data name="MSG_ArgRangeError" xml:space="preserve">
     <value>{0} として指定の値 {1} は、{2} ~ {3} の範囲外です。範囲内の値を指定してください。</value>
   </data>
+  <data name="MSG_AtLeastOneItemForTheClass" xml:space="preserve">
+    <value>{0} クラスのオブジェクトの作成には 1 つ以上の項目が必要です。</value>
+  </data>
   <data name="MSG_CanNotBeIndexRegister" xml:space="preserve">
     <value>指定のレジスタ {0} は指標レジスタとして使えません。指標レジスタとして用いる GR は、記号 GR{1}～GR{2} で指定してください。</value>
   </data>

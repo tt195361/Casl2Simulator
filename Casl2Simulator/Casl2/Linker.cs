@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Tt195361.Casl2Simulator.Utils;
+﻿using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {
@@ -8,6 +7,10 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// </summary>
     internal class Linker
     {
+        #region Static Fields
+        private static readonly MemoryAddress LoadAddress = MemoryAddress.Zero; 
+        #endregion
+
         #region Instance Fields
         private readonly EntryPointTable m_entryPointTable;
         #endregion
@@ -27,18 +30,17 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// </summary>
         /// <param name="relModules">結合する再配置可能モジュールです。</param>
         /// <returns>生成した実行可能モジュールを返します。</returns>
-        internal ExecutableModule Link(IEnumerable<RelocatableModule> relModules)
+        internal ExecutableModule Link(ItemSelectableCollection<RelocatableModule> relModules)
         {
             AssignLabelAddress(relModules);
             RegisterEntryPointsIn(relModules);
             ResolveLabelReferencesFor(relModules);
-
-            return null;
+            return MakeExecutableModule(relModules);
         }
 
-        private void AssignLabelAddress(IEnumerable<RelocatableModule> relModules)
+        private void AssignLabelAddress(ItemSelectableCollection<RelocatableModule> relModules)
         {
-            MemoryAddress baseAddress = MemoryAddress.Zero;
+            MemoryAddress baseAddress = LoadAddress;
             foreach (RelocatableModule relModule in relModules)
             {
                 relModule.AssignLabelAddress(baseAddress);
@@ -48,14 +50,34 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
         }
 
-        private void RegisterEntryPointsIn(IEnumerable<RelocatableModule> relModules)
+        private void RegisterEntryPointsIn(ItemSelectableCollection<RelocatableModule> relModules)
         {
             relModules.ForEach((relModule) => relModule.RegisterEntryPointTo(m_entryPointTable));
         }
 
-        private void ResolveLabelReferencesFor(IEnumerable<RelocatableModule> relModules)
+        private void ResolveLabelReferencesFor(ItemSelectableCollection<RelocatableModule> relModules)
         {
             relModules.ForEach((relModule) => relModule.ResolveLabelReferences(m_entryPointTable));
+        }
+
+        private ExecutableModule MakeExecutableModule(ItemSelectableCollection<RelocatableModule> relModules)
+        {
+            MemoryAddress execStartAddress = GetExecStartAddress(relModules);
+            WordCollection linkedWords = MakeLinkedWords(relModules);
+            return new ExecutableModule(LoadAddress, execStartAddress, linkedWords);
+        }
+
+        private MemoryAddress GetExecStartAddress(ItemSelectableCollection<RelocatableModule> relModules)
+        {
+            RelocatableModule selectedRelModule = relModules.SelectedItem;
+            return selectedRelModule.EntryPoint.ExecStartAddress;
+        }
+
+        private WordCollection MakeLinkedWords(ItemSelectableCollection<RelocatableModule> relModules)
+        {
+            WordCollection linkedWords = new WordCollection();
+            relModules.ForEach((relModule) => linkedWords.Add(relModule.Words));
+            return linkedWords;
         }
     }
 }

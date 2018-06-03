@@ -114,6 +114,7 @@
     <Compile Include="Casl2\ProgramRegister.cs" />
     <Compile Include="Casl2\RegisterOperand.cs" />
     <Compile Include="Casl2\RelocatableModule.cs" />
+    <Compile Include="Casl2\ItemSelectableCollection.cs" />
     <Compile Include="Casl2\ReservedWord.cs" />
     <Compile Include="Casl2\LabelTable.cs" />
     <Compile Include="Casl2\StringConstant.cs" />
