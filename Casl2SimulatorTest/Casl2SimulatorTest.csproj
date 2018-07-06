@@ -99,6 +99,7 @@
     <Compile Include="Casl2\ProgramRegisterTest.cs" />
     <Compile Include="Casl2\RelocatableModuleTest.cs" />
     <Compile Include="Casl2\ReservedWordTest.cs" />
+    <Compile Include="Casl2\SourceTextProcessorTest.cs" />
     <Compile Include="Casl2\StringConstantTest.cs" />
     <Compile Include="Casl2\OperandLexerTest.cs" />
     <Compile Include="Casl2\TokenTest.cs" />

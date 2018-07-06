@@ -12,7 +12,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         #region Instance Fields
         private String m_name;
         private String[] m_sourceText;
-        private ProgramLine[] m_processedLines;
+        private IEnumerable<ProgramLine> m_processedLines;
         #endregion
 
         internal SourceFile(String name)
@@ -36,17 +36,18 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal IEnumerable<ProgramLine> ProcessedLines
         {
             get { return m_processedLines; }
-            set { m_processedLines = value.ToArray(); }
         }
 
-        internal Boolean NoErrorLine()
+        internal Boolean ProcessSourceText(LabelTable lblTable)
         {
-            return CountErrorLine() == 0;
+            m_processedLines = SourceTextProcessor.Process(SourceText, lblTable);
+            Boolean processingError = (0 < CountErrorLine(m_processedLines));
+            return processingError;
         }
 
-        private Int32 CountErrorLine()
+        private Int32 CountErrorLine(IEnumerable<ProgramLine> programLines)
         {
-            return m_processedLines.Count((line) => line.HasError());
+            return programLines.Count((line) => line.HasError());
         }
 
         internal static SourceFile MakeForUnitTest(String name, String[] sourceText)
