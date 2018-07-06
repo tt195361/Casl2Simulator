@@ -61,10 +61,12 @@
     <Compile Include="Casl2\AsmEndInstructionTest.cs" />
     <Compile Include="Casl2\AsmStartInstructionTest.cs" />
     <Compile Include="Casl2\AssemblerTest.cs" />
+    <Compile Include="Casl2\Casl2ProjectTest.cs" />
     <Compile Include="Casl2\ConstantCollectionTest.cs" />
     <Compile Include="Casl2\ConstantTest.cs" />
     <Compile Include="Casl2\EntryPointTableTest.cs" />
     <Compile Include="Casl2\EntryPointTest.cs" />
+    <Compile Include="Casl2\ExecutableModuleTest.cs" />
     <Compile Include="Casl2\HexaDecimalConstantTest.cs" />
     <Compile Include="Casl2\ICodeGeneratorTest.cs" />
     <Compile Include="Casl2\ItemSelectableCollectionTest.cs" />
@@ -76,7 +78,6 @@
     <Compile Include="Casl2\MemoryAddressTest.cs" />
     <Compile Include="Casl2\ProgramInstructionFactoryTest.cs" />
     <Compile Include="Casl2\LabelTableTest.cs" />
-    <Compile Include="Casl2\ProgramLineCollectionTest.cs" />
     <Compile Include="Casl2\LiteralTest.cs" />
     <Compile Include="Casl2\MachineInstructionOperandTest.cs" />
     <Compile Include="Casl2\LabelTest.cs" />

@@ -178,6 +178,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         }
         
         /// <summary>
+        ///   プログラムのアセンブルでエラーが発生しました。エラーが発生したプログラムのエラーメッセージを確認し修正してください。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MSG_FailedToAssemble {
+            get {
+                return ResourceManager.GetString("MSG_FailedToAssemble", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   オペランド &quot;r1,r2&quot; 又は &quot;r,adr[,x]&quot; で、r2 あるいは adr を解釈できませんでした。レジスタ名かアドレスを指定してください。詳細は InnerException を参照してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MSG_FailedToParseR2OrAdrX {
@@ -345,6 +354,15 @@ namespace Tt195361.Casl2Simulator.Properties {
         internal static string MSG_NoInstructionInInstructionLine {
             get {
                 return ResourceManager.GetString("MSG_NoInstructionInInstructionLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   指定の項目がコレクションにありません。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MSG_NoItemInCollection {
+            get {
+                return ResourceManager.GetString("MSG_NoItemInCollection", resourceCulture);
             }
         }
         

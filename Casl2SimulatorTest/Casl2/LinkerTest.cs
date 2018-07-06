@@ -13,12 +13,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
     [TestClass]
     public class LinkerTest
     {
-        #region Fields
-        private Linker m_linker;
-        private RelocatableModule m_subRelModule;
-        private RelocatableModule m_mainRelModule;
-        private ItemSelectableCollection<RelocatableModule> m_relModules;
-
+        #region Static Fields
         private static readonly String[] SubProgramSourceText = TestUtils.MakeArray(
             "SUB     START ADD1234",
             "ADDEND  DC    #1234",
@@ -45,13 +40,21 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private const Int32 MainRelModuleIndex = 1;
         #endregion
 
+        #region Instance Fields
+        private Linker m_linker;
+        private RelocatableModule m_subRelModule;
+        private RelocatableModule m_mainRelModule;
+        private ItemSelectableCollection<RelocatableModule> m_relModules;
+        #endregion
+
         [TestInitialize]
         public void TestInitialize()
         {
             m_linker = new Linker();
             m_subRelModule = MakeRelModule(SubProgramSourceText);
             m_mainRelModule = MakeRelModule(MainProgramSourceText);
-            m_relModules = ItemSelectableCollectionTest.Make(m_subRelModule, m_mainRelModule);
+            m_relModules = new ItemSelectableCollection<RelocatableModule>(
+                TestUtils.MakeArray(m_subRelModule, m_mainRelModule), MainRelModuleIndex);
         }
 
         /// <summary>
@@ -147,7 +150,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Link_ExecStartAddress()
         {
-            m_relModules.SelectItem(MainRelModuleIndex);
             ExecutableModule exeModule = m_linker.Link(m_relModules);
 
             MemoryAddress expected = new MemoryAddress(MAIN_Address);
@@ -182,9 +184,8 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         private RelocatableModule MakeRelModule(String[] sourceText)
         {
-            Assembler asm = new Assembler();
-            Boolean notUsed = asm.Assemble(sourceText);
-            return asm.RelModule;
+            SourceFile srcFile = SourceFile.MakeForUnitTest("Name", sourceText);
+            return Assembler.AssembleForUnitTest(srcFile);
         }
     }
 }

@@ -28,24 +28,48 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// <see cref="ItemSelectableCollection&lt;T&gt;.ItemSelectableCollection(System.Collections.Generic.IEnumerable{T})"/> のテストです。
+        /// <see cref="ItemSelectableCollection&lt;T&gt;"/> クラスのコンストラクタの引数 items のテストです。
         /// </summary>
         [TestMethod]
-        public void Ctor()
+        public void Ctor_Items()
         {
-            RelocatableModule[] oneItem = new RelocatableModule[] { m_relModule1 };
-            RelocatableModule[] noItems = new RelocatableModule[] { };
+            RelocatableModule[] oneItem = TestUtils.MakeArray<RelocatableModule>(m_relModule1);
+            RelocatableModule[] noItem = TestUtils.MakeArray<RelocatableModule>();
+            RelocatableModule[] nullItem = null;
 
-            CheckCtor(oneItem, true, "項目あり => OK");
-            CheckCtor(noItems, false, "項目なし => 例外");
+            CheckCtor_Items(oneItem, true, "項目あり => OK");
+            CheckCtor_Items(noItem, false, "項目なし => 例外");
+            CheckCtor_Items(nullItem, false, "null => 例外");
         }
 
-        private void CheckCtor(RelocatableModule[] relModules, Boolean success, String message)
+        private void CheckCtor_Items(RelocatableModule[] items, Boolean success, String message)
+        {
+            const Int32 SelectedItemIndex = 0;
+            CheckCtor(items, SelectedItemIndex, success, message);
+        }
+
+        /// <summary>
+        /// <see cref="ItemSelectableCollection&lt;T&gt;"/> クラスのコンストラクタの
+        /// 引数 selectedItemIndex のテストです。
+        /// </summary>
+        [TestMethod]
+        public void Ctor_SelectedItemIndex()
+        {
+            RelocatableModule[] items = TestUtils.MakeArray(m_relModule1, m_relModule2, m_relModule3);
+
+            CheckCtor(items, -1, false, "下限より小さい => 例外");
+            CheckCtor(items, 0, true, "ちょうど下限 => OK");
+            CheckCtor(items, 2, true, "ちょうど上限 => OK");
+            CheckCtor(items, 3, false, "上限より大きい => 例外");
+        }
+
+        private void CheckCtor(
+            RelocatableModule[] items, Int32 selectedItemIndex, Boolean success, String message)
         {
             try
             {
                 ItemSelectableCollection<RelocatableModule> notUsed =
-                    new ItemSelectableCollection<RelocatableModule>(relModules);
+                    new ItemSelectableCollection<RelocatableModule>(items, selectedItemIndex);
                 Assert.IsTrue(success, message);
             }
             catch (Casl2SimulatorException)
@@ -55,22 +79,24 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// <see cref="ItemSelectableCollection&lt;T&gt;.SelectItem"/> のテストです。
+        /// <see cref="ItemSelectableCollection&lt;T&gt;.SelectItem(T)"/> のテストです。
         /// </summary>
         [TestMethod]
         public void SelectItem()
         {
-            CheckSelectItem(-1, false, "最小より小さい => 例外");
-            CheckSelectItem(0, true, "ちょうど最小 => OK");
-            CheckSelectItem(2, true, "ちょうど最大 => OK");
-            CheckSelectItem(3, false, "最大より大きい => 例外");
+            RelocatableModule notInCollection = new RelocatableModule();
+            RelocatableModule inCollection = m_relModule2;
+
+            CheckSelectItem(null, false, "null => 例外");
+            CheckSelectItem(notInCollection, false, "コレクションに含まれない項目 => 例外");
+            CheckSelectItem(inCollection, true, "コレクションに含まれる項目 => OK");
         }
 
-        private void CheckSelectItem(Int32 selectedItemIndex, Boolean success, String message)
+        private void CheckSelectItem(RelocatableModule itemToSelect, Boolean success, String message)
         {
             try
             {
-                m_target.SelectItem(selectedItemIndex);
+                m_target.SelectItem(itemToSelect);
                 Assert.IsTrue(success, message);
             }
             catch (Casl2SimulatorException)
@@ -80,21 +106,21 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         }
 
         /// <summary>
-        /// <see cref="ItemSelectableCollection&lt;T&gt;.SelectedItem"/> のテストです。
+        /// <see cref="ItemSelectableCollection&lt;T&gt;.SelectedItemIndex"/> のテストです。
         /// </summary>
         [TestMethod]
-        public void SelectedItem()
+        public void SelectedItemIndex()
         {
-            CheckGetSelectedItem(0, m_relModule1, "最初の項目を選択 => 最初の項目を取得する");
-            CheckGetSelectedItem(1, m_relModule2, "途中の項目を選択 => 選択された項目を取得する");
-            CheckGetSelectedItem(2, m_relModule3, "最後の項目を選択 => 最後の項目を取得する");
+            CheckSelectedItemIndex(m_relModule1, 0, "最初の項目 => 0");
+            CheckSelectedItemIndex(m_relModule2, 1, "2 番目の項目 => 1");
+            CheckSelectedItemIndex(m_relModule3, 2, "3 番目の項目 => 2");
         }
 
-        private void CheckGetSelectedItem(Int32 selectedItemIndex, RelocatableModule expected, String message)
+        private void CheckSelectedItemIndex(RelocatableModule itemToSelect, Int32 expected, String message)
         {
-            m_target.SelectItem(selectedItemIndex);
-            RelocatableModule actual = m_target.SelectedItem;
-            Assert.AreSame(expected, actual, message);
+            m_target.SelectItem(itemToSelect);
+            Int32 actual = m_target.SelectedItemIndex;
+            Assert.AreEqual(expected, actual, message);
         }
 
         internal static ItemSelectableCollection<T> Make<T>(params T[] itemArray)

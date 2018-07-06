@@ -79,6 +79,7 @@
     <Compile Include="Casl2\EntryPointTable.cs" />
     <Compile Include="Casl2\ExecStartAddress.cs" />
     <Compile Include="Casl2\ExecutableModule.cs" />
+    <Compile Include="Casl2\Casl2Project.cs" />
     <Compile Include="Casl2\HexaDecimalConstant.cs" />
     <Compile Include="Casl2\ICodeGenerator.cs" />
     <Compile Include="Casl2\LabelDefinition.cs" />
@@ -90,7 +91,6 @@
     <Compile Include="Casl2\MemorySize.cs" />
     <Compile Include="Casl2\MemoryUtils.cs" />
     <Compile Include="Casl2\ProgramInstructionFactory.cs" />
-    <Compile Include="Casl2\ProgramLineCollection.cs" />
     <Compile Include="Casl2\MachineInstruction.cs" />
     <Compile Include="Casl2\MachineInstructionFactory.cs" />
     <Compile Include="Casl2\MachineInstructionOperand.cs" />
@@ -117,6 +117,7 @@
     <Compile Include="Casl2\ItemSelectableCollection.cs" />
     <Compile Include="Casl2\ReservedWord.cs" />
     <Compile Include="Casl2\LabelTable.cs" />
+    <Compile Include="Casl2\SourceFile.cs" />
     <Compile Include="Casl2\StringConstant.cs" />
     <Compile Include="Casl2\Token.cs" />
     <Compile Include="Casl2\TokenType.cs" />

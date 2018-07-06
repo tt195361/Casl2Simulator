@@ -156,6 +156,9 @@
   <data name="MSG_EntryNameAlreadyDefined" xml:space="preserve">
     <value>入口名 "{0}" はすでに定義されています。入口名はすべてのプログラムの中で一意にしてください。</value>
   </data>
+  <data name="MSG_FailedToAssemble" xml:space="preserve">
+    <value>プログラムのアセンブルでエラーが発生しました。エラーが発生したプログラムのエラーメッセージを確認し修正してください。</value>
+  </data>
   <data name="MSG_FailedToParseR2OrAdrX" xml:space="preserve">
     <value>オペランド "r1,r2" 又は "r,adr[,x]" で、r2 あるいは adr を解釈できませんでした。レジスタ名かアドレスを指定してください。詳細は InnerException を参照してください。</value>
   </data>
@@ -212,6 +215,9 @@
   </data>
   <data name="MSG_NoInstructionInInstructionLine" xml:space="preserve">
     <value>命令コードがありません。命令行には、オプションのラベルと空白に続いて、命令コードがなければなりません。</value>
+  </data>
+  <data name="MSG_NoItemInCollection" xml:space="preserve">
+    <value>指定の項目がコレクションにありません。</value>
   </data>
   <data name="MSG_NoLabel" xml:space="preserve">
     <value>ラベルを予期していましたが指定されていませんでした。ラベルを指定してください。</value>

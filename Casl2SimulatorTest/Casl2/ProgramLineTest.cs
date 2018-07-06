@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator.Casl2;
 using Tt195361.Casl2Simulator.Common;
@@ -124,7 +125,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         {
             ProgramLine target = ProgramLine.Parse(text);
             IEnumerable<ProgramLine> result = target.ExpandMacro();
-            ProgramLineCollectionTest.Check(result, expected, message);
+            CheckProgramLines(result, expected, message);
         }
 
         /// <summary>
@@ -215,6 +216,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             String labelField, String instructionField, String operandField)
         {
             return String.Format("{0}\t{1}\t{2}", labelField, instructionField, operandField);
+        }
+
+        internal static void CheckProgramLines(
+            IEnumerable<ProgramLine> lines, IEnumerable<String> expectedText, String message)
+        {
+            IEnumerable<String> actualText = lines.Select((line) => line.Text);
+            TestUtils.CheckEnumerable(expectedText, actualText, message);
         }
     }
 }

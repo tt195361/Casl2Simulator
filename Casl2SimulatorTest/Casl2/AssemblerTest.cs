@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator;
 using Tt195361.Casl2Simulator.Casl2;
@@ -104,13 +105,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         private void CheckProcessSourceText(
             String[] sourceText, String[] expectedProcessedText, String message)
         {
-            Assembler target = new Assembler();
+            SourceFile srcFile = SourceFile.MakeForUnitTest("Name", sourceText);
             try
             {
-                Boolean succeeded = target.Assemble(sourceText);
-                Assert.IsTrue(succeeded, "処理に成功する: " + message);
+                RelocatableModule relModule = Assembler.AssembleForUnitTest(srcFile);
+                Assert.IsNotNull(relModule, "再配置可能モジュールが生成される: " + message);
                 Assert.IsNotNull(expectedProcessedText, message);
-                ProgramLineCollectionTest.Check(target.ProcessedLines, expectedProcessedText, message);
+                ProgramLineTest.CheckProgramLines(srcFile.ProcessedLines, expectedProcessedText, message);
             }
             catch (Casl2SimulatorException)
             {
@@ -402,13 +403,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
 
         private void CheckGenerateCode(String[] sourceText, Word[] expectedWords, String message)
         {
-            Assembler target = new Assembler();
+            SourceFile srcFile = SourceFile.MakeForUnitTest("Name", sourceText);
             try
             {
-                Boolean succeeded = target.Assemble(sourceText);
+                RelocatableModule relModule = Assembler.AssembleForUnitTest(srcFile);
                 Assert.IsNotNull(expectedWords, message);
-                Assert.IsTrue(succeeded, message);
-                RelocatableModuleTest.CheckWords(target.RelModule, expectedWords, message);
+                Assert.IsNotNull(relModule, message);
+                RelocatableModuleTest.CheckWords(relModule, expectedWords, message);
             }
             catch (Casl2SimulatorException)
             {

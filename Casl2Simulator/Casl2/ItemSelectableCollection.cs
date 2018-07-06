@@ -19,8 +19,14 @@ namespace Tt195361.Casl2Simulator.Casl2
         #endregion
 
         internal ItemSelectableCollection(IEnumerable<T> items)
+            : this(items, 0)
         {
-            if (items.Count() == 0)
+            //
+        }
+
+        internal ItemSelectableCollection(IEnumerable<T> items, Int32 selectedItemIndex)
+        {
+            if (items == null || items.Count() == 0)
             {
                 String message = String.Format(
                     Resources.MSG_AtLeastOneItemForTheClass, nameof(ItemSelectableCollection<T>));
@@ -28,7 +34,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             }
 
             m_itemList = new List<T>(items);
-            m_selectedItemIndex = 0;
+            SetSelectedItemIndex(selectedItemIndex);
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -47,13 +53,18 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         /// <summary>
-        /// 指定のインデックスの項目を選択します。
+        /// コレクション中の指定の項目を選択します。
         /// </summary>
-        /// <param name="selectedItemIndex">選択する項目を指定するインデックスです。</param>
-        internal void SelectItem(Int32 selectedItemIndex)
+        /// <param name="itemToSelect">選択する項目です。</param>
+        internal void SelectItem(T itemToSelect)
         {
-            ArgChecker.CheckRange(selectedItemIndex, 0, m_itemList.Count - 1, nameof(selectedItemIndex));
-            m_selectedItemIndex = selectedItemIndex;
+            Int32 selectedItemIndex = m_itemList.IndexOf(itemToSelect);
+            if (selectedItemIndex < 0)
+            {
+                throw new Casl2SimulatorException(Resources.MSG_NoItemInCollection);
+            }
+
+            SetSelectedItemIndex(selectedItemIndex);
         }
 
         /// <summary>
@@ -62,6 +73,26 @@ namespace Tt195361.Casl2Simulator.Casl2
         internal T SelectedItem
         {
             get { return m_itemList[m_selectedItemIndex]; }
+        }
+
+        private void SetSelectedItemIndex(Int32 selectedItemIndex)
+        {
+            ArgChecker.CheckRange(selectedItemIndex, 0, m_itemList.Count - 1, nameof(selectedItemIndex));
+            m_selectedItemIndex = selectedItemIndex;
+        }
+
+        internal Int32 SelectedItemIndex
+        {
+            get { return m_selectedItemIndex; }
+        }
+    }
+
+    internal static class ItemSelectableCollectionUtils
+    {
+        internal static ItemSelectableCollection<T> MakeItemSelectableCollection<T>(
+            this IEnumerable<T> items, Int32 selectedItemIndex)
+        {
+            return new ItemSelectableCollection<T>(items, selectedItemIndex);
         }
     }
 }

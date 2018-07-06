@@ -80,4 +80,13 @@ namespace Tt195361.Casl2Simulator.Casl2
             return linkedWords;
         }
     }
+
+    internal static class LinkerUtils
+    {
+        internal static ExecutableModule Link(this ItemSelectableCollection<RelocatableModule> relModules)
+        {
+            Linker linker = new Linker();
+            return linker.Link(relModules);
+        }
+    }
 }

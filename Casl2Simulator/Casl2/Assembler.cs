@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tt195361.Casl2Simulator.Properties;
 using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2Simulator.Casl2
@@ -8,72 +9,87 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <summary>
     /// ソーステキストをアセンブルし再配置可能モジュールを生成します。
     /// </summary>
-    internal class Assembler
+    internal static class Assembler
     {
-        #region Instance Fields
-        private readonly RelocatableModule m_relModule;
-        private ProgramLineCollection m_processedLines;
-        #endregion
-
-        internal Assembler()
-        {
-            m_relModule = new RelocatableModule();
-        }
-
         /// <summary>
-        /// ソーステキストをアセンブルして生成した再配置可能モジュールを取得します。
+        /// 一連のソースファイルをアセンブルし、一連の再配置可能モジュールを生成します。
         /// </summary>
-        internal RelocatableModule RelModule
+        /// <param name="srcFiles">アセンブルする一連のソースファイルです。</param>
+        /// <returns>生成した一連の再配置可能モジュールを返します。</returns>
+        internal static ItemSelectableCollection<RelocatableModule> Assemble(
+            this ItemSelectableCollection<SourceFile> srcFiles)
         {
-            get { return m_relModule; }
+            // 一連のソースファイルをアセンブルし、その結果をチェックし、一連の再配置可能モジュールを生成する。
+            return srcFiles.DoAssemble()
+                           .Check()
+                           .MakeItemSelectableCollection(srcFiles.SelectedItemIndex);
         }
 
-        /// <summary>
-        /// ソーステキストを処理したテキスト行のコレクションを取得します。
-        /// 実施する処理は、マクロ展開とリテラルの DC 命令の生成です。
-        /// </summary>
-        internal ProgramLineCollection ProcessedLines
+        private static IEnumerable<RelocatableModule> DoAssemble(this IEnumerable<SourceFile> srcFiles)
         {
-            get { return m_processedLines; }
+            // ToArray() して、ここで Assemble() を実行させ、再配置可能モジュールを生成する。
+            return srcFiles.Select((srcFile) => Assemble(srcFile))
+                           .ToArray();
         }
 
-        internal Boolean Assemble(String[] sourceText)
+        private static IEnumerable<RelocatableModule> Check(this IEnumerable<RelocatableModule> relModules)
         {
-            m_processedLines = ProcessSourceText(sourceText);
-            if (!m_processedLines.NoErrorLine())
+            Int32 nullCount = relModules.Count((relModule) => relModule == null);
+            if (0 < nullCount)
+            {
+                throw new Casl2SimulatorException(Resources.MSG_FailedToAssemble);
+            }
+
+            return relModules;
+        }
+
+        private static RelocatableModule Assemble(SourceFile srcFile)
+        {
+            RelocatableModule relModule = new RelocatableModule();
+            srcFile.ProcessedLines = srcFile.SourceText
+                                            .ProcessSourceText(relModule.LabelTable);
+            if (!srcFile.NoErrorLine())
             {
                 // ソーステキストの処理でエラーなら、ここで終了。
-                return false;
+                return null;
             }
             else
             {
                 // ソーステキストの処理に成功すれば、ラベルのオフセットを設定し、コードを生成する。
-                SetLabelOffset(m_processedLines);
-                GenerateCode(m_processedLines);
-                return true;
+                srcFile.ProcessedLines
+                       .SetLabelOffset(relModule.LabelTable)
+                       .GenerateCode(relModule);
+                return relModule;
             }
         }
 
-        private ProgramLineCollection ProcessSourceText(String[] sourceText)
+        private static IEnumerable<ProgramLine> ProcessSourceText(
+            this IEnumerable<String> sourceText, LabelTable lblTable)
+        {
+            // ソーステキストを解釈し、チェックし、マクロを展開する。
+            // プログラムのラベルを先に登録し、リテラルで生成する DC 命令のラベルと重複しないようにする。
+            return sourceText.ParseText()
+                             .CheckParsedLines()
+                             .ExpandMacro()
+                             .RegisterLabels(lblTable)
+                             .GenerateLiteralDc(lblTable);
+        }
+
+        private static IEnumerable<ProgramLine> ParseText(this IEnumerable<String> sourceText)
         {
             // ここで ToArray() して内容を実行させる。IEnumerable<ProgramLine> のままにしておくと、
             // 遅延評価で必要になるたびに実行される。
-            ProgramLine[] parsedLines = ParseLines(sourceText).ToArray();
-            ProgramChecker.Check(parsedLines);
-            IEnumerable<ProgramLine> macroExpandedLines = ExpandMacro(parsedLines);
-
-            // プログラムのラベルを先に登録し、リテラルで生成する DC 命令のラベルと重複しないようにする。
-            RegisterLabels(macroExpandedLines);
-            IEnumerable<ProgramLine> literalDcGeneratedLines = GenerateLiteralDc(macroExpandedLines);
-            return new ProgramLineCollection(literalDcGeneratedLines);
+            return sourceText.Select((text) => ProgramLine.Parse(text))
+                             .ToArray();
         }
 
-        private IEnumerable<ProgramLine> ParseLines(String[] sourceText)
+        private static IEnumerable<ProgramLine> CheckParsedLines(this IEnumerable<ProgramLine> parsedLines)
         {
-            return sourceText.Select((text) => ProgramLine.Parse(text));
+            ProgramChecker.Check(parsedLines);
+            return parsedLines;
         }
 
-        private IEnumerable<ProgramLine> ExpandMacro(IEnumerable<ProgramLine> lines)
+        private static IEnumerable<ProgramLine> ExpandMacro(this IEnumerable<ProgramLine> lines)
         {
             // マクロ展開の結果は複数行になるので、line.ExpandMacro() は IEnumerable<ProgramLine> を返し、
             // Select() の結果の型は IEnumerable<IEnumerable<ProgramLine>> になる。
@@ -82,41 +98,54 @@ namespace Tt195361.Casl2Simulator.Casl2
                         .SelectMany((expandedLines) => expandedLines);
         }
 
-        private void RegisterLabels(IEnumerable<ProgramLine> lines)
+        private static IEnumerable<ProgramLine> RegisterLabels(
+            this IEnumerable<ProgramLine> lines, LabelTable lblTable)
         {
-            lines.ForEach((line) => line.RegisterLabel(m_relModule.LabelTable));
+            lines.ForEach((line) => line.RegisterLabel(lblTable));
+            return lines;
         }
 
-        private IEnumerable<ProgramLine> GenerateLiteralDc(IEnumerable<ProgramLine> lines)
+        private static IEnumerable<ProgramLine> GenerateLiteralDc(
+            this IEnumerable<ProgramLine> lines, LabelTable lblTable)
         {
-            return DoGeneratedLiteralDc(lines).SelectMany((lineEnumerable) => lineEnumerable);
+            return lines.DoGeneratedLiteralDc(lblTable)
+                        .SelectMany((lineEnumerable) => lineEnumerable);
         }
 
-        private IEnumerable<IEnumerable<ProgramLine>> DoGeneratedLiteralDc(IEnumerable<ProgramLine> lines)
+        private static IEnumerable<IEnumerable<ProgramLine>> DoGeneratedLiteralDc(
+            this IEnumerable<ProgramLine> lines, LabelTable lblTable)
         {
             // リテラルから生成される DC 命令は、END 命令の直前にまとめて配置される。
             // END 命令の前までに続いて、生成された DC 命令を出力し、その後に END 命令以降を出力する。
             Func<ProgramLine, Boolean> notEnd = (line) => !line.IsEnd();
             yield return lines.TakeWhile(notEnd);
-            yield return lines.Select((line) => line.GenerateLiteralDc(m_relModule.LabelTable))
+            yield return lines.Select((line) => line.GenerateLiteralDc(lblTable))
                                                     .Where((generatedLine) => generatedLine != null);
             yield return lines.SkipWhile(notEnd);
         }
 
-        private void SetLabelOffset(IEnumerable<ProgramLine> lines)
+        private static IEnumerable<ProgramLine> SetLabelOffset(
+            this IEnumerable<ProgramLine> lines, LabelTable lblTable)
         {
             MemoryOffset offset = MemoryOffset.Zero;
             foreach (ProgramLine line in lines)
             {
-                line.SetLabelOffset(m_relModule.LabelTable, offset);
+                line.SetLabelOffset(lblTable, offset);
                 Int32 wordCount = line.GetCodeWordCount();
                 offset = offset.Add(wordCount);
             }
+
+            return lines;
         }
 
-        private void GenerateCode(IEnumerable<ProgramLine> lines)
+        private static void GenerateCode(this IEnumerable<ProgramLine> lines, RelocatableModule relModule)
         {
-            lines.ForEach((line) => line.GenerateCode(m_relModule));
+            lines.ForEach((line) => line.GenerateCode(relModule));
+        }
+
+        internal static RelocatableModule AssembleForUnitTest(SourceFile srcFile)
+        {
+            return Assemble(srcFile);
         }
     }
 }
