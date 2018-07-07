@@ -1,4 +1,5 @@
-﻿using Tt195361.Casl2Simulator.Utils;
+﻿using Tt195361.Casl2Simulator.Common;
+using Tt195361.Casl2Simulator.Utils;
 
 namespace Tt195361.Casl2Simulator.Casl2
 {

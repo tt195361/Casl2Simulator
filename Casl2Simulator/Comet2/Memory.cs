@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Tt195361.Casl2Simulator.Common;
 using Tt195361.Casl2Simulator.Utils;
@@ -69,6 +70,18 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// <summary>
         /// 指定のアドレスから、指定の値を順に書き込みます。
         /// </summary>
+        /// <param name="address">指定の値を順に書き込むアドレスの値です。</param>
+        /// <param name="words">指定のアドレスから書き込む値です。</param>
+        internal void WriteRange(MemoryAddress address, IEnumerable<Word> words)
+        {
+            UInt16 ui16StartAddr = address.Value;
+            IEnumerable<UInt16> ui16Values = words.Select((word) => word.GetAsUnsigned());
+            ForEach(ui16StartAddr, ui16Values, Write);
+        }
+
+        /// <summary>
+        /// 指定のアドレスから、指定の値を順に書き込みます。
+        /// </summary>
         /// <param name="ui16StartAddr">指定の値を順に書き込むアドレスの値です。</param>
         /// <param name="ui16Values">指定のアドレスから書き込む値です。</param>
         internal void WriteRange(UInt16 ui16StartAddr, params UInt16[] ui16Values)
@@ -101,10 +114,11 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// となります。
         /// </param>
         /// <param name="ui16Values">
-        /// 実施する動作に引数として渡す値です。配列のそれぞれの値について、指定の動作を実行します。
+        /// 実施する動作に引数として渡す値です。一連のそれぞれの値について、指定の動作を実行します。
         /// </param>
         /// <param name="action">それぞれのアドレスと値について、実施する動作です。</param>
-        internal void ForEach(UInt16 ui16StartAddr, UInt16[] ui16Values, Action<UInt16, UInt16> action)
+        internal void ForEach(
+            UInt16 ui16StartAddr, IEnumerable<UInt16> ui16Values, Action<UInt16, UInt16> action)
         {
             ui16Values.ForEach(
                 (index, ui16Value) => action((UInt16)(ui16StartAddr + index), ui16Value));

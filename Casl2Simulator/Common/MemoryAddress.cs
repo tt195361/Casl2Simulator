@@ -1,7 +1,6 @@
 ﻿using System;
-using Tt195361.Casl2Simulator.Common;
 
-namespace Tt195361.Casl2Simulator.Casl2
+namespace Tt195361.Casl2Simulator.Common
 {
     /// <summary>
     /// メモリのアドレスを表わします。

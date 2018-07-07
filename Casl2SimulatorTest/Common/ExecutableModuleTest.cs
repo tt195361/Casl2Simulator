@@ -1,7 +1,7 @@
 ﻿using System;
-using Tt195361.Casl2Simulator.Casl2;
+using Tt195361.Casl2Simulator.Common;
 
-namespace Tt195361.Casl2SimulatorTest.Casl2
+namespace Tt195361.Casl2SimulatorTest.Common
 {
     /// <summary>
     /// <see cref="ExecutableModule"/> クラスの単体テストです。

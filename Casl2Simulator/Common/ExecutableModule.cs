@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Tt195361.Casl2Simulator.Common;
 
-namespace Tt195361.Casl2Simulator.Casl2
+namespace Tt195361.Casl2Simulator.Common
 {
     /// <summary>
     /// COMET II CPU で動作するプログラムを格納する実行可能モジュールです。

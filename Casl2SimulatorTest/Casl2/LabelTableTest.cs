@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tt195361.Casl2Simulator;
 using Tt195361.Casl2Simulator.Casl2;
+using Tt195361.Casl2Simulator.Common;
 
 namespace Tt195361.Casl2SimulatorTest.Casl2
 {

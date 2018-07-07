@@ -26,13 +26,12 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// Execute メソッドの単体テストで、問題なく実行できる場合です。
+        /// <see cref="Cpu.Execute"/> メソッドの単体テストで、問題なく実行できる場合です。
         /// </summary>
         [TestMethod]
         public void Execute_OK()
         {
-            UInt16[] program =
-            {
+            Word[] program = WordTest.MakeArray(
                 // 処理: GR1 中の '1' のビットの個数を数える。
                 // 出力: GR0: GR1 中の '1' のビットの個数。
                 0x1010, 0x000F,         // 0000:        LD      GR1,DATA,0  ;
@@ -45,8 +44,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
                 0x6200, 0x0006,         // 000B:        JNZ     MORE        ; '1' のビットが残っていれば繰返し
                 0x1402,                 // 000D: RETURN LD      GR0,GR2     ; GR0 = Count
                 0x8100,                 // 000E:        RET                 ; 呼び出しプログラムへ戻る。
-                0x1234,                 // 000F: DATA   DC      0x1234      ; 0001 0010 0011 0100 => '1' は 5 つ
-            };
+                0x1234                  // 000F: DATA   DC      0x1234      ; 0001 0010 0011 0100 => '1' は 5 つ
+            );
 
             CheckExecute(program, true, "問題なく実行できる");
 
@@ -56,24 +55,24 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// Execute メソッドの単体テストで、未定義命令の場合です。
+        /// <see cref="Cpu.Execute"/> メソッドの単体テストで、未定義命令の場合です。
         /// </summary>
         [TestMethod]
         public void Execute_UndefinedInstruction()
         {
-            UInt16[] program =
-            {
+            Word[] program = WordTest.MakeArray(
                 0xff00                  // 未定義命令
-            };
+            );
 
             CheckExecute(program, false, "未定義命令で例外が発生する");
         }
 
-        private void CheckExecute(UInt16[] program, Boolean success, String message)
+        private void CheckExecute(Word[] program, Boolean success, String message)
         {
+            ExecutableModule exeModule = new ExecutableModule(MemoryAddress.Zero, MemoryAddress.Zero, program);
             try
             {
-                m_cpu.Execute(program);
+                m_cpu.Execute(exeModule);
                 Assert.IsTrue(success, message);
             }
             catch (Casl2SimulatorException)

@@ -12,7 +12,6 @@ namespace Tt195361.Casl2Simulator.Casl2
     {
         #region Static Fields
         private const Int32 DigitCount = 4;
-        private const String PrintFormat = "{0}{1:X04}";
         #endregion
 
         /// <summary>
@@ -115,7 +114,7 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         internal static String ValueToString(Int32 value)
         {
-            return String.Format(PrintFormat, Casl2Defs.Sharp, value);
+            return String.Format(Casl2Defs.HexaDecimalPrintFormat, Casl2Defs.Sharp, value);
         }
     }
 }

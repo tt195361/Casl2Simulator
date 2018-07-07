@@ -38,15 +38,15 @@ namespace Tt195361.Casl2Simulator.Comet2
         }
 
         /// <summary>
-        /// 指定のプログラムを実行します。
+        /// 指定の実行可能モジュールを実行します。
         /// </summary>
-        /// <param name="program">CPU で実行するプログラムです。</param>
-        internal void Execute(UInt16[] program)
+        /// <param name="exeModule">CPU で実行する実行可能モジュールです。</param>
+        internal void Execute(ExecutableModule exeModule)
         {
             try
             {
                 AddHandlers();
-                DoExecute(program);
+                DoExecute(exeModule);
             }
             finally
             {
@@ -54,9 +54,9 @@ namespace Tt195361.Casl2Simulator.Comet2
             }
         }
 
-        private void DoExecute(UInt16[] program)
+        private void DoExecute(ExecutableModule exeModule)
         {
-            m_os.PrepareExecution(m_registerSet, m_memory, program);
+            m_os.PrepareExecution(m_registerSet, m_memory, exeModule);
             m_continueToExecute = true;
 
             while (m_continueToExecute)
