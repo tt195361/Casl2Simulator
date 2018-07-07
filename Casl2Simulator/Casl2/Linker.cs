@@ -5,40 +5,31 @@ namespace Tt195361.Casl2Simulator.Casl2
     /// <summary>
     /// 再配置可能モジュールを結合し実行可能モジュールを生成するリンカーです。
     /// </summary>
-    internal class Linker
+    internal static class Linker
     {
         #region Static Fields
-        private static readonly MemoryAddress LoadAddress = MemoryAddress.Zero; 
+        private static readonly MemoryAddress LoadAddress = MemoryAddress.Zero;
+
+        private static EntryPointTable m_entryPointTableForUnitTest;
         #endregion
-
-        #region Instance Fields
-        private readonly EntryPointTable m_entryPointTable;
-        #endregion
-
-        internal Linker()
-        {
-            m_entryPointTable = new EntryPointTable();
-        }
-
-        internal EntryPointTable EntryPointTable
-        {
-            get { return m_entryPointTable; }
-        }
 
         /// <summary>
         /// 指定の再配置可能モジュールを結合し実行可能モジュールを生成します。
         /// </summary>
         /// <param name="relModules">結合する再配置可能モジュールです。</param>
         /// <returns>生成した実行可能モジュールを返します。</returns>
-        internal ExecutableModule Link(ItemSelectableCollection<RelocatableModule> relModules)
+        internal static ExecutableModule Link(this ItemSelectableCollection<RelocatableModule> relModules)
         {
-            AssignLabelAddress(relModules);
-            RegisterEntryPointsIn(relModules);
-            ResolveLabelReferencesFor(relModules);
-            return MakeExecutableModule(relModules);
+            EntryPointTable entryPointTable = new EntryPointTable();
+            m_entryPointTableForUnitTest = entryPointTable;
+            return relModules.AssignLabelAddress()
+                             .RegisterEntryPoints(entryPointTable)
+                             .ResolveLabelReferences(entryPointTable)
+                             .MakeExecutableModule();
         }
 
-        private void AssignLabelAddress(ItemSelectableCollection<RelocatableModule> relModules)
+        private static ItemSelectableCollection<RelocatableModule> AssignLabelAddress(
+            this ItemSelectableCollection<RelocatableModule> relModules)
         {
             MemoryAddress baseAddress = LoadAddress;
             foreach (RelocatableModule relModule in relModules)
@@ -48,45 +39,51 @@ namespace Tt195361.Casl2Simulator.Casl2
                 MemorySize wordsSize = relModule.GetWordsSize();
                 baseAddress = baseAddress.Add(wordsSize);
             }
+
+            return relModules;
         }
 
-        private void RegisterEntryPointsIn(ItemSelectableCollection<RelocatableModule> relModules)
+        private static ItemSelectableCollection<RelocatableModule> RegisterEntryPoints(
+            this ItemSelectableCollection<RelocatableModule> relModules, EntryPointTable entryPointTable)
         {
-            relModules.ForEach((relModule) => relModule.RegisterEntryPointTo(m_entryPointTable));
+            relModules.ForEach((relModule) => relModule.RegisterEntryPointTo(entryPointTable));
+            return relModules;
         }
 
-        private void ResolveLabelReferencesFor(ItemSelectableCollection<RelocatableModule> relModules)
+        private static ItemSelectableCollection<RelocatableModule> ResolveLabelReferences(
+            this ItemSelectableCollection<RelocatableModule> relModules, EntryPointTable entryPointTable)
         {
-            relModules.ForEach((relModule) => relModule.ResolveLabelReferences(m_entryPointTable));
+            relModules.ForEach((relModule) => relModule.ResolveLabelReferences(entryPointTable));
+            return relModules;
         }
 
-        private ExecutableModule MakeExecutableModule(ItemSelectableCollection<RelocatableModule> relModules)
+        private static ExecutableModule MakeExecutableModule(
+            this ItemSelectableCollection<RelocatableModule> relModules)
         {
             MemoryAddress execStartAddress = GetExecStartAddress(relModules);
             WordCollection linkedWords = MakeLinkedWords(relModules);
             return new ExecutableModule(LoadAddress, execStartAddress, linkedWords);
         }
 
-        private MemoryAddress GetExecStartAddress(ItemSelectableCollection<RelocatableModule> relModules)
+        private static MemoryAddress GetExecStartAddress(
+            ItemSelectableCollection<RelocatableModule> relModules)
         {
             RelocatableModule selectedRelModule = relModules.SelectedItem;
-            return selectedRelModule.EntryPoint.ExecStartAddress;
+            EntryPoint selectedEntryPoint = selectedRelModule.EntryPoint;
+            return selectedEntryPoint.ExecStartAddress;
         }
 
-        private WordCollection MakeLinkedWords(ItemSelectableCollection<RelocatableModule> relModules)
+        private static WordCollection MakeLinkedWords(
+            ItemSelectableCollection<RelocatableModule> relModules)
         {
             WordCollection linkedWords = new WordCollection();
             relModules.ForEach((relModule) => linkedWords.Add(relModule.Words));
             return linkedWords;
         }
-    }
 
-    internal static class LinkerUtils
-    {
-        internal static ExecutableModule Link(this ItemSelectableCollection<RelocatableModule> relModules)
+        internal static EntryPointTable EntryPointTableForUnitTest
         {
-            Linker linker = new Linker();
-            return linker.Link(relModules);
+            get { return m_entryPointTableForUnitTest; }
         }
     }
 }

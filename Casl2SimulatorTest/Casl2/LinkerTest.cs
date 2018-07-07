@@ -41,7 +41,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         #endregion
 
         #region Instance Fields
-        private Linker m_linker;
         private RelocatableModule m_subRelModule;
         private RelocatableModule m_mainRelModule;
         private ItemSelectableCollection<RelocatableModule> m_relModules;
@@ -50,7 +49,6 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestInitialize]
         public void TestInitialize()
         {
-            m_linker = new Linker();
             m_subRelModule = MakeRelModule(SubProgramSourceText);
             m_mainRelModule = MakeRelModule(MainProgramSourceText);
             m_relModules = new ItemSelectableCollection<RelocatableModule>(
@@ -64,7 +62,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Link_AssignLabelAddress()
         {
-            ExecutableModule notUsed = m_linker.Link(m_relModules);
+            ExecutableModule notUsed = Linker.Link(m_relModules);
 
             CheckAssignedLabelAddress(
                 TestUtils.MakeArray(
@@ -92,14 +90,15 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         /// EntryPointTable に登録されること。
         /// </summary>
         [TestMethod]
-        public void Link_RegisterEntryPointsIn()
+        public void Link_RegisterEntryPoints()
         {
-            ExecutableModule notUsed = m_linker.Link(m_relModules);
+            ExecutableModule notUsed = Linker.Link(m_relModules);
 
             EntryPoint[] expected = TestUtils.MakeArray(
                 EntryPointTest.Make("ADD1234", "SUB", ADD1234_Address),
                 EntryPointTest.Make("MAIN", "MAIN", MAIN_Address));
-            IEnumerable<EntryPoint> actual = m_linker.EntryPointTable.EntryPoints;
+            EntryPointTable entryPointTable = Linker.EntryPointTableForUnitTest;
+            IEnumerable<EntryPoint> actual = entryPointTable.EntryPoints;
             TestUtils.CheckEnumerable(
                 expected, actual, EntryPointTest.Check,
                 "各再配置可能モジュールの EntryPoint にアドレスが設定され、EntryPointTable に登録される");
@@ -110,9 +109,9 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         /// ラベルのアドレスが入ること。
         /// </summary>
         [TestMethod]
-        public void Link_ResolveLabelReferencesFor()
+        public void Link_ResolveLabelReferences()
         {
-            ExecutableModule notUsed = m_linker.Link(m_relModules);
+            ExecutableModule notUsed = Linker.Link(m_relModules);
 
             Word[] expectedSubWords = WordTest.MakeArray(
                 0x1234,                     // ADDEND     DC    #1234
@@ -138,7 +137,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Link_LoadAddress()
         {
-            ExecutableModule exeModule = m_linker.Link(m_relModules);
+            ExecutableModule exeModule = Linker.Link(m_relModules);
             MemoryAddress expected = MemoryAddress.Zero;
             MemoryAddress actual = exeModule.LoadAddress;
             MemoryAddressTest.Check(expected, actual, "LoadAddress は 0 番地");
@@ -150,7 +149,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Link_ExecStartAddress()
         {
-            ExecutableModule exeModule = m_linker.Link(m_relModules);
+            ExecutableModule exeModule = Linker.Link(m_relModules);
 
             MemoryAddress expected = new MemoryAddress(MAIN_Address);
             MemoryAddress actual = exeModule.ExecStartAddress;
@@ -165,7 +164,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Link_LinkedWords()
         {
-            ExecutableModule exeModule = m_linker.Link(m_relModules);
+            ExecutableModule exeModule = Linker.Link(m_relModules);
 
             Word[] expected = WordTest.MakeArray(
                 // Sub
