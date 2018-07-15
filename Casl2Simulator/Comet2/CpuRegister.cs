@@ -37,16 +37,7 @@ namespace Tt195361.Casl2Simulator.Comet2
         /// </summary>
         internal void Reset()
         {
-            SetValue(0);
-        }
-
-        /// <summary>
-        /// レジスタに指定の値を設定します。
-        /// </summary>
-        /// <param name="ui16Val">レジスタに設定する <see cref="UInt16"/> 型の値です。</param>
-        internal void SetValue(UInt16 ui16Val)
-        {
-            Value = new Word(ui16Val);
+            Value = Word.Zero;
         }
 
         /// <summary>

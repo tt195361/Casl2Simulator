@@ -43,8 +43,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             const UInt16 X7 = 7;
 
             m_memory.Write(NextAddress, Adr);
-            m_registerSet.GR[X6].SetValue(Gr6);
-            m_registerSet.GR[X7].SetValue(Gr7);
+            m_registerSet.GR[X6].Value = Gr6;
+            m_registerSet.GR[X7].Value = Gr7;
 
             CheckEffectiveAddress(0, true, Adr, "x/r2 が 0 => adr が実効アドレス");
             CheckEffectiveAddress(X6, true, Adr + Gr6, "x/r2 が 6 => adr + GR6 が実効アドレス");
@@ -54,7 +54,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         public void CheckEffectiveAddress(UInt16 xR2Field, Boolean success, UInt16 expected, String message)
         {
-            m_registerSet.PR.SetValue(NextAddress);
+            m_registerSet.PR.Value = NextAddress;
 
             try
             {
@@ -83,8 +83,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
             m_memory.Write(NextAddress, Adr);
             m_memory.Write(EffectiveAddress, EaContents);
-            m_registerSet.GR[X].SetValue(Gr6);
-            m_registerSet.PR.SetValue(NextAddress);
+            m_registerSet.GR[X].Value = Gr6;
+            m_registerSet.PR.Value = NextAddress;
 
             OperandHandler target = OperandHandler.EaContents;
             Word word = target.GetOperand(X, m_registerSet, m_memory);
@@ -103,8 +103,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             const UInt16 X7 = 7;
             const UInt16 GR0Value = 0x0123;
             const UInt16 GR7Value = 0x789a;
-            m_registerSet.GR[X0].SetValue(GR0Value);
-            m_registerSet.GR[X7].SetValue(GR7Value);
+            m_registerSet.GR[X0].Value = GR0Value;
+            m_registerSet.GR[X7].Value = GR7Value;
 
             CheckRegister(X0, true, GR0Value, "x/r2 が 0 => GR0 の値");
             CheckRegister(X7, true, GR7Value, "x/r2 が 7 => GR7 の値");

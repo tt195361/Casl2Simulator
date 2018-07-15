@@ -17,6 +17,10 @@ namespace Tt195361.Casl2SimulatorTest.Common
         private Word m_word_7fff;
         private Word m_word_8000;
         private Word m_word_ffff;
+
+        private Word m_target;
+        private Word m_sameValue;
+        private Word m_differentValue;
         #endregion
 
         [TestInitialize]
@@ -26,6 +30,10 @@ namespace Tt195361.Casl2SimulatorTest.Common
             m_word_7fff = new Word(0x7fff);
             m_word_8000 = new Word(0x8000);
             m_word_ffff = new Word(0xffff);
+
+            m_target = 1234;
+            m_sameValue = 1234;
+            m_differentValue = 1357;
         }
 
         /// <summary>
@@ -67,7 +75,59 @@ namespace Tt195361.Casl2SimulatorTest.Common
         }
 
         /// <summary>
-        /// GetAsUnsigned メソッドをテストします。
+        /// <see cref="Word.Equals"/> のテストです。
+        /// </summary>
+        [TestMethod]
+        public void EqualsTest()
+        {
+            Object obj = new object();
+
+            CheckEquals(null, false, "null => 等しくない");
+            CheckEquals(obj, false, "型が違う => 等しくない");
+            CheckEquals(m_differentValue, false, "異なる値の Word => 等しくない");
+            CheckEquals(m_sameValue, true, "同じ値の Word => 等しい");
+        }
+
+        private void CheckEquals(Object obj, Boolean expected, String message)
+        {
+            Boolean actual = m_target.Equals(obj);
+            Assert.AreEqual(expected, actual, message);
+        }
+
+        /// <summary>
+        /// '==' 演算子のテストです。
+        /// </summary>
+        [TestMethod]
+        public void OperatorEqual()
+        {
+            CheckOperatorEqual(m_sameValue, true, "同じ値 => true");
+            CheckOperatorEqual(m_differentValue, false, "異なる値 => false");
+        }
+
+        private void CheckOperatorEqual(Word that, Boolean expected, String message)
+        {
+            Boolean actual = (m_target == that);
+            Assert.AreEqual(expected, actual, message);
+        }
+
+        /// <summary>
+        /// '!=' 演算子のテストです。
+        /// </summary>
+        [TestMethod]
+        public void OperatorNotEqual()
+        {
+            CheckOperatorNotEqual(m_sameValue, false, "同じ値 => false");
+            CheckOperatorNotEqual(m_differentValue, true, "異なる値 => true");
+        }
+
+        private void CheckOperatorNotEqual(Word that, Boolean expected, String message)
+        {
+            Boolean actual = (m_target != that);
+            Assert.AreEqual(expected, actual, message);
+        }
+
+        /// <summary>
+        /// <see cref="Word.GetAsUnsigned"/> メソッドをテストします。
         /// </summary>
         [TestMethod]
         public void GetAsUnsigned()
@@ -85,7 +145,7 @@ namespace Tt195361.Casl2SimulatorTest.Common
         }
 
         /// <summary>
-        /// GetAsSigned メソッドをテストします。
+        /// <see cref="Word.GetAsSigned"/> メソッドをテストします。
         /// </summary>
         [TestMethod]
         public void GetAsSigned()
@@ -103,7 +163,7 @@ namespace Tt195361.Casl2SimulatorTest.Common
         }
 
         /// <summary>
-        /// GetBits メソッドの単体テストです。
+        /// <see cref="Word.GetBits"/> メソッドの単体テストです。
         /// </summary>
         [TestMethod]
         public void GetBits()
@@ -124,7 +184,7 @@ namespace Tt195361.Casl2SimulatorTest.Common
         }
 
         /// <summary>
-        /// IsMinus メソッドの単体テストです。
+        /// <see cref="Word.IsMinus"/> メソッドの単体テストです。
         /// </summary>
         [TestMethod]
         public void IsMinus()
@@ -143,7 +203,7 @@ namespace Tt195361.Casl2SimulatorTest.Common
         }
 
         /// <summary>
-        /// IsZero メソッドの単体テストです。
+        /// <see cref="Word.IsZero"/> メソッドの単体テストです。
         /// </summary>
         [TestMethod]
         public void IsZero()
@@ -197,7 +257,7 @@ namespace Tt195361.Casl2SimulatorTest.Common
                           .ToArray();
         }
 
-        internal static Word[] MakeArray(Word word, Int32 count)
+        internal static Word[] MakeCountArray(Word word, Int32 count)
         {
             Word[] words = new Word[count];
             count.Times((index) => words[index] = word);

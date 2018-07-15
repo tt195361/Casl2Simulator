@@ -9,7 +9,7 @@ namespace Tt195361.Casl2Simulator.Comet2
     internal class Os
     {
         #region Static Fields
-        private const UInt16 InitialSp = 0x0000;
+        private readonly Word InitialSp = Word.Zero;
         #endregion
 
         internal Os()
@@ -41,14 +41,13 @@ namespace Tt195361.Casl2Simulator.Comet2
             // PR をプログラムの開始アドレスに、SP をスタック領域の最後のアドレス + 1 に、それぞれ設定する。
             registerSet.Reset();
             registerSet.PR.Value = execStartAddress.GetValueAsWord();
-            registerSet.SP.SetValue(InitialSp);
+            registerSet.SP.Value = InitialSp;
         }
 
         internal Boolean OnReturingFromSubroutine(CpuRegister sp)
         {
             // RET 命令で、SP が初期値でなければ、実行を継続する。SP が初期値ならば、実行を終了する。
-            UInt16 spValue = sp.Value.GetAsUnsigned();
-            Boolean continueToExecute = (spValue != InitialSp);
+            Boolean continueToExecute = (sp.Value != InitialSp);
             return continueToExecute;
         }
 

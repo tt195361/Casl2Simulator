@@ -456,7 +456,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private void CheckPush(UInt16 spValue, UInt16 oprValue, UInt16 expectedSp, String message)
         {
             CpuRegister sp = m_registerSet.SP;
-            sp.SetValue(spValue);
+            sp.Value = spValue;
 
             Operate(Operator.Push, DontCareUInt16, oprValue);
 
@@ -477,7 +477,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private void CheckPop(UInt16 spValue, UInt16 memValue, UInt16 expectedSp, String message)
         {
             CpuRegister sp = m_registerSet.SP;
-            sp.SetValue(spValue);
+            sp.Value = spValue;
             m_memory.Write(spValue, memValue);
 
             Operate(Operator.Pop, DontCareUInt16, DontCareUInt16);
@@ -496,8 +496,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         {
             const UInt16 PrValue = 0x1357;
             const UInt16 OprValue = 0x9bdf;
-            SP.SetValue(SpValue);
-            PR.SetValue(PrValue);
+            SP.Value = SpValue;
+            PR.Value = PrValue;
 
             Operate(Operator.CallSubroutine, DontCareUInt16, OprValue);
 
@@ -513,7 +513,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         public void ReturnFromSubroutine_NotCancel()
         {
             const UInt16 MemValue = 0xace0;
-            SP.SetValue(SpValue);
+            SP.Value = SpValue;
             m_memory.Write(SpValue, MemValue);
             m_cancelRet = false;
 
@@ -534,8 +534,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         public void ReturnFromSubroutine_Cancel()
         {
             const UInt16 PrValue = 0xcdef;
-            PR.SetValue(PrValue);
-            SP.SetValue(SpValue);
+            PR.Value = PrValue;
+            SP.Value = SpValue;
             m_cancelRet = true;
 
             Operate(Operator.ReturnFromSubroutine, DontCareUInt16, DontCareUInt16);
@@ -622,7 +622,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             const UInt16 DontCare = 0;
 
             m_fr.SetFlags(overflowFlag, signFlag, zeroFlag);
-            m_pr.SetValue(PRValue);
+            m_pr.Value = PRValue;
             Operate(op, DontCare, OperandValue);
 
             UInt16 expected = jump ? OperandValue : PRValue;
@@ -641,8 +641,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         private void Operate(Operator op, UInt16 regValue, UInt16 oprValue)
         {
-            m_gr.Value = new Word(regValue);
-            Word operand = new Word(oprValue);
+            m_gr.Value = regValue;
+            Word operand = oprValue;
             op.Operate(m_gr, operand, m_registerSet, m_memory);
         }
 

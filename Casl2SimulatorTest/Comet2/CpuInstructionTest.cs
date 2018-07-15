@@ -456,7 +456,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         [TestMethod]
         public void Push()
         {
-            SP.SetValue(SpValue);
+            SP.Value = SpValue;
 
             ExecuteEaContentsInstruction(CpuInstruction.Push, DontCareUInt16, DontCareUInt16);
 
@@ -474,7 +474,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         public void Pop()
         {
             const UInt16 PopValue = 0xbcde;
-            SP.SetValue(SpValue);
+            SP.Value = SpValue;
             m_memory.Write(SpValue, PopValue);
 
             ExecuteRegisterInstruction(CpuInstruction.Pop, DontCareUInt16, DontCareUInt16);
@@ -493,7 +493,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         [TestMethod]
         public void CallSubroutine()
         {
-            SP.SetValue(SpValue);
+            SP.Value = SpValue;
             ExecuteEaContentsInstruction(CpuInstruction.CallSubroutine, DontCareUInt16, DontCareUInt16);
 
             CpuRegisterTest.Check(
@@ -511,7 +511,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         public void ReturnFromSubroutine()
         {
             const UInt16 MemValue = 0x9876;
-            SP.SetValue(SpValue);
+            SP.Value = SpValue;
             m_memory.Write(SpValue, MemValue);
 
             ExecuteRegisterInstruction(CpuInstruction.ReturnFromSubroutine, DontCareUInt16, DontCareUInt16);
@@ -613,11 +613,11 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
             // 命令語の次のアドレスに adr, 実効アドレスの内容、GRx にオフセットの値を書き込みます。
             m_memory.Write(NextAddress, Adr);
             m_memory.Write(EffectiveAddress, eaContents);
-            m_registerSet.GR[X].SetValue(Offset);
+            m_registerSet.GR[X].Value = Offset;
 
             // レジスタと PR に値を設定し、命令を実行します。
-            m_registerSet.GR[R].SetValue(regValue);
-            m_registerSet.PR.SetValue(NextAddress);
+            m_registerSet.GR[R].Value = regValue;
+            m_registerSet.PR.Value = NextAddress;
             instruction.Execute(R, X, m_registerSet, m_memory);
         }
 
@@ -631,8 +631,8 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         private void ExecuteRegisterInstruction(CpuInstruction instruction, UInt16 reg1Value, UInt16 reg2Value)
         {
             // レジスタに値を設定し、命令を実行します。
-            m_registerSet.GR[R1].SetValue(reg1Value);
-            m_registerSet.GR[R2].SetValue(reg2Value);
+            m_registerSet.GR[R1].Value = reg1Value;
+            m_registerSet.GR[R2].Value = reg2Value;
             instruction.Execute(R1, R2, m_registerSet, m_memory);
         }
 

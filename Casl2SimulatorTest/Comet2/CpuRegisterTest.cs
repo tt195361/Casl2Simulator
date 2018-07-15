@@ -33,7 +33,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         private void CheckIncrement(UInt16 regValue, UInt16 expected, String message)
         {
-            m_register.SetValue(regValue);
+            m_register.Value = regValue;
             m_register.Increment();
             CheckValue(expected, message);
         }
@@ -50,7 +50,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         private void CheckDecrement(UInt16 regValue, UInt16 expected, String message)
         {
-            m_register.SetValue(regValue);
+            m_register.Value = regValue;
             m_register.Decrement();
             CheckValue(expected, message);
         }
@@ -68,7 +68,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         private void CheckToString(UInt16 value, String expected, String message)
         {
-            m_register.Value = new Word(value);
+            m_register.Value = value;
             String actual = m_register.ToString();
             Assert.AreEqual(expected, actual, message);
         }

@@ -19,6 +19,43 @@ namespace Tt195361.Casl2Simulator.Common
         /// </summary>
         internal static readonly Word One = new Word(1);
         #endregion
+        
+        /// <summary>
+        /// <see cref="UInt16"/> 型の値を <see cref="Word"/> に変換します。
+        /// </summary>
+        /// <param name="ui16Val"><see cref="Word"/> に変換する <see cref="UInt16"/> 型の値です。</param>
+        public static implicit operator Word(UInt16 ui16Val)
+        {
+            return new Word(ui16Val);
+        }
+
+        /// <summary>
+        /// <see cref="Word"/> の 2 つのオブジェクトが等しいかどうかを調べる '==' 演算子です。
+        /// </summary>
+        /// <param name="word1">比較する一方の <see cref="Word"/> のオブジェクトです。</param>
+        /// <param name="word2">比較するもう一方の <see cref="Word"/> のオブジェクトです。</param>
+        /// <returns>
+        /// 比較する 2 つの <see cref="Word"/> オブジェクトの値が等しければ <see langword="true"/> を、
+        /// 値が等しくなければ <see langword="false"/> を返します。
+        /// </returns>
+        public static Boolean operator==(Word word1, Word word2)
+        {
+            return word1.Equals(word2);
+        }
+
+        /// <summary>
+        /// <see cref="Word"/> の 2 つのオブジェクトが等しくないかどうかを調べる '!=' 演算子です。
+        /// </summary>
+        /// <param name="word1">比較する一方の <see cref="Word"/> のオブジェクトです。</param>
+        /// <param name="word2">比較するもう一方の <see cref="Word"/> のオブジェクトです。</param>
+        /// <returns>
+        /// 比較する 2 つの <see cref="Word"/> オブジェクトの値が等しくなければ <see langword="true"/> を、
+        /// 値が等しれば <see langword="false"/> を返します。
+        /// </returns>
+        public static Boolean operator!=(Word word1, Word word2)
+        {
+            return !word1.Equals(word2);
+        }
 
         #region Instance Fields
         // 1 語は 16 ビット。符号なしで格納します。
@@ -42,6 +79,44 @@ namespace Tt195361.Casl2Simulator.Common
         internal Word(UInt16 ui16Val)
         {
             m_ui16Val = ui16Val;
+        }
+
+        /// <summary>
+        /// 指定のオブジェクトが、このオブジェクトと等しいかどうかを判断します。
+        /// </summary>
+        /// <param name="obj">このオブジェクトと比較するオブジェクトです。</param>
+        /// <returns>
+        /// 指定のオブジェクトがこのオブジェクトと等しい場合は <see langword="true"/> を、
+        /// それ以外の場合は <see langword="false"/> を返します。
+        /// </returns>
+        public override Boolean Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            if (this.GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            Word that = (Word)obj;
+            return Equals(that);
+        }
+
+        internal Boolean Equals(Word that)
+        {
+            return this.m_ui16Val == that.m_ui16Val;
+        }
+
+        /// <summary>
+        /// この語のハッシュコードを表わす値を取得します。
+        /// </summary>
+        /// <returns>この語のハッシュコードを表わす値を返します。</returns>
+        public override Int32 GetHashCode()
+        {
+            return m_ui16Val;
         }
 
         /// <summary>

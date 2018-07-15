@@ -82,7 +82,7 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
             target.GenerateCode(DefinedLabel, relModule);
 
             // 確保する語数分の 0 の語が追加される。
-            Word[] expectedWords = WordTest.MakeArray(Word.Zero, wordCountValue);
+            Word[] expectedWords = WordTest.MakeCountArray(Word.Zero, wordCountValue);
             RelocatableModuleTest.CheckWords(relModule, expectedWords, message);
         }
 
