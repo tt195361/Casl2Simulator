@@ -9,24 +9,32 @@ namespace Tt195361.Casl2Simulator.Comet2
     /// </summary>
     internal class Cpu
     {
+        #region Events
+        /// <summary>
+        /// ReturnFromSubroutine 命令を実行しようとすると発生します。
+        /// </summary>
+        internal event EventHandler<ReturningFromSubroutineEventArgs> ReturningFromSubroutine;
+
+        /// <summary>
+        /// スーパーバイザーを呼び出そうとすると発生します。
+        /// </summary>
+        internal event EventHandler<CallingSuperVisorEventArgs> CallingSuperVisor;
+        #endregion
+
         #region Instance Fields
         private readonly CpuRegisterSet m_registerSet;
         private readonly Memory m_memory;
-        private readonly Os m_os;
-
         private Boolean m_continueToExecute;
         #endregion
 
         /// <summary>
-        /// 指定の主記憶とオペレーティングシステムを使って <see cref="Cpu"/> のインスタンスを初期化します。
+        /// 指定の主記憶を使って <see cref="Cpu"/> のインスタンスを初期化します。
         /// </summary>
         /// <param name="memory">COMET II の主記憶です。</param>
-        /// <param name="os">COMET II のオペレーティングシステムです。</param>
-        internal Cpu(Memory memory, Os os)
+        internal Cpu(Memory memory)
         {
             m_registerSet = new CpuRegisterSet();
             m_memory = memory;
-            m_os = os;
         }
 
         /// <summary>
@@ -38,15 +46,14 @@ namespace Tt195361.Casl2Simulator.Comet2
         }
 
         /// <summary>
-        /// 指定の実行可能モジュールを実行します。
+        /// CPU を実行します。
         /// </summary>
-        /// <param name="exeModule">CPU で実行する実行可能モジュールです。</param>
-        internal void Execute(ExecutableModule exeModule)
+        internal void Execute()
         {
             try
             {
                 AddHandlers();
-                DoExecute(exeModule);
+                DoExecute();
             }
             finally
             {
@@ -54,9 +61,8 @@ namespace Tt195361.Casl2Simulator.Comet2
             }
         }
 
-        private void DoExecute(ExecutableModule exeModule)
+        private void DoExecute()
         {
-            m_os.PrepareExecution(m_registerSet, m_memory, exeModule);
             m_continueToExecute = true;
 
             while (m_continueToExecute)
@@ -109,16 +115,19 @@ namespace Tt195361.Casl2Simulator.Comet2
 
         private void OnReturningFromSubroutine(Object sender, ReturningFromSubroutineEventArgs e)
         {
-            m_continueToExecute = m_os.OnReturingFromSubroutine(e.SP);
-            if (!m_continueToExecute)
+            if (ReturningFromSubroutine != null)
             {
-                e.Cancel = true;
+                ReturningFromSubroutine(this, e);
+                m_continueToExecute = !e.Cancel;
             }
         }
 
         private void OnCallingSuperVisor(Object sender, CallingSuperVisorEventArgs e)
         {
-            m_os.OnCallingSuperVisor(e.Operand, m_registerSet, m_memory);
+            if (CallingSuperVisor != null)
+            {
+                CallingSuperVisor(this, e);
+            }
         }
     }
 }

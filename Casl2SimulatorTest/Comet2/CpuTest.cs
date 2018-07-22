@@ -13,49 +13,87 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
     [TestClass]
     public class CpuTest
     {
+        #region Static Fields
+        private static MemoryAddress LoadAddress = MemoryAddress.Zero;
+        private static MemoryAddress StartAddress = LoadAddress;
+        #endregion
+
         #region Instance Fields
+        private Memory m_memory;
         private Cpu m_cpu;
+        private TestLogger m_logger;
+        private TestData<Boolean> m_cancelData;
         #endregion
 
         [TestInitialize]
         public void TestInitialize()
         {
-            Memory memory = new Memory();
-            Os os = new Os();
-            m_cpu = new Cpu(memory, os);
+            m_memory = new Memory();
+            m_cpu = new Cpu(m_memory);
+            m_logger = new TestLogger();
+            m_cancelData = new TestData<Boolean>(true);
+
+            AddHandlers();
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            RemoveHandlers();
         }
 
         /// <summary>
-        /// <see cref="Cpu.Execute"/> メソッドの単体テストで、問題なく実行できる場合です。
+        /// <see cref="Cpu.Execute"/> で発生する ReturingFromSubroutine イベントのテスト。
         /// </summary>
         [TestMethod]
-        public void Execute_OK()
+        public void Execute_ReturingFromSubroutine()
         {
             Word[] program = WordTest.MakeArray(
-                // 処理: GR1 中の '1' のビットの個数を数える。
-                // 出力: GR0: GR1 中の '1' のビットの個数。
-                0x1010, 0x000F,         // 0000:        LD      GR1,DATA,0  ;
-                0x2522,                 // 0002:        SUBA    GR2,GR2     ; Count = 0
-                0x3411,                 // 0003:        AND     GR1,GR1     ; 全部のビットが '0'?
-                0x6300, 0x000D,         // 0004:        JZE     RETURN      ; 全部のビットが '0' なら終了
-                0x1222, 0x0001,         // 0006: MORE   LAD     GR2,1,GR2   ; Count = Count + 1
-                0x1201, 0xffff,         // 0008:        LAD     GR0,-1,GR1  ; 最下位の '1' のビット 1 個を
-                0x3410,                 // 000A:        AND     GR1,GR0     ;   '0' に変える。
-                0x6200, 0x0006,         // 000B:        JNZ     MORE        ; '1' のビットが残っていれば繰返し
-                0x1402,                 // 000D: RETURN LD      GR0,GR2     ; GR0 = Count
-                0x8100,                 // 000E:        RET                 ; 呼び出しプログラムへ戻る。
-                0x1234                  // 000F: DATA   DC      0x1234      ; 0001 0010 0011 0100 => '1' は 5 つ
+                0x8000, 0x0003,         // 0000:        CALL    SUB
+                0x8100,                 // 0002:        RET
+                0x8100                  // 0003: SUB    RET
             );
+            // 2 回目の RET で実行を終了する。
+            m_cancelData = new TestData<Boolean>(false, true);
 
-            CheckExecute(program, true, "問題なく実行できる");
+            CheckExecute(program, true, "RET 命令で ReturingFromSubroutine イベントが発生する");
 
-            const UInt16 Expected = 5;
-            Word actualWord = m_cpu.RegisterSet.GR[0].Value;
-            WordTest.Check(actualWord, Expected, "GR0: GR1 中の '1' のビットの個数");
+            String expected = TestLogger.ExpectedLog(
+                "OnReturingFromSubroutine: SP: 65535 (0xffff)",
+                "    Setting e.Cancel to \"False\"",
+                "OnReturingFromSubroutine: SP: 0 (0x0000)",
+                "    Setting e.Cancel to \"True\"");
+            String actual = m_logger.Log;
+            Assert.AreEqual(
+                expected, actual,
+                "e.Cancel=False ならば実行を継続し、e.Cancel=True ならば実行を終了する");
         }
 
         /// <summary>
-        /// <see cref="Cpu.Execute"/> メソッドの単体テストで、未定義命令の場合です。
+        /// <see cref="Cpu.Execute"/> で発生する CallingSuperVisor イベントのテスト。
+        /// </summary>
+        [TestMethod]
+        public void Execute_CallingSuperVisor()
+        {
+            Word[] program = WordTest.MakeArray(
+                0xF000, 0x2468,         // 0000:        SVC     #2468
+                0x8100                  // 0002:        RET
+            );
+
+            CheckExecute(program, true, "SVC 命令で CallingSuperVisor イベントが発生する");
+
+            String expected = TestLogger.ExpectedLog(
+                "OnCallingSuperVisor: Operand=9320 (0x2468)",
+                "OnReturingFromSubroutine: SP: 0 (0x0000)",
+                "    Setting e.Cancel to \"True\"");
+            String actual = m_logger.Log;
+            Assert.AreEqual(
+                expected, actual,
+                "e.Operand に SVC 命令のオペランドの値が格納される");
+        }
+
+        /// <summary>
+        /// <see cref="Cpu.Execute"/> で、未定義命令の場合です。
         /// </summary>
         [TestMethod]
         public void Execute_UndefinedInstruction()
@@ -69,16 +107,57 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
 
         private void CheckExecute(Word[] program, Boolean success, String message)
         {
-            ExecutableModule exeModule = new ExecutableModule(MemoryAddress.Zero, MemoryAddress.Zero, program);
+            SetupMemory(program);
+            SetupRegisterSet();
+
             try
             {
-                m_cpu.Execute(exeModule);
+                m_cpu.Execute();
                 Assert.IsTrue(success, message);
             }
             catch (Casl2SimulatorException)
             {
                 Assert.IsFalse(success, message);
             }
+        }
+
+        private void SetupMemory(Word[] program)
+        {
+            m_memory.Clear();
+            m_memory.WriteRange(LoadAddress, program);
+        }
+
+        private void SetupRegisterSet()
+        {
+            CpuRegisterSet registerSet = m_cpu.RegisterSet;
+            registerSet.Reset();
+            registerSet.PR.Value = StartAddress.GetValueAsWord();
+        }
+
+        private void AddHandlers()
+        {
+            m_cpu.ReturningFromSubroutine += OnReturingFromSubroutine;
+            m_cpu.CallingSuperVisor += OnCallingSuperVisor;
+        }
+
+        private void RemoveHandlers()
+        {
+            m_cpu.ReturningFromSubroutine -= OnReturingFromSubroutine;
+            m_cpu.CallingSuperVisor -= OnCallingSuperVisor;
+        }
+
+        internal void OnReturingFromSubroutine(Object sender, ReturningFromSubroutineEventArgs e)
+        {
+            m_logger.Add("OnReturingFromSubroutine: {0}", e.SP);
+
+            Boolean cancel = m_cancelData.GetNext();
+            m_logger.Add("    Setting e.Cancel to \"{0}\"", cancel);
+            e.Cancel = cancel;
+        }
+
+        internal void OnCallingSuperVisor(Object sender, CallingSuperVisorEventArgs e)
+        {
+            m_logger.Add("OnCallingSuperVisor: Operand={0}", e.Operand);
         }
     }
 }

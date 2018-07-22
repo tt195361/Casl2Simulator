@@ -23,23 +23,23 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// Reset メソッドの単体テストです。
+        /// <see cref="Memory.Clear"/> メソッドの単体テストです。
         /// </summary>
         [TestMethod]
-        public void Reset()
+        public void Clear()
         {
             const UInt16 NoneZeroValue = 0x55aa;
             m_memory.Write(0x0000, NoneZeroValue);
             m_memory.Write(0xffff, NoneZeroValue);
 
-            m_memory.Reset();
+            m_memory.Clear();
 
             Check(m_memory, 0x0000, 0, "すべてのアドレスの値が 0 になる: 0x0000");
             Check(m_memory, 0xffff, 0, "すべてのアドレスの値が 0 になる: 0xffff");
         }
 
         /// <summary>
-        /// Read メソッドと Write メソッドの単体テストです。
+        /// <see cref="Memory.Read"/> メソッドと <see cref="Memory.Write"/> メソッドの単体テストです。
         /// </summary>
         [TestMethod]
         public void ReadWrite()
@@ -62,7 +62,7 @@ namespace Tt195361.Casl2SimulatorTest.Comet2
         }
 
         /// <summary>
-        /// WriteRange メソッドの単体テストです。
+        /// <see cref="Memory.WriteRange"/> メソッドの単体テストです。
         /// </summary>
         [TestMethod]
         public void WriteRange()

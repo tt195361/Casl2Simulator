@@ -66,6 +66,7 @@
     <Compile Include="Casl2\ConstantTest.cs" />
     <Compile Include="Casl2\EntryPointTableTest.cs" />
     <Compile Include="Casl2\EntryPointTest.cs" />
+    <Compile Include="Comet2\OsTest.cs" />
     <Compile Include="Common\ExecutableModuleTest.cs" />
     <Compile Include="Casl2\HexaDecimalConstantTest.cs" />
     <Compile Include="Casl2\ICodeGeneratorTest.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="TestData.cs" />
     <Compile Include="TestLogger.cs" />
     <Compile Include="TestUtils.cs" />
     <Compile Include="Utils\ArgCheckerTest.cs" />

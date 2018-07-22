@@ -22,13 +22,13 @@ namespace Tt195361.Casl2Simulator.Comet2
         {
             m_contents = new Word[Comet2Defs.MemorySize];
 
-            Reset();
+            Clear();
         }
 
         /// <summary>
-        /// メモリの内容を初期化します。
+        /// メモリの内容をクリアします。
         /// </summary>
-        internal void Reset()
+        internal void Clear()
         {
             Enumerable
                 .Range(Comet2Defs.MinAddress, Comet2Defs.MemorySize)
