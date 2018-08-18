@@ -40,7 +40,7 @@
     <DocumentationFile>bin\Release\Tt195361.Casl2Simulator.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Tt195361.Casl2Simulator.App</StartupObject>
+    <StartupObject>Tt195361.Casl2Simulator.Casl2SimulatorApp</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -57,9 +57,21 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock">
+      <HintPath>.\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero">
+      <HintPath>.\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro">
+      <HintPath>.\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010">
+      <HintPath>.\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <ApplicationDefinition Include="Casl2SimulatorApp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
@@ -144,6 +156,9 @@
     <Compile Include="Common\OpcodeDef.cs" />
     <Compile Include="Common\SvcDef.cs" />
     <Compile Include="Common\RegisterDef.cs" />
+    <Compile Include="Gui\UserControlProjectExplorer.xaml.cs">
+      <DependentUpon>UserControlProjectExplorer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\ArgChecker.cs" />
     <Compile Include="Utils\CharUtils.cs" />
     <Compile Include="Utils\ExceptionUtils.cs" />
@@ -151,18 +166,22 @@
     <Compile Include="Utils\UInt16Utils.cs" />
     <Compile Include="Utils\EnumerableUtils.cs" />
     <Compile Include="Utils\NumberUtils.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="Gui\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
+    <Compile Include="Casl2SimulatorApp.xaml.cs">
+      <DependentUpon>Casl2SimulatorApp.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Gui\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Gui\UserControlProjectExplorer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comet2\Memory.cs" />

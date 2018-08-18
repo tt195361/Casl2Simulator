@@ -9,10 +9,12 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal class Casl2Project
     {
         #region Static Fields
+        private const String InitialProjectName = "Project";
         private const String InitialSourceFileName = "Program1";
         #endregion
 
         #region Instance Fields
+        private String m_name;
         private readonly ItemSelectableCollection<SourceFile> m_sourceFiles;
         #endregion
 
@@ -24,13 +26,22 @@ namespace Tt195361.Casl2Simulator.Casl2
 
         private Casl2Project(params SourceFile[] srcFiles)
         {
+            m_name = InitialProjectName;
             m_sourceFiles = new ItemSelectableCollection<SourceFile>(srcFiles);
+        }
+
+        /// <summary>
+        /// プロジェクトの名前を取得します。
+        /// </summary>
+        public String Name
+        {
+            get { return m_name; }
         }
 
         /// <summary>
         /// プロジェクトに含まれる一連のソースファイルを取得します。
         /// </summary>
-        internal ItemSelectableCollection<SourceFile> SourceFiles
+        public ItemSelectableCollection<SourceFile> SourceFiles
         {
             get { return m_sourceFiles; }
         }

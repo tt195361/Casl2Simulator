@@ -28,6 +28,14 @@ namespace Tt195361.Casl2Simulator.Casl2
             m_processedLines = new ProgramLine[0];
         }
 
+        /// <summary>
+        /// ソースファイルの名前を取得します。
+        /// </summary>
+        public String Name
+        {
+            get { return m_name; }
+        }
+
         internal IEnumerable<String> SourceText
         {
             get { return m_sourceText; }

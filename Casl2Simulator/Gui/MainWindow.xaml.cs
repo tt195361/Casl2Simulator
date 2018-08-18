@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Tt195361.Casl2Simulator
+namespace Tt195361.Casl2Simulator.Gui
 {
     /// <summary>
     /// MainWindow.xaml を操作するロジックです。

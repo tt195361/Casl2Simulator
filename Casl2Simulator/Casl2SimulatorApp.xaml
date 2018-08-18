@@ -1,8 +1,8 @@
-﻿<Application x:Class="Tt195361.Casl2Simulator.App"
+﻿<Application x:Class="Tt195361.Casl2Simulator.Casl2SimulatorApp"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Tt195361.Casl2Simulator"
-             StartupUri="MainWindow.xaml">
+             Startup="Casl2SimulatorApp_Startup">
     <Application.Resources>
          
     </Application.Resources>
