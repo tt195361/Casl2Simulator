@@ -9,6 +9,13 @@
              d:DesignHeight="450" d:DesignWidth="200">
     <DockPanel>
         <TreeView x:Name="_treeView">
+            <TreeView.Resources>
+                <!-- TreeViewItem は子ノードが開いた状態で表示する -->
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="True"/>
+                </Style>
+            </TreeView.Resources>
+
             <!-- .cs で ItemsSource に IEnumerable<Casl2Project> のオブジェクトが設定されている -->
             <TreeView.ItemTemplate>
                 <!-- Casl2Project のオブジェクトならば、TextBlock に Name プロパティの値を表示し、
