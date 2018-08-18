@@ -71,7 +71,7 @@ namespace Tt195361.Casl2Simulator.Casl2
         {
             // リテラルから生成される DC 命令は、END 命令の直前にまとめて配置される。
             // END 命令の前までに続いて、生成された DC 命令を出力し、その後に END 命令以降を出力する。
-            Func<ProgramLine, Boolean> notEnd = (line) => !line.IsEnd();
+            Boolean notEnd(ProgramLine line) => !line.IsEnd();
             yield return lines.TakeWhile(notEnd);
             yield return lines.Select((line) => line.GenerateLiteralDc(lblTable))
                                                     .Where((generatedLine) => generatedLine != null);
