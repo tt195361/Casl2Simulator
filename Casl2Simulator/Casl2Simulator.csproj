@@ -43,6 +43,9 @@
     <StartupObject>Tt195361.Casl2Simulator.Casl2SimulatorApp</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.AvalonEdit">
+      <HintPath>.\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -156,6 +159,9 @@
     <Compile Include="Common\OpcodeDef.cs" />
     <Compile Include="Common\SvcDef.cs" />
     <Compile Include="Common\RegisterDef.cs" />
+    <Compile Include="Gui\UserControlCasl2TextEditor.xaml.cs">
+      <DependentUpon>UserControlCasl2TextEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\UserControlProjectExplorer.xaml.cs">
       <DependentUpon>UserControlProjectExplorer.xaml</DependentUpon>
     </Compile>
@@ -178,6 +184,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Gui\UserControlCasl2TextEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Gui\UserControlProjectExplorer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

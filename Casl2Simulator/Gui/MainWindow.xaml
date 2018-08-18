@@ -26,6 +26,9 @@
                 <xcad:LayoutPanel>
                     <xcad:LayoutDocumentPane>
                         <xcad:LayoutDocument Title="スタートページ"/>
+                        <xcad:LayoutDocument Title="Program1">
+                            <local:UserControlCasl2TextEditor/>
+                        </xcad:LayoutDocument>
                     </xcad:LayoutDocumentPane>
                 </xcad:LayoutPanel>
                 <xcad:LayoutRoot.RightSide>
