@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Tt195361.Casl2Simulator.Casl2;
 
 namespace Tt195361.Casl2Simulator.Gui
@@ -23,6 +25,16 @@ namespace Tt195361.Casl2Simulator.Gui
         private IEnumerable<Casl2Project> ProjectAsEnumerable()
         {
             yield return Casl2SimulatorApp.Current.Project;
+        }
+
+        private void TreeViewItem_MouseLeftButtonUp(Object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem treeViewItem = (TreeViewItem)sender;
+            SourceFile srcFile = treeViewItem.DataContext as SourceFile;
+            if (srcFile != null)
+            {
+                Casl2SimulatorApp.Current.MainWindow.ShowTextEditor(srcFile);
+            }
         }
     }
 }

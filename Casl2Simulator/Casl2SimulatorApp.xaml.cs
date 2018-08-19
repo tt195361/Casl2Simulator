@@ -18,6 +18,7 @@ namespace Tt195361.Casl2Simulator
 
         #region Instance Members
         private Casl2Project m_project;
+        private MainWindow m_mainWindow;
         #endregion
 
         /// <summary>
@@ -33,10 +34,15 @@ namespace Tt195361.Casl2Simulator
             get { return m_project; }
         }
 
+        internal new MainWindow MainWindow
+        {
+            get { return m_mainWindow; }
+        }
+
         private void Casl2SimulatorApp_Startup(Object sender, StartupEventArgs e)
         {
-            Window win = new MainWindow();
-            win.Show();
+            m_mainWindow = new MainWindow();
+            m_mainWindow.Show();
         }
     }
 }

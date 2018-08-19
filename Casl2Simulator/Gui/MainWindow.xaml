@@ -24,11 +24,8 @@
             </xcad:DockingManager.Theme>
             <xcad:LayoutRoot>
                 <xcad:LayoutPanel>
-                    <xcad:LayoutDocumentPane>
+                    <xcad:LayoutDocumentPane x:Name="_documentPane">
                         <xcad:LayoutDocument Title="スタートページ"/>
-                        <xcad:LayoutDocument Title="Program1">
-                            <local:UserControlCasl2TextEditor/>
-                        </xcad:LayoutDocument>
                     </xcad:LayoutDocumentPane>
                 </xcad:LayoutPanel>
                 <xcad:LayoutRoot.RightSide>

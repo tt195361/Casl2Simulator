@@ -13,6 +13,8 @@
                 <!-- TreeViewItem は子ノードが開いた状態で表示する -->
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="True"/>
+                    <!-- TreeViewItem は Clicked イベントがないので MouseLeftButtonUp を使う -->
+                    <EventSetter Event="MouseLeftButtonUp" Handler="TreeViewItem_MouseLeftButtonUp"/>
                 </Style>
             </TreeView.Resources>
 
