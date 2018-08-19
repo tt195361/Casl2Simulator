@@ -10,24 +10,24 @@ namespace Tt195361.Casl2Simulator.Casl2
     {
         #region Static Fields
         private const String InitialProjectName = "Project";
-        private const String InitialSourceFileName = "Program1";
+        private const String InitialProgramName = "Program1";
         #endregion
 
         #region Instance Fields
-        private String m_name;
-        private readonly ItemSelectableCollection<SourceFile> m_sourceFiles;
+        private readonly String m_name;
+        private readonly ItemSelectableCollection<Casl2Program> m_programs;
         #endregion
 
         internal Casl2Project()
-            : this(new SourceFile(InitialSourceFileName))
+            : this(new Casl2Program(InitialProgramName))
         {
             //
         }
 
-        private Casl2Project(params SourceFile[] srcFiles)
+        private Casl2Project(params Casl2Program[] programs)
         {
             m_name = InitialProjectName;
-            m_sourceFiles = new ItemSelectableCollection<SourceFile>(srcFiles);
+            m_programs = new ItemSelectableCollection<Casl2Program>(programs);
         }
 
         /// <summary>
@@ -39,11 +39,11 @@ namespace Tt195361.Casl2Simulator.Casl2
         }
 
         /// <summary>
-        /// プロジェクトに含まれる一連のソースファイルを取得します。
+        /// プロジェクトに含まれる一連のプログラムを取得します。
         /// </summary>
-        public ItemSelectableCollection<SourceFile> SourceFiles
+        public ItemSelectableCollection<Casl2Program> Programs
         {
-            get { return m_sourceFiles; }
+            get { return m_programs; }
         }
 
         /// <summary>
@@ -52,13 +52,13 @@ namespace Tt195361.Casl2Simulator.Casl2
         /// <returns>生成した実行可能ファイルを返します。</returns>
         internal ExecutableModule Build()
         {
-            return SourceFiles.Assemble()
-                              .Link();
+            return Programs.Assemble()
+                           .Link();
         }
 
-        internal static Casl2Project MakeForUnitTest(params SourceFile[] srcFiles)
+        internal static Casl2Project MakeForUnitTest(params Casl2Program[] programs)
         {
-            return new Casl2Project(srcFiles);
+            return new Casl2Project(programs);
         }
     }
 }

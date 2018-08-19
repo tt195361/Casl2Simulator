@@ -11,7 +11,7 @@ namespace Tt195361.Casl2Simulator.Gui
     public partial class MainWindow : Window
     {
         #region Instance Members
-        private readonly Dictionary<SourceFile, LayoutDocument> m_dictionary;
+        private readonly Dictionary<Casl2Program, LayoutDocument> m_programDocumentDictionary;
         #endregion
 
         /// <summary>
@@ -19,14 +19,14 @@ namespace Tt195361.Casl2Simulator.Gui
         /// </summary>
         public MainWindow()
         {
-            m_dictionary = new Dictionary<SourceFile, LayoutDocument>();
+            m_programDocumentDictionary = new Dictionary<Casl2Program, LayoutDocument>();
 
             InitializeComponent();
         }
 
-        internal void ShowTextEditor(SourceFile srcFile)
+        internal void ShowTextEditor(Casl2Program program)
         {
-            LayoutDocument layoutDoc = GetTextEditorLayoutDocument(srcFile);
+            LayoutDocument layoutDoc = GetTextEditorLayoutDocument(program);
 
             if (!_documentPane.Children.Contains(layoutDoc))
             {
@@ -36,24 +36,26 @@ namespace Tt195361.Casl2Simulator.Gui
             layoutDoc.IsSelected = true;
         }
 
-        private LayoutDocument GetTextEditorLayoutDocument(SourceFile srcFile)
+        private LayoutDocument GetTextEditorLayoutDocument(Casl2Program program)
         {
-            if (!m_dictionary.ContainsKey(srcFile))
+            if (!m_programDocumentDictionary.ContainsKey(program))
             {
-                LayoutDocument layoutDoc = MakeTextEditorLayoutDocument(srcFile);
-                m_dictionary[srcFile] = layoutDoc;
+                LayoutDocument layoutDoc = MakeTextEditorLayoutDocument(program);
+                m_programDocumentDictionary[program] = layoutDoc;
             }
 
-            return m_dictionary[srcFile];
+            return m_programDocumentDictionary[program];
         }
 
-        private LayoutDocument MakeTextEditorLayoutDocument(SourceFile srcFile)
+        private LayoutDocument MakeTextEditorLayoutDocument(Casl2Program program)
         {
-            LayoutDocument layoutDoc = new LayoutDocument();
-            layoutDoc.Title = srcFile.Name;
+            LayoutDocument layoutDoc = new LayoutDocument()
+            {
+                Title = program.Name
+            };
 
             UserControlCasl2TextEditor textEditor = new UserControlCasl2TextEditor();
-            textEditor.SetText(srcFile.SourceText);
+            textEditor.SetText(program.TextLines);
 
             layoutDoc.Content = textEditor;
             return layoutDoc;

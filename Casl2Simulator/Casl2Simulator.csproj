@@ -132,8 +132,8 @@
     <Compile Include="Casl2\ItemSelectableCollection.cs" />
     <Compile Include="Casl2\ReservedWord.cs" />
     <Compile Include="Casl2\LabelTable.cs" />
-    <Compile Include="Casl2\SourceFile.cs" />
-    <Compile Include="Casl2\SourceTextProcessor.cs" />
+    <Compile Include="Casl2\Casl2Program.cs" />
+    <Compile Include="Casl2\TextLineProcessor.cs" />
     <Compile Include="Casl2\StringConstant.cs" />
     <Compile Include="Casl2\Token.cs" />
     <Compile Include="Casl2\TokenType.cs" />

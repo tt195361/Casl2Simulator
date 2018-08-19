@@ -19,22 +19,22 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Build_Success()
         {
-            SourceFile subSourceFile = SourceFile.MakeForUnitTest(
+            Casl2Program subProgram = Casl2Program.MakeForUnitTest(
                 "SUB", 
                 TestUtils.MakeArray(
                     "ADDSUB  START",
                     "        ADDA  GR1,GR2",
                     "        RET",
                     "        END"));
-            SourceFile mainSourceFile = SourceFile.MakeForUnitTest(
+            Casl2Program mainProgram = Casl2Program.MakeForUnitTest(
                 "MAIN",
                 TestUtils.MakeArray(
                     "MAIN    START",
                     "        CALL  ADDSUB",
                     "        RET",
                     "        END"));
-            Casl2Project project = Casl2Project.MakeForUnitTest(subSourceFile, mainSourceFile);
-            project.SourceFiles.SelectItem(mainSourceFile);
+            Casl2Project project = Casl2Project.MakeForUnitTest(subProgram, mainProgram);
+            project.Programs.SelectItem(mainProgram);
 
             MemoryAddress expectedLoadAddress = MemoryAddress.Zero;
             MemoryAddress expectedExecStartAddress = new MemoryAddress(2);
@@ -57,13 +57,13 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Build_AssembleError()
         {
-            SourceFile errorSourceFile = SourceFile.MakeForUnitTest(
+            Casl2Program errorProgram = Casl2Program.MakeForUnitTest(
                 "ERR",
                 TestUtils.MakeArray(
                     "MAIN    START",
                     "        UNDEF",        // 未定義命令
                     "        END"));
-            Casl2Project project = Casl2Project.MakeForUnitTest(errorSourceFile);
+            Casl2Project project = Casl2Project.MakeForUnitTest(errorProgram);
 
             CheckBuild(project, null, "アセンブルエラー => 例外");
         }
@@ -74,21 +74,21 @@ namespace Tt195361.Casl2SimulatorTest.Casl2
         [TestMethod]
         public void Build_LinkError()
         {
-            SourceFile subSourceFile = SourceFile.MakeForUnitTest(
+            Casl2Program subProgram = Casl2Program.MakeForUnitTest(
                 "SUB",
                 TestUtils.MakeArray(
                     "ADDSUB  START",
                     "        ADDA  GR1,GR2",
                     "        RET",
                     "        END"));
-            SourceFile mainSourceFile = SourceFile.MakeForUnitTest(
+            Casl2Program mainProgram = Casl2Program.MakeForUnitTest(
                 "MAIN",
                 TestUtils.MakeArray(
                     "MAIN    START",
                     "        CALL  UNDEF",      // 未定義ラベルを参照
                     "        RET",
                     "        END"));
-            Casl2Project project = Casl2Project.MakeForUnitTest(subSourceFile, mainSourceFile);
+            Casl2Project project = Casl2Project.MakeForUnitTest(subProgram, mainProgram);
 
             CheckBuild(project, null, "リンクエラー => 例外");
         }

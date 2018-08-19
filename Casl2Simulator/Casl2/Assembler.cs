@@ -13,23 +13,23 @@ namespace Tt195361.Casl2Simulator.Casl2
     internal static class Assembler
     {
         /// <summary>
-        /// 一連のソースファイルをアセンブルし、一連の再配置可能モジュールを生成します。
+        /// 一連のプログラムをアセンブルし、一連の再配置可能モジュールを生成します。
         /// </summary>
-        /// <param name="srcFiles">アセンブルする一連のソースファイルです。</param>
+        /// <param name="programs">アセンブルする一連のプログラムです。</param>
         /// <returns>生成した一連の再配置可能モジュールを返します。</returns>
         internal static ItemSelectableCollection<RelocatableModule> Assemble(
-            this ItemSelectableCollection<SourceFile> srcFiles)
+            this ItemSelectableCollection<Casl2Program> programs)
         {
-            // 一連のソースファイルをアセンブルし、その結果をチェックし、一連の再配置可能モジュールを生成する。
-            return srcFiles.DoAssemble()
+            // 一連のプログラムをアセンブルし、その結果をチェックし、一連の再配置可能モジュールを生成する。
+            return programs.DoAssemble()
                            .Check()
-                           .MakeItemSelectableCollection(srcFiles.SelectedItemIndex);
+                           .MakeItemSelectableCollection(programs.SelectedItemIndex);
         }
 
-        private static IEnumerable<RelocatableModule> DoAssemble(this IEnumerable<SourceFile> srcFiles)
+        private static IEnumerable<RelocatableModule> DoAssemble(this IEnumerable<Casl2Program> programs)
         {
             // ToArray() して、ここで Assemble() を実行させ、再配置可能モジュールを生成する。
-            return srcFiles.Select((srcFile) => Assemble(srcFile))
+            return programs.Select((program) => Assemble(program))
                            .ToArray();
         }
 
@@ -44,10 +44,10 @@ namespace Tt195361.Casl2Simulator.Casl2
             return relModules;
         }
 
-        private static RelocatableModule Assemble(SourceFile srcFile)
+        private static RelocatableModule Assemble(Casl2Program program)
         {
             RelocatableModule relModule = new RelocatableModule();
-            Boolean processingError = srcFile.ProcessSourceText(relModule.LabelTable);
+            Boolean processingError = program.ProcessTextLines(relModule.LabelTable);
             if (processingError)
             {
                 // ソーステキストの処理でエラーなら、ここで終了。
@@ -56,7 +56,7 @@ namespace Tt195361.Casl2Simulator.Casl2
             else
             {
                 // ソーステキストの処理に成功すれば、ラベルのオフセットを設定し、コードを生成する。
-                srcFile.ProcessedLines
+                program.ProcessedLines
                        .SetLabelOffset(relModule.LabelTable)
                        .GenerateCode(relModule);
                 return relModule;
@@ -82,9 +82,9 @@ namespace Tt195361.Casl2Simulator.Casl2
             lines.ForEach((line) => line.GenerateCode(relModule));
         }
 
-        internal static RelocatableModule AssembleForUnitTest(SourceFile srcFile)
+        internal static RelocatableModule AssembleForUnitTest(Casl2Program program)
         {
-            return Assemble(srcFile);
+            return Assemble(program);
         }
     }
 }

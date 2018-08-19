@@ -30,10 +30,9 @@ namespace Tt195361.Casl2Simulator.Gui
         private void TreeViewItem_MouseLeftButtonUp(Object sender, MouseButtonEventArgs e)
         {
             TreeViewItem treeViewItem = (TreeViewItem)sender;
-            SourceFile srcFile = treeViewItem.DataContext as SourceFile;
-            if (srcFile != null)
+            if (treeViewItem.DataContext is Casl2Program program)
             {
-                Casl2SimulatorApp.Current.MainWindow.ShowTextEditor(srcFile);
+                Casl2SimulatorApp.Current.MainWindow.ShowTextEditor(program);
             }
         }
     }

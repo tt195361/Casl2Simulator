@@ -21,12 +21,12 @@
             <!-- .cs で ItemsSource に IEnumerable<Casl2Project> のオブジェクトが設定されている -->
             <TreeView.ItemTemplate>
                 <!-- Casl2Project のオブジェクトならば、TextBlock に Name プロパティの値を表示し、
-                     子ノードのデータ源として SourceFiles を使う -->
-                <HierarchicalDataTemplate DataType="casl2sim:Casl2Project" ItemsSource="{Binding Path=SourceFiles}">
+                     子要素のデータ源として Programs を使う -->
+                <HierarchicalDataTemplate DataType="casl2sim:Casl2Project" ItemsSource="{Binding Path=Programs}">
                     <TextBlock Text="{Binding Path=Name}"/>
                     <HierarchicalDataTemplate.ItemTemplate>
-                        <!-- SourceFile のオブジェクトならば、TextBlock に Name プロパティの値を表示する -->
-                        <DataTemplate DataType="casl2sim:SourceFile">
+                        <!-- Casl2Program のオブジェクトならば、TextBlock に Name プロパティの値を表示する -->
+                        <DataTemplate DataType="casl2sim:Casl2Program">
                             <TextBlock Text="{Binding Path=Name}"/>
                         </DataTemplate>
                     </HierarchicalDataTemplate.ItemTemplate>

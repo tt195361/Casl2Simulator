@@ -6,35 +6,35 @@ using Tt195361.Casl2Simulator.Utils;
 namespace Tt195361.Casl2Simulator.Casl2
 {
     /// <summary>
-    /// ソーステキストを処理します。
+    /// プログラムのテキスト行を処理します。
     /// </summary>
-    internal static class SourceTextProcessor
+    internal static class TextLineProcessor
     {
         /// <summary>
-        /// 一連のソーステキストを処理し、一連の <see cref="ProgramLine"/> を生成します。
+        /// 一連のテキスト行を処理し、一連の <see cref="ProgramLine"/> を生成します。
         /// </summary>
-        /// <param name="sourceText">処理する一連のソーステキストです。</param>
+        /// <param name="textLines">処理する一連のテキスト行です。</param>
         /// <param name="lblTable">定義したラベルの一覧を管理する <see cref="LabelTable"/> のオブジェクトです。</param>
         /// <returns>生成した <see cref="ProgramLine"/> の配列を返します。</returns>
-        internal static IEnumerable<ProgramLine> Process(IEnumerable<String> sourceText, LabelTable lblTable)
+        internal static IEnumerable<ProgramLine> Process(IEnumerable<String> textLines, LabelTable lblTable)
         {
-            // ソーステキストを解釈し、チェックし、マクロを展開する。
+            // テキスト行を解釈し、チェックし、マクロを展開する。
             // プログラムのラベルを先に登録し、リテラルで生成する DC 命令のラベルと重複しないようにする。
             // ToArray() して、ここで実行させる。
-            return sourceText.ParseText()
-                             .CheckParsedLines()
-                             .ExpandMacro()
-                             .RegisterLabels(lblTable)
-                             .GenerateLiteralDc(lblTable)
-                             .ToArray();
+            return textLines.ParseText()
+                            .CheckParsedLines()
+                            .ExpandMacro()
+                            .RegisterLabels(lblTable)
+                            .GenerateLiteralDc(lblTable)
+                            .ToArray();
         }
 
-        private static IEnumerable<ProgramLine> ParseText(this IEnumerable<String> sourceText)
+        private static IEnumerable<ProgramLine> ParseText(this IEnumerable<String> textLines)
         {
             // ここで ToArray() して内容を実行させる。IEnumerable<ProgramLine> のままにしておくと、
             // 遅延評価で必要になるたびに実行される。
-            return sourceText.Select((text) => ProgramLine.Parse(text))
-                             .ToArray();
+            return textLines.Select((text) => ProgramLine.Parse(text))
+                            .ToArray();
         }
 
         private static IEnumerable<ProgramLine> CheckParsedLines(this IEnumerable<ProgramLine> parsedLines)
